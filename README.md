@@ -27,5 +27,5 @@ A bug bounty of 20 ETH is set for any bug which is reported to us till the 05.09
 
 ## Go Live on 05.09.2016
 
-The contract will be provided with about 2.000 ETH on 05.09.2016, so that everybody travelling to DevCon2 has a chance to get compensated on flight delays! The live period will end four weeks later and the contract will be closed then. In case a surplus has been accumulated, this surplus will be donated to the Ethereum Foundation. The remaining capital will be distributed amongst the inital investors. 
+The contract will be provided with about 1.000 ETH on 05.09.2016, so that everybody travelling to DevCon2 has a chance to get compensated on flight delays! The live period will end four weeks later and the contract will be closed then. In case a surplus has been accumulated, this surplus will be donated to the Ethereum Foundation. The remaining capital will be distributed amongst the inital investors. 
 
