@@ -15,6 +15,8 @@ The contract has been kept as simple as possible, to make it as safe as possible
 
 Additional, an internal ledger keeps track of all value transfers. Its very easy to check if the contract has been manipulated.
 
+The contract is verified on etherscan: http://testnet.etherscan.io/address/0x19fa86e440828d4e02b3d14041f6dc05ffec4167#code
+
 ## The frontend
 
 A frontend for interaction with the contract has been deployed under https://fdi.etherisc.com. Its a standalone meteor dapp which can interact with the blockchain via the MetaMask.io browser extension or the Mist Browser.
