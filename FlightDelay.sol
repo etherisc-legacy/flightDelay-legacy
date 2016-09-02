@@ -270,8 +270,8 @@ contract FlightDelayIntegrated is usingOraclize {
 	}
 
 	// create new policy
-	function newPolicy(string _carrier, string _flightNumber, uint8[5] _pattern) {
-
+	function newPolicy(string _carrier, string _flightNumber) {
+                uint8[5] memory _pattern = [10,20,30,50,50];
 		// sanity checks    
 
 		// don't accept to low or to high policies
