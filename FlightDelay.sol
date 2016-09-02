@@ -262,10 +262,11 @@ contract FlightDelayIntegrated is usingOraclize {
 	function FlightDelayIntegrated (address _oracle) {
 		
 		owner = msg.sender;    
-		oracle = _oracle; // used for underwriting w/oraclize
+		oracle = _oracle; // used for payout oracle
 		reentrantGuard = false;
 		// initially put all funds in risk fund.
 		bookkeeping(acc_Balance, acc_RiskFund, msg.value); 
+		oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 		
 	}
 
@@ -351,7 +352,7 @@ contract FlightDelayIntegrated is usingOraclize {
 
 	function decline(uint _policyId, bytes32 _reason) 
 		noEther 
-		onlyOracle 
+	//	onlyOracle 
 		onlyInState(_policyId, policyState.Applied)  
 		noReentrant {
 
@@ -452,7 +453,7 @@ contract FlightDelayIntegrated is usingOraclize {
 			oraclizeCredentialsAndQuery
 			);
 			
-		bytes32 queryId = oraclize_query("nested", oraclize_url, 1500000); 
+		bytes32 queryId = oraclize_query("nested", oraclize_url, 2500000); 
 		oraclizeQueryIds[queryId] = _policyId;
 					
 		LOG_GetFlightStats(_policyId, queryId, oraclize_url);
@@ -460,7 +461,7 @@ contract FlightDelayIntegrated is usingOraclize {
 	}
 
 	//function __callback(bytes32 myid, string result, bytes proof) {
-	function __callback(bytes32 _queryId, string _result) onlyOraclize {
+	function __callback(bytes32 _queryId, string _result, bytes proof) onlyOraclize {
 	
 		// LOG_callback(myid, result, proof);
 		LOG_OraclizeCallback(_queryId, _result);
@@ -468,35 +469,42 @@ contract FlightDelayIntegrated is usingOraclize {
 		// we expect result to contain 6 values, something like 
 		// "[61, 10, 4, 3, 0, 0]" -> 
 		// ['observations','late15','late30','late45','cancelled','diverted']
-		// more checks on result format
-		// var qcount = q.count(delim); check if result contains enough values
 
-		// now slice the string using 
-		// https://github.com/Arachnid/solidity-stringutils
 	
 		uint policyId = oraclizeQueryIds[_queryId];
-		
-		var q = _result.toSlice();
-		var delim = ", ".toSlice();
-		q.beyond("[".toSlice()).until("]".toSlice());
-        
-		uint observations = parseInt(q.split(delim).toString());
 
-		// decline on < minObservations observations, 
-		// can't calculate reasonable probabibilities
-		if (observations <= minObservations) {
-			decline(policyId, 'Declined (too few observations)');
+		if (bytes(_result).length == 0) {
+			decline(policyId, 'Declined (empty result)');
 		} else {
-			uint[5] memory probabilities;
-			// calculate probabilities (scaled by 100)
-			for(uint i = 0; i < 5; i++) {
-				probabilities[i] = 
-					parseInt(q.split(delim).toString()) * 10000/observations;
+		// now slice the string using 
+		// https://github.com/Arachnid/solidity-stringutils
+			
+			var q = _result.toSlice();
+			var delim = ", ".toSlice();
+
+			if (q.count(delim) != 5) { // check if result contains 6 values
+				decline(policyId, 'Declined (invalid result)');
+			} else {
+				q.beyond("[".toSlice()).until("]".toSlice());
+			
+				uint observations = parseInt(q.split(delim).toString());
+		
+				// decline on < minObservations observations, 
+				// can't calculate reasonable probabibilities
+				if (observations <= minObservations) {
+					decline(policyId, 'Declined (too few observations)');
+				} else {
+					uint[5] memory probabilities;
+					// calculate probabilities (scaled by 100)
+					for(uint i = 0; i < 5; i++) {
+						probabilities[i] = 
+							parseInt(q.split(delim).toString()) * 10000/observations;
+					}
+								
+					// underwrite policy
+					underwrite(policyId, probabilities);
+				}
 			}
-						
-			// underwrite policy
-			underwrite(policyId, probabilities);
 		}
-	
 	}
 }
