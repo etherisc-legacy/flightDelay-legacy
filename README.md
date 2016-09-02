@@ -4,7 +4,8 @@
 ## The project
 
 This is the home of the FlightDelay Contract.
-The contract manages the operation of an insurance-like business process, allowing users to apply for policies, and an oracle for underwriting and payout in case of claims.
+
+The contract manages the operation of an insurance-like business process, allowing users to apply for policies, and using oracles for underwriting and payout in case of claims.
 
 The usecase is the compensation of flight delays. Users can select any flight and apply for compensation in case the flight is late.
 They pay a fair premium and automagically get a compensation as soon as the plane has landed (except in the case of a punctal arrival, of course nothing is paid then). 
