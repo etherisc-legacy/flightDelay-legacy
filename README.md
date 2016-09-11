@@ -15,7 +15,9 @@ The contract has been kept as simple as possible, to make it as safe as possible
 
 Additional, an internal ledger keeps track of all value transfers. Its very easy to check if the contract has been manipulated.
 
-The contract is verified on etherscan: http://testnet.etherscan.io/address/0x19F796C98764d7169fD3447817fCF23298cE6397#code
+The contract is verified on etherscan: 
+Morden: http://testnet.etherscan.io/address/0x19F796C98764d7169fD3447817fCF23298cE6397#code
+Mainnet: https://etherscan.io/address/0x4d54be5a62f5d9fcf4b17c7ab6e68822c142ec6b#code
 
 ## Use of oraclize
 
@@ -26,9 +28,9 @@ The second call is scheduled at underwriting and is rescheduled if the plane has
 
 A frontend for interaction with the contract has been deployed under https://fdi.etherisc.com. Its a standalone meteor dapp which can interact with the blockchain via the MetaMask.io browser extension or the Mist Browser.
 
-## Go Live on 06.09.2016
+## Go Live
 
-The contract will be provided with sufficient funding on 06.09.2016, so that everybody travelling to DevCon2 has a chance to get compensated on flight delays! We have enough funds to cover all payouts, but for safety reasons, we will feed these funds only as far as necessary in the contract. The live period will end about four weeks later and the contract will be closed then. In case a surplus has been accumulated, this surplus will be donated to the Ethereum Foundation. The remaining capital will be distributed amongst the inital investors. 
+The contract is live on mainnet, so that everybody travelling to DevCon2 has a chance to get compensated on flight delays! We have enough funds to cover all payouts, but for safety reasons, we will feed these funds in the contract only as far as necessary. The live period will end on Monday, 26.09.2016 12:00 UTC and the contract won't accept new policies then. In case a surplus has been accumulated, this surplus will be donated to the Ethereum Foundation. The remaining capital is paid back to the inital investors. 
 
 ## Disclaimer
 
