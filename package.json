@@ -1,0 +1,8 @@
+{
+  "name": "flight-delay",
+  "version": "0.3.0",
+  "dependencies": {
+    "preprocessor": "^1.4.0",
+    "winston": "^2.3.1"
+  }
+}
