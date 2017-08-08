@@ -1,0 +1,17 @@
+/**
+ * Deployment script for FlightDelay
+ *
+ * @author Christoph Mussenbrock
+ * @description Deploys all the contracts and 
+ * @copyright (c) 2017 etherisc GmbH
+ * 
+ */
+
+/* eslint-disable */
+
+
+module.exports = function(deployer) {
+  
+	deployer.deploy(_Test_Oraclize, {value: web3.toWei(50, 'ether')});
+
+};
