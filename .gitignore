@@ -1,1 +1,7 @@
 .idea
+build
+contracts
+migrations
+test
+external/encryptedQuery/allEncryptedQueryStrings.txt
+external/encryptedQuery/encryptedQueryString.txt
