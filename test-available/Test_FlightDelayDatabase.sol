@@ -4,7 +4,7 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
 
@@ -21,7 +21,7 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 {
 
 	// Fixture
-	uint policyId;
+	uint policyId;z
 	bytes32 riskId;
 	FlightDelayDatabase FD_DB;
 	bytes32 carrierFlightNumber = 'LH/410';
@@ -41,11 +41,11 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 	}
 
 	function test_set_get_RiskParameters () {
-	
+
 		riskId = FD_DB.createUpdateRisk(carrierFlightNumber, departureYearMonthDay, arrivalTime);
 
 		Assert.equal(riskId, sha3(carrierFlightNumber, departureYearMonthDay, arrivalTime), 'riskId should be correct');
-		
+
 		bytes32 cfn;
 		bytes32 dmy;
 		uint at;
@@ -115,9 +115,9 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 
 
 	function createOraclizeCallback(
-		bytes32 _queryId, 
-		uint _policyId, 
-		oraclizeState _oraclizeState, 
+		bytes32 _queryId,
+		uint _policyId,
+		oraclizeState _oraclizeState,
 		uint _oraclizeTime) {
 		oraclizeCallbacks[_queryId] = oraclizeCallback(_policyId, _oraclizeState, _oraclizeTime);
 	}

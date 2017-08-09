@@ -4,29 +4,23 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
+const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
+const logformatter = require('./logformatter.js');
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
+contract('FlightDelayUnderwrite', (accounts) => {
+  it('should schedule Oraclize Call', async () => {
+    const FD_UW = await FlightDelayUnderwrite.deployed();
+    const lf = new logformatter(FD_UW, web3);
 
-var logformatter = require('./logformatter.js');
+    var policyId = 0;
+    var carrierFlightNumber = 'LH/410';
 
-contract('FlightDelayUnderwrite', function(accounts) {
+    return FD_UW.scheduleUnderwriteOraclizeCall(policyId, carrierFlightNumber, {
+      gas: 4700000,
+    });
 
-
-	it('should schedule Oraclize Call', function() {
-
-		var FD_UW = FlightDelayUnderwrite.deployed();
-		var lf = new logformatter(FD_UW, web3);
-
-		var policyId = 0;
-		var carrierFlightNumber = 'LH/410';
-
-		return FD_UW.scheduleUnderwriteOraclizeCall(policyId, carrierFlightNumber, {
-			gas: 4700000,
-		});
-
-	}); // it
+  }); // it
 
 }); // contract

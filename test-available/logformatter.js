@@ -4,17 +4,12 @@
 
 /* eslint no-console: 0 */
 
-var winston = require('winston');
+const winston = require('winston');
+let logHash = [];
 
-var logHash = [];
-
-//var logformatter = function(web3, cb) {
-var logformatter = function(web3) {
-
-	var self = this;
+module.exports = function(web3) {
 
 	this.web3 = web3;
-	//this.cb = cb;
 	this.allEvents = [];
 
 	this.padRight = function(s, len) {
@@ -37,11 +32,7 @@ var logformatter = function(web3) {
 				timestamp: function() {
 					return new Date(Date.now()).toISOString();
 				},
-				formatter: function(options) {
-					// Return string will be passed to logger.
-					return (
-						options.timestamp() + ' ' + self.padRight(options.level.toUpperCase(), 10) + ' ' + (options.message ? options.message : '') + (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : ''));
-				}
+				formatter: options => options.timestamp() + ' ' + this.padRight(options.level.toUpperCase(), 10) + ' ' + (options.message ? options.message : '') + (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : ''),
 			})
 		]
 	});
@@ -120,5 +111,3 @@ var logformatter = function(web3) {
 		return true;
 	};
 };
-
-module.exports = logformatter;

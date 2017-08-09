@@ -4,7 +4,7 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
 /* eslint no-undef: 0 */
@@ -71,7 +71,7 @@ contract('FlightDelayLedger', function(accounts) {
 
 		var FD_LG = FlightDelayLedger.deployed();
 
-    // TODO: check if safeMath for various overflows in bookkeeping works. 
+    // TODO: check if safeMath for various overflows in bookkeeping works.
 
 	}); // it
 

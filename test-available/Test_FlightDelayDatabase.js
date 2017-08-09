@@ -4,38 +4,29 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
+const FlightDelayDatabase = artifacts.require('FlightDelayDatabase');
 
-contract('FlightDelayDatabase', function(accounts) {
+contract('FlightDelayDatabase', () => {
+  it('should store a risk', async () => {
+    const FD_DB = await FlightDelayDatabase.deployed();
 
-	it('should store a risk', function () {
+    const carrierFlightNumber = 'LH/410';
+    const minute = 60;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+    const dmy = '2017/01/25';
+    const dmyUnix = new Date(dmy).valueOf() / 1000;
+    const departureYearMonthDay = `/dep/${dmy}`;
+    const arrivalTime = dmyUnix + day;
 
-		var FD_DB = FlightDelayDatabase.deployed();
+    // const createUpdateRisc = await FD_DB.createUpdateRisk(
+    //   carrierFlightNumber,
+    //   departureYearMonthDay,
+    //   arrivalTime);
 
-		var carrierFlightNumber = 'LH/410';
-
-		var minute = 60;
-		var hour = 60*minute;
-		var day = 24*hour;
-
-		var dmy = '2017/01/25';
-		var dmy_unix = new Date(dmy).valueOf()/1000;
-		var departureYearMonthDay = '/dep/' + dmy;
-		var arrivalTime = dmy_unix + 1*day;
-
-		return FD_DB.createUpdateRisk(
-			carrierFlightNumber,
-			departureYearMonthDay,
-			arrivalTime).then(function() {
-
-				assert.isOk('true', 'true');
-			});
-
-	} );
-
-
-}); // contract
+    // assert.isOk('true', 'true');
+  });
+});

@@ -4,68 +4,50 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
+const FlightDelayController = artifacts.require('FlightDelayController');
+const contractName = contract => web3.toUtf8(contract);
 
-contract('FlightDelayController', function(accounts) {
+contract('FlightDelayController', () => {
+  let FDC;
+  before(async () => {
+    FDC = await FlightDelayController.deployed();
+  });
 
+  it('should have FD.Owner registered', async () => {
+    const contract = await FDC.contractIds(0);
+    assert.equal('FD.Owner', contractName(contract));
+  });
 
-	it('should have FD.Database registered', function () {
+  it('should have FD.AccessController registered', async () => {
+    const contract = await FDC.contractIds(1);
+    assert.equal('FD.AccessController', contractName(contract));
+  });
 
-		var FDC = FlightDelayController.deployed();
+  it('should have FD.Database registered', async () => {
+    const contract = await FDC.contractIds(2);
+    assert.equal('FD.Database', contractName(contract));
+  });
 
-		return FDC.contractIds(0).then(function (_id){
-			assert.equal('FD.Database', web3.toUtf8(_id));
+  it('should have FD.Ledger registered', async () => {
+    const contract = await FDC.contractIds(3);
+    assert.equal('FD.Ledger', contractName(contract));
+  });
 
-		});
+  it('should have FD.NewPolicy registered', async () => {
+    const contract = await FDC.contractIds(4);
+    assert.equal('FD.NewPolicy', contractName(contract));
+  });
 
-	});
+  it('should have FD.Underwrite registered', async () => {
+    const contract = await FDC.contractIds(5);
+    assert.equal('FD.Underwrite', contractName(contract));
+  });
 
-	it('should have FD.Ledger registered', function () {
-
-		var FDC = FlightDelayController.deployed();
-
-		return FDC.contractIds(1).then(function (_id){
-			assert.equal('FD.Ledger', web3.toUtf8(_id));
-
-		});
-
-	});
-
-	it('should have FD.Payout registered', function () {
-
-		var FDC = FlightDelayController.deployed();
-
-		return FDC.contractIds(2).then(function (_id){
-			assert.equal('FD.Payout', web3.toUtf8(_id));
-
-		});
-
-	});
-
-	it('should have FD.Underwrite registered', function () {
-
-		var FDC = FlightDelayController.deployed();
-
-		return FDC.contractIds(3).then(function (_id){
-			assert.equal('FD.Underwrite', web3.toUtf8(_id));
-
-		});
-
-	});
-
-	it('should have FD.NewPolicy registered', function () {
-
-		var FDC = FlightDelayController.deployed();
-
-		return FDC.contractIds(4).then(function (_id){
-			assert.equal('FD.NewPolicy', web3.toUtf8(_id));
-
-		});
-
-	});
-
-}); // contract
+  it('should have FD.Payout registered', async () => {
+    const contract = await FDC.contractIds(6);
+    assert.equal('FD.Payout', contractName(contract));
+  });
+});

@@ -4,120 +4,62 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
-/* eslint no-console: 0 */
+const FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
+const FlightDelayController = artifacts.require('FlightDelayController');
+const FlightDelayDatabase = artifacts.require('FlightDelayDatabase');
+const FlightDelayLedger = artifacts.require('FlightDelayLedger');
+const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy');
+const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
+const FlightDelayPayout = artifacts.require('FlightDelayPayout');
 
-var FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
-var FlightDelayController = artifacts.require('FlightDelayController');
-var FlightDelayDatabase = artifacts.require('FlightDelayDatabase');
-var FlightDelayLedger = artifacts.require('FlightDelayLedger');
-var FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy');
-var FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
-var FlightDelayPayout = artifacts.require('FlightDelayPayout');
+contract('FlightDelayNewPolicy', (accounts) => {
+  it('should destroy all contracts and refund to owner', async () => {
+    const instances = {};
+    let grandTotal = 0;
 
-contract('FlightDelayNewPolicy', function(accounts) {
+    instances.CT = await FlightDelayController.deployed();
+    instances.AC = await FlightDelayAccessController.deployed();
+    instances.DB = await FlightDelayDatabase.deployed();
+    instances.LG = await FlightDelayLedger.deployed();
+    instances.NP = await FlightDelayNewPolicy.deployed();
+    instances.UW = await FlightDelayUnderwrite.deployed();
+    instances.PY = await FlightDelayPayout.deployed();
 
+    const accountBalance = web3.fromWei(await web3.eth.getBalance(accounts[0]), 'ether').toFixed(2);
+    grandTotal += Number(accountBalance);
+    console.log(grandTotal);
+    console.log('Acc Balance before: ', accountBalance);
 
-	it('should destroy all contracts and refund to owner', function() {
+    const CTBalance = web3.fromWei(await web3.eth.getBalance(instances.CT.address), 'ether').toFixed(2);
+    grandTotal += Number(CTBalance);
+    console.log('CT Balance: ', CTBalance);
 
-		var instances = [];
-		var grandTotal = 0;
+    const LGBalance = web3.fromWei(await web3.eth.getBalance(instances.LG.address), 'ether').toFixed(2);
+    grandTotal += Number(LGBalance);
+    console.log('LG Balance: ', LGBalance);
 
-		return FlightDelayController.deployed()
+    const UWBalance = web3.fromWei(await web3.eth.getBalance(instances.UW.address), 'ether').toFixed(2);
+    grandTotal += Number(UWBalance);
+    console.log('UW Balance: ', UWBalance);
 
-		.then(function(instance) {
-			instances.CT = instance;
-			return FlightDelayAccessController.deployed();
-		})
+    const PYBalance = web3.fromWei(await web3.eth.getBalance(instances.PY.address), 'ether').toFixed(2);
+    grandTotal += Number(PYBalance);
+    console.log('PY Balance: ', PYBalance);
 
-		.then(function(instance) {
-			instances.AC = instance;
-			return FlightDelayDatabase.deployed();
-		})
+    await instances.CT.destruct_all({
+      from: accounts[0],
+      gas: 4700000,
+    });
 
-		.then(function(instance) {
-			instances.DB = instance;
-			return FlightDelayLedger.deployed();
-		})
-
-		.then(function(instance) {
-			instances.LG = instance;
-			return FlightDelayNewPolicy.deployed();
-		})
-
-		.then(function(instance) {
-			instances.NP = instance;
-			return FlightDelayUnderwrite.deployed();
-		})
-
-		.then(function(instance) {
-			instances.UW = instance;
-			return FlightDelayPayout.deployed();
-		})
-
-		.then(function(instance) {
-			instances.PY = instance;
-			return web3.eth.getBalance(accounts[0]);
-		})
-		
-		.then(function(balance) {
-			var bal = web3.fromWei(balance, 'ether').toFixed(2);
-			grandTotal += Number(bal);
-			console.log(grandTotal);
-			console.log('Acc Balance before: ', bal);
-			return web3.eth.getBalance(instances.CT.address);
-		})
-
-		.then(function(balance) {
-			var bal = web3.fromWei(balance, 'ether').toFixed(2);
-			grandTotal += Number(bal);
-			console.log('CT Balance: ', bal);
-			return web3.eth.getBalance(instances.LG.address);
-		})
-
-		.then(function(balance) {
-			var bal = web3.fromWei(balance, 'ether').toFixed(2);
-			grandTotal += Number(bal);
-			console.log('LG Balance: ', bal);
-			return web3.eth.getBalance(instances.UW.address);
-		})
-
-		.then(function(balance) {
-			var bal = web3.fromWei(balance, 'ether').toFixed(2);
-			grandTotal += Number(bal);
-			console.log('UW Balance: ', bal);
-			return web3.eth.getBalance(instances.PY.address);
-		})
-
-		.then(function(balance) {
-			var bal = web3.fromWei(balance, 'ether').toFixed(2);
-			grandTotal += Number(bal);
-			console.log('PY Balance: ', bal);
-			return instances.CT.destruct_all({
-				from: accounts[0],
-				gas: 4700000
-			});
-
-		})
-
-		.then(function(tx) {
-			return web3.eth.getBalance(accounts[0]);
-		})
-
-		.then(function(balance) {
-			var bal = web3.fromWei(balance, 'ether').toFixed(2);
-			grandTotal -= bal;
-			console.log('Acc. Balance after: ', bal);
-			console.log('Diff              : ', grandTotal.toFixed(2));
-			assert(grandTotal < 0.1, 'Diff should be less than 0.01 ETH');
-
-		});
-	});
+    const newBalance = web3.fromWei(await web3.eth.getBalance(accounts[0]), 'ether').toFixed(2);
+    grandTotal -= newBalance;
+    console.log('Acc. Balance after: ', newBalance);
+    console.log('Diff              : ', grandTotal.toFixed(2));
 
 
-
-}); // contract
+    assert(grandTotal < 0.1, 'Diff should be less than 0.01 ETH');
+  });
+});
