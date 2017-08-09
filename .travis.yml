@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "7"
+script:
+  - echo "1" | APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh
+  - npm run testrpc &
+  - cd external/ethereum-bridge && npm install && node bridge -a 0 &
+  - ./migselect.sh
+  - ./testselect.sh
+  - npm test

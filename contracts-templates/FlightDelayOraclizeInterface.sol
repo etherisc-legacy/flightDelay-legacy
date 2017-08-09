@@ -4,9 +4,9 @@
 	All times are UTC.
 	Copyright (C) Christoph Mussenbrock, Stephan Karpischek
 
-	
+
     Contract Interfaces
-	
+
 */
 
 @@include('./templatewarning.txt')
@@ -18,8 +18,8 @@ import "./usingOraclize.sol";
 contract FlightDelayOraclizeInterface is usingOraclize {
 
 	modifier onlyOraclize () {
-		if (msg.sender != oraclize_cbAddress()) throw; 
-		_; 
+		if (msg.sender != oraclize_cbAddress()) throw;
+		_;
 	}
 
 	function FlightDelayOraclizeInterface () {
@@ -27,7 +27,7 @@ contract FlightDelayOraclizeInterface is usingOraclize {
 // #ifdef testing
 		// oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
 		// for ethereum-bridge, discard after testing
-		OAR = OraclizeAddrResolverI(0x2a3d8a267023fd2c6f8e0daf4203801b991cf168);
+		OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);
 // #endif
 	}
 
