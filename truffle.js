@@ -1,19 +1,19 @@
 module.exports = {
 
   networks: {
-    "live": {
+    live: {
       network_id: 1, // Ethereum public network
       host: "localhost",
       port: 8545,
       // from: t.b.d.
     },
-    "ropsten": {
+    ropsten: {
       network_id: 3, // Official Ethereum test network
       host: "localhost",
       port: 8645,
       from: "0xffc614ee978630d7fb0c06758deb580c152154d3"
     },
-    "kovan": {
+    kovan: {
       network_id: 123, // custom private network
       host: "localhost",
       port: 8745,

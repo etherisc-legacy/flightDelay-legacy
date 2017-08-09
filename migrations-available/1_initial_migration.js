@@ -10,10 +10,6 @@
 /* eslint no-undef: 0 */
 /* eslint no-unused-vars: 0 */
 
-var Migrations = artifacts.require('Migrations.sol');
+const Migrations = artifacts.require('Migrations.sol');
 
-module.exports = function(deployer) {
-	
-	deployer.deploy(Migrations);
-
-};
+module.exports = deployer => deployer.deploy(Migrations);

@@ -1,13 +1,28 @@
-`npm i -g testrpc truffle`
+# Installation
 
-`npm i`
+`npm install`
 
-`testrpc --account="0xfbdab455fa027cfcc5b847b4541f0d9b3ee9f176bcc2dd60acdbb26c30e0136c,1000000000000000000000000"`
+## FlightStat
+Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API credentials
+`APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh`
 
-`truffle test`
+## Testrpc
+`npm run testrpc`
 
-`APP_ID=FLIGHT_STAT_APP_ID APP_KEY=FLIGHT_STAT_APP_KEY ./preprocess.sh`
+## Bridge to Oraclize
+`cd external/ethereum-bridge && npm install`
 
-`truffle deploy --reset`
+`node bridge -a 0`
 
-`truffle console`
+## Migrations
+`./migselect.sh`
+
+## Tests
+`./testselect.sh`
+
+`npm run test`
+
+## Deploy to testrpc
+`npm run deploy-testrpc`
+
+`npm run console`
