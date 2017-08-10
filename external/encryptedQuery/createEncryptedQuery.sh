@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# FlightStats credentials 
+# FlightStats credentials
 APP_ID=$APP_ID
 APP_KEY=$APP_KEY
 
@@ -14,8 +14,8 @@ echo $DIR
 OUTPUT=$DIR/encryptedQueryString.txt
 ALL_ENC=$DIR/allEncryptedQueryStrings.txt
 
-echo "python $DIR/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} \"appId=${APP_ID}&appKey=${APP_KEY}\" > ${OUTPUT}"
-python $DIR/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} "appId=${APP_ID}&appKey=${APP_KEY}" > ${OUTPUT}
+echo "python $DIR/../encrypted-queries/tools/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} \"appId=${APP_ID}&appKey=${APP_KEY}\" > ${OUTPUT}"
+python $DIR/../encrypted-queries/tools/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} "appId=${APP_ID}&appKey=${APP_KEY}" > ${OUTPUT}
 echo `date +%Y-%m-%d\ %H:%M:%S` ' : ' `cat ${OUTPUT}` >> ${ALL_ENC}
 cat ${OUTPUT}
 perl -pi -e 'chomp if eof' ${OUTPUT}

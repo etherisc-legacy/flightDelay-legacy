@@ -1,9 +1,20 @@
 # Installation
 
-<<<<<<< HEAD
-`git clone --recursive https://github.com/etherisc/flightDelay`
+`git clone git@github.com:etherisc/flightDelay.git`
+
+`git submodule add https://github.com/oraclize/ethereum-api external/ethereum-api`
+
+`git submodule add https://github.com/Arachnid/solidity-stringutils external/solidity-stringutils`
+
+`git submodule add https://github.com/oraclize/ethereum-bridge external/ethereum-bridge`
+
+`git submodule add https://github.com/oraclize/encrypted-queries external/encrypted-queries`
 
 `npm install`
+
+`sudo pip install cryptography --global-option=build_ext --global-option="-L/usr/local/opt/openssl/lib" --global-option="-I/usr/local/opt/openssl/include"`
+
+`sudo pip install base58`
 
 ## FlightStat
 Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API credentials
@@ -25,10 +36,10 @@ Replace OAR in `contracts-templates/FlightDelayOraclizeInterface.sol` if ethereu
 ## Tests
 `./testselect.sh`
 
-`npm run test --network testrpc`
+`npm run test -- --network testrpc`
 
 ## Deploy to testrpc
-`npm run deploy --network testrpc`
+`npm run deploy -- --network testrpc`
 
 `npm run console`
 

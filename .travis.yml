@@ -2,12 +2,12 @@ language: node_js
 node_js:
   - "7"
 script:
-  - echo "1" | APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh
+  - APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh testrpc
   - npm run testrpc &
   - cd external/ethereum-bridge && npm install && node bridge -a 0 &
   - ./migselect.sh
   - ./testselect.sh
-  - npm test --network testrpc
+  - npm test -- --network testrpc
 deploy:
   - provider: script
     script: deploy.sh kovan

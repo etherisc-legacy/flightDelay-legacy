@@ -1,9 +1,9 @@
 [submodule "external/ethereum-api"]
 	path = external/ethereum-api
-	url = https://github.com/oraclize/ethereum-api.git
+	url = https://github.com/oraclize/ethereum-api
 [submodule "external/solidity-stringutils"]
 	path = external/solidity-stringutils
-	url = https://github.com/Arachnid/solidity-stringutils.git
+	url = https://github.com/Arachnid/solidity-stringutils
 [submodule "external/ethereum-bridge"]
 	path = external/ethereum-bridge
 	url = https://github.com/oraclize/ethereum-bridge

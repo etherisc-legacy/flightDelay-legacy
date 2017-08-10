@@ -17,4 +17,5 @@ if [ $1 == "mainnet" ]
     then
         ./external/encryptedQuery/createEncryptedQuery.sh
 fi
+touch ./external/encryptedQuery/encryptedQueryString.txt
 ./util/preprocessor.js --$1 --source contracts-templates --destination contracts $testing $debug
