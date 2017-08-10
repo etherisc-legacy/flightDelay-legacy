@@ -6,7 +6,7 @@
 
 	Database contract
 
-	
+
 */
 
 @@include('./templatewarning.txt')
@@ -18,7 +18,7 @@ import "./FlightDelayDatabaseInterface.sol";
 import "./FlightDelayAccessControllerInterface.sol";
 import "./FlightDelayConstants.sol";
 
-contract FlightDelayDatabase is 
+contract FlightDelayDatabase is
 
 	FlightDelayControlledContract,
 	FlightDelayDatabaseInterface,
@@ -72,7 +72,7 @@ contract FlightDelayDatabase is
 		// one and only hardcoded accessControl
 		if (msg.sender != FD_CI.getContract('FD.AccessController')) throw;
 		accessControl[_contract][_caller][_perm] = _access;
-		
+
 	}
 
 	function setAccessControl(address _contract, address _caller, uint8 _perm) {
@@ -141,10 +141,10 @@ contract FlightDelayDatabase is
 
 		policy p = policies[_policyId];
 		_riskId = p.riskId;
-		
+
 	}
 
-	function createPolicy(address _customer, uint _premium, bytes32 _riskId) 
+	function createPolicy(address _customer, uint _premium, bytes32 _riskId)
 		returns (uint _policyId) {
 
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
@@ -160,13 +160,13 @@ contract FlightDelayDatabase is
 	}
 
 	function setState(uint _policyId, policyState _state, uint _stateTime, bytes32 _stateMessage) {
-		
+
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		LOG_SetState(_policyId, uint8(_state), _stateTime, _stateMessage);
 
 		policy p = policies[_policyId];
-		
+
 		p.state = _state;
 		p.stateTime = _stateTime;
 		p.stateMessage = _stateMessage;
@@ -178,7 +178,7 @@ contract FlightDelayDatabase is
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		policy p = policies[_policyId];
-		
+
 		p.weight = _weight;
 		p.proof = _proof;
 
@@ -189,7 +189,7 @@ contract FlightDelayDatabase is
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		policy p = policies[_policyId];
-		
+
 		p.calculatedPayout = _calculatedPayout;
 		p.actualPayout = _actualPayout;
 
@@ -200,7 +200,7 @@ contract FlightDelayDatabase is
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		risk r = risks[policies[_policyId].riskId];
-		
+
 		r.delay = _delay;
 		r.delayInMinutes = _delayInMinutes;
 
@@ -209,7 +209,7 @@ contract FlightDelayDatabase is
 
 	// Getter and Setter for risks
 
-	function getRiskParameters(bytes32 _riskId) 
+	function getRiskParameters(bytes32 _riskId)
 		returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
 
 		risk r = risks[_riskId];
@@ -219,21 +219,21 @@ contract FlightDelayDatabase is
 
 	}
 
-	function getPremiumFactors(bytes32 _riskId) 
+	function getPremiumFactors(bytes32 _riskId)
 		returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
 			risk r = risks[_riskId];
 			_cumulatedWeightedPremium = r.cumulatedWeightedPremium;
 			_premiumMultiplier = r.premiumMultiplier;
 	}
 
-	function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) 
+	function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime)
 		returns (bytes32 _riskId) {
-		
+
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		_riskId = sha3 (
-			_carrierFlightNumber, 
-			_departureYearMonthDay, 
+			_carrierFlightNumber,
+			_departureYearMonthDay,
 			_arrivalTime
 		);
 
@@ -274,9 +274,9 @@ contract FlightDelayDatabase is
 
 
 	function createOraclizeCallback(
-		bytes32 _queryId, 
-		uint _policyId, 
-		oraclizeState _oraclizeState, 
+		bytes32 _queryId,
+		uint _policyId,
+		oraclizeState _oraclizeState,
 		uint _oraclizeTime) {
 
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;

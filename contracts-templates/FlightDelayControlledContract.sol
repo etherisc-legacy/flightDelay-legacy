@@ -17,36 +17,34 @@ import "./FlightDelayDatabaseModel.sol";
 contract FlightDelayControlledContract is FlightDelayDatabaseModel {
 
 	address public controller;
-    FlightDelayControllerInterface FD_CI;
+  FlightDelayControllerInterface FD_CI;
 
-    modifier onlyController() {
-        if (msg.sender != controller) {
-            throw;
-        }
-        _;
+  modifier onlyController() {
+    if (msg.sender != controller) {
+      throw;
     }
+    _;
+  }
 
 	function setController(address _controller, bytes32 _id) internal returns (bool _result){
-        if(controller != 0x0 && msg.sender != controller){
-            // selfdestruct(controller);
-        }
-        controller = _controller;
-        FD_CI = FlightDelayControllerInterface(_controller);
-        FD_CI.selfRegister(_id);
-        return true;
+    if(controller != 0x0 && msg.sender != controller){
+        // selfdestruct(controller);
     }
+    controller = _controller;
+    FD_CI = FlightDelayControllerInterface(_controller);
+    FD_CI.selfRegister(_id);
+    return true;
+  }
 
-    function destruct() onlyController {
+  function destruct() onlyController {
+    selfdestruct(controller);
+  }
 
-            selfdestruct(controller);
+  function setContracts() onlyController {}
 
-    }
-
-    function setContracts() onlyController {}
-
-    function getContract(bytes32 _id) internal returns (address _addr) {
-        _addr = FD_CI.getContract(_id);
-    }
+  function getContract(bytes32 _id) internal returns (address _addr) {
+    _addr = FD_CI.getContract(_id);
+  }
 
 }
 

@@ -11,6 +11,7 @@
 
 pragma solidity @@include('./solidity_version_string.txt');
 
+
 contract FlightDelayAccessControllerInterface {
 
 	function setPermissionById(uint8 _perm, bytes32 _id);

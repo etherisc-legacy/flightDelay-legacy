@@ -19,7 +19,7 @@ import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayUnderwriteInterface.sol";
 import "./convertLib.sol";
 
-contract FlightDelayNewPolicy is 
+contract FlightDelayNewPolicy is
 
 	FlightDelayControlledContract,
 	FlightDelayConstants,
@@ -34,7 +34,7 @@ contract FlightDelayNewPolicy is
 
 	function FlightDelayNewPolicy(address _controller) {
 
-		setController(_controller, 'FD.NewPolicy');
+		setController(_controller);
 
 	}
 
@@ -72,9 +72,9 @@ contract FlightDelayNewPolicy is
 
 	// create new policy
 	function newPolicy(
-		bytes32 _carrierFlightNumber, 
-		bytes32 _departureYearMonthDay, 
-		uint _departureTime, 
+		bytes32 _carrierFlightNumber,
+		bytes32 _departureYearMonthDay,
+		uint _departureTime,
 		uint _arrivalTime
 		) payable {
 
@@ -95,11 +95,11 @@ contract FlightDelayNewPolicy is
 
 		}
 
-        // don't Accept flights with departure time earlier than in 24 hours, 
-		// or arrivalTime before departureTime, 
+        // don't Accept flights with departure time earlier than in 24 hours,
+		// or arrivalTime before departureTime,
 		// or departureTime after Mon, 26 Sep 2016 12:00:00 GMT
 		uint dmy = to_Unixtime(_departureYearMonthDay);
-		
+
 // #ifdef debug
 		LOG_uint_time('NewPolicy: dmy: ', dmy);
 		LOG_uint_time('NewPolicy: _departureTime: ', _departureTime);
@@ -119,22 +119,22 @@ contract FlightDelayNewPolicy is
 			return;
 
         }
-				
+
 		bytes32 riskId = FD_DB.createUpdateRisk(
-			_carrierFlightNumber, 
-			_departureYearMonthDay, 
+			_carrierFlightNumber,
+			_departureYearMonthDay,
 			_arrivalTime
 			);
-		
+
 		uint cumulatedWeightedPremium;
 		uint premiumMultiplier;
 		(cumulatedWeightedPremium, premiumMultiplier) = FD_DB.getPremiumFactors(riskId);
 
 		// roughly check, whether maxCumulatedWeightedPremium will be exceeded
-		// (we Accept the inAccuracy that the real remaining premium is 3% lower), 
+		// (we Accept the inAccuracy that the real remaining premium is 3% lower),
 		// but we are conservative;
 		// if this is the first policy, the left side will be 0
-		if (msg.value * premiumMultiplier + cumulatedWeightedPremium >= 
+		if (msg.value * premiumMultiplier + cumulatedWeightedPremium >=
 			maxCumulatedWeightedPremium) {
 
 			LOG_PolicyDeclined(0, 'Cluster risk');
@@ -153,7 +153,7 @@ contract FlightDelayNewPolicy is
 
 		if (premiumMultiplier > 0) {
 			FD_DB.setPremiumFactors(
-				riskId, 
+				riskId,
 				cumulatedWeightedPremium + premium * premiumMultiplier,
 				premiumMultiplier);
 		}
