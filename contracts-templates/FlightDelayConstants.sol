@@ -1,7 +1,7 @@
 /**
  * FlightDelay with Oraclized Underwriting and Payout
  *
- * @description	Events and Constants. 
+ * @description	Events and Constants.
  * @copyright (c) 2017 etherisc GmbH
  * @author Christoph Mussenbrock
  *
@@ -99,7 +99,7 @@ contract FlightDelayConstants {
 	// maximum payout
 	uint constant maxPayout 				= 150 ether;
 	// maximum cumulated weighted premium per risk
-	uint maxCumulatedWeightedPremium		= 300 ether; 
+	uint maxCumulatedWeightedPremium		= 300 ether;
 	// 1 percent for DAO, 1 percent for maintainer
 	uint8 constant rewardPercent 			= 2;
 	// reserve for tail risks
@@ -109,7 +109,7 @@ contract FlightDelayConstants {
 	// weightPattern[0] is not used, just to be consistent
 	uint8[6] weightPattern 					= [0, 10,20,30,50,50];
 
-// #ifndef default
+// #ifndef testrpc
 	// DEFINITIONS FOR ROPSTEN AND MAINNET
 	// minimum time before departure for applying
 	uint minTimeBeforeDeparture				= 24 hours; // for production
@@ -117,7 +117,7 @@ contract FlightDelayConstants {
 	uint checkPayoutOffset					= 15 minutes; // for production
 // #endif
 
-// #ifdef default
+// #ifdef testrpc
 	// DEFINITIONS FOR LOCAL TESTNET
 	// minimum time before departure for applying
 	uint minTimeBeforeDeparture				= 1 seconds; // for testing
@@ -132,12 +132,12 @@ contract FlightDelayConstants {
 
 	// gas Constants for oraclize
 	uint constant oraclizeGas 				= 500000;
-	
+
 
 
 	// URLs and query strings for oraclize
 
-// #ifndef default
+// #ifndef testrpc
 	// DEFINITIONS FOR ROPSTEN AND MAINNET
 	string constant oraclize_RatingsBaseUrl =
 		// ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
@@ -153,7 +153,7 @@ contract FlightDelayConstants {
 		"?${[decrypt] @@include('./external/encryptedQuery/encryptedQueryString.txt')}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
 // #endif
 
-// #ifdef default
+// #ifdef testrpc
 	// DEFINITIONS FOR LOCAL TESTNET
 	string constant oraclize_RatingsBaseUrl =
 		// ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1

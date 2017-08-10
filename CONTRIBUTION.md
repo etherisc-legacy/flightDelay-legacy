@@ -1,5 +1,6 @@
 # Installation
 
+<<<<<<< HEAD
 `git clone --recursive https://github.com/etherisc/flightDelay`
 
 `npm install`
@@ -24,10 +25,10 @@ Replace OAR in `contracts-templates/FlightDelayOraclizeInterface.sol` if ethereu
 ## Tests
 `./testselect.sh`
 
-`npm run test`
+`npm run test --network testrpc`
 
 ## Deploy to testrpc
-`npm run deploy-testrpc`
+`npm run deploy --network testrpc`
 
 `npm run console`
 

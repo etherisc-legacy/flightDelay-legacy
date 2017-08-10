@@ -7,3 +7,6 @@
 [submodule "external/ethereum-bridge"]
 	path = external/ethereum-bridge
 	url = https://github.com/oraclize/ethereum-bridge
+[submodule "external/encrypted-queries"]
+	path = external/encrypted-queries
+	url = https://github.com/oraclize/encrypted-queries

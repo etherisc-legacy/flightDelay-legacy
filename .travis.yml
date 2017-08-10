@@ -7,4 +7,13 @@ script:
   - cd external/ethereum-bridge && npm install && node bridge -a 0 &
   - ./migselect.sh
   - ./testselect.sh
-  - npm test
+  - npm test --network testrpc
+deploy:
+  - provider: script
+    script: deploy.sh kovan
+    on:
+      branch: develop
+  - provider: script
+    script: deploy.sh mainnet
+    on:
+      branch: master
