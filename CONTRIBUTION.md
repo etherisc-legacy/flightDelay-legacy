@@ -1,14 +1,6 @@
 # Installation
 
-`git clone git@github.com:etherisc/flightDelay.git`
-
-`git submodule add https://github.com/oraclize/ethereum-api external/ethereum-api`
-
-`git submodule add https://github.com/Arachnid/solidity-stringutils external/solidity-stringutils`
-
-`git submodule add https://github.com/oraclize/ethereum-bridge external/ethereum-bridge`
-
-`git submodule add https://github.com/oraclize/encrypted-queries external/encrypted-queries`
+`git clone -b develop --recursive git@github.com:etherisc/flightDelay.git`
 
 `npm install`
 
