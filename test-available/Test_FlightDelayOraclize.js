@@ -7,12 +7,12 @@
  *
  */
 const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
-const logformatter = require('./logformatter.js');
+const Logformatter = require('./logformatter.js');
 
-contract('FlightDelayUnderwrite', (accounts) => {
+contract('FlightDelayUnderwrite', () => {
   it('should schedule Oraclize Call', async () => {
     const FD_UW = await FlightDelayUnderwrite.deployed();
-    const lf = new logformatter(FD_UW, web3);
+    const lf = new Logformatter(FD_UW, web3);
 
     var policyId = 0;
     var carrierFlightNumber = 'LH/410';

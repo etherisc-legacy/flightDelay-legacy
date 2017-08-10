@@ -59,7 +59,6 @@ contract('FlightDelayNewPolicy', (accounts) => {
     console.log('Acc. Balance after: ', newBalance);
     console.log('Diff              : ', grandTotal.toFixed(2));
 
-
     assert(grandTotal < 0.1, 'Diff should be less than 0.01 ETH');
   });
 });

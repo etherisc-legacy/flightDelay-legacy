@@ -4,36 +4,31 @@
  * scan chain for contract creations.
  */
 
-/* eslint no-console: 0 */
+const Web3 = require('web3');
 
-var Web3 = require('web3');
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
-var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-
-var scanChain = {};
+const scanChain = {};
 scanChain.contracts = [];
 
-var getBlockTxR = function(bn) {
-	return (web3.eth.getBlock(bn, true)
-		.transactions
-		.map(function(elem) {
-			var txr = web3.eth.getTransactionReceipt(elem.hash);
-			if (typeof txr.contractAddress !== 'undefined' && txr.contractAddress !== '' && txr.contractAddress !== null) {
-				console.log(txr.contractAddress, ' : ', txr.gasUsed);
-				scanChain.contracts[txr.contractAddress] = txr.gasUsed;
-			}
-			return txr;
-		}));
-};
+const getBlockTxR = bn =>
+  web3.eth.getBlock(bn, true)
+    .transactions
+    .map((elem) => {
+      const txr = web3.eth.getTransactionReceipt(elem.hash);
+      if (typeof txr.contractAddress !== 'undefined' && txr.contractAddress !== '' && txr.contractAddress !== null) {
+        console.log(txr.contractAddress, ' : ', txr.gasUsed);
+        scanChain.contracts[txr.contractAddress] = txr.gasUsed;
+      }
+      return txr;
+    });
 
-scanChain.getAllBlocks = function() {
+scanChain.getAllBlocks = () => {
+  const lastBlock = web3.eth.blockNumber;
 
-	var lastBlock = web3.eth.blockNumber;
-
-	for (var i = 0; i <= lastBlock; i++ ) {
-		getBlockTxR(i);
-	}
-
+  for (let i = 0; i <= lastBlock; i += 1) {
+    getBlockTxR(i);
+  }
 };
 
 module.exports = scanChain;

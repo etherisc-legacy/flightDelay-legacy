@@ -1,6 +1,6 @@
 # Installation
 
-`git clone --recursive`
+`git clone --recursive https://github.com/etherisc/flightDelay`
 
 `npm install`
 

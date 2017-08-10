@@ -4,7 +4,7 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
 /* eslint no-undef: 0 */
