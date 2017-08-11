@@ -77,6 +77,6 @@ Remove existing variables from `travis.yml` in `env.matrix` section.
 
 Then add new variables:
 
-`travis encrypt FLIGHT_STAT_APP_ID=REAL_ID --add env.matrix`
+`travis encrypt FLIGHT_STAT_APP_ID=REAL_ID --add`
 
-`travis encrypt FLIGHT_STAT_APP_KEY=REAL_KEY --add env.matrix`
+`travis encrypt FLIGHT_STAT_APP_KEY=REAL_KEY --add`
