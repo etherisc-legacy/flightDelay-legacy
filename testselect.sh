@@ -12,7 +12,7 @@ function enable {
 enable logformatter.js
 
 enable Test_FlightDelayController.js
-enable Test_FlightDelayDestruct.js
+# enable Test_FlightDelayDestruct.js
 
 # enable Test_FlightDelayDatabase.js
 # enable Test_FlightDelayLedger.js

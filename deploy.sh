@@ -23,16 +23,19 @@ tar xvf keys.tar
 
 echo "Running Parity"
 ls -la ./keys
-echo "parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active"
-parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active &
+echo "parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth"
+parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth &
 sleep 5
 
 echo "Synchronising with network"
 until curl --data '{"jsonrpc":"2.0","method":"eth_syncing", "id":1}' -H "Content-Type: application/json" -s localhost:8545 | grep 'false'
 do
-  curl --data '{"jsonrpc":"2.0","method":"eth_syncing", "id":1}' -H "Content-Type: application/json" localhost:8545
+  curl --data '{"jsonrpc":"2.0","method":"eth_syncing", "id":1}' -H "Content-Type: application/json" -s localhost:8545
   sleep 3
 done
+
+echo "Preprocess contracts"
+APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh $1
 
 echo "Selecting migrations"
 ./migselect.sh
@@ -41,6 +44,7 @@ echo "Selecting tests"
 ./testselect.sh
 
 echo "Running tests"
+ls -la ./build/
 npm test -- --network $1
 
 echo "Deploying"
