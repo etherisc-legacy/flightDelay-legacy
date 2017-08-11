@@ -37,6 +37,14 @@ const resolvers = {
     address: '0x2743D9318F599730FFf7E7992Ddeb3fF5Ae285e1',
     networkId: 42,
   },
+  ropsten: {
+    address: '0xa395a25f20e75159b1d057b8645cbb6c12bafacc',
+    networkId: 3,
+  },
+  mainnet: {
+    address: '',
+    networkId: 1,
+  },
 };
 
 // https://github.com/oraclize/ethereum-api/blob/master/connectors/addressResolver.sol
