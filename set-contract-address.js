@@ -50,10 +50,10 @@ const resolvers = {
 // https://github.com/oraclize/ethereum-api/blob/master/connectors/addressResolver.sol
 const resolver = resolvers[process.argv[process.argv.length - 1]];
 
-const FlightDelayNewPolicy = new web3.eth.Contract(abi, resolver.address);
+const FlightDelay_AddressResolver = new web3.eth.Contract(abi, resolver.address);
 
 web3.eth.getCoinbase().then((coinbase) => {
-    FlightDelayNewPolicy.methods.setAddr(
+  FlightDelay_AddressResolver.methods.setAddr(
       newPolicy.networks[resolver.networkId].address
     ).send({from: coinbase}).on('receipt', function (receipt) {
       console.log('New contract address is saved in block', receipt.blockNumber);
