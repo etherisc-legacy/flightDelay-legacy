@@ -3,11 +3,11 @@ node_js:
   - "7"
 script:
   - APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh testrpc
-#  - npm run testrpc &
-#  - cd external/ethereum-bridge && npm install && node bridge -a 0 &
-#  - ./migselect.sh
-#  - ./testselect.sh
-#  - npm test -- --network testrpc
+  - npm run testrpc --port 9545 &
+  - cd external/ethereum-bridge && npm install && node bridge -H localhost:9545 -a 0 &
+  - ./migselect.sh
+  - ./testselect.sh
+  - npm test -- --network testrpc
 
 sudo: required
 addons:
