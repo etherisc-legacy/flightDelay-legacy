@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Deploying to" $1
 
 echo "Installing Parity"
@@ -44,8 +46,9 @@ echo "Selecting tests"
 ./testselect.sh
 
 echo "Running tests"
-ls -la ./build/
 npm test -- --network $1
 
 echo "Deploying"
 npm run deploy -- --network $1
+
+node set-contract-address.js $1
