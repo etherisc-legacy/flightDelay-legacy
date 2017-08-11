@@ -1,0 +1,11 @@
+linkPrefix = ""
+name = "flight-delay"
+version = "0.3.0"
+buildTime = 2017-08-11T11:43:52.566Z
+target = "scripts/doxity"
+src = "contracts/*"
+dir = "pages/docs"
+source = "https://github.com/DigixGlobal/doxity-gatsby-starter-project/archive/a4886b7a7a04c018ac04fed3125d7d4785e74bed.tar.gz"
+out = "docs"
+
+[interaction]
