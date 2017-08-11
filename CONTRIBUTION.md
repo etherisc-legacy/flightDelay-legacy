@@ -46,3 +46,27 @@ Replace OAR in `contracts-templates/FlightDelayOraclizeInterface.sol` if ethereu
 `FlightDelayNewPolicy.at(FDNewPolicyAt).allEvents({fromBlock: 0}).get((error, result) => { console.log(result) })`
 
 `FlightDelayNewPolicy.at(FDNewPolicyAt).newPolicy("KL/1770", "/dep/2018/01/01", 1514764800, 1514808000, {from: web3.eth.coinbase, to: FDNewPolicyAt, value: web3.toWei(0.5, 'ether'), gas: 1000000})`
+
+## Changing addresses
+
+Addresses are specified in `truffle.js` and used in `deploy.sh`. 
+
+For deploy process it's necessary to provide Keystore File JSON file and password file to this key in Parity arguments.
+
+Generating new account:
+
+`parity account new --chain kovan`
+
+`parity account new --chain ropsten`
+
+`parity account new --chain mainnet`
+
+Since it's sensitive information you have to encrypt this:
+
+`tar cvf keys.tar keys`
+
+`travis encrypt-file keys.tar`
+
+In deploy script `keys.tar.enc` can be decoded:
+
+`openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_iv -in keys.tar.enc -out keys.tar -d`
