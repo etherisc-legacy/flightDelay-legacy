@@ -24,7 +24,7 @@ contract FlightDelayAccessController is
 	FlightDelayDatabaseInterface FD_DB;
 
 	function FlightDelayAccessController(address _controller) {
-		setController(_controller, 'FD.AccessController');
+		setController(_controller);
 	}
 
 	function setContracts() onlyController {

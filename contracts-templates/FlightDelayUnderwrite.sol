@@ -40,7 +40,7 @@ contract FlightDelayUnderwrite is
 	FlightDelayAccessControllerInterface FD_AC;
 
 	function FlightDelayUnderwrite(address _controller) payable {
-		setController(_controller, 'FD.Underwrite');
+		setController(_controller);
 	}
 
 	function setContracts() onlyController {

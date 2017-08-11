@@ -29,9 +29,7 @@ contract FlightDelayLedger is
 	FlightDelayAccessControllerInterface FD_AC;
 
 	function FlightDelayLedger(address _controller) payable {
-
-		setController(_controller, 'FD.Ledger');
-
+		setController(_controller);
 	}
 
 	function setContracts() onlyController {

@@ -7,40 +7,42 @@
  *
  */
 
-var FlightDelayController = artifacts.require('FlightDelayController.sol');
-var FlightDelayAccessController = artifacts.require('FlightDelayAccessController.sol');
-var FlightDelayDatabase = artifacts.require('FlightDelayDatabase.sol');
-var FlightDelayLedger = artifacts.require('FlightDelayLedger.sol');
-var FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy.sol');
-var FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
-var FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
+const FlightDelayController = artifacts.require('FlightDelayController.sol');
+const FlightDelayAccessController = artifacts.require('FlightDelayAccessController.sol');
+const FlightDelayDatabase = artifacts.require('FlightDelayDatabase.sol');
+const FlightDelayLedger = artifacts.require('FlightDelayLedger.sol');
+const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy.sol');
+const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
+const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
-module.exports = function (deployer) {
-  deployer.deploy(FlightDelayController, { value: web3.toWei(50, 'ether') })
-    .then(function () {
-      return deployer.deploy(FlightDelayAccessController, FlightDelayController.address);
-    }).then(function () {
-    return deployer.deploy(FlightDelayDatabase, FlightDelayController.address);
-  }).then(function () {
-    return deployer.deploy(FlightDelayLedger, FlightDelayController.address, { value: web3.toWei(500, 'ether') });
-  }).then(function () {
-    return deployer.deploy(FlightDelayNewPolicy, FlightDelayController.address);
-  }).then(function () {
-    return deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address, { value: web3.toWei(50, 'ether') });
-  }).then(function () {
-    return deployer.deploy(FlightDelayPayout, FlightDelayController.address, { value: web3.toWei(50, 'ether') });
-  }).then(function () {
+const withEthBalance = v => web3.toWei(v, 'ether');
 
-    // finish, call setAllContracts on each
-    FlightDelayController.deployed()
-      .then(function (instance) {
+module.exports = (deployer) => {
+  let controller;
 
-        return instance.setAllContracts({ gas: 3000000 });
-
-      })
-      .then(function (result) {
-        console.log(result);
-      });
-
-  });
+  deployer.deploy(FlightDelayController)
+    .then(() => {
+      controller = FlightDelayController.address;
+      return deployer.deploy(FlightDelayAccessController, controller);
+    })
+    .then(() => deployer.deploy(FlightDelayDatabase, controller))
+    .then(() => deployer.deploy(FlightDelayLedger, controller, { value: withEthBalance(500), }))
+    .then(() => deployer.deploy(FlightDelayNewPolicy, controller))
+    .then(() => deployer.deploy(FlightDelayUnderwrite, controller, { value: withEthBalance(50), }))
+    .then(() => deployer.deploy(FlightDelayPayout, controller, { value: withEthBalance(50), }))
+    .then(() => {
+      let instance;
+      return FlightDelayController.deployed()
+        .then((_i) => {
+          instance = _i;
+          return _i.registerContract(FlightDelayController.address, 'FD.Owner');
+        })
+        .then(() => instance.registerContract(FlightDelayAccessController.address, 'FD.AccessController'))
+        .then(() => instance.registerContract(FlightDelayDatabase.address, 'FD.Database'))
+        .then(() => instance.registerContract(FlightDelayLedger.address, 'FD.Ledger'))
+        .then(() => instance.registerContract(FlightDelayNewPolicy.address, 'FD.NewPolicy'))
+        .then(() => instance.registerContract(FlightDelayUnderwrite.address, 'FD.Underwrite'))
+        .then(() => instance.registerContract(FlightDelayPayout.address, 'FD.Payout'))
+        .then(() => instance.setAllContracts({ gas: 3000000, }));
+    });
 };

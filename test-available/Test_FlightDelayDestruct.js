@@ -33,10 +33,6 @@ contract('FlightDelayNewPolicy', (accounts) => {
     console.log(grandTotal);
     console.log('Acc Balance before: ', accountBalance);
 
-    const CTBalance = web3.fromWei(await web3.eth.getBalance(instances.CT.address), 'ether').toFixed(2);
-    grandTotal += Number(CTBalance);
-    console.log('CT Balance: ', CTBalance);
-
     const LGBalance = web3.fromWei(await web3.eth.getBalance(instances.LG.address), 'ether').toFixed(2);
     grandTotal += Number(LGBalance);
     console.log('LG Balance: ', LGBalance);

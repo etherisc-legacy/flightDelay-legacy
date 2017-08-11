@@ -34,21 +34,10 @@ contract FlightDelayController is
   }
 
   /**
-   * Initiator of Transaction must be owner. Important for deploying contracts.
-   */
-  modifier onlyOwnerTx {
-    if (tx.origin != owner) {
-      throw;
-    }
-    _;
-  }
-
-  /**
    * Constructor.
    */
-  function FlightDelayController() payable {
+  function FlightDelayController() {
     owner = msg.sender;
-    selfRegister('FD.Owner');
   }
 
   /**
@@ -71,14 +60,13 @@ contract FlightDelayController is
   }
 
   /**
-   * Self-registration of contracts.
-   * During deployment, the constructor call this via the setController function.
+   * Registration of contracts.
    * It will only accept calls of deployments initiated by the owner.
-   * @param _id         ID of contract
-   * @return  bool        success
+   * @param _id ID of contract
+   * @return  bool success
    */
-  function selfRegister(bytes32 _id) onlyOwnerTx returns (bool result) {
-    setContract(msg.sender, _id);
+  function registerContract(address _addr, bytes32 _id) onlyOwner returns (bool result) {
+    setContract(_addr, _id);
     contractIds.push(_id);
     return true;
   }

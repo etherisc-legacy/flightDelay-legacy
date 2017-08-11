@@ -26,13 +26,13 @@ contract FlightDelayControlledContract is FlightDelayDatabaseModel {
     _;
   }
 
-	function setController(address _controller, bytes32 _id) internal returns (bool _result){
+	function setController(address _controller) internal returns (bool _result){
     if(controller != 0x0 && msg.sender != controller){
         // selfdestruct(controller);
     }
     controller = _controller;
     FD_CI = FlightDelayControllerInterface(_controller);
-    FD_CI.selfRegister(_id);
+    // FD_CI.selfRegister(_id);
     return true;
   }
 

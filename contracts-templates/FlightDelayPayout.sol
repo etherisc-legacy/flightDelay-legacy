@@ -39,7 +39,7 @@ contract FlightDelayPayout is
 
 	function FlightDelayPayout(address _controller) payable {
 
-		setController(_controller, 'FD.Payout');
+		setController(_controller);
 
 	}
 
