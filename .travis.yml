@@ -3,14 +3,31 @@ node_js:
   - "7"
 script:
   - APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh testrpc
-  - npm run testrpc &
-  - cd external/ethereum-bridge && npm install && node bridge -a 0 &
-  - ./migselect.sh
-  - ./testselect.sh
-  - npm test -- --network testrpc
+#  - npm run testrpc &
+#  - cd external/ethereum-bridge && npm install && node bridge -a 0 &
+#  - ./migselect.sh
+#  - ./testselect.sh
+#  - npm test -- --network testrpc
+sudo: required
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - libcurl4-openssl-dev
+    - libelf-dev
+    - libdw-dev
+    - gcc-4.8
+    - g++-4.8
+env:
+  global:
+  - CXX="g++-4.8"
+  - CC="gcc-4.8"
+  - RUST_BACKTRACE=1
 deploy:
   - provider: script
-    script: deploy.sh kovan
+    skip_cleanup: true
+    script: ./deploy.sh kovan
     on:
       branch: develop
   - provider: script
