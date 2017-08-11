@@ -4,6 +4,10 @@ set -e
 
 echo "Deploying to" $1
 
+echo "Installing dependencies"
+sudo pip install cryptography --global-option=build_ext --global-option="-L/usr/local/opt/openssl/lib" --global-option="-I/usr/local/opt/openssl/include"
+sudo pip install base58
+
 echo "Installing Parity"
 bash <(curl https://get.parity.io -Lk)
 

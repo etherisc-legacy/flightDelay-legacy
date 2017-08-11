@@ -13,7 +13,7 @@ if [ $1 == "testrpc" ]
 fi
 
 echo "Network:" $1
-if [ $1 == "mainnet" ]
+if [ $1 != "testrpc" ]
     then
         ./external/encryptedQuery/createEncryptedQuery.sh
 fi

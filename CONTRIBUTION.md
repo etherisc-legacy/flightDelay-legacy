@@ -47,7 +47,7 @@ Replace OAR in `contracts-templates/FlightDelayOraclizeInterface.sol` if ethereu
 
 `FlightDelayNewPolicy.at(FDNewPolicyAt).newPolicy("KL/1770", "/dep/2018/01/01", 1514764800, 1514808000, {from: web3.eth.coinbase, to: FDNewPolicyAt, value: web3.toWei(0.5, 'ether'), gas: 1000000})`
 
-## Changing addresses
+## Changing addresses of accounts in networks
 
 Addresses are specified in `truffle.js` and used in `deploy.sh`. 
 
@@ -70,3 +70,13 @@ Since it's sensitive information you have to encrypt this:
 In deploy script `keys.tar.enc` can be decoded:
 
 `openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_iv -in keys.tar.enc -out keys.tar -d`
+
+## Changing FlightStat API keys
+
+Remove existing variables from `travis.yml` in `env.matrix` section.
+
+Then add new variables:
+
+`travis encrypt FLIGHT_STAT_APP_ID=REAL_ID --add env.matrix`
+
+`travis encrypt FLIGHT_STAT_APP_KEY=REAL_KEY --add env.matrix`
