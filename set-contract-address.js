@@ -34,11 +34,11 @@ const abi = [{
 
 const resolvers = {
   kovan: {
-    address: '0x2743D9318F599730FFf7E7992Ddeb3fF5Ae285e1',
+    address: '0x9e8e87e586e1337ac3207bd36f61a0e44619a24c',
     networkId: 42,
   },
   ropsten: {
-    address: '0xa395a25f20e75159b1d057b8645cbb6c12bafacc',
+    address: '0xc1cf879ca1c3bdfba7ea8c645823b48d4b8553ac',
     networkId: 3,
   },
   mainnet: {
