@@ -46,6 +46,9 @@ done
 echo "Preprocess contracts"
 APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh $1
 
+echo "Compiling"
+npm run compile -- --network $1
+
 echo "Selecting migrations"
 ./migselect.sh
 

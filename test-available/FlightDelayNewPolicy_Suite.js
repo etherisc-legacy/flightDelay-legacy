@@ -65,7 +65,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #20 - flight <15 min delay (no payout)',
   flight: standardFlight('20'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SetState',
     args: {
@@ -78,7 +78,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #21 - flight > 15 <= 30min. delay',
   flight: standardFlight('21'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -93,7 +93,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #22 - flight > 30 <= 45 delay',
   flight: standardFlight('22'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -108,7 +108,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #23 - flight > 30 <= 45min. delay',
   flight: standardFlight('23'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -123,7 +123,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #24 - flight cancelled',
   flight: standardFlight('24'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -138,7 +138,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #25 - flight diverted',
   flight: standardFlight('25'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -157,7 +157,7 @@ var testSuite = [{
       resolve('OK - #26 should run in timeout, Manual payout.');
     });
   },
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: function (resolve, reject, context) {
 
     return (function (log) {
@@ -179,7 +179,7 @@ var testSuite = [{
       resolve('OK - #27 should run in timeout, Manual payout.');
     });
   },
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: function (resolve, reject, context) {
 
     return (function (log) {
@@ -214,7 +214,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #31 - invalid result from oracle',
   flight: standardFlight('31'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -231,7 +231,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #32 - too few observations',
   flight: standardFlight('32'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -248,7 +248,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #41 - premium too low',
   flight: standardFlight('20'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_PolicyDeclined',
     args: {
@@ -261,7 +261,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #42 - premium too high',
   flight: standardFlight('20'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_PolicyDeclined',
     args: {
@@ -287,7 +287,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #44 - invalid departureYearMonthDay',
   flight: standardFlight('20', '/dep/2015/06/30'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_PolicyDeclined',
     args: {
@@ -300,7 +300,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #45 - invalid departureTime',
   flight: standardFlight('20', false, -200),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_PolicyDeclined',
     args: {
@@ -313,7 +313,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #46 - invalid arrivalTime',
   flight: standardFlight('20', false, 60, 200000),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_PolicyDeclined',
     args: {
