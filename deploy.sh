@@ -27,6 +27,9 @@ openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_i
 echo "Extracting keys"
 tar xvf keys.tar
 
+echo "Kill testrpc and bridge"
+sudo killall node
+
 echo "Running Parity"
 ls -la ./keys
 echo "parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth"
