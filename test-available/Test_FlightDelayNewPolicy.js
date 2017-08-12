@@ -20,16 +20,15 @@ const doTests = [
   '#25', // flightNumber == '25'  // diverted
   '#26', // flightNumber == '26'  // never landing
   '#27', // flightNumber == '27'  // invalid status
-  //'#30', // flightNumber == '30'	// empty result
-  //'#31', // flightNumber == '31'  // invalid result
-  //'#32', // flightNumber == '32'	// too few observations
+  '#30', // flightNumber == '30'	// empty result
+  '#31', // flightNumber == '31'  // invalid result
+  '#32', // flightNumber == '32'	// too few observations
   '#41', // flightNumber == '41'	// premium too low
   '#42', // flightNumber == '42'	// premium too high
-  //'#43', // flightNumber == '43'	// invalid DepartureYearMonthDay
+  '#43', // flightNumber == '43'	// invalid DepartureYearMonthDay
   '#44', // flightNumber == '44'	// invalid DepartureTime
   '#45', // flightNumber == '45'	// invalid ArrivalTime
 ];
-
 
 let lf = undefined;
 let EventsSeen = [];

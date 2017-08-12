@@ -197,7 +197,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #30 - empty result from oracle',
   flight: standardFlight('30'),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_SendFunds'
   }, {
@@ -274,7 +274,7 @@ var testSuite = [{
   shouldDoSomething: 'should process #43 - too short before start',
   flight: standardFlight('20', false, 1, 90),
   timeoutHandler: standardTimeoutHandler,
-  timeout_value: 30000,
+  timeout_value: 80000,
   logHandler: standardLogHandler([{
     event: 'LOG_PolicyDeclined',
     args: {

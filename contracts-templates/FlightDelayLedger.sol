@@ -44,6 +44,7 @@ contract FlightDelayLedger is
 		FD_AC.setPermissionById(102, 'FD.Payout');
 		FD_AC.setPermissionById(102, 'FD.Owner');
 		FD_AC.setPermissionById(103, 'FD.NewPolicy');
+    FD_AC.setPermissionById(102, 'FD.Underwrite');
 		FD_AC.setPermissionById(103, 'FD.Underwrite');
 		FD_AC.setPermissionById(103, 'FD.Payout');
 		FD_AC.setPermissionById(103, 'FD.Ledger');
