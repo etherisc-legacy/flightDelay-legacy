@@ -56,7 +56,7 @@ web3.eth.getCoinbase().then((coinbase) => {
   FlightDelay_AddressResolver.methods.setAddr(
       newPolicy.networks[resolver.networkId].address
     ).send({from: coinbase}).on('receipt', function (receipt) {
-      console.log('New contract address is saved in block', receipt.blockNumber);
+      console.log('New contract address is saved in block', receipt);
     }).on('error', console.error);
   }
 );
