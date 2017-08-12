@@ -46,10 +46,16 @@ APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh $1
 echo "Selecting migrations"
 ./migselect.sh
 
-echo "Selecting tests"
-./testselect.sh
+echo "Test FlightDelayController"
+./test-get.sh Test_FlightDelayController.js
+npm test -- --network $1
 
-echo "Running tests"
+echo "Test FlightDelayDestruct"
+./test-get.sh Test_FlightDelayDestruct.js
+npm test -- --network $1
+
+echo "Test FlightDelayNewPolicy"
+./test-get.sh Test_FlightDelayNewPolicy.js
 npm test -- --network $1
 
 echo "Deploying"

@@ -7,14 +7,11 @@
  *
  */
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
-/* eslint no-console: 0 */
+const logformatter = require('./logformatter.js');
+const EventEmitter = require('events');
+const testSuite = require('./FlightDelayNewPolicy_Suite.js');
 
-
-var testSuite = require('./FlightDelayNewPolicy_Suite.js');
-
-var doTests = [
+const doTests = [
   '#20', // flightNumber == '20'  // no delay
   '#21', // flightNumber == '21'  // 15-29 min. delay
   '#22', // flightNumber == '22'  // 30-44 min. delay
@@ -33,21 +30,19 @@ var doTests = [
   '#45', // flightNumber == '45'	// invalid ArrivalTime
 ];
 
-var logformatter = require('./logformatter.js');
-var lf = undefined;
-var EventEmitter = require('events');
-var EventsSeen = [];
 
+let lf = undefined;
+let EventsSeen = [];
 
-var FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
-var FlightDelayController = artifacts.require('FlightDelayController');
-var FlightDelayDatabase = artifacts.require('FlightDelayDatabase');
-var FlightDelayLedger = artifacts.require('FlightDelayLedger');
-var FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy');
-var FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
-var FlightDelayPayout = artifacts.require('FlightDelayPayout');
+const FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
+const FlightDelayController = artifacts.require('FlightDelayController');
+const FlightDelayDatabase = artifacts.require('FlightDelayDatabase');
+const FlightDelayLedger = artifacts.require('FlightDelayLedger');
+const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy');
+const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
+const FlightDelayPayout = artifacts.require('FlightDelayPayout');
 
-contract('FlightDelayNewPolicy', function (accounts) {
+contract('FlightDelayNewPolicy', (accounts) => {
 
   var EE = new EventEmitter();
   var timeout = undefined;
@@ -96,7 +91,7 @@ contract('FlightDelayNewPolicy', function (accounts) {
     web3: web3,
     eventsHappened: eventsHappened,
     lastState: undefined,
-    accounts: accounts
+    accounts: accounts,
   };
 
   var testOne = function (args) {
@@ -184,7 +179,6 @@ contract('FlightDelayNewPolicy', function (accounts) {
             flight.arrivalTime,
             args.tx(context)
           );
-
         }).then(function (tx) {
           return new Promise(function (resolve, reject) {
 
@@ -198,12 +192,11 @@ contract('FlightDelayNewPolicy', function (accounts) {
           return cleanup(error, false);
         });
     });
-
   };
 
-  for (index in doTests) {
+  for (const index in doTests) {
     testOne(testSuite.find(function (testDef) {
-      return testDef.testId == doTests[index];
+      return testDef.testId === doTests[index];
     }));
   }
 
