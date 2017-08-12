@@ -2,6 +2,7 @@
 
 pushd test
 rm *
+ls
 
 function enable {
 	ln -s ../test-available/$1 $1

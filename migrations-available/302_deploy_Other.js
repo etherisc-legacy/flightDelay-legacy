@@ -16,19 +16,19 @@ var FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
 var FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
 module.exports = function (deployer) {
-  deployer.deploy(FlightDelayController, { value: web3.toWei(1, 'ether') })
+  deployer.deploy(FlightDelayController, { value: web3.toWei(50, 'ether') })
     .then(function () {
       return deployer.deploy(FlightDelayAccessController, FlightDelayController.address);
     }).then(function () {
     return deployer.deploy(FlightDelayDatabase, FlightDelayController.address);
   }).then(function () {
-    return deployer.deploy(FlightDelayLedger, FlightDelayController.address, { value: web3.toWei(1, 'ether') });
+    return deployer.deploy(FlightDelayLedger, FlightDelayController.address, { value: web3.toWei(500, 'ether') });
   }).then(function () {
     return deployer.deploy(FlightDelayNewPolicy, FlightDelayController.address);
   }).then(function () {
-    return deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address, { value: web3.toWei(1, 'ether') });
+    return deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address, { value: web3.toWei(50, 'ether') });
   }).then(function () {
-    return deployer.deploy(FlightDelayPayout, FlightDelayController.address, { value: web3.toWei(1, 'ether') });
+    return deployer.deploy(FlightDelayPayout, FlightDelayController.address, { value: web3.toWei(50, 'ether') });
   }).then(function () {
 
     // finish, call setAllContracts on each
