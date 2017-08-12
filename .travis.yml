@@ -29,7 +29,7 @@ env:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./deploy.sh ropsten
+    script: ./deploy.sh kovan
     on:
       branch: develop
   - provider: script
