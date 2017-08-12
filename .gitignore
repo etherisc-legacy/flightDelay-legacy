@@ -7,3 +7,4 @@ test
 external/encryptedQuery/allEncryptedQueryStrings.txt
 external/encryptedQuery/encryptedQueryString.txt
 ContractLogs.log
+.node-xmlhttprequest-*
