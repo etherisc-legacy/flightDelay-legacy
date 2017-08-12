@@ -18,7 +18,7 @@ module.exports = {
       host: "localhost",
       port: 8545,
       from: "0xc3878b8566f5626fb8d6ad43b647e3405668f20b",
-      gas: 6500000
+      gas: 6000000
     },
     testrpc: {
       host: "localhost",

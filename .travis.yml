@@ -3,11 +3,16 @@ node_js:
   - "7"
 script:
   - APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh testrpc
-  - npm run testrpc --port 9545 &
-  - cd external/ethereum-bridge && npm install && node bridge -H localhost:9545 -a 0 &
+  - npm run testrpc &
+  - npm run bridge &
   - ./migselect.sh
-  - ./testselect.sh
+  - ./test-get.sh Test_FlightDelayController.js
   - npm test -- --network testrpc
+  - ./test-get.sh Test_FlightDelayDestruct.js
+  - npm test -- --network testrpc
+  - ./test-get.sh Test_FlightDelayNewPolicy.js
+  - npm test -- --network testrpc
+  - sudo killall node
 
 sudo: required
 addons:
