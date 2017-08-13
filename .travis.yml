@@ -6,7 +6,7 @@ script:
   - npm run testrpc &
   - npm run bridge &
   - ./migselect.sh
-  - npm run deploy-testrpc
+  - npm run compile-testrpc
   - ./test-get.sh Test_FlightDelayController.js
   - npm test -- --network testrpc
   - ./test-get.sh Test_FlightDelayDestruct.js
