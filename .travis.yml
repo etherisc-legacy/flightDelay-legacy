@@ -5,8 +5,8 @@ script:
   - APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh testrpc
   - npm run testrpc &
   - npm run bridge &
-  - npm run compile-testrpc
   - ./migselect.sh
+  - npm run deploy-testrpc
   - ./test-get.sh Test_FlightDelayController.js
   - npm test -- --network testrpc
   - ./test-get.sh Test_FlightDelayDestruct.js

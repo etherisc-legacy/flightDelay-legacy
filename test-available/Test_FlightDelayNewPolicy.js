@@ -28,10 +28,11 @@ const doTests = [
   '#43', // flightNumber == '43'	// invalid DepartureYearMonthDay
   '#44', // flightNumber == '44'	// invalid DepartureTime
   '#45', // flightNumber == '45'	// invalid ArrivalTime
+  '#20',
 ];
 
-let lf = undefined;
-let EventsSeen = [];
+const logger = new logformatter(web3);
+const EventsSeen = [];
 
 const FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
 const FlightDelayController = artifacts.require('FlightDelayController');
@@ -43,11 +44,10 @@ const FlightDelayPayout = artifacts.require('FlightDelayPayout');
 
 contract('FlightDelayNewPolicy', (accounts) => {
 
-  var EE = new EventEmitter();
-  var timeout = undefined;
-  var EventsSeen = [];
+  const EE = new EventEmitter();
+  let timeout;
 
-  var eventsHappened = function (events) {
+  const eventsHappened = function (events) {
     for (var ev in events) {
       //console.log('Search: ', events[ev].event);
       var ef = EventsSeen.find(function (elem) {
@@ -83,39 +83,33 @@ contract('FlightDelayNewPolicy', (accounts) => {
     return true;
   };
 
-  lf = new logformatter(web3);
-
-  var context = {
-    logger: lf,
-    web3: web3,
-    eventsHappened: eventsHappened,
+  const context = {
+    logger,
+    web3,
+    eventsHappened,
     lastState: undefined,
-    accounts: accounts,
+    accounts,
   };
 
-  var testOne = function (args) {
+  const testOne = function (args) {
+    it(args.shouldDoSomething, () => {
+      const allEvents = [];
+      const instances = {};
 
-    it(args.shouldDoSomething, function () {
-
-
-      var allEvents = [];
-      var flightNumber = args.flightNumber;
-      var instances = {};
-
-      var logWatcher = function (contract) {
+      const logWatcher = function (contract) {
 
         var allEv = contract.allEvents();
         allEvents.push(allEv);
         allEv.watch(function (err, log) {
 
           EventsSeen.push(log);
-          if (lf.formatLog(contract.abi, log)) EE.emit('logEvent', log);
+          if (logger.formatLog(contract.abi, log)) EE.emit('logEvent', log);
 
         });
       };
 
-      var cleanup = function (message, success) {
-        lf.logLine('Cleanup; success: ', success + ' / ' + message, 'info');
+      const cleanup = function (message, success) {
+        logger.logLine('Cleanup; success: ', success + ' / ' + message, 'info');
         for (var elem in allEvents) {
           allEvents[elem].stopWatching();
         }
@@ -124,52 +118,51 @@ contract('FlightDelayNewPolicy', (accounts) => {
         assert(success, message);
       };
 
-      lf.reset();
-      lf.emptyLine(10, 'verbose');
-      lf.logLine('Testing', args.shouldDoSomething, 'info');
-      EventsSeen = [];
+      logger.reset();
+      logger.emptyLine(10, 'verbose');
+      logger.logLine('Testing', args.shouldDoSomething, 'info');
+      EventsSeen.length = 0;
 
       return FlightDelayAccessController.deployed()
-        .then(function (instance) {
+        .then((instance) => {
           instances.AC = instance;
           logWatcher(instance);
           return FlightDelayDatabase.deployed();
         })
-        .then(function (instance) {
+        .then((instance) => {
           instances.DB = instance;
           logWatcher(instance);
           return FlightDelayLedger.deployed();
         })
-        .then(function (instance) {
+        .then((instance) => {
           instances.LG = instance;
           logWatcher(instance);
           return FlightDelayNewPolicy.deployed();
         })
-        .then(function (instance) {
+        .then((instance) => {
           instances.NP = instance;
           logWatcher(instance);
           return FlightDelayUnderwrite.deployed();
         })
-        .then(function (instance) {
+        .then((instance) => {
           instances.UW = instance;
           logWatcher(instance);
           return FlightDelayPayout.deployed();
         })
-        .then(function (instance) {
-
+        .then((instance) => {
           instances.PY = instance;
           logWatcher(instance);
 
-          lf.emptyLine(5, 'verbose');
+          logger.emptyLine(5, 'verbose');
 
-          lf.logLine('AccessController Address: ', instances.AC.address, 'verbose');
-          lf.logLine('Database         Address: ', instances.DB.address, 'verbose');
-          lf.logLine('Ledger           Address: ', instances.LG.address, 'verbose');
-          lf.logLine('NewPolicy        Address: ', instances.NP.address, 'verbose');
-          lf.logLine('Underwrite       Address: ', instances.UW.address, 'verbose');
-          lf.logLine('Payout           Address: ', instances.PY.address, 'verbose');
+          logger.logLine('AccessController Address: ', instances.AC.address, 'verbose');
+          logger.logLine('Database         Address: ', instances.DB.address, 'verbose');
+          logger.logLine('Ledger           Address: ', instances.LG.address, 'verbose');
+          logger.logLine('NewPolicy        Address: ', instances.NP.address, 'verbose');
+          logger.logLine('Underwrite       Address: ', instances.UW.address, 'verbose');
+          logger.logLine('Payout           Address: ', instances.PY.address, 'verbose');
 
-          var flight = args.flight();
+          const flight = args.flight();
 
           return instances.NP.newPolicy(
             flight.carrierFlightNumber,
@@ -178,25 +171,15 @@ contract('FlightDelayNewPolicy', (accounts) => {
             flight.arrivalTime,
             args.tx(context)
           );
-        }).then(function (tx) {
-          return new Promise(function (resolve, reject) {
-
-            timeout = setTimeout(args.timeoutHandler(resolve, reject, context), args.timeout_value);
-            EE.on('logEvent', args.logHandler(resolve, reject, context));
-
-          });
-        }).then(function (result) {
-          return cleanup(result, true);
-        }).catch(function (error) {
-          return cleanup(error, false);
-        });
+        })
+        .then(() => new Promise((resolve, reject) => {
+          timeout = setTimeout(args.timeoutHandler(resolve, reject, context), args.timeout_value);
+          EE.on('logEvent', args.logHandler(resolve, reject, context));
+        }))
+        .then(result => cleanup(result, true))
+        .catch(error => cleanup(error, false));
     });
   };
 
-  for (const index in doTests) {
-    testOne(testSuite.find(function (testDef) {
-      return testDef.testId === doTests[index];
-    }));
-  }
-
+  doTests.forEach((key, i) => testOne(testSuite.find(testDef => testDef.testId === doTests[i])));
 }); // contract
