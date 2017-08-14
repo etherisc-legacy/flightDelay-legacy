@@ -17,9 +17,10 @@ npm install
 echo "Preprocessing"
 APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh $1
 
-echo "Getting author"
+echo "Getting authors"
 author=$(node -e "console.log(require('./truffle.js').networks['$1'].from)")
-echo "Author:" $author
+author2=$(node -e "console.log(require('./truffle.js').networks['$1'].from2)")
+echo "Author:" $author, $author2
 
 echo "Decrypting keys"
 openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_iv -in keys.tar.enc -out keys.tar -d
@@ -32,8 +33,8 @@ sudo killall node
 
 echo "Running Parity"
 ls -la ./keys
-echo "parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth"
-parity --author $author --chain $1 --unlock $author --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth &
+echo "parity --author $author --chain $1 --unlock $author,$author2 --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth"
+parity --author $author --chain $1 --unlock $author,$author2 --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth &
 sleep 5
 
 echo "Synchronising with network"
