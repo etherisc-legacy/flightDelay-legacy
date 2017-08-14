@@ -25,10 +25,9 @@ const doTests = [
   '#32', // flightNumber == '32'	// too few observations
   '#41', // flightNumber == '41'	// premium too low
   '#42', // flightNumber == '42'	// premium too high
-  '#43', // flightNumber == '43'	// invalid DepartureYearMonthDay
+  //'#43', // flightNumber == '43'	// invalid DepartureYearMonthDay
   '#44', // flightNumber == '44'	// invalid DepartureTime
   '#45', // flightNumber == '45'	// invalid ArrivalTime
-  '#20',
 ];
 
 const logger = new logformatter(web3);
