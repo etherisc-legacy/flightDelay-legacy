@@ -2,6 +2,12 @@ language: node_js
 node_js:
   - "7"
 script: ./travis-testrpc.sh
+cache:
+  directories:
+    - $HOME/.npm
+    - $HOME/.cache/pip
+    - $HOME/external/ethereum-bridge/node_modules
+    - $HOME/build
 
 sudo: required
 addons:
@@ -14,6 +20,11 @@ addons:
     - libdw-dev
     - gcc-4.8
     - g++-4.8
+    - python-pip
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - python-dev
 env:
   global:
   - CXX="g++-4.8"

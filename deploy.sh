@@ -5,8 +5,7 @@ set -e
 echo "Deploying to" $1
 
 echo "Installing dependencies"
-sudo pip install cryptography --global-option=build_ext --global-option="-L/usr/local/opt/openssl/lib" --global-option="-I/usr/local/opt/openssl/include"
-sudo pip install base58
+pip install --upgrade --force-reinstall cffi cryptography base58
 
 echo "Installing Parity"
 bash <(curl https://get.parity.io -Lk)
@@ -27,9 +26,6 @@ openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_i
 
 echo "Extracting keys"
 tar xvf keys.tar
-
-echo "Kill testrpc and bridge"
-sudo killall node
 
 echo "Running Parity"
 ls -la ./keys
