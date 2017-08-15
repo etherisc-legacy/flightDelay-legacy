@@ -8,6 +8,7 @@
 
 `sudo pip install base58`
 
+
 ## FlightStat
 Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API credentials
 `APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh`
@@ -49,7 +50,7 @@ Replace OAR in `contracts-templates/FlightDelayOraclizeInterface.sol` if ethereu
 
 ## Changing addresses of accounts in networks
 
-Addresses are specified in `truffle.js` and used in `deploy.sh`. 
+Addresses are specified in `truffle.js` and used in `deploy.sh`.
 
 For deploy process it's necessary to provide Keystore File JSON file and password file to this key in Parity arguments.
 
