@@ -81,13 +81,3 @@ Then add new variables:
 `travis encrypt FLIGHT_STAT_APP_ID=REAL_ID --add`
 
 `travis encrypt FLIGHT_STAT_APP_KEY=REAL_KEY --add`
-
-## Deploy to mainnet
-
-`parity --author 0xfee595b6b4a30bfa12604a5ec92156f1b5a1607f --chain mainnet --unlock 0xfee595b6b4a30bfa12604a5ec92156f1b5a1607f --password PASSWORD_FILE --keys-path KEYS_FOLDER --mode active --geth`
-
-`docker build -t flight_delay --no-cache .`
-
-`docker run --network host -e FLIGHT_STAT_APP_ID= -e FLIGHT_STAT_APP_ID= -e NETWORK='mainnet' flight_delay`
-
-`docker rmi flight_delay`

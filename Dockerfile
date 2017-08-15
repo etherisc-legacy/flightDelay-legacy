@@ -20,6 +20,4 @@ RUN /bin/bash -c 'pip install --upgrade --force-reinstall cffi cryptography base
 RUN /bin/bash -c './migselect.sh'
 
 
-COPY _deploy-docker.sh _deploy-docker.sh
-
 CMD /bin/bash -c './_deploy-docker.sh'
