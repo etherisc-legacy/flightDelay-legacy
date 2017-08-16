@@ -18,10 +18,11 @@ module.exports = {
       gas: 4700000,
     },
     kovan: {
-      network_id: 123, // custom private network
+      network_id: 42, // custom private network
       host: 'localhost',
-      port: 8545,
-      from: '0xc3878b8566f5626fb8d6ad43b647e3405668f20b',
+      port: 8645,
+      from: '0x11591D432d9Ff7cF517819ba99B3D876719019Dd',
+//      from: '0xc3878b8566f5626fb8d6ad43b647e3405668f20b',
       from2: '0x1d45c059e511241a5c1b3081e56302a59621c94c', // to unlock second account in parity
       gas: 6000000,
     },

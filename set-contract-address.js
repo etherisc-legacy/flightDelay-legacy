@@ -1,5 +1,5 @@
 const Web3 = require('web3');
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8645'));
 const newPolicy = require('./build/contracts/FlightDelayNewPolicy.json');
 
 const abi = [{
@@ -34,7 +34,8 @@ const abi = [{
 
 const resolvers = {
   kovan: {
-    address: '0x9e8e87e586e1337ac3207bd36f61a0e44619a24c',
+    address: '0xa1eee690186f36e2b6d1d3ac17ee9ac7e503a0d3',
+//    address: '0x9e8e87e586e1337ac3207bd36f61a0e44619a24c',
     networkId: 42,
   },
   ropsten: {
