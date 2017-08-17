@@ -1,13 +1,10 @@
-/*
-
-	FlightDelay with Oraclized Underwriting and Payout
-	All times are UTC.
-	Copyright (C) Christoph Mussenbrock, Stephan Karpischek
-
-	Database contract
-
-	
-*/
+/**
+ * FlightDelay with Oraclized Underwriting and Payout
+ *
+ * @description Database contract
+ * @copyright (c) 2017 etherisc GmbH
+ * @author Christoph Mussenbrock, Stephan Karpischek
+ */
 
 @@include('./templatewarning.txt')
 
@@ -18,13 +15,10 @@ import "./FlightDelayDatabaseInterface.sol";
 import "./FlightDelayAccessControllerInterface.sol";
 import "./FlightDelayConstants.sol";
 
-contract FlightDelayDatabase is 
-
+contract FlightDelayDatabase is
 	FlightDelayControlledContract,
 	FlightDelayDatabaseInterface,
-	FlightDelayConstants
-
-{
+	FlightDelayConstants {
 
 	// Table of policies
 	policy[] public policies;
@@ -47,32 +41,23 @@ contract FlightDelayDatabase is
 	FlightDelayAccessControllerInterface FD_AC;
 
 	function FlightDelayDatabase (address _controller) {
-
 		setController(_controller, 'FD.Database');
-
 	}
 
 	function setContracts() onlyController {
-
 		FD_AC = FlightDelayAccessControllerInterface(getContract('FD.AccessController'));
 
 		FD_AC.setPermissionById(101, 'FD.NewPolicy');
 		FD_AC.setPermissionById(101, 'FD.Underwrite');
 		FD_AC.setPermissionById(101, 'FD.Payout');
 		FD_AC.setPermissionById(101, 'FD.Ledger');
-
 	}
 
-
-
 	// Getter and Setter for AccessControl
-
 	function setAccessControl(address _contract, address _caller, uint8 _perm, bool _access) {
-
 		// one and only hardcoded accessControl
 		if (msg.sender != FD_CI.getContract('FD.AccessController')) throw;
 		accessControl[_contract][_caller][_perm] = _access;
-		
 	}
 
 	function setAccessControl(address _contract, address _caller, uint8 _perm) {
@@ -80,26 +65,21 @@ contract FlightDelayDatabase is
 	}
 
 	function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed) {
-
 		return accessControl[_contract][_caller][_perm];
-
 	}
 
-
 	// Getter and Setter for ledger
-
 	function setLedger(uint8 _index, int _value) {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		int previous = ledger[_index];
 		ledger[_index] += _value;
 
-// #ifdef debug
+    // #ifdef debug
 		LOG_int('previous', previous);
 		LOG_int('ledger[_index]', ledger[_index]);
 		LOG_int('_value', _value);
-// #endif
+    // #endif
 
 		// check for int overflow
 		if (_value < 0 && ledger[_index] > previous) {
@@ -107,46 +87,32 @@ contract FlightDelayDatabase is
 		} else if (_value > 0 && ledger[_index] < previous) {
 			throw;
 		}
-
 	}
 
 	function getLedger(uint8 _index) returns (int _value) {
-
 		return ledger[_index];
-
 	}
 
-
-
 	// Getter and Setter for policies
-
 	function getCustomerPremium(uint _policyId) returns (address _customer, uint _premium) {
-
 		policy p = policies[_policyId];
 		_customer = p.customer;
 		_premium = p.premium;
-
 	}
 
 	function getPolicyData(uint _policyId) returns (address _customer, uint _weight, uint _premium) {
-
 		policy p = policies[_policyId];
 		_customer = p.customer;
 		_weight = p.weight;
 		_premium = p.premium;
-
 	}
 
 	function getRiskId(uint _policyId) returns (bytes32 _riskId) {
-
 		policy p = policies[_policyId];
 		_riskId = p.riskId;
-		
 	}
 
-	function createPolicy(address _customer, uint _premium, bytes32 _riskId) 
-		returns (uint _policyId) {
-
+	function createPolicy(address _customer, uint _premium, bytes32 _riskId) returns (uint _policyId) {
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		_policyId = policies.length++;
@@ -156,84 +122,71 @@ contract FlightDelayDatabase is
 		p.customer = _customer;
 		p.premium = _premium;
 		p.riskId = _riskId;
-
 	}
 
 	function setState(uint _policyId, policyState _state, uint _stateTime, bytes32 _stateMessage) {
-		
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		LOG_SetState(_policyId, uint8(_state), _stateTime, _stateMessage);
 
 		policy p = policies[_policyId];
-		
+
 		p.state = _state;
 		p.stateTime = _stateTime;
 		p.stateMessage = _stateMessage;
-
 	}
 
 	function setWeight(uint _policyId, uint _weight, bytes _proof) {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		policy p = policies[_policyId];
-		
+
 		p.weight = _weight;
 		p.proof = _proof;
-
 	}
 
 	function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		policy p = policies[_policyId];
-		
+
 		p.calculatedPayout = _calculatedPayout;
 		p.actualPayout = _actualPayout;
-
 	}
 
 	function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		risk r = risks[policies[_policyId].riskId];
-		
+
 		r.delay = _delay;
 		r.delayInMinutes = _delayInMinutes;
-
 	}
 
-
 	// Getter and Setter for risks
-
-	function getRiskParameters(bytes32 _riskId) 
+	function getRiskParameters(bytes32 _riskId)
 		returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
 
 		risk r = risks[_riskId];
 		_carrierFlightNumber = r.carrierFlightNumber;
 		_departureYearMonthDay = r.departureYearMonthDay;
 		_arrivalTime = r.arrivalTime;
-
 	}
 
-	function getPremiumFactors(bytes32 _riskId) 
-		returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
+	function getPremiumFactors(bytes32 _riskId)
+    returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
 			risk r = risks[_riskId];
 			_cumulatedWeightedPremium = r.cumulatedWeightedPremium;
 			_premiumMultiplier = r.premiumMultiplier;
 	}
 
-	function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) 
+	function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime)
 		returns (bytes32 _riskId) {
-		
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		_riskId = sha3 (
-			_carrierFlightNumber, 
-			_departureYearMonthDay, 
+			_carrierFlightNumber,
+			_departureYearMonthDay,
 			_arrivalTime
 		);
 
@@ -244,11 +197,9 @@ contract FlightDelayDatabase is
 			r.departureYearMonthDay = _departureYearMonthDay;
 			r.arrivalTime = _arrivalTime;
 		}
-
 	}
 
 	function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		risk r = risks[_riskId];
@@ -256,45 +207,33 @@ contract FlightDelayDatabase is
 		r.premiumMultiplier = _premiumMultiplier;
 	}
 
-
 	// Getter and Setter for oraclizeCallbacks
-
 	function getOraclizeCallback(bytes32 _queryId) returns (uint _policyId, uint _arrivalTime) {
-
 		_policyId = oraclizeCallbacks[_queryId].policyId;
 		_arrivalTime = risks[policies[_policyId].riskId].arrivalTime;
 	}
 
-
 	function getOraclizePolicyId(bytes32 _queryId) returns (uint _policyId) {
-
 		oraclizeCallback o = oraclizeCallbacks[_queryId];
 		_policyId = o.policyId;
 	}
 
-
 	function createOraclizeCallback(
-		bytes32 _queryId, 
-		uint _policyId, 
-		oraclizeState _oraclizeState, 
+		bytes32 _queryId,
+		uint _policyId,
+		oraclizeState _oraclizeState,
 		uint _oraclizeTime) {
 
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		oraclizeCallbacks[_queryId] = oraclizeCallback(_policyId, _oraclizeState, _oraclizeTime);
-
 	}
 
 	// mixed
-
 	function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset) returns (bool _result) {
-
 		oraclizeCallback o = oraclizeCallbacks[_queryId];
 		risk r = risks[_riskId];
 
 		_result = o.oraclizeTime > r.arrivalTime + _offset;
 	}
-
 }
-
-

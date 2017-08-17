@@ -1,10 +1,9 @@
 /**
  * FlightDelay with Oraclized Underwriting and Payout
  *
- * @description	Ledger contract. 
+ * @description	Ledger contract
  * @copyright (c) 2017 etherisc GmbH
  * @author Christoph Mussenbrock
- *
  */
 
 @@include('./templatewarning.txt')
@@ -17,25 +16,19 @@ import "./FlightDelayDatabaseInterface.sol";
 import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayConstants.sol";
 
-contract FlightDelayLedger is 
-
+contract FlightDelayLedger is
 	FlightDelayControlledContract,
 	FlightDelayLedgerInterface,
-	FlightDelayConstants
-
-	{
+	FlightDelayConstants {
 
 	FlightDelayDatabaseInterface FD_DB;
 	FlightDelayAccessControllerInterface FD_AC;
 
 	function FlightDelayLedger(address _controller) payable {
-
 		setController(_controller, 'FD.Ledger');
-
 	}
 
 	function setContracts() onlyController {
-
 		FD_AC = FlightDelayAccessControllerInterface(getContract('FD.AccessController'));
 		FD_DB = FlightDelayDatabaseInterface(getContract('FD.Database'));
 
@@ -49,21 +42,18 @@ contract FlightDelayLedger is
 		FD_AC.setPermissionById(103, 'FD.Payout');
 		FD_AC.setPermissionById(103, 'FD.Ledger');
 
-		bookkeeping(Acc.Balance, Acc.RiskFund, this.balance); 
+		bookkeeping(Acc.Balance, Acc.RiskFund, this.balance);
 	}
 
 	function receiveFunds(Acc _to) payable {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		LOG_ReceiveFunds(msg.sender, uint8(_to), msg.value);
 
-		bookkeeping(Acc.Balance, _to, msg.value); 
-
+		bookkeeping(Acc.Balance, _to, msg.value);
 	}
 
 	function sendFunds(address _recipient, Acc _from, uint _amount) returns (bool _success) {
-		
 		if (!FD_AC.checkPermission(102, msg.sender)) return false;
 		if (this.balance < _amount) return false; // unsufficient funds
 
@@ -94,9 +84,5 @@ contract FlightDelayLedger is
 		// overflow check is done in FD_DB
 		FD_DB.setLedger(uint8(_from), -int(_amount));
 		FD_DB.setLedger(uint8(_to  ),  int(_amount));
-
 	}
-
 }
-
-

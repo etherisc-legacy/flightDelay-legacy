@@ -28,7 +28,7 @@ contract _Test_Oraclize is FlightDelayOraclizeInterface, FlightDelayConstants
 	function test_callIt() {
 
 		queryId = oraclize_query(
-			"URL", 
+			"URL",
 			"json(https://api.kraken.com/0/public/Ticker?pair=ETHXBT).result.XETHXXBT.c.0"
 			);
 

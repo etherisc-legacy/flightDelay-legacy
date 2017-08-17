@@ -4,7 +4,6 @@
  * @description	Payout contract
  * @copyright (c) 2017 etherisc GmbH
  * @author Christoph Mussenbrock
- *
  */
 
 @@include('./templatewarning.txt')
@@ -23,13 +22,10 @@ import "./convertLib.sol";
 
 
 contract FlightDelayPayout is
-
 	FlightDelayControlledContract,
 	FlightDelayConstants,
 	FlightDelayOraclizeInterface,
-	convertLib
-
-{
+	convertLib {
 
 	using strings for *;
 
@@ -38,23 +34,18 @@ contract FlightDelayPayout is
 	FlightDelayAccessControllerInterface FD_AC;
 
 	function FlightDelayPayout(address _controller) payable {
-
 		setController(_controller, 'FD.Payout');
-
 	}
 
 	function setContracts() onlyController {
-
 		FD_AC = FlightDelayAccessControllerInterface(getContract('FD.AccessController'));
 		FD_DB = FlightDelayDatabaseInterface(getContract('FD.Database'));
 		FD_LG = FlightDelayLedgerInterface(getContract('FD.Ledger'));
 
 		FD_AC.setPermissionById(101, 'FD.Underwrite');
-
 	}
 
 	function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _oraclizeTime) {
-
 		if (!FD_AC.checkPermission(101, msg.sender)) throw;
 
 		bytes32 carrierFlightNumber;
@@ -71,49 +62,45 @@ contract FlightDelayPayout is
 			);
 
 		bytes32 queryId = oraclize_query(
-			_oraclizeTime, 
-			'nested', 
-			oraclize_url, 
+			_oraclizeTime,
+			'nested',
+			oraclize_url,
 			oraclizeGas
 			);
-		
+
 		FD_DB.createOraclizeCallback(
-			queryId, 
-			_policyId, 
-			oraclizeState.ForPayout, 
+			queryId,
+			_policyId,
+			oraclizeState.ForPayout,
 			_oraclizeTime
 			);
 
 		LOG_OraclizeCall(_policyId, queryId, oraclize_url);
-
-	} // schedulePayoutOraclizeCall
-
+	}
 
 	function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclize {
-
 		uint policyId;
 		uint oraclizeTime;
 		(policyId, oraclizeTime) = FD_DB.getOraclizeCallback(_queryId);
 		bytes32 riskId = FD_DB.getRiskId(policyId);
 
-		// #ifdef debug
+    // #ifdef debug
 		LOG_string('im payout callback, result = ', _result);
 		LOG_uint('policyId: ', policyId);
 		LOG_uint_time('oTime', oraclizeTime);
 		LOG_bytes32('riskId', riskId);
-		// #endif
+    // #endif
 
-		var sl_result = _result.toSlice(); 	
+		var sl_result = _result.toSlice();
 
 		if (bytes(_result).length == 0) { // empty Result
 			if (FD_DB.checkTime(_queryId, riskId, 180 minutes)) {
 				LOG_PolicyManualPayout(policyId, 'No Callback at +120 min');
 				return;
 			} else {
-				schedulePayoutOraclizeCall(policyId, riskId, oraclizeTime + 45 minutes); 
+				schedulePayoutOraclizeCall(policyId, riskId, oraclizeTime + 45 minutes);
 			}
 		} else {
-
 			// first check status
 			// extract the status field:
 			sl_result.find('"'.toSlice()).beyond('"'.toSlice());
@@ -124,14 +111,14 @@ contract FlightDelayPayout is
 				payOut(policyId, 4, 0);
 				return;
 			} else if (status == 'D') {
-				// flight diverted --> payout					
+				// flight diverted --> payout
 				payOut(policyId, 5, 0);
 				return;
 			} else if (status != 'L' && status != 'A' && status != 'C' && status != 'D') {
 				LOG_PolicyManualPayout(policyId, 'Unprocessable status');
 				return;
 			}
-		
+
 			// process the rest of the response:
 			sl_result = _result.toSlice();
 			bool arrived = sl_result.contains('actualGateArrival'.toSlice());
@@ -144,20 +131,17 @@ contract FlightDelayPayout is
 					schedulePayoutOraclizeCall(policyId, riskId, oraclizeTime + 45 minutes);
 				}
 			} else if (status == 'L' && arrived) {
-
-
 				var aG = '"arrivalGateDelayMinutes": '.toSlice();
-				if (sl_result.contains(aG)) { 
+				if (sl_result.contains(aG)) {
 					sl_result.find(aG).beyond(aG);
-					sl_result.until(sl_result.copy().find('"'.toSlice()).beyond('"'.toSlice())); 
+					sl_result.until(sl_result.copy().find('"'.toSlice()).beyond('"'.toSlice()));
 					sl_result.until(sl_result.copy().find('\x7D'.toSlice())); // truffle bug, replace by "}" as soon as it is fixed.
-					sl_result.until(sl_result.copy().find(','.toSlice())); 
+					sl_result.until(sl_result.copy().find(','.toSlice()));
 					uint delayInMinutes = parseInt(sl_result.toString());
-
 				} else {
 					delayInMinutes = 0;
 				}
-							
+
 				if (delayInMinutes < 15) {
 					payOut(policyId, 0, 0);
 				} else if (delayInMinutes < 30) {
@@ -166,19 +150,14 @@ contract FlightDelayPayout is
 					payOut(policyId, 2, delayInMinutes);
 				} else {
 					payOut(policyId, 3, delayInMinutes);
-				} 
-
+				}
 			} else { // no delay info
 				payOut(policyId, 0, 0);
-	
-			} 		
+			}
 		}
-	
 	} // prepare_payout
 
-
 	function payOut(uint _policyId, uint8 _delay, uint _delayInMinutes)	internal {
-		
 		// #ifdef debug
 		LOG_string('im payOut', '');
 		LOG_uint('policyId', _policyId);
@@ -189,9 +168,7 @@ contract FlightDelayPayout is
 		FD_DB.setDelay(_policyId, _delay, _delayInMinutes);
 
 		if (_delay == 0) {
-
 			FD_DB.setState(_policyId, policyState.Expired, now, 'Expired - no delay!');
-
 		} else {
 
 			uint premium;
@@ -200,9 +177,9 @@ contract FlightDelayPayout is
 
 			(customer, weight, premium) = FD_DB.getPolicyData(_policyId);
 
-// #ifdef debug
+      // #ifdef debug
 			LOG_uint('weight', weight);
-// #endif
+      // #endif
 
 			if (weight == 0) weight = 20000;
 
@@ -222,9 +199,6 @@ contract FlightDelayPayout is
 			else {
 				FD_DB.setState(_policyId, policyState.PaidOut, now, 'Payout successful!');
 			}
-
 		}
-
 	}
-
 }

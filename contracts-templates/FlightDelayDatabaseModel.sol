@@ -1,13 +1,10 @@
-/*
-
-	FlightDelay with Oraclized Underwriting and Payout
-	All times are UTC.
-	Copyright (C) Christoph Mussenbrock, Stephan Karpischek
-
-	
-    Contract Interfaces
-	
-*/
+/**
+ * FlightDelay with Oraclized Underwriting and Payout
+ *
+ * @description Database model
+ * @copyright (c) 2017 etherisc GmbH
+ * @author Christoph Mussenbrock, Stephan Karpischek
+ */
 
 @@include('./templatewarning.txt')
 
@@ -15,60 +12,52 @@ pragma solidity @@include('./solidity_version_string.txt');
 
 contract FlightDelayDatabaseModel {
 
-
 	// Ledger accounts.
-
 	enum Acc {
-
 		Premium,
 		RiskFund,
 		Payout,
 		Balance,
 		Reward,
 		OraclizeCosts
-
 	}
 
 	// policy Status Codes and meaning:
 	//
-	// 00 = Applied:	the customer has payed a premium, but the oracle has
-	//					not yet checked and confirmed.
-	//					The customer can still revoke the policy.
-	// 01 = Accepted:	the oracle has checked and confirmed.
-	//					The customer can still revoke the policy.
-	// 02 = Revoked:	The customer has revoked the policy.
-	//					The premium minus cancellation fee is payed back to the
-	//					customer by the oracle.
-	// 03 = PaidOut:	The flight has ended with delay.
-	//					The oracle has checked and payed out.
-	// 04 = Expired:	The flight has endet with <15min. delay.
-	//					No payout.
-	// 05 = Declined:	The application was invalid.
-	//					The premium minus cancellation fee is payed back to the
-	//					customer by the oracle.
+	// 00 = Applied:	  the customer has payed a premium, but the oracle has
+	//					        not yet checked and confirmed.
+	//					        The customer can still revoke the policy.
+	// 01 = Accepted:	  the oracle has checked and confirmed.
+	//					        The customer can still revoke the policy.
+	// 02 = Revoked:	  The customer has revoked the policy.
+	//					        The premium minus cancellation fee is payed back to the
+	//					        customer by the oracle.
+	// 03 = PaidOut:	  The flight has ended with delay.
+	//					        The oracle has checked and payed out.
+	// 04 = Expired:	  The flight has endet with <15min. delay.
+	//					        No payout.
+	// 05 = Declined:	  The application was invalid.
+	//					        The premium minus cancellation fee is payed back to the
+	//					        customer by the oracle.
 	// 06 = SendFailed:	During Revoke, Decline or Payout, sending ether failed
-	//					for unknown reasons.
-	//					The funds remain in the contracts RiskFund.
+	//					        for unknown reasons.
+	//					        The funds remain in the contracts RiskFund.
 
 
-	//                  00       01        02       03
-	enum policyState {Applied, Accepted, Revoked, PaidOut,
-	//					04      05           06
-					  Expired, Declined, SendFailed}
+	//                  00       01        02       03        04      05           06
+	enum policyState {Applied, Accepted, Revoked, PaidOut, Expired, Declined, SendFailed}
 
 	// oraclize callback types:
 	enum oraclizeState { ForUnderwriting, ForPayout }
 
 	// the policy structure: this structure keeps track of the individual parameters of a policy.
 	// typically customer address, premium and some status information.
-
 	struct policy {
-
 		// 0 - the customer
 		address customer;
+
 		// 1 - premium
 		uint premium;
-
 		// risk specific parameters:
 		// 2 - pointer to the risk in the risks mapping
 		bytes32 riskId;
@@ -96,11 +85,9 @@ contract FlightDelayDatabaseModel {
 
 	// the risk structure; this structure keeps track of the risk-
 	// specific parameters.
-	// several policies can share the same risk structure (typically 
+	// several policies can share the same risk structure (typically
 	// some people flying with the same plane)
-
 	struct risk {
-
 		// 0 - Airline Code + FlightNumber
 		bytes32 carrierFlightNumber;
 		// 1 - scheduled departure and arrival time in the format /dep/YYYY/MM/DD
@@ -121,14 +108,11 @@ contract FlightDelayDatabaseModel {
 	// all oraclize calls will result in a common callback to __callback(...).
 	// to keep track of the different querys we have to introduce this struct.
 	struct oraclizeCallback {
-
 		// for which policy have we called?
 		uint policyId;
 		// for which purpose did we call? {ForUnderwrite | ForPayout}
 		oraclizeState oState;
-		// time 
+		// time
 		uint oraclizeTime;
-
 	}
-
 }

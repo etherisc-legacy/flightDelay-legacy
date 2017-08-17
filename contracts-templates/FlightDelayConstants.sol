@@ -1,10 +1,9 @@
 /**
  * FlightDelay with Oraclized Underwriting and Payout
  *
- * @description	Events and Constants.
+ * @description	Events and Constants
  * @copyright (c) 2017 etherisc GmbH
  * @author Christoph Mussenbrock
- *
  */
 
 @@include('./templatewarning.txt')
@@ -13,7 +12,11 @@ pragma solidity @@include('./solidity_version_string.txt');
 
 contract FlightDelayConstants {
 
-// #ifdef debug
+  /*
+   * General events
+   */
+
+  // #ifdef debug
 	event LOG_uint(string _message, uint _uint);
 	event LOG_uint_eth(string _message, uint eth_uint);
 	event LOG_uint_time(string _message, uint time_uint);
@@ -24,7 +27,7 @@ contract FlightDelayConstants {
 	event LOG_bytes32_str(string _message, bytes32 str_bytes32);
 	event LOG_string(string _message, string _string);
 	event LOG_bool(string _message, bool _bool);
-// #endif
+  // #endif
 
 	event LOG_PolicyApplied(
 		uint _policyId,
@@ -88,8 +91,10 @@ contract FlightDelayConstants {
 		bytes32 _stateMessage
 	);
 
+  /*
+   * General constants
+   */
 
-	// some general constants for the system:
 	// minimum observations for valid prediction
 	uint constant minObservations 			= 10;
 	// minimum premium to cover costs
@@ -109,21 +114,21 @@ contract FlightDelayConstants {
 	// weightPattern[0] is not used, just to be consistent
 	uint8[6] weightPattern 					= [0, 10,20,30,50,50];
 
-// #ifndef testrpc
+  // #ifndef testrpc
 	// DEFINITIONS FOR ROPSTEN AND MAINNET
 	// minimum time before departure for applying
 	uint minTimeBeforeDeparture				= 24 hours; // for production
 	// check for delay after .. minutes after scheduled arrival
 	uint checkPayoutOffset					= 15 minutes; // for production
-// #endif
+  // #endif
 
-// #ifdef testrpc
+  // #ifdef testrpc
 	// DEFINITIONS FOR LOCAL TESTNET
 	// minimum time before departure for applying
 	uint minTimeBeforeDeparture				= 1 seconds; // for testing
 	// check for delay after .. minutes after scheduled arrival
 	uint checkPayoutOffset					= 1 seconds; // for testing
-// #endif
+  // #endif
 
 	// maximum duration of flight
 	uint maxFlightDuration					= 2 days;
@@ -134,10 +139,11 @@ contract FlightDelayConstants {
 	uint constant oraclizeGas 				= 500000;
 
 
+  /*
+   * URLs and query strings for oraclize
+   */
 
-	// URLs and query strings for oraclize
-
-// #ifndef testrpc
+  // #ifndef testrpc
 	// DEFINITIONS FOR ROPSTEN AND MAINNET
 	string constant oraclize_RatingsBaseUrl =
 		// ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
@@ -151,9 +157,9 @@ contract FlightDelayConstants {
 	string constant oraclizeStatusQuery =
 		// pattern:
 		"?${[decrypt] @@include('./external/encryptedQuery/encryptedQueryString.txt')}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
-// #endif
+  // #endif
 
-// #ifdef testrpc
+  // #ifdef testrpc
 	// DEFINITIONS FOR LOCAL TESTNET
 	string constant oraclize_RatingsBaseUrl =
 		// ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
@@ -168,9 +174,5 @@ contract FlightDelayConstants {
 	string constant oraclizeStatusQuery =
 		// for testrpc:
 		"?utc=true).flightStatuses[0]['status','delays','operationalTimes']";
-// #endif
-
-
-
-
+  // #endif
 }

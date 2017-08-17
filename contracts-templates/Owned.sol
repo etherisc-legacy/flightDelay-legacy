@@ -1,12 +1,10 @@
-/*
-
-	FlightDelay with Oraclized Underwriting and Payout
-	All times are UTC.
-	Copyright (C) Christoph Mussenbrock, Stephan Karpischek
-
-	Owned pattern
-	
-*/
+/**
+ * FlightDelay with Oraclized Underwriting and Payout
+ *
+ * @description	Owned pattern
+ * @copyright (c) 2017 etherisc GmbH
+ * @author Christoph Mussenbrock, Stephan Karpischek
+ */
 
 @@include('./templatewarning.txt')
 
@@ -24,7 +22,7 @@ contract Owned {
 	}
 
 	/**
-	 * set a new owner. 
+	 * set a new owner.
 	 * @param _newOwner the new owner
 	 */
 	function setOwner(address _newOwner) onlyOwner {
@@ -37,7 +35,4 @@ contract Owned {
 	function Owned() {
 		owner = msg.sender;
 	}
-
 }
-
-

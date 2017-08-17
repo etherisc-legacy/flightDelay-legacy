@@ -4,7 +4,6 @@
  * @description NewPolicy contract.
  * @copyright (c) 2017 etherisc GmbH
  * @author Christoph Mussenbrock
- *
  */
 
 @@include('./templatewarning.txt')
@@ -20,12 +19,9 @@ import "./FlightDelayUnderwriteInterface.sol";
 import "./convertLib.sol";
 
 contract FlightDelayNewPolicy is
-
 	FlightDelayControlledContract,
 	FlightDelayConstants,
-	convertLib
-
-{
+	convertLib {
 
 	FlightDelayAccessControllerInterface FD_AC;
 	FlightDelayDatabaseInterface FD_DB;
@@ -33,13 +29,10 @@ contract FlightDelayNewPolicy is
 	FlightDelayUnderwriteInterface FD_UW;
 
 	function FlightDelayNewPolicy(address _controller) {
-
 		setController(_controller, 'FD.NewPolicy');
-
 	}
 
 	function setContracts() onlyController {
-
 		FD_AC = FlightDelayAccessControllerInterface(getContract('FD.AccessController'));
 		FD_DB = FlightDelayDatabaseInterface(getContract('FD.Database'));
 		FD_LG = FlightDelayLedgerInterface(getContract('FD.Ledger'));
@@ -50,7 +43,6 @@ contract FlightDelayNewPolicy is
 	}
 
 	function bookAndCalcRemainingPremium() internal returns (uint) {
-
 		uint v = msg.value;
 		uint reserve = v * reservePercent / 100;
 		uint remain = v - reserve;
@@ -61,7 +53,6 @@ contract FlightDelayNewPolicy is
 		FD_LG.bookkeeping(Acc.Premium, Acc.Reward, reward);
 
 		return (uint(remain - reward));
-
 	}
 
 	function maintenanceMode(bool _on) {
@@ -88,11 +79,9 @@ contract FlightDelayNewPolicy is
 		// don't Accept too low or too high policies
 
 		if (msg.value < minPremium || msg.value > maxPremium) {
-
 			LOG_PolicyDeclined(0, 'Invalid premium value');
 			FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
 			return;
-
 		}
 
     // don't Accept flights with departure time earlier than in 24 hours,
@@ -100,31 +89,25 @@ contract FlightDelayNewPolicy is
 		// or departureTime after Mon, 26 Sep 2016 12:00:00 GMT
 		uint dmy = to_Unixtime(_departureYearMonthDay);
 
-// #ifdef debug
+    // #ifdef debug
 		LOG_uint_time('NewPolicy: dmy: ', dmy);
 		LOG_uint_time('NewPolicy: _departureTime: ', _departureTime);
-// #endif
+    // #endif
 
-        if (
-			_arrivalTime < _departureTime ||
-			_arrivalTime > _departureTime + maxFlightDuration ||
-			_departureTime < now + minTimeBeforeDeparture ||
-			_departureTime > contractDeadline ||
-			_departureTime < dmy ||
-			_departureTime > dmy + 24 hours
-			) {
+    if (
+      _arrivalTime < _departureTime ||
+      _arrivalTime > _departureTime + maxFlightDuration ||
+      _departureTime < now + minTimeBeforeDeparture ||
+      _departureTime > contractDeadline ||
+      _departureTime < dmy ||
+      _departureTime > dmy + 24 hours
+    ) {
+      LOG_PolicyDeclined(0, 'Invalid arrival/departure time');
+      FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+      return;
+    }
 
-			LOG_PolicyDeclined(0, 'Invalid arrival/departure time');
-			FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-			return;
-
-        }
-
-		bytes32 riskId = FD_DB.createUpdateRisk(
-			_carrierFlightNumber,
-			_departureYearMonthDay,
-			_arrivalTime
-			);
+		bytes32 riskId = FD_DB.createUpdateRisk(_carrierFlightNumber, _departureYearMonthDay, _arrivalTime);
 
 		uint cumulatedWeightedPremium;
 		uint premiumMultiplier;
@@ -134,13 +117,10 @@ contract FlightDelayNewPolicy is
 		// (we Accept the inAccuracy that the real remaining premium is 3% lower),
 		// but we are conservative;
 		// if this is the first policy, the left side will be 0
-		if (msg.value * premiumMultiplier + cumulatedWeightedPremium >=
-			maxCumulatedWeightedPremium) {
-
+		if (msg.value * premiumMultiplier + cumulatedWeightedPremium >= maxCumulatedWeightedPremium) {
 			LOG_PolicyDeclined(0, 'Cluster risk');
 			FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
 			return;
-
 		} else if (cumulatedWeightedPremium == 0) {
 			// at the first police, we set r.cumulatedWeightedPremium to the max.
 			// this prevents further polices to be Accepted, until the correct
@@ -153,9 +133,10 @@ contract FlightDelayNewPolicy is
 
 		if (premiumMultiplier > 0) {
 			FD_DB.setPremiumFactors(
-				riskId,
-				cumulatedWeightedPremium + premium * premiumMultiplier,
-				premiumMultiplier);
+        riskId,
+        cumulatedWeightedPremium + premium * premiumMultiplier,
+        premiumMultiplier
+      );
 		}
 
 		// now we have successfully applied
@@ -163,7 +144,5 @@ contract FlightDelayNewPolicy is
 		LOG_PolicyApplied(policyId, msg.sender, _carrierFlightNumber, premium);
 
 		FD_UW.scheduleUnderwriteOraclizeCall(policyId, _carrierFlightNumber);
-
 	}
-
 }
