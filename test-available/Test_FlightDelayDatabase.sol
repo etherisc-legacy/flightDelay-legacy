@@ -14,9 +14,8 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/FlightDelayDatabase.sol";
 import "../contracts/convertLib.sol";
 
-contract Test_FlightDelayDatabase is
-  convertLib,
-  FlightDelayDatabaseModel {
+
+contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel {
 
 	// Fixture
 	uint policyId;

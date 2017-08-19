@@ -10,7 +10,8 @@
 
 pragma solidity @@include('./solidity_version_string.txt');
 
+
 contract FlightDelayUnderwriteInterface {
 
-	function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) {}
+    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber);
 }

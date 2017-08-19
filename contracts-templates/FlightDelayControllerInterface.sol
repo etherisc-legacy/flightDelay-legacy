@@ -10,9 +10,10 @@
 
 pragma solidity @@include('./solidity_version_string.txt');
 
+
 contract FlightDelayControllerInterface {
 
-  function selfRegister(bytes32 _id) returns (bool result) {}
+    function selfRegister(bytes32 _id) returns (bool result);
 
-  function getContract(bytes32 _id) returns (address _addr) {}
+    function getContract(bytes32 _id) returns (address _addr);
 }

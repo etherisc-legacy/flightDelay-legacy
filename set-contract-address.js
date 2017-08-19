@@ -1,62 +1,64 @@
 const Web3 = require('web3');
+
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 const newPolicy = require('./build/contracts/FlightDelayNewPolicy.json');
 
 const abi = [{
-  "constant": false,
-  "inputs": [],
-  "name": "getAddress",
-  "outputs": [{"name": "oaddr", "type": "address"}],
-  "payable": false,
-  "type": "function"
+    "constant": false,
+    "inputs": [],
+    "name": "getAddress",
+    "outputs": [{ "name": "oaddr", "type": "address" }],
+    "payable": false,
+    "type": "function"
 }, {
-  "constant": true,
-  "inputs": [],
-  "name": "addr",
-  "outputs": [{"name": "", "type": "address"}],
-  "payable": false,
-  "type": "function"
+    "constant": true,
+    "inputs": [],
+    "name": "addr",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "type": "function"
 }, {
-  "constant": false,
-  "inputs": [{"name": "newowner", "type": "address"}],
-  "name": "changeOwner",
-  "outputs": [],
-  "payable": false,
-  "type": "function"
+    "constant": false,
+    "inputs": [{ "name": "newowner", "type": "address" }],
+    "name": "changeOwner",
+    "outputs": [],
+    "payable": false,
+    "type": "function"
 }, {
-  "constant": false,
-  "inputs": [{"name": "newaddr", "type": "address"}],
-  "name": "setAddr",
-  "outputs": [],
-  "payable": false,
-  "type": "function"
-}, {"inputs": [], "payable": false, "type": "constructor"}];
+    "constant": false,
+    "inputs": [{ "name": "newaddr", "type": "address" }],
+    "name": "setAddr",
+    "outputs": [],
+    "payable": false,
+    "type": "function"
+}, { "inputs": [], "payable": false, "type": "constructor" }];
 
 const resolvers = {
-  kovan: {
-    address: '0x9e8e87e586e1337ac3207bd36f61a0e44619a24c',
-    networkId: 42,
-  },
-  ropsten: {
-    address: '0xc1cf879ca1c3bdfba7ea8c645823b48d4b8553ac',
-    networkId: 3,
-  },
-  mainnet: {
-    address: '',
-    networkId: 1,
-  },
+    kovan: {
+        address: '0x9e8e87e586e1337ac3207bd36f61a0e44619a24c',
+        networkId: 42,
+    },
+    ropsten: {
+        address: '0xc1cf879ca1c3bdfba7ea8c645823b48d4b8553ac',
+        networkId: 3,
+    },
+    mainnet: {
+        address: '',
+        networkId: 1,
+    },
 };
 
 // https://github.com/oraclize/ethereum-api/blob/master/connectors/addressResolver.sol
 const resolver = resolvers[process.argv[process.argv.length - 1]];
 
-const FlightDelay_AddressResolver = new web3.eth.Contract(abi, resolver.address);
+const FlightDelayAddressResolver = new web3.eth.Contract(abi, resolver.address);
 
-web3.eth.getCoinbase().then((coinbase) => {
-  FlightDelay_AddressResolver.methods.setAddr(
-      newPolicy.networks[resolver.networkId].address
-    ).send({from: coinbase}).on('receipt', function (receipt) {
-      console.log('New contract address is saved in block', receipt);
-    }).on('error', console.error);
-  }
-);
+web3.eth.getCoinbase()
+    .then((coinbase) => {
+        FlightDelayAddressResolver
+            .methods.setAddr(newPolicy.networks[resolver.networkId].address)
+            .send({ from: coinbase, })
+            .on('receipt', receipt =>
+                console.log('New contract address is saved in block', receipt))
+            .on('error', console.error);
+    });

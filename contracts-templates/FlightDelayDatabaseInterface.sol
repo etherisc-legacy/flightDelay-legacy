@@ -12,60 +12,69 @@ pragma solidity @@include('./solidity_version_string.txt');
 
 import "./FlightDelayDatabaseModel.sol";
 
-contract FlightDelayDatabaseInterface is
-  FlightDelayDatabaseModel {
 
-	function setAccessControl(address _contract, address _caller, uint8 _perm);
+contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
 
-	function setAccessControl(address _contract, address _caller, uint8 _perm, bool _access);
+    function setAccessControl(address _contract, address _caller, uint8 _perm);
 
-	function getAccessControl(address _contract, address _caller, uint8 _perm)
-		returns (bool _allowed);
+    function setAccessControl(
+        address _contract,
+        address _caller,
+        uint8 _perm,
+        bool _access
+    );
 
-	function setLedger(uint8 _index, int _value);
+    function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed);
 
-	function getLedger(uint8 _index)
-		returns (int _value);
+    function setLedger(uint8 _index, int _value);
 
-	function getCustomerPremium(uint _policyId)
-		returns (address _customer, uint _premium) {}
+    function getLedger(uint8 _index) returns (int _value);
 
-	function getPolicyData(uint _policyId)
-		returns (address _customer, uint _premium, uint _weight) {}
+    function getCustomerPremium(uint _policyId) returns (address _customer, uint _premium);
 
-	function getRiskId(uint _policyId)
-		returns (bytes32 _riskId) {}
+    function getPolicyData(uint _policyId) returns (address _customer, uint _premium, uint _weight);
 
-	function createPolicy(address _customer, uint _premium, bytes32 _riskId)
-		returns (uint _policyId) {}
+    function getRiskId(uint _policyId) returns (bytes32 _riskId);
 
-	function setState(uint _policyId, policyState _state, uint _stateTime, bytes32 _stateMessage) {}
+    function createPolicy(address _customer, uint _premium, bytes32 _riskId) returns (uint _policyId);
 
-	function setWeight(uint _policyId, uint _weight, bytes _proof) {}
+    function setState(
+        uint _policyId,
+        policyState _state,
+        uint _stateTime,
+        bytes32 _stateMessage
+    );
 
-	function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) {}
+    function setWeight(uint _policyId, uint _weight, bytes _proof);
 
-	function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) {}
+    function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout);
 
-	function getRiskParameters(bytes32 _riskId)
-		returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {}
+    function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes);
 
-	function getPremiumFactors(bytes32 _riskId)
-		returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {}
+    function getRiskParameters(bytes32 _riskId)
+        returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime);
 
-	function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime)
-		returns (bytes32 _riskId) {}
+    function getPremiumFactors(bytes32 _riskId)
+        returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier);
 
-	function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) {}
+    function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime)
+        returns (bytes32 _riskId);
 
-	function getOraclizeCallback(bytes32 _queryId)
-		returns (uint _policyId, uint _arrivalTime) {}
+    function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier);
 
-	function getOraclizePolicyId(bytes32 _queryId)
-    returns (uint _policyId) {}
+    function getOraclizeCallback(bytes32 _queryId)
+        returns (uint _policyId, uint _arrivalTime);
 
-	function createOraclizeCallback(bytes32 _queryId, uint _policyId, oraclizeState _oraclizeState, uint _oraclizeTime) {}
+    function getOraclizePolicyId(bytes32 _queryId)
+    returns (uint _policyId);
 
-	function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset)
-		returns (bool _result) {}
+    function createOraclizeCallback(
+        bytes32 _queryId,
+        uint _policyId,
+        oraclizeState _oraclizeState,
+        uint _oraclizeTime
+    );
+
+    function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset)
+        returns (bool _result);
 }

@@ -12,8 +12,8 @@ cd ../../
 echo "Wait bridge"
 until cat ./external/ethereum-bridge/bridge.log | grep "Listening @"
 do
-  echo -n .
-  sleep 1
+    echo -n .
+    sleep 1
 done
 
 ./migselect.sh

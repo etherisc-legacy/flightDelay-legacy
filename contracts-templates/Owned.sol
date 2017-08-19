@@ -10,29 +10,30 @@
 
 pragma solidity @@include('./solidity_version_string.txt');
 
+
 contract Owned {
 
-	address owner;
+    address owner;
 
-	modifier onlyOwner() {
-		if (owner != msg.sender) {
-			throw;
-		}
-		_;
-	}
+    modifier onlyOwner() {
+        if (owner != msg.sender) {
+            throw;
+        }
+        _;
+    }
 
-	/**
-	 * set a new owner.
-	 * @param _newOwner the new owner
-	 */
-	function setOwner(address _newOwner) onlyOwner {
-		owner = _newOwner;
-	}
+    /**
+     * set a new owner.
+     * @param _newOwner the new owner
+     */
+    function setOwner(address _newOwner) onlyOwner {
+        owner = _newOwner;
+    }
 
-	/**
-	 * Constructor
-	 */
-	function Owned() {
-		owner = msg.sender;
-	}
+    /**
+     * Constructor
+     */
+    function Owned() {
+        owner = msg.sender;
+    }
 }

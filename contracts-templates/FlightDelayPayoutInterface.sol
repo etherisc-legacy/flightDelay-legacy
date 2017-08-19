@@ -10,7 +10,8 @@
 
 pragma solidity @@include('./solidity_version_string.txt');
 
+
 contract FlightDelayPayoutInterface {
 
-	function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset) {}
+    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset);
 }

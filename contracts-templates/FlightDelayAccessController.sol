@@ -14,44 +14,53 @@ import "./FlightDelayControlledContract.sol";
 import "./FlightDelayDatabaseInterface.sol";
 import "./FlightDelayConstants.sol";
 
-contract FlightDelayAccessController is
-	FlightDelayControlledContract,
-	FlightDelayConstants {
 
-	FlightDelayDatabaseInterface FD_DB;
+contract FlightDelayAccessController is FlightDelayControlledContract, FlightDelayConstants {
 
-	function FlightDelayAccessController(address _controller) {
-		setController(_controller, 'FD.AccessController');
-	}
+    FlightDelayDatabaseInterface FD_DB;
 
-	function setContracts() onlyController {
-		FD_DB = FlightDelayDatabaseInterface(getContract('FD.Database'));
-	}
+    function FlightDelayAccessController(address _controller) {
+        setController(_controller, "FD.AccessController");
+    }
 
-	function setPermissionById(uint8 _perm, bytes32 _id) {
-		FD_DB.setAccessControl(msg.sender, FD_CI.getContract(_id), _perm);
-	}
+    function setContracts() onlyController {
+        FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
+    }
 
-	function setPermissionById(uint8 _perm, bytes32 _id, bool _access) {
-		FD_DB.setAccessControl(msg.sender, FD_CI.getContract(_id), _perm, _access);
-	}
+    function setPermissionById(uint8 _perm, bytes32 _id) {
+        FD_DB.setAccessControl(msg.sender, FD_CI.getContract(_id), _perm);
+    }
 
-	function setPermissionByAddress(uint8 _perm, address _addr) {
-		FD_DB.setAccessControl(msg.sender, _addr, _perm);
-	}
+    function setPermissionById(uint8 _perm, bytes32 _id, bool _access) {
+        FD_DB.setAccessControl(
+            msg.sender,
+            FD_CI.getContract(_id),
+            _perm,
+            _access
+        );
+    }
 
-	function setPermissionByAddress(uint8 _perm, address _addr, bool _access) {
-		FD_DB.setAccessControl(msg.sender, _addr, _perm, _access);
-	}
+    function setPermissionByAddress(uint8 _perm, address _addr) {
+        FD_DB.setAccessControl(msg.sender, _addr, _perm);
+    }
 
-	function checkPermission(uint8 _perm, address _addr) returns (bool _success) {
+    function setPermissionByAddress(uint8 _perm, address _addr, bool _access) {
+        FD_DB.setAccessControl(
+            msg.sender,
+            _addr,
+            _perm,
+            _access
+        );
+    }
+
+    function checkPermission(uint8 _perm, address _addr) returns (bool _success) {
     // #ifdef debug
-		LOG_uint('_perm', _perm);
-		LOG_address('_addr', _addr);
-		LOG_address('msg.sender', msg.sender);
-		LOG_bool('getAccessControl', FD_DB.getAccessControl(msg.sender, _addr, _perm));
+        LogUint("_perm", _perm);
+        LogAddress("_addr", _addr);
+        LogAddress("msg.sender", msg.sender);
+        LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, _addr, _perm));
     // #endif
 
-		return FD_DB.getAccessControl(msg.sender, _addr, _perm);
-	}
+        return FD_DB.getAccessControl(msg.sender, _addr, _perm);
+    }
 }

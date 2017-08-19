@@ -15,225 +15,259 @@ import "./FlightDelayDatabaseInterface.sol";
 import "./FlightDelayAccessControllerInterface.sol";
 import "./FlightDelayConstants.sol";
 
-contract FlightDelayDatabase is
-	FlightDelayControlledContract,
-	FlightDelayDatabaseInterface,
-	FlightDelayConstants {
 
-	// Table of policies
-	policy[] public policies;
+contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDatabaseInterface, FlightDelayConstants {
 
-	// Lookup policyIds from customer addresses
-	mapping (address => uint[]) public customerPolicies;
+    // Table of policies
+    Policy[] public policies;
 
-	// Lookup policy Ids from queryIds
-	mapping (bytes32 => oraclizeCallback) public oraclizeCallbacks;
+    // Lookup policyIds from customer addresses
+    mapping (address => uint[]) public customerPolicies;
 
-	// Lookup risks from risk IDs
-	mapping (bytes32 => risk) public risks;
+    // Lookup policy Ids from queryIds
+    mapping (bytes32 => OraclizeCallback) public oraclizeCallbacks;
 
-	// Lookup AccessControl
-	mapping(address => mapping(address => mapping(uint8 => bool))) public accessControl;
+    // Lookup risks from risk IDs
+    mapping (bytes32 => Risk) public risks;
 
-	// Lookup accounts of internal ledger
-	int[6] public ledger;
+    // Lookup AccessControl
+    mapping(address => mapping(address => mapping(uint8 => bool))) public accessControl;
 
-	FlightDelayAccessControllerInterface FD_AC;
+    // Lookup accounts of internal ledger
+    int[6] public ledger;
 
-	function FlightDelayDatabase (address _controller) {
-		setController(_controller, 'FD.Database');
-	}
+    FlightDelayAccessControllerInterface FD_AC;
 
-	function setContracts() onlyController {
-		FD_AC = FlightDelayAccessControllerInterface(getContract('FD.AccessController'));
+    function FlightDelayDatabase (address _controller) {
+        setController(_controller, "FD.Database");
+    }
 
-		FD_AC.setPermissionById(101, 'FD.NewPolicy');
-		FD_AC.setPermissionById(101, 'FD.Underwrite');
-		FD_AC.setPermissionById(101, 'FD.Payout');
-		FD_AC.setPermissionById(101, 'FD.Ledger');
-	}
+    function setContracts() onlyController {
+        FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
 
-	// Getter and Setter for AccessControl
-	function setAccessControl(address _contract, address _caller, uint8 _perm, bool _access) {
-		// one and only hardcoded accessControl
-		if (msg.sender != FD_CI.getContract('FD.AccessController')) throw;
-		accessControl[_contract][_caller][_perm] = _access;
-	}
+        FD_AC.setPermissionById(101, "FD.NewPolicy");
+        FD_AC.setPermissionById(101, "FD.Underwrite");
+        FD_AC.setPermissionById(101, "FD.Payout");
+        FD_AC.setPermissionById(101, "FD.Ledger");
+    }
 
-	function setAccessControl(address _contract, address _caller, uint8 _perm) {
-		setAccessControl(_contract, _caller, _perm, true);
-	}
+    // Getter and Setter for AccessControl
+    function setAccessControl(
+        address _contract,
+        address _caller,
+        uint8 _perm,
+        bool _access
+    ) {
+        // one and only hardcoded accessControl
+        if (msg.sender != FD_CI.getContract("FD.AccessController")) {
+            throw;
+        }
+        accessControl[_contract][_caller][_perm] = _access;
+    }
 
-	function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed) {
-		return accessControl[_contract][_caller][_perm];
-	}
+    function setAccessControl(address _contract, address _caller, uint8 _perm) {
+        setAccessControl(
+            _contract,
+            _caller,
+            _perm,
+            true
+        );
+    }
 
-	// Getter and Setter for ledger
-	function setLedger(uint8 _index, int _value) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+    function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed) {
+        return accessControl[_contract][_caller][_perm];
+    }
 
-		int previous = ledger[_index];
-		ledger[_index] += _value;
+    // Getter and Setter for ledger
+    function setLedger(uint8 _index, int _value) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-    // #ifdef debug
-		LOG_int('previous', previous);
-		LOG_int('ledger[_index]', ledger[_index]);
-		LOG_int('_value', _value);
-    // #endif
+        int previous = ledger[_index];
+        ledger[_index] += _value;
 
-		// check for int overflow
-		if (_value < 0 && ledger[_index] > previous) {
-			throw;
-		} else if (_value > 0 && ledger[_index] < previous) {
-			throw;
-		}
-	}
+        // #ifdef debug
+        LogInt("previous", previous);
+        LogInt("ledger[_index]", ledger[_index]);
+        LogInt("_value", _value);
+        // #endif
 
-	function getLedger(uint8 _index) returns (int _value) {
-		return ledger[_index];
-	}
+        // check for int overflow
+        if (_value < 0 && ledger[_index] > previous) {
+            throw;
+        } else if (_value > 0 && ledger[_index] < previous) {
+            throw;
+        }
+    }
 
-	// Getter and Setter for policies
-	function getCustomerPremium(uint _policyId) returns (address _customer, uint _premium) {
-		policy p = policies[_policyId];
-		_customer = p.customer;
-		_premium = p.premium;
-	}
+    function getLedger(uint8 _index) returns (int _value) {
+        return ledger[_index];
+    }
 
-	function getPolicyData(uint _policyId) returns (address _customer, uint _weight, uint _premium) {
-		policy p = policies[_policyId];
-		_customer = p.customer;
-		_weight = p.weight;
-		_premium = p.premium;
-	}
+    // Getter and Setter for policies
+    function getCustomerPremium(uint _policyId) returns (address _customer, uint _premium) {
+        Policy p = policies[_policyId];
+        _customer = p.customer;
+        _premium = p.premium;
+    }
 
-	function getRiskId(uint _policyId) returns (bytes32 _riskId) {
-		policy p = policies[_policyId];
-		_riskId = p.riskId;
-	}
+    function getPolicyData(uint _policyId) returns (address _customer, uint _weight, uint _premium) {
+        Policy p = policies[_policyId];
+        _customer = p.customer;
+        _weight = p.weight;
+        _premium = p.premium;
+    }
 
-	function createPolicy(address _customer, uint _premium, bytes32 _riskId) returns (uint _policyId) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+    function getRiskId(uint _policyId) returns (bytes32 _riskId) {
+        Policy p = policies[_policyId];
+        _riskId = p.riskId;
+    }
 
-		_policyId = policies.length++;
-		customerPolicies[_customer].push(_policyId);
-		policy p = policies[_policyId];
+    function createPolicy(address _customer, uint _premium, bytes32 _riskId) returns (uint _policyId) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		p.customer = _customer;
-		p.premium = _premium;
-		p.riskId = _riskId;
-	}
+        _policyId = policies.length++;
+        customerPolicies[_customer].push(_policyId);
+        Policy p = policies[_policyId];
 
-	function setState(uint _policyId, policyState _state, uint _stateTime, bytes32 _stateMessage) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+        p.customer = _customer;
+        p.premium = _premium;
+        p.riskId = _riskId;
+    }
 
-		LOG_SetState(_policyId, uint8(_state), _stateTime, _stateMessage);
+    function setState(
+        uint _policyId,
+        policyState _state,
+        uint _stateTime,
+        bytes32 _stateMessage
+    ) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		policy p = policies[_policyId];
+        LogSetState(
+            _policyId,
+            uint8(_state),
+            _stateTime,
+            _stateMessage
+        );
 
-		p.state = _state;
-		p.stateTime = _stateTime;
-		p.stateMessage = _stateMessage;
-	}
+        Policy p = policies[_policyId];
 
-	function setWeight(uint _policyId, uint _weight, bytes _proof) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+        p.state = _state;
+        p.stateTime = _stateTime;
+        p.stateMessage = _stateMessage;
+    }
 
-		policy p = policies[_policyId];
+    function setWeight(uint _policyId, uint _weight, bytes _proof) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		p.weight = _weight;
-		p.proof = _proof;
-	}
+        Policy p = policies[_policyId];
 
-	function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+        p.weight = _weight;
+        p.proof = _proof;
+    }
 
-		policy p = policies[_policyId];
+    function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		p.calculatedPayout = _calculatedPayout;
-		p.actualPayout = _actualPayout;
-	}
+        Policy p = policies[_policyId];
 
-	function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+        p.calculatedPayout = _calculatedPayout;
+        p.actualPayout = _actualPayout;
+    }
 
-		risk r = risks[policies[_policyId].riskId];
+    function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		r.delay = _delay;
-		r.delayInMinutes = _delayInMinutes;
-	}
+        Risk r = risks[policies[_policyId].riskId];
 
-	// Getter and Setter for risks
-	function getRiskParameters(bytes32 _riskId)
-		returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
+        r.delay = _delay;
+        r.delayInMinutes = _delayInMinutes;
+    }
 
-		risk r = risks[_riskId];
-		_carrierFlightNumber = r.carrierFlightNumber;
-		_departureYearMonthDay = r.departureYearMonthDay;
-		_arrivalTime = r.arrivalTime;
-	}
+    // Getter and Setter for risks
+    function getRiskParameters(bytes32 _riskId) returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
+        Risk r = risks[_riskId];
+        _carrierFlightNumber = r.carrierFlightNumber;
+        _departureYearMonthDay = r.departureYearMonthDay;
+        _arrivalTime = r.arrivalTime;
+    }
 
-	function getPremiumFactors(bytes32 _riskId)
-    returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
-			risk r = risks[_riskId];
-			_cumulatedWeightedPremium = r.cumulatedWeightedPremium;
-			_premiumMultiplier = r.premiumMultiplier;
-	}
+    function getPremiumFactors(bytes32 _riskId) returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
+        Risk r = risks[_riskId];
+        _cumulatedWeightedPremium = r.cumulatedWeightedPremium;
+        _premiumMultiplier = r.premiumMultiplier;
+    }
 
-	function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime)
-		returns (bytes32 _riskId) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+    function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) returns (bytes32 _riskId) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		_riskId = sha3 (
-			_carrierFlightNumber,
-			_departureYearMonthDay,
-			_arrivalTime
-		);
+        _riskId = sha3 (
+            _carrierFlightNumber,
+            _departureYearMonthDay,
+            _arrivalTime
+        );
 
-		risk r = risks[_riskId];
+        Risk r = risks[_riskId];
 
-		if (r.premiumMultiplier == 0) {
-			r.carrierFlightNumber = _carrierFlightNumber;
-			r.departureYearMonthDay = _departureYearMonthDay;
-			r.arrivalTime = _arrivalTime;
-		}
-	}
+        if (r.premiumMultiplier == 0) {
+            r.carrierFlightNumber = _carrierFlightNumber;
+            r.departureYearMonthDay = _departureYearMonthDay;
+            r.arrivalTime = _arrivalTime;
+        }
+    }
 
-	function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+    function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		risk r = risks[_riskId];
-		r.cumulatedWeightedPremium = _cumulatedWeightedPremium;
-		r.premiumMultiplier = _premiumMultiplier;
-	}
+        Risk r = risks[_riskId];
+        r.cumulatedWeightedPremium = _cumulatedWeightedPremium;
+        r.premiumMultiplier = _premiumMultiplier;
+    }
 
-	// Getter and Setter for oraclizeCallbacks
-	function getOraclizeCallback(bytes32 _queryId) returns (uint _policyId, uint _arrivalTime) {
-		_policyId = oraclizeCallbacks[_queryId].policyId;
-		_arrivalTime = risks[policies[_policyId].riskId].arrivalTime;
-	}
+    // Getter and Setter for oraclizeCallbacks
+    function getOraclizeCallback(bytes32 _queryId) returns (uint _policyId, uint _arrivalTime) {
+        _policyId = oraclizeCallbacks[_queryId].policyId;
+        _arrivalTime = risks[policies[_policyId].riskId].arrivalTime;
+    }
 
-	function getOraclizePolicyId(bytes32 _queryId) returns (uint _policyId) {
-		oraclizeCallback o = oraclizeCallbacks[_queryId];
-		_policyId = o.policyId;
-	}
+    function getOraclizePolicyId(bytes32 _queryId) returns (uint _policyId) {
+        OraclizeCallback o = oraclizeCallbacks[_queryId];
+        _policyId = o.policyId;
+    }
 
-	function createOraclizeCallback(
-		bytes32 _queryId,
-		uint _policyId,
-		oraclizeState _oraclizeState,
-		uint _oraclizeTime) {
+    function createOraclizeCallback(
+        bytes32 _queryId,
+        uint _policyId,
+        oraclizeState _oraclizeState,
+        uint _oraclizeTime) {
 
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		oraclizeCallbacks[_queryId] = oraclizeCallback(_policyId, _oraclizeState, _oraclizeTime);
-	}
+        oraclizeCallbacks[_queryId] = OraclizeCallback(_policyId, _oraclizeState, _oraclizeTime);
+    }
 
-	// mixed
-	function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset) returns (bool _result) {
-		oraclizeCallback o = oraclizeCallbacks[_queryId];
-		risk r = risks[_riskId];
+    // mixed
+    function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset) returns (bool _result) {
+        OraclizeCallback o = oraclizeCallbacks[_queryId];
+        Risk r = risks[_riskId];
 
-		_result = o.oraclizeTime > r.arrivalTime + _offset;
-	}
+        _result = o.oraclizeTime > r.arrivalTime + _offset;
+    }
 }

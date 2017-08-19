@@ -3,28 +3,34 @@
   Copyright (c) 2016 Oraclize LTD
 */
 
-contract FlightDelay_AddressResolver {
+pragma solidity ^0.4.8;
 
-  address public addr;
 
-  address owner;
+contract FlightDelayAddressResolver {
 
-  function FlightDelay_AddressResolver(){
-    owner = msg.sender;
-  }
+    address public addr;
 
-  function changeOwner(address newowner){
-    if (msg.sender != owner) throw;
-    owner = newowner;
-  }
+    address owner;
 
-  function getAddress() constant returns (address addr){
-    return addr;
-  }
+    function FlightDelayAddressResolver() {
+        owner = msg.sender;
+    }
 
-  function setAddr(address newaddr){
-    if (msg.sender != owner) throw;
-    addr = newaddr;
-  }
+    function changeOwner(address _owner) {
+        if (msg.sender != owner) {
+            throw;
+        }
+        owner = _owner;
+    }
 
+    function getAddress() constant returns (address _addr) {
+        return addr;
+    }
+
+    function setAddr(address _addr) {
+        if (msg.sender != owner) {
+            throw;
+        }
+        addr = _addr;
+    }
 }

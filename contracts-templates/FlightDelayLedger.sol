@@ -16,73 +16,79 @@ import "./FlightDelayDatabaseInterface.sol";
 import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayConstants.sol";
 
-contract FlightDelayLedger is
-	FlightDelayControlledContract,
-	FlightDelayLedgerInterface,
-	FlightDelayConstants {
 
-	FlightDelayDatabaseInterface FD_DB;
-	FlightDelayAccessControllerInterface FD_AC;
+contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerInterface, FlightDelayConstants {
 
-	function FlightDelayLedger(address _controller) payable {
-		setController(_controller, 'FD.Ledger');
-	}
+    FlightDelayDatabaseInterface FD_DB;
+    FlightDelayAccessControllerInterface FD_AC;
 
-	function setContracts() onlyController {
-		FD_AC = FlightDelayAccessControllerInterface(getContract('FD.AccessController'));
-		FD_DB = FlightDelayDatabaseInterface(getContract('FD.Database'));
+    function FlightDelayLedger(address _controller) payable {
+        setController(_controller, "FD.Ledger");
+    }
 
-		FD_AC.setPermissionById(101, 'FD.NewPolicy');
-		FD_AC.setPermissionById(101, 'FD.Owner');
-		FD_AC.setPermissionById(102, 'FD.Payout');
-		FD_AC.setPermissionById(102, 'FD.Owner');
-		FD_AC.setPermissionById(103, 'FD.NewPolicy');
-    FD_AC.setPermissionById(102, 'FD.Underwrite');
-		FD_AC.setPermissionById(103, 'FD.Underwrite');
-		FD_AC.setPermissionById(103, 'FD.Payout');
-		FD_AC.setPermissionById(103, 'FD.Ledger');
+    function setContracts() onlyController {
+        FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
+        FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
 
-		bookkeeping(Acc.Balance, Acc.RiskFund, this.balance);
-	}
+        FD_AC.setPermissionById(101, "FD.NewPolicy");
+        FD_AC.setPermissionById(101, "FD.Owner");
+        FD_AC.setPermissionById(102, "FD.Payout");
+        FD_AC.setPermissionById(102, "FD.Owner");
+        FD_AC.setPermissionById(103, "FD.NewPolicy");
+        FD_AC.setPermissionById(102, "FD.Underwrite");
+        FD_AC.setPermissionById(103, "FD.Underwrite");
+        FD_AC.setPermissionById(103, "FD.Payout");
+        FD_AC.setPermissionById(103, "FD.Ledger");
 
-	function receiveFunds(Acc _to) payable {
-		if (!FD_AC.checkPermission(101, msg.sender)) throw;
+        bookkeeping(Acc.Balance, Acc.RiskFund, this.balance);
+    }
 
-		LOG_ReceiveFunds(msg.sender, uint8(_to), msg.value);
+    function receiveFunds(Acc _to) payable {
+        if (!FD_AC.checkPermission(101, msg.sender)) {
+            throw;
+        }
 
-		bookkeeping(Acc.Balance, _to, msg.value);
-	}
+        LogReceiveFunds(msg.sender, uint8(_to), msg.value);
 
-	function sendFunds(address _recipient, Acc _from, uint _amount) returns (bool _success) {
-		if (!FD_AC.checkPermission(102, msg.sender)) return false;
-		if (this.balance < _amount) return false; // unsufficient funds
+        bookkeeping(Acc.Balance, _to, msg.value);
+    }
 
-		LOG_SendFunds(_recipient, uint8(_from), _amount);
+    function sendFunds(address _recipient, Acc _from, uint _amount) returns (bool _success) {
+        if (!FD_AC.checkPermission(102, msg.sender)) {
+            return false;
+        }
 
-		bookkeeping(_from, Acc.Balance, _amount);      // cash out payout
+        if (this.balance < _amount) {
+            return false; // unsufficient funds
+        }
 
-		if (!_recipient.send(_amount))  {
-			bookkeeping(Acc.Balance, _from, _amount);
-			_success = false;
-		} else {
-			_success = true;
-		}
-	}
+        LogSendFunds(_recipient, uint8(_from), _amount);
 
-	// invariant: acc_Premium + acc_RiskFund + acc_Payout
-	//						+ acc_Balance + acc_Reward == 0
+        bookkeeping(_from, Acc.Balance, _amount);      // cash out payout
 
-	function bookkeeping(Acc _from, Acc _to, uint _amount) {
+        if (!_recipient.send(_amount)) {
+            bookkeeping(Acc.Balance, _from, _amount);
+            _success = false;
+        } else {
+            _success = true;
+        }
+    }
 
-		if (!FD_AC.checkPermission(103, msg.sender)) return;
+    // invariant: acc_Premium + acc_RiskFund + acc_Payout
+    //						+ acc_Balance + acc_Reward == 0
 
-		// check against type cast overflow
-		if (int(_amount) < 0) {
-			throw;
-		}
+    function bookkeeping(Acc _from, Acc _to, uint _amount) {
+        if (!FD_AC.checkPermission(103, msg.sender)) {
+            return;
+        }
 
-		// overflow check is done in FD_DB
-		FD_DB.setLedger(uint8(_from), -int(_amount));
-		FD_DB.setLedger(uint8(_to  ),  int(_amount));
-	}
+        // check against type cast overflow
+        if (int(_amount) < 0) {
+            throw;
+        }
+
+        // overflow check is done in FD_DB
+        FD_DB.setLedger(uint8(_from), -int(_amount));
+        FD_DB.setLedger(uint8(_to), int(_amount));
+    }
 }
