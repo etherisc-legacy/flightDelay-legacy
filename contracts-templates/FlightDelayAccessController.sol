@@ -54,12 +54,12 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
     }
 
     function checkPermission(uint8 _perm, address _addr) returns (bool _success) {
-    // #ifdef debug
+        // #ifdef debug
         LogUint("_perm", _perm);
         LogAddress("_addr", _addr);
         LogAddress("msg.sender", msg.sender);
         LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, _addr, _perm));
-    // #endif
+        // #endif
 
         return FD_DB.getAccessControl(msg.sender, _addr, _perm);
     }

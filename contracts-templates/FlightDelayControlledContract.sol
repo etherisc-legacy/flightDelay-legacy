@@ -20,9 +20,7 @@ contract FlightDelayControlledContract is FlightDelayDatabaseModel {
     FlightDelayControllerInterface FD_CI;
 
     modifier onlyController() {
-        if (msg.sender != controller) {
-            throw;
-         }
+        require(msg.sender == controller);
         _;
     }
 

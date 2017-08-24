@@ -32,21 +32,21 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
         FD_AC.setPermissionById(101, "FD.Owner");
+
         FD_AC.setPermissionById(102, "FD.Payout");
         FD_AC.setPermissionById(102, "FD.Owner");
-        FD_AC.setPermissionById(103, "FD.NewPolicy");
         FD_AC.setPermissionById(102, "FD.Underwrite");
+
         FD_AC.setPermissionById(103, "FD.Underwrite");
         FD_AC.setPermissionById(103, "FD.Payout");
         FD_AC.setPermissionById(103, "FD.Ledger");
+        FD_AC.setPermissionById(103, "FD.NewPolicy");
 
         bookkeeping(Acc.Balance, Acc.RiskFund, this.balance);
     }
 
     function receiveFunds(Acc _to) payable {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         LogReceiveFunds(msg.sender, uint8(_to), msg.value);
 
@@ -54,9 +54,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
     }
 
     function sendFunds(address _recipient, Acc _from, uint _amount) returns (bool _success) {
-        if (!FD_AC.checkPermission(102, msg.sender)) {
-            return false;
-        }
+        require(FD_AC.checkPermission(102, msg.sender));
 
         if (this.balance < _amount) {
             return false; // unsufficient funds
@@ -64,7 +62,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
 
         LogSendFunds(_recipient, uint8(_from), _amount);
 
-        bookkeeping(_from, Acc.Balance, _amount);      // cash out payout
+        bookkeeping(_from, Acc.Balance, _amount); // cash out payout
 
         if (!_recipient.send(_amount)) {
             bookkeeping(Acc.Balance, _from, _amount);
@@ -74,8 +72,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         }
     }
 
-    // invariant: acc_Premium + acc_RiskFund + acc_Payout
-    //						+ acc_Balance + acc_Reward == 0
+    // invariant: acc_Premium + acc_RiskFund + acc_Payout + acc_Balance + acc_Reward == 0
 
     function bookkeeping(Acc _from, Acc _to, uint _amount) {
         if (!FD_AC.checkPermission(103, msg.sender)) {

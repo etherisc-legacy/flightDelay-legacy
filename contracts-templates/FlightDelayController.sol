@@ -23,9 +23,7 @@ contract FlightDelayController is Owned {
     * Only Owner.
     */
     modifier onlyOwner {
-        if (msg.sender != owner) {
-            throw;
-        }
+        require(msg.sender == owner);
         _;
     }
 
@@ -33,9 +31,7 @@ contract FlightDelayController is Owned {
     * Initiator of Transaction must be owner. Important for deploying contracts.
     */
     modifier onlyOwnerTx {
-        if (tx.origin != owner) {
-            throw;
-        }
+        require(tx.origin == owner);
         _;
     }
 

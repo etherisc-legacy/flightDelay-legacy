@@ -45,9 +45,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
     }
 
     function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         string memory oraclizeUrl = strConcat(
             ORACLIZE_RATINGS_BASE_URL,
@@ -59,7 +57,6 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         LogUint("_policyId", _policyId);
         LogBytes32Str("_carrierFlightNumber",_carrierFlightNumber);
         LogString("oraclizeUrl", oraclizeUrl);
-        LogAddress("OAR.getaddress()", OAR.getAddress());
         // #endif
 
         bytes32 queryId = oraclize_query("nested", oraclizeUrl, ORACLIZE_GAS);

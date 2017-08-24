@@ -16,9 +16,7 @@ contract Owned {
     address owner;
 
     modifier onlyOwner() {
-        if (owner != msg.sender) {
-            throw;
-        }
+        require(owner == msg.sender);
         _;
     }
 

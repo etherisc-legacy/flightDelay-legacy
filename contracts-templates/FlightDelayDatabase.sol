@@ -214,7 +214,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
             throw;
         }
 
-        _riskId = sha3 (
+        _riskId = sha3(
             _carrierFlightNumber,
             _departureYearMonthDay,
             _arrivalTime

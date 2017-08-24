@@ -42,9 +42,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
     }
 
     function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _oraclizeTime) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         var (carrierFlightNumber, departureYearMonthDay,) = FD_DB.getRiskParameters(_riskId);
 

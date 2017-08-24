@@ -34,6 +34,7 @@ const doTests = [
 const logger = new Logformatter(web3);
 const EventsSeen = [];
 
+const FlightDelayController = artifacts.require('FlightDelayController');
 const FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
 const FlightDelayDatabase = artifacts.require('FlightDelayDatabase');
 const FlightDelayLedger = artifacts.require('FlightDelayLedger');
@@ -116,7 +117,12 @@ contract('FlightDelayNewPolicy', (accounts) => {
             logger.logLine('Testing', args.shouldDoSomething, 'info');
             EventsSeen.length = 0;
 
-            return FlightDelayAccessController.deployed()
+            return FlightDelayController.deployed()
+                .then((instance) => {
+                    instances.CT = instance;
+                    logWatcher(instance);
+                    return FlightDelayAccessController.deployed();
+                })
                 .then((instance) => {
                     instances.AC = instance;
                     logWatcher(instance);
@@ -148,6 +154,7 @@ contract('FlightDelayNewPolicy', (accounts) => {
 
                     logger.emptyLine(5, 'verbose');
 
+                    logger.logLine('Controller       Address: ', instances.CT.address, 'verbose');
                     logger.logLine('AccessController Address: ', instances.AC.address, 'verbose');
                     logger.logLine('Database         Address: ', instances.DB.address, 'verbose');
                     logger.logLine('Ledger           Address: ', instances.LG.address, 'verbose');
