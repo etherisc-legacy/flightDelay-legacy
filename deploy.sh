@@ -36,8 +36,8 @@ sleep 5
 echo "Synchronising with network"
 until curl --data '{"jsonrpc":"2.0","method":"eth_syncing", "id":1}' -H "Content-Type: application/json" -s localhost:8545 | grep 'false'
 do
-  curl --data '{"jsonrpc":"2.0","method":"eth_syncing", "id":1}' -H "Content-Type: application/json" -s localhost:8545
-  sleep 3
+    curl --data '{"jsonrpc":"2.0","method":"eth_syncing", "id":1}' -H "Content-Type: application/json" -s localhost:8545
+    sleep 3
 done
 
 echo "Preprocess contracts"

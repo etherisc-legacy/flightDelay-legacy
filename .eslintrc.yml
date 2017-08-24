@@ -1,21 +1,22 @@
 env:
-  node: true
-  mocha: true
+    node: true
+    mocha: true
 
 extends:
-  - airbnb-base
+    - airbnb-base
 
 globals:
-  artifacts: true
-  web3: true
-  contract: true
-  assert: true
+    artifacts: true
+    web3: true
+    contract: true
+    assert: true
 
 rules:
-  comma-dangle:
-    - error
-    - arrays: always
-      objects: always
-      imports: never
-      exports: never
-      functions: ignore
+    indent: [ "error", 4 ]
+    comma-dangle:
+        - error
+        - arrays: always
+          objects: always
+          imports: never
+          exports: never
+          functions: ignore

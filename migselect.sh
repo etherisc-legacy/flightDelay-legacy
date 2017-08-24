@@ -13,6 +13,7 @@ rm *
 #
 ln -s ../migrations-available/302_deploy_Other.js 302_deploy_Other.js
 
+
 #
 #	List selected migrations
 #
