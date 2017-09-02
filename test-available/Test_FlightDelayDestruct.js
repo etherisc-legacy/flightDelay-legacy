@@ -18,7 +18,7 @@ const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite');
 const FlightDelayPayout = artifacts.require('FlightDelayPayout');
 
 
-contract('FlightDelayNewPolicy', (accounts) => {
+contract('Test group: Destruct all contracts', (accounts) => {
     it('should destroy all contracts and refund to owner', async () => {
         const instances = {};
         let grandTotal = 0;
@@ -31,36 +31,37 @@ contract('FlightDelayNewPolicy', (accounts) => {
         instances.UW = await FlightDelayUnderwrite.deployed();
         instances.PY = await FlightDelayPayout.deployed();
 
-        const accountBalance = web3.fromWei(await web3.eth.getBalance(accounts[0]), 'ether').toFixed(2);
+        const accountBalance = web3.fromWei(await web3.eth.getBalance(accounts[1]), 'ether').toFixed(2);
         grandTotal += Number(accountBalance);
-        log(grandTotal);
-        log('Acc Balance before: ', accountBalance);
+        log.info(`Acc Balance before: ${grandTotal}`);
 
         const CTBalance = web3.fromWei(await web3.eth.getBalance(instances.CT.address), 'ether').toFixed(2);
         grandTotal += Number(CTBalance);
-        log('CT Balance: ', CTBalance);
+        log.info(`CT Balance: ${CTBalance}`);
 
         const LGBalance = web3.fromWei(await web3.eth.getBalance(instances.LG.address), 'ether').toFixed(2);
         grandTotal += Number(LGBalance);
-        log('LG Balance: ', LGBalance);
+        log.info(`LG Balance: ${LGBalance}`);
 
         const UWBalance = web3.fromWei(await web3.eth.getBalance(instances.UW.address), 'ether').toFixed(2);
         grandTotal += Number(UWBalance);
-        log('UW Balance: ', UWBalance);
+        log.info(`UW Balance: ${UWBalance}`);
 
         const PYBalance = web3.fromWei(await web3.eth.getBalance(instances.PY.address), 'ether').toFixed(2);
         grandTotal += Number(PYBalance);
-        log('PY Balance: ', PYBalance);
+        log.info(`PY Balance: ${PYBalance}`);
 
-        await instances.CT.destructAll({
-            from: accounts[0],
+        const { logs } = await instances.CT.destructAll({
+            from: accounts[1],
             gas: 4700000,
         });
 
-        const newBalance = web3.fromWei(await web3.eth.getBalance(accounts[0]), 'ether').toFixed(2);
+        console.log(logs);
+
+        const newBalance = web3.fromWei(await web3.eth.getBalance(accounts[1]), 'ether').toFixed(2);
         grandTotal -= newBalance;
-        log('Acc. Balance after: ', newBalance);
-        log('Diff              : ', grandTotal.toFixed(2));
+        log.info(`Acc. Balance after: ${newBalance}`);
+        log.info(`Diff              : ${grandTotal.toFixed(2)}`);
 
         assert(grandTotal < 0.1, 'Diff should be less than 0.01 ETH');
     });

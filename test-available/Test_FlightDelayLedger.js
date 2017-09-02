@@ -11,31 +11,7 @@ const FlightDelayLedger = artifacts.require('FlightDelayLedger');
 
 
 contract('FlightDelayLedger', () => {
-    it('should have a balance of 0 in all accounts at startup', async () => {
-        const FD_LG = await FlightDelayLedger.deployed();
 
-        return FD_LG.ledger(0).then((balance) => {
-            assert.equal(balance.valueOf(), 0, '0 wasnt in the first account');
-        });
-    }); // it
-
-    it('should throw on invalid index', () => {
-        const FD_LG = FlightDelayLedger.deployed();
-        let itPasses = false;
-
-        return FD_LG.ledger(6).then(() => {
-            itPasses = true;
-            assert.fail();
-        })
-            .catch(() => assert.fail())
-            .then(() => {
-                if (itPasses) {
-                    assert.fail('should throw, but doesn`t');
-                } else {
-                    assert.isOk('it throws as expected');
-                }
-            });
-    });
 
     it('should have equal balances in accounts after booking', () => {
         const FD_LG = FlightDelayLedger.deployed();

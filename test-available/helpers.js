@@ -1,3 +1,10 @@
+/**
+ * Destruct all contracts
+ *
+ * @param {any} artifacts
+ * @param {any} accounts
+ * @returns
+ */
 function after(artifacts, accounts) {
     return async () => {
         const FDC = await artifacts.require('FlightDelayController').deployed();

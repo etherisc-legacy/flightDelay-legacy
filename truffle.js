@@ -24,7 +24,7 @@ module.exports = {
             from2: '0x1d45c059e511241a5c1b3081e56302a59621c94c', // to unlock second account in parity
             gas: 6000000,
         },
-        testrpc: {
+        development: {
             // host: 'docker.for.mac.localhost',
             host: 'localhost',
             port: 9545,

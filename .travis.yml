@@ -34,10 +34,10 @@ env:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./deploy.sh kovan
+    script: ./ci_cd/deploy.sh kovan
     on:
       branch: develop
   - provider: script
-    script: deploy.sh mainnet
+    script: ./ci_cd/deploy.sh mainnet
     on:
       branch: master
