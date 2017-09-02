@@ -6,41 +6,38 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./Owned.sol";
 import "./FlightDelayControlledContract.sol";
+import "./FlightDelayConstants.sol";
 
+contract FlightDelayController is Owned, FlightDelayConstants {
 
-contract FlightDelayController is Owned {
+    struct Controller {
+        address addr;
+        bool isControlled;
+    }
 
-    mapping (bytes32 => address) public contracts;
+    mapping (bytes32 => Controller) public contracts;
     bytes32[] public contractIds;
-
-    /**
-    * Only Owner.
-    */
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
-    }
-
-    /**
-    * Initiator of Transaction must be owner. Important for deploying contracts.
-    */
-    modifier onlyOwnerTx {
-        require(tx.origin == owner);
-        _;
-    }
 
     /**
     * Constructor.
     */
-    function FlightDelayController() payable {
-        owner = msg.sender;
-        selfRegister("FD.Owner");
+    function FlightDelayController() {
+        registerContract(owner, "FD.Owner", false);
+        registerContract(address(this), "FD.Controller", false);
+    }
+
+    /**
+     * @dev Allows the current owner to transfer control of the contract to a newOwner.
+     * @param _newOwner The address to transfer ownership to.
+     */
+    function transferOwnership(address _newOwner) onlyOwner {
+        require(_newOwner != address(0));
+        owner = _newOwner;
+        setContract(_newOwner, "FD.Owner", false);
     }
 
     /**
@@ -48,8 +45,9 @@ contract FlightDelayController is Owned {
     * @param _addr       Address of contract
     * @param _id         ID of contract
     */
-    function setContract(address _addr, bytes32 _id) internal {
-        contracts[_id] = _addr;
+    function setContract(address _addr, bytes32 _id, bool _isControlled) internal {
+        contracts[_id].addr = _addr;
+        contracts[_id].isControlled = _isControlled;
     }
 
     /**
@@ -59,18 +57,17 @@ contract FlightDelayController is Owned {
     * @return The address of the contract.
     */
     function getContract(bytes32 _id) returns (address) {
-        return contracts[_id];
+        return contracts[_id].addr;
     }
 
     /**
-    * Self-registration of contracts.
-    * During deployment, the constructor call this via the setController function.
+    * Registration of contracts.
     * It will only accept calls of deployments initiated by the owner.
     * @param _id         ID of contract
     * @return  bool        success
     */
-    function selfRegister(bytes32 _id) onlyOwnerTx returns (bool result) {
-        setContract(msg.sender, _id);
+    function registerContract(address _addr, bytes32 _id, bool _isControlled) onlyOwner returns (bool result) {
+        setContract(_addr, _id, _isControlled);
         contractIds.push(_id);
         return true;
     }
@@ -85,7 +82,7 @@ contract FlightDelayController is Owned {
         if (getContract(_id) == 0x0) {
             return false;
         }
-        setContract(0x0, _id);
+        setContract(0x0, _id, false);
         return true;
     }
 
@@ -96,20 +93,21 @@ contract FlightDelayController is Owned {
     * We assume that contractIds.length is small, so this won't run out of gas.
     */
     function setAllContracts() onlyOwner {
-        uint i;
         FlightDelayControlledContract controlledContract;
         // TODO: Check for upper bound for i
-        // i = 0 is FD.Owner, we skip this.
-        for (i = 1; i < contractIds.length; i++) {
-            controlledContract = FlightDelayControlledContract(contracts[contractIds[i]]);
-            controlledContract.setContracts();
+        // i = 0 is FD.Owner, we skip this. // check!
+        for (uint i = 0; i < contractIds.length; i++) {
+            if (contracts[contractIds[i]].isControlled == true) {
+                controlledContract = FlightDelayControlledContract(contracts[contractIds[i]].addr);
+                controlledContract.setContracts();
+            }
         }
     }
 
     function setOneContract(uint i) onlyOwner {
         FlightDelayControlledContract controlledContract;
         // TODO: Check for upper bound for i
-        controlledContract = FlightDelayControlledContract(contracts[contractIds[i]]);
+        controlledContract = FlightDelayControlledContract(contracts[contractIds[i]].addr);
         controlledContract.setContracts();
     }
 
@@ -130,10 +128,11 @@ contract FlightDelayController is Owned {
     * Otherwise, you can still destroy one contract after the other with destructOne.
     */
     function destructAll() onlyOwner {
-        uint i;
         // TODO: Check for upper bound for i
-        for (i = 1; i < contractIds.length; i++) {
-            destructOne(contractIds[i]);
+        for (uint i = 0; i < contractIds.length; i++) {
+            if (contracts[contractIds[i]].isControlled == true) {
+                destructOne(contractIds[i]);
+            }
         }
 
         selfdestruct(owner);

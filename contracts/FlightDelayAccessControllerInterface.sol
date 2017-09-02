@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 
 contract FlightDelayAccessControllerInterface {

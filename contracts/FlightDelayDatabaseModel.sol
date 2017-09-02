@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 
 contract FlightDelayDatabaseModel {
@@ -115,5 +113,10 @@ contract FlightDelayDatabaseModel {
         oraclizeState oState;
         // time
         uint oraclizeTime;
+    }
+
+    struct Customer {
+        bytes32 customerExternalId;
+        bool identityConfirmed;
     }
 }

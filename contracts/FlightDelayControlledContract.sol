@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControllerInterface.sol";
 import "./FlightDelayDatabaseModel.sol";
@@ -24,10 +22,9 @@ contract FlightDelayControlledContract is FlightDelayDatabaseModel {
         _;
     }
 
-    function setController(address _controller, bytes32 _id) internal returns (bool _result) {
+    function setController(address _controller) internal returns (bool _result) {
         controller = _controller;
         FD_CI = FlightDelayControllerInterface(_controller);
-        FD_CI.selfRegister(_id);
         return true;
     }
 

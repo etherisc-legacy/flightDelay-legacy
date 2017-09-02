@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayConstants.sol";
@@ -18,8 +16,8 @@ import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayUnderwriteInterface.sol";
 import "./FlightDelayPayoutInterface.sol";
 import "./FlightDelayOraclizeInterface.sol";
-import "./../3rd-party/strings.sol";
 import "./convertLib.sol";
+import "./../vendors/strings.sol";
 
 
 contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayConstants, FlightDelayOraclizeInterface, ConvertLib {
@@ -31,8 +29,18 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
     FlightDelayPayoutInterface FD_PY;
     FlightDelayAccessControllerInterface FD_AC;
 
-    function FlightDelayUnderwrite(address _controller) payable {
-        setController(_controller, "FD.Underwrite");
+    function FlightDelayUnderwrite(address _controller) {
+        setController(_controller);
+    }
+
+    /*
+     * @dev Fund contract
+     */
+    function fund() payable {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        // todo: bookkeeping
+        // todo: fire funding event
     }
 
     function setContracts() onlyController {
@@ -42,6 +50,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         FD_PY = FlightDelayPayoutInterface(getContract("FD.Payout"));
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
+        FD_AC.setPermissionById(102, "FD.Funder");
     }
 
     function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) {
@@ -53,11 +62,11 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
             ORACLIZE_RATINGS_QUERY
         );
 
-        // #ifdef debug
-        LogUint("_policyId", _policyId);
-        LogBytes32Str("_carrierFlightNumber",_carrierFlightNumber);
-        LogString("oraclizeUrl", oraclizeUrl);
-        // #endif
+// --> debug-mode
+//            LogUint("_policyId", _policyId);
+//            LogBytes32Str("_carrierFlightNumber",_carrierFlightNumber);
+//            LogString("oraclizeUrl", oraclizeUrl);
+// <-- debug-mode
 
         bytes32 queryId = oraclize_query("nested", oraclizeUrl, ORACLIZE_GAS);
 
@@ -73,9 +82,9 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
     }
 
     function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclize {
-        // #ifdef debug
-        LogString("_result", _result);
-        // #endif
+// --> debug-mode
+//            LogString("_result", _result);
+// <-- debug-mode
 
         var (policyId,) = FD_DB.getOraclizeCallback(_queryId);
 

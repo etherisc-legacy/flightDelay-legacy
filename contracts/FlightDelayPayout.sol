@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayConstants.sol";
@@ -17,8 +15,8 @@ import "./FlightDelayAccessControllerInterface.sol";
 import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayPayoutInterface.sol";
 import "./FlightDelayOraclizeInterface.sol";
-import "./../3rd-party/strings.sol";
 import "./convertLib.sol";
+import "./../vendors/strings.sol";
 
 
 contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstants, FlightDelayOraclizeInterface, ConvertLib {
@@ -29,8 +27,18 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
     FlightDelayLedgerInterface FD_LG;
     FlightDelayAccessControllerInterface FD_AC;
 
-    function FlightDelayPayout(address _controller) payable {
-        setController(_controller, "FD.Payout");
+    function FlightDelayPayout(address _controller) {
+        setController(_controller);
+    }
+
+    /*
+     * @dev Fund contract
+     */
+    function fund() payable {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        // todo: bookkeeping
+        // todo: fire funding event
     }
 
     function setContracts() onlyController {
@@ -39,6 +47,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
 
         FD_AC.setPermissionById(101, "FD.Underwrite");
+        FD_AC.setPermissionById(102, "FD.Funder");
     }
 
     function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _oraclizeTime) {
@@ -74,12 +83,12 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         var (policyId, oraclizeTime) = FD_DB.getOraclizeCallback(_queryId);
         bytes32 riskId = FD_DB.getRiskId(policyId);
 
-        // #ifdef debug
-        LogString("im payout callback, result = ", _result);
-        LogUint("policyId: ", policyId);
-        LogUintTime("oTime", oraclizeTime);
-        LogBytes32("riskId", riskId);
-        // #endif
+// --> debug-mode
+//            LogString("im payout callback, result = ", _result);
+//            LogUint("policyId: ", policyId);
+//            LogUintTime("oTime", oraclizeTime);
+//            LogBytes32("riskId", riskId);
+// <-- debug-mode
 
         var slResult = _result.toSlice();
 
@@ -149,12 +158,12 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
     }
 
     function payOut(uint _policyId, uint8 _delay, uint _delayInMinutes)	internal {
-        // #ifdef debug
-        LogString("im payOut", "");
-        LogUint("policyId", _policyId);
-        LogUint("delay", _delay);
-        LogUint("in minutes", _delayInMinutes);
-        // #endif
+// --> debug-mode
+//            LogString("im payOut", "");
+//            LogUint("policyId", _policyId);
+//            LogUint("delay", _delay);
+//            LogUint("in minutes", _delayInMinutes);
+// <-- debug-mode
 
         FD_DB.setDelay(_policyId, _delay, _delayInMinutes);
 
@@ -168,9 +177,9 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         } else {
             var (customer, weight, premium) = FD_DB.getPolicyData(_policyId);
 
-            // #ifdef debug
-            LogUint("weight", weight);
-            // #endif
+// --> debug-mode
+//                LogUint("weight", weight);
+// <-- debug-mode
 
             if (weight == 0) {
                 weight = 20000;

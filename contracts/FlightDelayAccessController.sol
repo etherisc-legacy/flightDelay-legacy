@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayDatabaseInterface.sol";
@@ -20,7 +18,7 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
     FlightDelayDatabaseInterface FD_DB;
 
     function FlightDelayAccessController(address _controller) {
-        setController(_controller, "FD.AccessController");
+        setController(_controller);
     }
 
     function setContracts() onlyController {
@@ -54,12 +52,12 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
     }
 
     function checkPermission(uint8 _perm, address _addr) returns (bool _success) {
-        // #ifdef debug
-        LogUint("_perm", _perm);
-        LogAddress("_addr", _addr);
-        LogAddress("msg.sender", msg.sender);
-        LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, _addr, _perm));
-        // #endif
+// --> debug-mode
+//            // LogUint("_perm", _perm);
+//            // LogAddress("_addr", _addr);
+//            // LogAddress("msg.sender", msg.sender);
+//            // LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, _addr, _perm));
+// <-- debug-mode
 
         return FD_DB.getAccessControl(msg.sender, _addr, _perm);
     }

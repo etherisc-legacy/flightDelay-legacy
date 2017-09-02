@@ -6,11 +6,9 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-@@include('./templatewarning.txt')
+pragma solidity ^0.4.11;
 
-pragma solidity @@include('./solidity_version_string.txt');
-
-import "./../3rd-party/usingOraclize.sol";
+import "./../vendors/usingOraclize.sol";
 
 
 contract FlightDelayOraclizeInterface is usingOraclize {

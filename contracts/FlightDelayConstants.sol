@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 
 contract FlightDelayConstants {
@@ -17,18 +15,20 @@ contract FlightDelayConstants {
     * General events
     */
 
-    // #ifdef debug
-    event LogUint(string _message, uint _uint);
-    event LogUintEth(string _message, uint ethUint);
-    event LogUintTime(string _message, uint timeUint);
-    event LogInt(string _message, int _int);
-    event LogAddress(string _message, address _address);
-    event LogBytes32(string _message, bytes32 hexBytes32);
-    event LogBytes(string _message, bytes hexBytes);
-    event LogBytes32Str(string _message, bytes32 strBytes32);
-    event LogString(string _message, string _string);
-    event LogBool(string _message, bool _bool);
-    // #endif
+// --> debug-mode
+//        event LogUint(string _message, uint _uint);
+//        event LogUintEth(string _message, uint ethUint);
+//        event LogUintTime(string _message, uint timeUint);
+//        event LogInt(string _message, int _int);
+//        event LogAddress(string _message, address _address);
+//        event LogBytes32(string _message, bytes32 hexBytes32);
+//        event LogBytes(string _message, bytes hexBytes);
+//        event LogBytes32Str(string _message, bytes32 strBytes32);
+//        event LogString(string _message, string _string);
+//        event LogBool(string _message, bool _bool);
+//        event Log(address);
+// <-- debug-mode
+event LogAddress(string _message, address _address);
 
     event LogPolicyApplied(
         uint _policyId,
@@ -122,21 +122,21 @@ contract FlightDelayConstants {
         50
     ];
 
-    // #ifndef testrpc
-    // DEFINITIONS FOR ROPSTEN AND MAINNET
-    // minimum time before departure for applying
-    uint constant MIN_TIME_BEFORE_DEPARTURE	= 24 hours; // for production
-    // check for delay after .. minutes after scheduled arrival
-    uint constant CHECK_PAYOUT_OFFSET = 15 minutes; // for production
-    // #endif
+// --> prod-mode
+//        // DEFINITIONS FOR ROPSTEN AND MAINNET
+//        // minimum time before departure for applying
+//        uint constant MIN_TIME_BEFORE_DEPARTURE	= 24 hours; // for production
+//        // check for delay after .. minutes after scheduled arrival
+//        uint constant CHECK_PAYOUT_OFFSET = 15 minutes; // for production
+// <-- prod-mode
 
-    // #ifdef testrpc
+// --> test-mode
     // DEFINITIONS FOR LOCAL TESTNET
     // minimum time before departure for applying
     uint constant MIN_TIME_BEFORE_DEPARTURE = 1 seconds; // for testing
     // check for delay after .. minutes after scheduled arrival
     uint constant CHECK_PAYOUT_OFFSET = 1 seconds; // for testing
-    // #endif
+// <-- test-mode
 
     // maximum duration of flight
     uint constant MAX_FLIGHT_DURATION = 2 days;
@@ -151,23 +151,22 @@ contract FlightDelayConstants {
     * URLs and query strings for oraclize
     */
 
-    // #ifndef testrpc
-    // DEFINITIONS FOR ROPSTEN AND MAINNET
-    string constant ORACLIZE_RATINGS_BASE_URL =
-        // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
-        "[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/";
-    string constant ORACLIZE_RATINGS_QUERY =
-        "?${[decrypt] @@include('./external/encryptedQuery/encryptedQueryString.txt')}).ratings[0]['observations','late15','late30','late45','cancelled','diverted']";
+// --> prod-mode
+//        // DEFINITIONS FOR ROPSTEN AND MAINNET
+//        string constant ORACLIZE_RATINGS_BASE_URL =
+//            // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
+//            "[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/";
+//        string constant ORACLIZE_RATINGS_QUERY =
+//            "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted']";
+//        string constant ORACLIZE_STATUS_BASE_URL =
+//            // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
+//            "[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/";
+//        string constant ORACLIZE_STATUS_QUERY =
+//            // pattern:
+//            "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
+// <-- prod-mode
 
-    string constant ORACLIZE_STATUS_BASE_URL =
-        // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
-        "[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/";
-    string constant ORACLIZE_STATUS_QUERY =
-        // pattern:
-        "?${[decrypt] @@include('./external/encryptedQuery/encryptedQueryString.txt')}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
-    // #endif
-
-    // #ifdef testrpc
+// --> test-mode
     // DEFINITIONS FOR LOCAL TESTNET
     string constant ORACLIZE_RATINGS_BASE_URL =
         // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
@@ -175,12 +174,11 @@ contract FlightDelayConstants {
     string constant ORACLIZE_RATINGS_QUERY =
         // for testrpc:
         ").ratings[0]['observations','late15','late30','late45','cancelled','diverted']";
-
     string constant ORACLIZE_STATUS_BASE_URL =
         // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
         "[URL] json(https://api-test.etherisc.com/flex/flightstatus/rest/v2/json/flight/status/";
     string constant ORACLIZE_STATUS_QUERY =
         // for testrpc:
         "?utc=true).flightStatuses[0]['status','delays','operationalTimes']";
-    // #endif
+// <-- test-mode
 }

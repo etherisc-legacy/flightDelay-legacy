@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayAccessControllerInterface.sol";
@@ -22,8 +20,8 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
     FlightDelayDatabaseInterface FD_DB;
     FlightDelayAccessControllerInterface FD_AC;
 
-    function FlightDelayLedger(address _controller) payable {
-        setController(_controller, "FD.Ledger");
+    function FlightDelayLedger(address _controller) {
+        setController(_controller);
     }
 
     function setContracts() onlyController {
@@ -31,18 +29,32 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
-        FD_AC.setPermissionById(101, "FD.Owner");
+        FD_AC.setPermissionById(101, "FD.Controller"); // todo: check!
 
         FD_AC.setPermissionById(102, "FD.Payout");
-        FD_AC.setPermissionById(102, "FD.Owner");
+        FD_AC.setPermissionById(102, "FD.NewPolicy");
+        FD_AC.setPermissionById(102, "FD.Controller"); // todo: check!
         FD_AC.setPermissionById(102, "FD.Underwrite");
 
+        FD_AC.setPermissionById(103, "FD.Funder");
         FD_AC.setPermissionById(103, "FD.Underwrite");
         FD_AC.setPermissionById(103, "FD.Payout");
         FD_AC.setPermissionById(103, "FD.Ledger");
         FD_AC.setPermissionById(103, "FD.NewPolicy");
+        FD_AC.setPermissionById(103, "FD.Controller");
 
-        bookkeeping(Acc.Balance, Acc.RiskFund, this.balance);
+        FD_AC.setPermissionById(104, "FD.Funder");
+    }
+
+    /*
+     * @dev Fund contract
+     */
+    function fund() payable {
+        require(FD_AC.checkPermission(104, msg.sender));
+
+        bookkeeping(Acc.Balance, Acc.RiskFund, msg.value);
+
+        // todo: fire funding event
     }
 
     function receiveFunds(Acc _to) payable {
@@ -72,17 +84,13 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         }
     }
 
-    // invariant: acc_Premium + acc_RiskFund + acc_Payout + acc_Balance + acc_Reward == 0
+    // invariant: acc_Premium + acc_RiskFund + acc_Payout + acc_Balance + acc_Reward + acc_OraclizeCosts == 0
 
     function bookkeeping(Acc _from, Acc _to, uint _amount) {
-        if (!FD_AC.checkPermission(103, msg.sender)) {
-            return;
-        }
+        require(FD_AC.checkPermission(103, msg.sender));
 
         // check against type cast overflow
-        if (int(_amount) < 0) {
-            throw;
-        }
+        assert(int(_amount) >= 0);
 
         // overflow check is done in FD_DB
         FD_DB.setLedger(uint8(_from), -int(_amount));

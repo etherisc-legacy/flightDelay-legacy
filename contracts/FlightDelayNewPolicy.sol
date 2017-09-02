@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayConstants.sol";
@@ -27,7 +25,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     FlightDelayUnderwriteInterface FD_UW;
 
     function FlightDelayNewPolicy(address _controller) {
-        setController(_controller, "FD.NewPolicy");
+        setController(_controller);
     }
 
     function setContracts() onlyController {
@@ -37,7 +35,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         FD_UW = FlightDelayUnderwriteInterface(getContract("FD.Underwrite"));
 
         FD_AC.setPermissionByAddress(101, 0x1);
-        FD_AC.setPermissionById(102, "FD.Owner");
+        FD_AC.setPermissionById(102, "FD.Controller"); // check!
     }
 
     function bookAndCalcRemainingPremium() internal returns (uint) {
@@ -46,7 +44,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         uint remain = v - reserve;
         uint reward = remain * REWARD_PERCENT / 100;
 
-        FD_LG.bookkeeping(Acc.Balance, Acc.Premium, v);
+        // FD_LG.bookkeeping(Acc.Balance, Acc.Premium, v);
         FD_LG.bookkeeping(Acc.Premium, Acc.RiskFund, reserve);
         FD_LG.bookkeeping(Acc.Premium, Acc.Reward, reward);
 
@@ -87,10 +85,10 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         // or departureTime after Mon, 26 Sep 2016 12:00:00 GMT
         uint dmy = toUnixtime(_departureYearMonthDay);
 
-        // #ifdef debug
-        LogUintTime("NewPolicy: dmy: ", dmy);
-        LogUintTime("NewPolicy: _departureTime: ", _departureTime);
-        // #endif
+// --> debug-mode
+//            LogUintTime("NewPolicy: dmy: ", dmy);
+//            LogUintTime("NewPolicy: _departureTime: ", _departureTime);
+// <-- debug-mode
 
         if (
             _arrivalTime < _departureTime || _arrivalTime > _departureTime + MAX_FLIGHT_DURATION || _departureTime < now + MIN_TIME_BEFORE_DEPARTURE || _departureTime > CONTRACT_DEAD_LINE || _departureTime < dmy || _departureTime > dmy + 24 hours

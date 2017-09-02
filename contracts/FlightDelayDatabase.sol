@@ -6,9 +6,7 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-@@include('./templatewarning.txt')
-
-pragma solidity @@include('./solidity_version_string.txt');
+pragma solidity ^0.4.11;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayDatabaseInterface.sol";
@@ -20,6 +18,8 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
     // Table of policies
     Policy[] public policies;
+
+    mapping (address => Customer) public customers;
 
     // Lookup policyIds from customer addresses
     mapping (address => uint[]) public customerPolicies;
@@ -39,7 +39,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     FlightDelayAccessControllerInterface FD_AC;
 
     function FlightDelayDatabase (address _controller) {
-        setController(_controller, "FD.Database");
+        setController(_controller);
     }
 
     function setContracts() onlyController {
@@ -59,9 +59,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         bool _access
     ) {
         // one and only hardcoded accessControl
-        if (msg.sender != FD_CI.getContract("FD.AccessController")) {
-            throw;
-        }
+        require(msg.sender == FD_CI.getContract("FD.AccessController"));
         accessControl[_contract][_caller][_perm] = _access;
     }
 
@@ -80,18 +78,16 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
     // Getter and Setter for ledger
     function setLedger(uint8 _index, int _value) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         int previous = ledger[_index];
         ledger[_index] += _value;
 
-        // #ifdef debug
-        LogInt("previous", previous);
-        LogInt("ledger[_index]", ledger[_index]);
-        LogInt("_value", _value);
-        // #endif
+// --> debug-mode
+//            LogInt("previous", previous);
+//            LogInt("ledger[_index]", ledger[_index]);
+//            LogInt("_value", _value);
+// <-- debug-mode
 
         // check for int overflow
         if (_value < 0 && ledger[_index] > previous) {
@@ -107,31 +103,29 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
     // Getter and Setter for policies
     function getCustomerPremium(uint _policyId) returns (address _customer, uint _premium) {
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
         _customer = p.customer;
         _premium = p.premium;
     }
 
     function getPolicyData(uint _policyId) returns (address _customer, uint _weight, uint _premium) {
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
         _customer = p.customer;
         _weight = p.weight;
         _premium = p.premium;
     }
 
     function getRiskId(uint _policyId) returns (bytes32 _riskId) {
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
         _riskId = p.riskId;
     }
 
     function createPolicy(address _customer, uint _premium, bytes32 _riskId) returns (uint _policyId) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         _policyId = policies.length++;
         customerPolicies[_customer].push(_policyId);
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
 
         p.customer = _customer;
         p.premium = _premium;
@@ -144,9 +138,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         uint _stateTime,
         bytes32 _stateMessage
     ) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         LogSetState(
             _policyId,
@@ -155,7 +147,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
             _stateMessage
         );
 
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
 
         p.state = _state;
         p.stateTime = _stateTime;
@@ -163,33 +155,27 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     function setWeight(uint _policyId, uint _weight, bytes _proof) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
 
         p.weight = _weight;
         p.proof = _proof;
     }
 
     function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
-        Policy p = policies[_policyId];
+        Policy storage p = policies[_policyId];
 
         p.calculatedPayout = _calculatedPayout;
         p.actualPayout = _actualPayout;
     }
 
     function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
-        Risk r = risks[policies[_policyId].riskId];
+        Risk storage r = risks[policies[_policyId].riskId];
 
         r.delay = _delay;
         r.delayInMinutes = _delayInMinutes;
@@ -197,22 +183,20 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
     // Getter and Setter for risks
     function getRiskParameters(bytes32 _riskId) returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
-        Risk r = risks[_riskId];
+        Risk storage r = risks[_riskId];
         _carrierFlightNumber = r.carrierFlightNumber;
         _departureYearMonthDay = r.departureYearMonthDay;
         _arrivalTime = r.arrivalTime;
     }
 
     function getPremiumFactors(bytes32 _riskId) returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
-        Risk r = risks[_riskId];
+        Risk storage r = risks[_riskId];
         _cumulatedWeightedPremium = r.cumulatedWeightedPremium;
         _premiumMultiplier = r.premiumMultiplier;
     }
 
     function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) returns (bytes32 _riskId) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         _riskId = sha3(
             _carrierFlightNumber,
@@ -220,7 +204,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
             _arrivalTime
         );
 
-        Risk r = risks[_riskId];
+        Risk storage r = risks[_riskId];
 
         if (r.premiumMultiplier == 0) {
             r.carrierFlightNumber = _carrierFlightNumber;
@@ -230,11 +214,9 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
-        Risk r = risks[_riskId];
+        Risk storage r = risks[_riskId];
         r.cumulatedWeightedPremium = _cumulatedWeightedPremium;
         r.premiumMultiplier = _premiumMultiplier;
     }
@@ -246,7 +228,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     function getOraclizePolicyId(bytes32 _queryId) returns (uint _policyId) {
-        OraclizeCallback o = oraclizeCallbacks[_queryId];
+        OraclizeCallback storage o = oraclizeCallbacks[_queryId];
         _policyId = o.policyId;
     }
 
@@ -256,17 +238,15 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         oraclizeState _oraclizeState,
         uint _oraclizeTime) {
 
-        if (!FD_AC.checkPermission(101, msg.sender)) {
-            throw;
-        }
+        require(FD_AC.checkPermission(101, msg.sender));
 
         oraclizeCallbacks[_queryId] = OraclizeCallback(_policyId, _oraclizeState, _oraclizeTime);
     }
 
     // mixed
     function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset) returns (bool _result) {
-        OraclizeCallback o = oraclizeCallbacks[_queryId];
-        Risk r = risks[_riskId];
+        OraclizeCallback storage o = oraclizeCallbacks[_queryId];
+        Risk storage r = risks[_riskId];
 
         _result = o.oraclizeTime > r.arrivalTime + _offset;
     }
