@@ -1,0 +1,7 @@
+migrations:
+    - 302_deploy_Other.js
+
+test:
+    - logformatter.js
+    - Test_Deploy.js
+    - Test_FlightDelayDestruct.js

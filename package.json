@@ -14,6 +14,7 @@
     "deploy": "./node_modules/.bin/truffle deploy --reset",
     "deploy-testrpc": "truffle deploy --reset --network testrpc",
     "console": "truffle console --network testrpc",
+    "select-resources": "./bin/select-resources.js",
     "lint-js": "eslint **/*.js",
     "lint-sol": "solium --dir ./contracts"
   },
@@ -25,6 +26,8 @@
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "ethereumjs-testrpc": "^4.0.1",
+    "fs-jetpack": "^1.2.0",
+    "js-yaml": "^3.9.1",
     "solium": "^0.5.5",
     "truffle": "^3.4.7",
     "winston": "^2.3.1"
