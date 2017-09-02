@@ -8,12 +8,9 @@
     "solidity-compiler": "^0.4.11"
   },
   "scripts": {
-    "testrpc": "testrpc --port 9545 --account=\"0xfbdab455fa027cfcc5b847b4541f0d9b3ee9f176bcc2dd60acdbb26c30e0136c,1000000000000000000000000\" --account=\"0xcba39ec99dfca0db448b4bafad7049b7a504c6557a53c65bb4ef0cc2193a3120,1000000000000000000000000\"",
-    "bridge": "pushd external/ethereum-bridge && node bridge -a 1 -H localhost:9545 --dev",
     "compile": "truffle compile --all",
     "compile-testrpc": "truffle compile --all --network testrpc",
     "test": "truffle test",
-    "test-testrpc": "truffle test --network testrpc --reset",
     "deploy": "./node_modules/.bin/truffle deploy --reset",
     "deploy-testrpc": "truffle deploy --reset --network testrpc",
     "console": "truffle console --network testrpc",
@@ -22,6 +19,8 @@
     "prepare-commit": "npm run clean && COMMIT_MODE=true npm run prod-mode && npm run recompile",
     "test-mode": "npm run clean && ./bin/preprocess.js test",
     "prod-mode": "npm run clean && ./bin/preprocess.js prod",
+    "testrpc": "./bin/testrpc.js",
+    "bridge": "pushd external/ethereum-bridge && node bridge -a 1 -H localhost:9545 --dev",
     "lint-js": "eslint **/*.js",
     "lint-sol": "solium --dir ./contracts"
   },
