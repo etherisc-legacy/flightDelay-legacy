@@ -7,12 +7,12 @@
  *
  */
 
-@@include('./templatewarning.txt')
+pragma solidity ^0.4.11;
 
-pragma solidity @@include('./solidity_version_string.txt');
-
-import "./FlightDelayOraclizeInterface.sol";
-import "./FlightDelayConstants.sol";
+import "truffle/Assert.sol";
+import "truffle/DeployedAddresses.sol";
+import "./../contracts/FlightDelayOraclizeInterface.sol";
+import "./../contracts/FlightDelayConstants.sol";
 
 contract _Test_Oraclize is FlightDelayOraclizeInterface, FlightDelayConstants
 
@@ -33,7 +33,7 @@ contract _Test_Oraclize is FlightDelayOraclizeInterface, FlightDelayConstants
 			);
 
 // #ifdef debug
-		LOG_bytes32('queryId', queryId);
+		LogBytes32('queryId', queryId);
 // #endif
 
 	}
@@ -41,9 +41,9 @@ contract _Test_Oraclize is FlightDelayOraclizeInterface, FlightDelayConstants
 	function __callback(bytes32 _queryId, string _result, bytes _proof) {
 
 // #ifdef debug
-		LOG_bytes32('queryId', _queryId);
-		LOG_string('_result', _result);
-		LOG_bytes('_proof', _proof);
+		LogBytes32('queryId', _queryId);
+		LogString('_result', _result);
+		LogBytes('_proof', _proof);
 // #endif
 
 	} // __callback

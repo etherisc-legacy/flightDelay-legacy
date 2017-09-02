@@ -15,7 +15,7 @@ const bytes32 = s => padRight(web3.toHex(s), 66, '0');
 const standardTx = value => context => ({
     from: context.accounts[1],
     gas: 4700000,
-    value: value || web3.toWei(1234, 'finney'),
+    value: value || web3.toWei(1000, 'finney'),
 });
 
 const standardFlight = (flightNumber, depYMD, offsDep, offsArr) =>

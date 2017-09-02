@@ -7,7 +7,7 @@
  *
  */
 
-pragma solidity ^0.4.7;
+pragma solidity ^0.4.11;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
@@ -15,7 +15,7 @@ import "../contracts/FlightDelayDatabase.sol";
 import "../contracts/convertLib.sol";
 
 
-contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel {
+contract Test_FlightDelayDatabase is FlightDelayDatabaseModel {
 
 	// Fixture
 	uint policyId;
