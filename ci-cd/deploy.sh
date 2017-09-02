@@ -13,9 +13,6 @@ bash <(curl https://get.parity.io -Lk)
 echo "Installing NPM packages"
 npm install
 
-echo "Preprocessing"
-APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh $1
-
 echo "Getting authors"
 author=$(node -e "console.log(require('./truffle.js').networks['$1'].from)")
 author2=$(node -e "console.log(require('./truffle.js').networks['$1'].from2)")
@@ -49,8 +46,8 @@ npm run compile -- --network $1
 echo "Selecting migrations"
 ./migselect.sh
 
-echo "Test FlightDelayController"
-./test-get.sh Test_FlightDelayController.js
+echo "Test Deploy"
+./test-get.sh Test_Deploy.js
 npm test -- --network $1
 
 echo "Test FlightDelayDestruct"

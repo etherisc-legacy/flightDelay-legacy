@@ -8,7 +8,6 @@
 
 `sudo pip install base58`
 
-
 ## FlightStat
 Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API credentials
 `APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh`
@@ -19,9 +18,7 @@ Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API cr
 ## Bridge to Oraclize (only for testrpc)
 `cd external/ethereum-bridge && npm install`
 
-`node bridge -a 0 -H localhost:9545`
-
-Replace OAR in `contracts-templates/FlightDelayOraclizeInterface.sol` if ethereum-bridge updated (OAR should be removed for production deploy)
+`node bridge -a 1 -H localhost:9545`
 
 ## Migrations
 `./migselect.sh`
