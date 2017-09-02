@@ -9,12 +9,12 @@ ORACLIZE_PUBLICKEY=044992e9473b7d90ca54d2886c7addd14a61109af202f1c95e218b0c99eb0
 
 # Output to:
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo $DIR
+# echo $DIR
 
 OUTPUT=$DIR/encryptedQueryString.txt
 ALL_ENC=$DIR/allEncryptedQueryStrings.txt
 
-echo "python $DIR/../encrypted-queries/tools/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} \"appId=${APP_ID}&appKey=${APP_KEY}\" > ${OUTPUT}"
+# echo "python $DIR/../encrypted-queries/tools/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} \"appId=${APP_ID}&appKey=${APP_KEY}\" > ${OUTPUT}"
 python $DIR/../encrypted-queries/tools/encrypted_queries_tools.py -e -p ${ORACLIZE_PUBLICKEY} "appId=${APP_ID}&appKey=${APP_KEY}" > ${OUTPUT}
 echo `date +%Y-%m-%d\ %H:%M:%S` ' : ' `cat ${OUTPUT}` >> ${ALL_ENC}
 cat ${OUTPUT}

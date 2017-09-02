@@ -4,6 +4,9 @@
   "engines": {
     "node": ">=7.6.0 <=7.10.1"
   },
+  "config": {
+    "solidity-compiler": "^0.4.11"
+  },
   "scripts": {
     "testrpc": "testrpc --port 9545 --account=\"0xfbdab455fa027cfcc5b847b4541f0d9b3ee9f176bcc2dd60acdbb26c30e0136c,1000000000000000000000000\" --account=\"0xcba39ec99dfca0db448b4bafad7049b7a504c6557a53c65bb4ef0cc2193a3120,1000000000000000000000000\"",
     "bridge": "pushd external/ethereum-bridge && node bridge -a 1 -H localhost:9545 --dev",
@@ -15,14 +18,17 @@
     "deploy-testrpc": "truffle deploy --reset --network testrpc",
     "console": "truffle console --network testrpc",
     "select-resources": "./bin/select-resources.js",
+    "clean": "rimraf build",
+    "prepare-commit": "npm run clean && COMMIT_MODE=true npm run prod-mode && npm run recompile",
+    "test-mode": "npm run clean && ./bin/preprocess.js test",
+    "prod-mode": "npm run clean && ./bin/preprocess.js prod",
     "lint-js": "eslint **/*.js",
     "lint-sol": "solium --dir ./contracts"
   },
   "dependencies": {
-    "optimist": "^0.6.1",
-    "preprocessor": "^1.4.0",
     "web3": "^1.0.0-beta.18",
     "eslint": "^4.4.1",
+    "chalk": "^2.1.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "ethereumjs-testrpc": "^4.0.1",
