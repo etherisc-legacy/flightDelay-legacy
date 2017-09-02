@@ -17,17 +17,65 @@ const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy.sol');
 const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
 const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
-module.exports = deployer =>
-    deployer.deploy(FlightDelayController, { value: web3.toWei(50, 'ether'), })
+
+module.exports = (deployer, networks, accounts) => {
+    let controller;
+
+    return deployer
+        // Deploy contracts
+        .deploy(FlightDelayController)
         .then(() => deployer.deploy(FlightDelayAccessController, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayDatabase, FlightDelayController.address))
-        .then(() => deployer.deploy(FlightDelayLedger, FlightDelayController.address, { value: web3.toWei(500, 'ether'), }))
+        .then(() => deployer.deploy(FlightDelayLedger, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayNewPolicy, FlightDelayController.address))
-        .then(() => deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address, { value: web3.toWei(50, 'ether'), }))
-        .then(() => deployer.deploy(FlightDelayPayout, FlightDelayController.address, { value: web3.toWei(50, 'ether'), }))
-        .then(() =>
-            // finish, call setAllContracts on each
-            FlightDelayController.deployed()
-                .then(instance => instance.setAllContracts({ gas: 3000000, }))
-                .then(result => log(result))
-        );
+        .then(() => deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address))
+        .then(() => deployer.deploy(FlightDelayPayout, FlightDelayController.address))
+
+        // Save link to controller instance
+        .then(() => FlightDelayController.deployed())
+        .then((_i) => { controller = _i; return Promise.resolve(); })
+
+        // // Register contracts
+        .then(() => controller.registerContract(accounts[2], 'FD.Funder', false))
+        .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
+        .then(() => controller.registerContract(accounts[4], 'FD.Emeregency', false))
+
+        .then(() => controller.registerContract(FlightDelayAccessController.address, 'FD.AccessController', true))
+        .then(() => controller.registerContract(FlightDelayDatabase.address, 'FD.Database', true))
+        .then(() => controller.registerContract(FlightDelayLedger.address, 'FD.Ledger', true))
+        .then(() => controller.registerContract(FlightDelayNewPolicy.address, 'FD.NewPolicy', true))
+        .then(() => controller.registerContract(FlightDelayUnderwrite.address, 'FD.Underwrite', true))
+        .then(() => controller.registerContract(FlightDelayPayout.address, 'FD.Payout', true))
+
+        // Setup contracts
+        .then(() => controller.setAllContracts())
+
+        // Set new owner
+        .then(() => controller.transferOwnership(accounts[1]))
+
+        // Fund FD.Ledger
+        .then(() => FlightDelayLedger.deployed())
+        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(100, 'ether'), }))
+
+        // Fund FD.Underwrite
+        .then(() => FlightDelayUnderwrite.deployed())
+        .then(FD_UW => FD_UW.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
+
+        // Fund FD.Payout
+        .then(() => FlightDelayPayout.deployed())
+        .then(FD_PY => FD_PY.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
+
+        .then(() => {
+            log.info(`FD.Owner: ${accounts[1]}`);
+            log.info(`FD.Funder: ${accounts[2]}`);
+            log.info(`FD.CustomersAdmin: ${accounts[3]}`);
+            log.info(`FD.Emeregency: ${accounts[4]}`);
+            log.info(`FD.Controller: ${FlightDelayController.address}`);
+            log.info(`FD.AccessController: ${FlightDelayAccessController.address}`);
+            log.info(`FD.Database: ${FlightDelayDatabase.address}`);
+            log.info(`FD.Ledger: ${FlightDelayLedger.address}`);
+            log.info(`FD.NewPolicy: ${FlightDelayNewPolicy.address}`);
+            log.info(`FD.Underwrite: ${FlightDelayUnderwrite.address}`);
+            log.info(`FD.Payout: ${FlightDelayPayout.address}`);
+        });
+};
