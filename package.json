@@ -8,12 +8,11 @@
     "solidity-compiler": "^0.4.11"
   },
   "scripts": {
-    "compile": "truffle compile --all",
-    "compile-testrpc": "truffle compile --all --network testrpc",
+    "deploy": "truffle migrate --reset",
+    "compile": "truffle compile",
+    "recompile": "truffle compile --all",
     "test": "truffle test",
-    "deploy": "./node_modules/.bin/truffle deploy --reset",
-    "deploy-testrpc": "truffle deploy --reset --network testrpc",
-    "console": "truffle console --network testrpc",
+    "console": "truffle console",
     "select-resources": "./bin/select-resources.js",
     "clean": "rimraf build",
     "prepare-commit": "npm run clean && COMMIT_MODE=true npm run prod-mode && npm run recompile",
@@ -25,9 +24,8 @@
     "lint-sol": "solium --dir ./contracts"
   },
   "dependencies": {
-    "web3": "^1.0.0-beta.18",
-    "eslint": "^4.4.1",
     "chalk": "^2.1.0",
+    "eslint": "^4.5.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "ethereumjs-testrpc": "^4.0.1",
@@ -35,9 +33,7 @@
     "js-yaml": "^3.9.1",
     "solium": "^0.5.5",
     "truffle": "^3.4.7",
+    "web3": "^1.0.0-beta.18",
     "winston": "^2.3.1"
-  },
-  "devDependencies": {
-    "eslint": "^4.5.0"
   }
 }
