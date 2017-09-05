@@ -86,11 +86,11 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
 
     // invariant: acc_Premium + acc_RiskFund + acc_Payout + acc_Balance + acc_Reward + acc_OraclizeCosts == 0
 
-    function bookkeeping(Acc _from, Acc _to, uint _amount) {
+    function bookkeeping(Acc _from, Acc _to, uint256 _amount) {
         require(FD_AC.checkPermission(103, msg.sender));
 
         // check against type cast overflow
-        assert(int(_amount) >= 0);
+        assert(int256(_amount) > 0);
 
         // overflow check is done in FD_DB
         FD_DB.setLedger(uint8(_from), -int(_amount));

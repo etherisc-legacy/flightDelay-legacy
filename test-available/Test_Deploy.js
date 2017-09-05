@@ -7,7 +7,7 @@
  *
  */
 
-const testUtils = require('../util/test-utils.js');
+const utils = require('../util/test-utils.js');
 
 const FlightDelayController = artifacts.require('FlightDelayController');
 const FlightDelayAccessController = artifacts.require('FlightDelayAccessController');
@@ -28,7 +28,7 @@ contract('After deploy', (accounts) => {
         'FD.Controller': FlightDelayController,
         'FD.Funder': accounts[2],
         'FD.CustomersAdmin': accounts[3],
-        'FD.Emeregency': accounts[4],
+        'FD.Emergency': accounts[4],
         'FD.AccessController': FlightDelayAccessController,
         'FD.Database': FlightDelayDatabase,
         'FD.Ledger': FlightDelayLedger,
@@ -73,7 +73,7 @@ contract('After deploy', (accounts) => {
             await FD_DB.ledger(6);
             assert.fail('should have thrown before');
         } catch (error) {
-            testUtils.assertJump(error);
+            utils.assertJump(error);
         }
     });
 });

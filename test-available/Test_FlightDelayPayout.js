@@ -8,46 +8,54 @@ require('chai')
     .should();
 
 
-contract('FlightDelayUnderwrite', (accounts) => {
+contract('FlightDelayPayout', async (accounts) => {
     let FD;
 
     before(async () => {
         FD = await utils.getDeployedContracts(artifacts);
     });
 
-
-    // todo: check Constants
-    // ORACLIZE_RATINGS_BASE_URL
-    // ORACLIZE_RATINGS_QUERY
-    // MIN_OBSERVATIONS
-    // WEIGHT_PATTERN
-    // CHECK_PAYOUT_OFFSET
+    // todo: checkConstants
+    // ORACLIZE_STATUS_BASE_URL
+    // ORACLIZE_STATUS_QUERY
     // ORACLIZE_GAS
+    // MAX_PAYOUT
 
     /*
      * Initilization
      */
     it('Controller should be set to FD.Controller', async () => {
-        const controller = await FD.UW.controller.call();
+        const controller = await FD.PY.controller.call();
         controller.should.be.equal(FD.C.address);
     });
 
-    it('FD.Underwrite should be registered in FD.Controller', async () => {
-        const addr = await FD.C.getContract.call('FD.Underwrite');
-        addr.should.be.equal(FD.UW.address);
+    it('FD.Payout should be registered in FD.Controller', async () => {
+        const addr = await FD.C.getContract.call('FD.Payout');
+        addr.should.be.equal(FD.PY.address);
     });
+
+    // todo: check onlyController
+
+    // todo: test setController
+
+    // todo: test destruct
+
+    // todo: test setContracts
+
+    // tood: test getContract
 
     /*
      * setContracts tests
      */
     it('Should not be accessed from external account', async () => {
-        await FD.UW.setContracts()
+        await FD.PY.setContracts()
             .should.be.rejectedWith(utils.EVMThrow);
     });
 
-    it('Access to `scheduleUnderwriteOraclizeCall` should be limited', async () => {
+
+    it('Access to `schedulePayoutOraclizeCall` should be limited', async () => {
         const permissions = utils.expectedPermissions(FD, accounts, {
-            'FD.NewPolicy': 101,
+            'FD.Underwrite': 101,
         });
 
         permissions.forEach(async (perm) => {
@@ -55,7 +63,7 @@ contract('FlightDelayUnderwrite', (accounts) => {
 
             assert.equal(
                 await FD.DB.getAccessControl.call(
-                    FD.UW.address,
+                    FD.PY.address,
                     caller,
                     access
                 ),
@@ -74,7 +82,7 @@ contract('FlightDelayUnderwrite', (accounts) => {
 
             assert.equal(
                 await FD.DB.getAccessControl.call(
-                    FD.UW.address,
+                    FD.PY.address,
                     caller,
                     access
                 ),
@@ -87,17 +95,17 @@ contract('FlightDelayUnderwrite', (accounts) => {
      * fund tests
      */
     it('Should accept ETH from FD.Funder', async () => {
-        const balanceBefore = web3.eth.getBalance(FD.UW.address);
+        const balanceBefore = web3.eth.getBalance(FD.PY.address);
         const value = web3.toWei(10, 'ether');
 
         try {
-            await FD.UW.fund({ from: accounts[2], value, });
+            await FD.PY.fund({ from: accounts[2], value, });
             assert.ok('should not be rejected');
         } catch (error) {
             utils.assertJump(error);
         }
 
-        const balanceAfter = web3.eth.getBalance(FD.UW.address);
+        const balanceAfter = web3.eth.getBalance(FD.PY.address);
 
         Number(balanceAfter).should.be.greaterThan(Number(balanceBefore));
         Number(balanceAfter).should.be.equal(Number(value) + Number(balanceBefore));
@@ -105,41 +113,22 @@ contract('FlightDelayUnderwrite', (accounts) => {
 
     it('Should not accept ETH from other accounts', async () => {
         try {
-            await FD.UW.fund({ from: accounts[1], value: web3.toWei(10, 'ether'), });
+            await FD.PY.fund({ from: accounts[1], value: web3.toWei(10, 'ether'), });
             assert.fail('should be rejected');
         } catch (error) {
             utils.assertJump(error);
         }
     });
 
-    // todo: test scheduleUnderwriteOraclizeCall
+    /*
+     * todo: schedulePayoutOraclizeCall tests
+     */
 
-    // todo: test __callback
+    /*
+     * todo: __callback tests
+     */
 
-    // todo: test decline
-
-    // todo: test underwrite
-
-    // todo: check onlyController
-
-    // todo: test setController
-
-    // todo: test destruct
-
-    // todo: test setContracts
-
-    // tood: test getContract
-
-    // it('should schedule Oraclize Call', async () => {
-    //     const FD_UW = await FlightDelayUnderwrite.deployed();
-
-    //     const policyId = 0;
-    //     const carrierFlightNumber = 'LH/410';
-
-    //     return FD_UW.scheduleUnderwriteOraclizeCall(policyId, carrierFlightNumber,
-    //         {
-    //             gas: 4700000,
-    //         }
-    //     );
-    // });
+    /*
+     * todo: payOut tests
+     */
 });

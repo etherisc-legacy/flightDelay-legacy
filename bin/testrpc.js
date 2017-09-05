@@ -7,7 +7,7 @@ const options = {
     port: 9545,
     accounts: [
         // 0 - deployer
-        { secretKey: '0xfbdab455fa027cfcc5b847b4541f0d9b3ee9f176bcc2dd60acdbb26c30e00001', balance: 1000000000000000000000000, },
+        { secretKey: '0xfbdab455fa027cfcc5b847b4541f0d9b3ee9f176bcc2dd60acdbb26c30e00000', balance: 1000000000000000000000000, },
         // 1 - new owner & FD.Owner
         { secretKey: '0xcba39ec99dfca0db448b4bafad7049b7a504c6557a53c65bb4ef0cc219300001', balance: 1000000000000000000000000, },
         // 2 - FD.Funder
@@ -19,7 +19,13 @@ const options = {
         // 5 - Customer
         { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00005', balance: 1000000000000000000000000, },
         // 6 - Bridge deployer
+        { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00006', balance: 1000000000000000000000000, },
+        // 7 - Test 1
         { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00007', balance: 1000000000000000000000000, },
+        // 8 - Test 2
+        { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00008', balance: 1000000000000000000000000, },
+        // 9 - Test 3
+        { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00009', balance: 1000000000000000000000000, },
     ],
     debug: true,
     logger: { log: log.info, },

@@ -20,6 +20,7 @@ rules:
         ClassDeclaration: false
         ArrowFunctionExpression: false
     indent: [ "error", 4 ]
+    array-bracket-spacing: [ "error", always ]
     comma-dangle:
         - error
         - arrays: always

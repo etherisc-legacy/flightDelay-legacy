@@ -38,7 +38,7 @@ module.exports = (deployer, networks, accounts) => {
         // // Register contracts
         .then(() => controller.registerContract(accounts[2], 'FD.Funder', false))
         .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
-        .then(() => controller.registerContract(accounts[4], 'FD.Emeregency', false))
+        .then(() => controller.registerContract(accounts[4], 'FD.Emergency', false))
 
         .then(() => controller.registerContract(FlightDelayAccessController.address, 'FD.AccessController', true))
         .then(() => controller.registerContract(FlightDelayDatabase.address, 'FD.Database', true))
