@@ -25,7 +25,7 @@ contract FlightDelayControlledContract is FlightDelayDatabaseModel {
     function setController(address _controller) internal returns (bool _result) {
         controller = _controller;
         FD_CI = FlightDelayControllerInterface(_controller);
-        return true;
+        _result = true;
     }
 
     function destruct() onlyController {

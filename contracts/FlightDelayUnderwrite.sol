@@ -33,16 +33,6 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         setController(_controller);
     }
 
-    /*
-     * @dev Fund contract
-     */
-    function fund() payable {
-        require(FD_AC.checkPermission(102, msg.sender));
-
-        // todo: bookkeeping
-        // todo: fire funding event
-    }
-
     function setContracts() onlyController {
         FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
         FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
@@ -51,6 +41,16 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
         FD_AC.setPermissionById(102, "FD.Funder");
+    }
+
+    /*
+     * @dev Fund contract
+     */
+    function fund() payable {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        // todo: bookkeeping
+        // todo: fire funding event
     }
 
     function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) {

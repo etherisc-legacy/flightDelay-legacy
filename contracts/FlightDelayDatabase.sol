@@ -63,6 +63,17 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         accessControl[_contract][_caller][_perm] = _access;
     }
 
+// --> test-mode
+    function setAccessControlTestOnly(
+        address _contract,
+        address _caller,
+        uint8 _perm,
+        bool _access
+    ) {
+        accessControl[_contract][_caller][_perm] = _access;
+    }
+// <-- test-mode
+
     function setAccessControl(address _contract, address _caller, uint8 _perm) {
         setAccessControl(
             _contract,
@@ -73,7 +84,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed) {
-        return accessControl[_contract][_caller][_perm];
+        _allowed = accessControl[_contract][_caller][_perm];
     }
 
     // Getter and Setter for ledger
@@ -90,15 +101,15 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 // <-- debug-mode
 
         // check for int overflow
-        if (_value < 0 && ledger[_index] > previous) {
-            throw;
-        } else if (_value > 0 && ledger[_index] < previous) {
-            throw;
+        if (_value < 0) {
+            assert(ledger[_index] < previous);
+        } else if (_value > 0) {
+            assert(ledger[_index] > previous);
         }
     }
 
     function getLedger(uint8 _index) returns (int _value) {
-        return ledger[_index];
+        _value = ledger[_index];
     }
 
     // Getter and Setter for policies
@@ -124,6 +135,13 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         require(FD_AC.checkPermission(101, msg.sender));
 
         _policyId = policies.length++;
+
+        //todo: check for ovewflows
+
+// --> test-mode
+        LogUint("_policyId", _policyId);
+// <-- test-mode
+
         customerPolicies[_customer].push(_policyId);
         Policy storage p = policies[_policyId];
 
@@ -203,6 +221,10 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
             _departureYearMonthDay,
             _arrivalTime
         );
+
+// --> test-mode
+        LogBytes32("riskId", _riskId);
+// <-- test-mode
 
         Risk storage r = risks[_riskId];
 

@@ -58,7 +58,6 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
 //            // LogAddress("msg.sender", msg.sender);
 //            // LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, _addr, _perm));
 // <-- debug-mode
-
-        return FD_DB.getAccessControl(msg.sender, _addr, _perm);
+        _success = FD_DB.getAccessControl(msg.sender, _addr, _perm);
     }
 }

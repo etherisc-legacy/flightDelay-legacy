@@ -51,7 +51,7 @@ contract('Test group: Destruct all contracts', (accounts) => {
         grandTotal += Number(PYBalance);
         log.info(`PY Balance: ${PYBalance}`);
 
-        const { logs } = await instances.CT.destructAll({
+        const { logs, } = await instances.CT.destructAll({
             from: accounts[1],
             gas: 4700000,
         });

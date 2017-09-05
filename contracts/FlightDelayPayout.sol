@@ -27,8 +27,28 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
     FlightDelayLedgerInterface FD_LG;
     FlightDelayAccessControllerInterface FD_AC;
 
+    /*
+     * @dev Contract constructor sets its controller
+     * @param _controller FD.Controller
+     */
     function FlightDelayPayout(address _controller) {
         setController(_controller);
+    }
+
+    /*
+     * Public methods
+     */
+
+    /*
+     * @dev Set access permissions for methods
+     */
+    function setContracts() public onlyController {
+        FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
+        FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
+        FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
+
+        FD_AC.setPermissionById(101, "FD.Underwrite");
+        FD_AC.setPermissionById(102, "FD.Funder");
     }
 
     /*
@@ -41,16 +61,13 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         // todo: fire funding event
     }
 
-    function setContracts() onlyController {
-        FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
-        FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
-        FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
-
-        FD_AC.setPermissionById(101, "FD.Underwrite");
-        FD_AC.setPermissionById(102, "FD.Funder");
-    }
-
-    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _oraclizeTime) {
+    /*
+     * @dev Schedule oraclize call for payout
+     * @param _policyId
+     * @param _riskId
+     * @param _oraclizeTime
+     */
+    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _oraclizeTime) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         var (carrierFlightNumber, departureYearMonthDay,) = FD_DB.getRiskParameters(_riskId);
@@ -79,7 +96,13 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         LogOraclizeCall(_policyId, queryId, oraclizeUrl);
     }
 
-    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclize {
+    /*
+     * @dev Oraclize callback
+     * @param _queryId
+     * @param _result
+     * @param _proof
+     */
+    function __callback(bytes32 _queryId, string _result, bytes _proof) public onlyOraclize {
         var (policyId, oraclizeTime) = FD_DB.getOraclizeCallback(_queryId);
         bytes32 riskId = FD_DB.getRiskId(policyId);
 
@@ -157,6 +180,16 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         }
     }
 
+    /*
+     * Internal methods
+     */
+
+    /*
+     * @dev Payout
+     * @param _policyId
+     * @param _delay
+     * @param _delayInMinutes
+     */
     function payOut(uint _policyId, uint8 _delay, uint _delayInMinutes)	internal {
 // --> debug-mode
 //            LogString("im payOut", "");

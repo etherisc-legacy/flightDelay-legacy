@@ -4,4 +4,11 @@ migrations:
 test:
     - logformatter.js
     - Test_Deploy.js
-    - Test_FlightDelayDestruct.js
+    - Test_Destruct.js
+    - Test_FlightDelayController.js
+    - Test_FlightDelayAccessController.js
+    - Test_FlightDelayDatabase.js
+    - Test_FlightDelayLedger.js
+    - Test_FlightDelayPayout.js
+    - Test_FlightDelayUnderwrite.js
+    - Test_FlightDelayNewPolicy_cases.js

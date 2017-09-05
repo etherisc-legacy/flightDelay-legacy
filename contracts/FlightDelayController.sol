@@ -17,6 +17,7 @@ contract FlightDelayController is Owned, FlightDelayConstants {
     struct Controller {
         address addr;
         bool isControlled;
+        bool isInitialized;
     }
 
     mapping (bytes32 => Controller) public contracts;
@@ -56,8 +57,8 @@ contract FlightDelayController is Owned, FlightDelayConstants {
     * @param _id         ID of contract
     * @return The address of the contract.
     */
-    function getContract(bytes32 _id) returns (address) {
-        return contracts[_id].addr;
+    function getContract(bytes32 _id) returns (address _addr) {
+        _addr = contracts[_id].addr;
     }
 
     /**
@@ -66,10 +67,10 @@ contract FlightDelayController is Owned, FlightDelayConstants {
     * @param _id         ID of contract
     * @return  bool        success
     */
-    function registerContract(address _addr, bytes32 _id, bool _isControlled) onlyOwner returns (bool result) {
+    function registerContract(address _addr, bytes32 _id, bool _isControlled) onlyOwner returns (bool _result) {
         setContract(_addr, _id, _isControlled);
         contractIds.push(_id);
-        return true;
+        _result = true;
     }
 
     /**
@@ -78,12 +79,12 @@ contract FlightDelayController is Owned, FlightDelayConstants {
     * @param _id         ID of contract
     * @return  bool        success
     */
-    function deregister(bytes32 _id) onlyOwner returns (bool result) {
+    function deregister(bytes32 _id) onlyOwner returns (bool _result) {
         if (getContract(_id) == 0x0) {
             return false;
         }
         setContract(0x0, _id, false);
-        return true;
+        _result = true;
     }
 
     /**

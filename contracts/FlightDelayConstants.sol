@@ -15,20 +15,19 @@ contract FlightDelayConstants {
     * General events
     */
 
-// --> debug-mode
-//        event LogUint(string _message, uint _uint);
-//        event LogUintEth(string _message, uint ethUint);
-//        event LogUintTime(string _message, uint timeUint);
-//        event LogInt(string _message, int _int);
-//        event LogAddress(string _message, address _address);
-//        event LogBytes32(string _message, bytes32 hexBytes32);
-//        event LogBytes(string _message, bytes hexBytes);
-//        event LogBytes32Str(string _message, bytes32 strBytes32);
-//        event LogString(string _message, string _string);
-//        event LogBool(string _message, bool _bool);
-//        event Log(address);
-// <-- debug-mode
-event LogAddress(string _message, address _address);
+// --> test-mode
+    event LogUint(string _message, uint _uint);
+    event LogUintEth(string _message, uint ethUint);
+    event LogUintTime(string _message, uint timeUint);
+    event LogInt(string _message, int _int);
+    event LogAddress(string _message, address _address);
+    event LogBytes32(string _message, bytes32 hexBytes32);
+    event LogBytes(string _message, bytes hexBytes);
+    event LogBytes32Str(string _message, bytes32 strBytes32);
+    event LogString(string _message, string _string);
+    event LogBool(string _message, bool _bool);
+    event Log(address);
+// <-- test-mode
 
     event LogPolicyApplied(
         uint _policyId,
