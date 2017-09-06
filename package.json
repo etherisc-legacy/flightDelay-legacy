@@ -21,7 +21,8 @@
     "testrpc": "./bin/testrpc.js",
     "bridge": "pushd external/ethereum-bridge && node bridge -a 6 -H localhost:9545 --dev",
     "lint-js": "eslint **/*.js",
-    "lint-sol": "solium --dir ./contracts"
+    "lint-sol": "solium --dir ./contracts",
+    "remix": "remixd -S ./contracts"
   },
   "dependencies": {
     "chai": "^4.1.2",
@@ -34,6 +35,7 @@
     "ethereumjs-testrpc": "^4.0.1",
     "fs-jetpack": "^1.2.0",
     "js-yaml": "^3.9.1",
+    "remixd": "^0.1.2",
     "solium": "^0.5.5",
     "truffle": "^3.4.7",
     "web3": "^1.0.0-beta.18",

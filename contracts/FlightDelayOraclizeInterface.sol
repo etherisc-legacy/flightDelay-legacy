@@ -14,7 +14,9 @@ import "./../vendors/usingOraclize.sol";
 contract FlightDelayOraclizeInterface is usingOraclize {
 
     modifier onlyOraclize () {
-        require(msg.sender == oraclize_cbAddress());
+// --> prod-mode
+//            require(msg.sender == oraclize_cbAddress());
+// <-- prod-mode
         _;
     }
 }

@@ -36,8 +36,6 @@ contract('FlightDelayLedger', (accounts) => {
 
     // todo: test setController
 
-    // todo: test getContract
-
     /*
      * setContracts tests
      */
@@ -122,7 +120,63 @@ contract('FlightDelayLedger', (accounts) => {
         await FD.DB.setAccessControlTestOnly(FD.LG.address, accounts[0], 103, false);
     });
 
-    // todo: test sendFunds
+    /*
+     * sendFunds test
+     */
+    it('sendFund should cash out payout to customer', async () => {
+        await FD.DB.setAccessControlTestOnly(FD.LG.address, accounts[0], 102, true);
+        await FD.DB.setAccessControlTestOnly(FD.LG.address, accounts[0], 103, true);
+
+        const value = web3.toWei(5, 'ether');
+
+        const customer = accounts[5];
+        const accBalanceBefore = web3.eth.getBalance(customer);
+        const lgBalanceBefore = web3.eth.getBalance(FD.LG.address);
+
+        // Payout Acc
+        const pyAccBefore = await FD.DB.ledger(2);
+        // Balance Acc
+        const bAccBefore = await FD.DB.ledger(3);
+
+        const { logs, } = await FD.LG.sendFunds(customer, 2, value);
+
+        const accBalanceAfter = web3.eth.getBalance(customer);
+        const lgBalanceAfter = web3.eth.getBalance(FD.LG.address);
+        const pyAccAfter = await FD.DB.ledger(2);
+        const bAccAfter = await FD.DB.ledger(3);
+
+        assert(
+            Number(web3.fromWei(accBalanceAfter), 'ether') - Number(web3.fromWei(accBalanceBefore), 'ether'),
+            Number(web3.fromWei(value, 'ether')),
+            '5 ethers should be sent to customer account'
+        );
+
+        assert(
+            Number(web3.fromWei(lgBalanceAfter), 'ether') - Number(web3.fromWei(lgBalanceBefore), 'ether'),
+            -Number(web3.fromWei(value, 'ether')),
+            '5 ethers should be sent to customer account from FD.Ledger'
+        );
+
+        const log = logs[0];
+
+        log.event.should.be.equal('LogSendFunds');
+        log.args._recipient.should.be.equal(customer);
+        Number(log.args._from).should.be.equal(2);
+        Number(log.args.ethAmount).should.be.equal(Number(value));
+
+        assert.equal(
+            Number(pyAccBefore) - Number(value),
+            Number(pyAccAfter)
+        );
+
+        assert.equal(
+            Number(bAccBefore) + Number(value),
+            Number(bAccAfter)
+        );
+
+        await FD.DB.setAccessControlTestOnly(FD.LG.address, accounts[0], 102, false);
+        await FD.DB.setAccessControlTestOnly(FD.LG.address, accounts[0], 103, false);
+    });
 
     /*
      * bookkeeping tests

@@ -17,7 +17,7 @@ const options = {
         // 4 - FD.Emeregency
         { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00004', balance: 1000000000000000000000000, },
         // 5 - Customer
-        { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00005', balance: 1000000000000000000000000, },
+        { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00005', balance: 1000000000000000000000, },
         // 6 - Bridge deployer
         { secretKey: '0x945377fad41211126252e15f9390dd20ffb43f4d637eda54b8e6b9c10eb00006', balance: 1000000000000000000000000, },
         // 7 - Test 1

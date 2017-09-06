@@ -13,12 +13,12 @@ contract FlightDelayDatabaseModel {
 
     // Ledger accounts.
     enum Acc {
-        Premium,
-        RiskFund,
-        Payout,
-        Balance,
-        Reward,
-        OraclizeCosts
+        Premium,      // 0
+        RiskFund,     // 1
+        Payout,       // 2
+        Balance,      // 3
+        Reward,       // 4
+        OraclizeCosts // 5
     }
 
     // policy Status Codes and meaning:

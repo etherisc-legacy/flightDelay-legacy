@@ -37,8 +37,6 @@ contract('FlightDelayDatabase', (accounts) => {
 
     // todo: test setContracts - check permissions
 
-    // todo: test getContract
-
     /*
      * setContracts tests
      */
@@ -55,13 +53,7 @@ contract('FlightDelayDatabase', (accounts) => {
 
     // todo: test getCustomerPremium
 
-    // todo: test getPolicyData
-
     // todo: test setState
-
-    // todo: test setWeight
-
-    // todo: test setPayouts
 
     // todo: test setDelay
 
@@ -126,7 +118,7 @@ contract('FlightDelayDatabase', (accounts) => {
     /*
      * getLedger test
      */
-    it('should return ledger account by index', async () => {
+    it('getLedger should return ledger account by index', async () => {
         const b0 = await FD.DB.ledger(1);
         const balance0 = await FD.DB.getLedger.call(1);
 
@@ -209,6 +201,69 @@ contract('FlightDelayDatabase', (accounts) => {
 
         const id = await FD.DB.getRiskId.call(0);
         (id.length).should.be.equal(66);
+    });
+
+    /*
+     * setWeight test
+     */
+    it('setWeight should set policy weight by policyId', async () => {
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, true);
+
+        const policyId = 0;
+        await FD.DB.setWeight(policyId, 1000, '123');
+
+        const policy = await FD.DB.policies.call(policyId);
+
+        assert(
+            Number(policy[3]),
+            1000,
+            'Weight should be set'
+        );
+
+        assert(
+            web3.toUtf8(policy[9]),
+            123,
+            'Proof should be set'
+        );
+
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, false);
+    });
+
+    /*
+     * setPayouts test
+     */
+    it('setPayouts should set calculated and actual payouts', async () => {
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, true);
+
+        const policyId = 0;
+        await FD.DB.setPayouts(policyId, 1, 2);
+
+        const policy = await FD.DB.policies.call(policyId);
+
+        assert(
+            Number(policy[4]),
+            1,
+            'calculatedPayout should be set'
+        );
+
+        assert(
+            Number(policy[5]),
+            2,
+            'actualPayout should be set'
+        );
+
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, false);
+    });
+
+    /*
+     * getPolicyData test
+     */
+    it('getPolicyData should return customer, weight, premium for specified policy', async () => {
+        const data = await FD.DB.getPolicyData.call(0);
+
+        data[0].should.be.equal(accounts[0]);
+        Number(data[1]).should.be.equal(1000);
+        data[2].valueOf().should.be.equal(web3.toWei(1, 'ether'));
     });
 
     // todo: test getOraclizeCallback
