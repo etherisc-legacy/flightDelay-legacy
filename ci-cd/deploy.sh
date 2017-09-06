@@ -2,6 +2,8 @@
 
 set -e
 
+pushd ../
+
 echo "Deploying to" $1
 
 echo "Installing dependencies"
@@ -19,7 +21,7 @@ author2=$(node -e "console.log(require('./truffle.js').networks['$1'].from2)")
 echo "Author:" $author, $author2
 
 echo "Decrypting keys"
-openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_iv -in keys.tar.enc -out keys.tar -d
+openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_iv -in ./ci-cd/keys.tar.enc -out keys.tar -d
 
 echo "Extracting keys"
 tar xvf keys.tar
@@ -38,27 +40,22 @@ do
 done
 
 echo "Preprocess contracts"
-APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh $1
+APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run prod-mode
 
 echo "Compiling"
-npm run compile -- --network $1
+npm run compile
 
-echo "Selecting migrations"
-./migselect.sh
+ln -s ./migrations-available/302_deploy_Other.js ./migrations/302_deploy_Other.js
 
-echo "Test Deploy"
-./test-get.sh Test_Deploy.js
-npm test -- --network $1
+ln -s ./test-available/Test_Deploy.js ./migrations/Test_Deploy.js
+ln -s ./test-available/Test_Destruct.js ./migrations/Test_Destruct.js
+ln -s ./test-available/Test_FlightDelayNewPolicy.js ./migrations/Test_FlightDelayNewPolicy.js
 
-echo "Test FlightDelayDestruct"
-./test-get.sh Test_FlightDelayDestruct.js
-npm test -- --network $1
-
-echo "Test FlightDelayNewPolicy"
-./test-get.sh Test_FlightDelayNewPolicy.js
 npm test -- --network $1
 
 echo "Deploying"
 npm run deploy -- --network $1
 
-node set-contract-address.js $1
+node ./ci-cd/set-contract-address.js $1
+
+popd
