@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "7"
-script: ./travis-testrpc.sh
+script: ./ci-cd/travis-testrpc.sh
 cache:
   directories:
     - $HOME/.npm
@@ -37,7 +37,3 @@ deploy:
     script: ./ci_cd/deploy.sh kovan
     on:
       branch: develop
-  - provider: script
-    script: ./ci_cd/deploy.sh mainnet
-    on:
-      branch: master

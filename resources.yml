@@ -11,4 +11,4 @@ test:
     - Test_FlightDelayLedger.js
     - Test_FlightDelayPayout.js
     - Test_FlightDelayUnderwrite.js
-    - Test_FlightDelayNewPolicy_cases.js
+    - Test_FlightDelayNewPolicy.js
