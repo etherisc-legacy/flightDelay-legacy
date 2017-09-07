@@ -24,7 +24,7 @@ contract('FlightDelayPayout', async (accounts) => {
     /*
      * Initilization
      */
-    it('Controller should be set to FD.Controller', async () => {
+    it('controller should be set to FD.Controller', async () => {
         const controller = await FD.PY.controller.call();
         controller.should.be.equal(FD.C.address);
     });
@@ -36,13 +36,7 @@ contract('FlightDelayPayout', async (accounts) => {
 
     // todo: check onlyController
 
-    // todo: test setController
-
-    // todo: test destruct
-
     // todo: test setContracts
-
-    // tood: test getContract
 
     /*
      * setContracts tests

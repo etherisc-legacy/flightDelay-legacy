@@ -122,10 +122,6 @@ contract('FlightDelayUnderwrite', (accounts) => {
 
     // todo: check onlyController
 
-    // todo: test setController
-
-    // todo: test destruct
-
     // todo: test setContracts
 
     // tood: test getContract

@@ -18,7 +18,7 @@ contract('FlightDelayAccessController', async (accounts) => {
     /*
      * Initilization
      */
-    it('Controller should be set to FD.Controller', async () => {
+    it('controller should be set to FD.Controller', async () => {
         const controller = await FD.AC.controller.call();
         controller.should.be.equal(FD.C.address);
     });
@@ -29,8 +29,6 @@ contract('FlightDelayAccessController', async (accounts) => {
     });
 
     // todo: check onlyController
-
-    // todo: test setController
 
     /*
      * setContracts tests

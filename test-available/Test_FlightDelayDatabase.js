@@ -21,7 +21,7 @@ contract('FlightDelayDatabase', (accounts) => {
     /*
      * Initilization
      */
-    it('Controller should be set to FD.Controller', async () => {
+    it('controller should be set to FD.Controller', async () => {
         const controller = await FD.DB.controller.call();
         controller.should.be.equal(FD.C.address);
     });
@@ -32,36 +32,17 @@ contract('FlightDelayDatabase', (accounts) => {
     });
 
     // todo: check onlyController
-
-    // todo: test setController
-
     // todo: test setContracts - check permissions
+    // todo: test setAccessControl 1
+    // todo: test setAccessControl 2
 
     /*
      * setContracts tests
      */
-    it('Should not be accessed from external account', async () => {
+    it('should not be accessed from external account', async () => {
         await FD.DB.setContracts()
             .should.be.rejectedWith(utils.EVMThrow);
     });
-
-    // todo: test setAccessControl 1
-
-    // todo: test setAccessControl 2
-
-    // todo: test getAccessControl
-
-    // todo: test getCustomerPremium
-
-    // todo: test setState
-
-    // todo: test setDelay
-
-    // todo: test getRiskParameters
-
-    // todo: test getPremiumFactors
-
-    // todo: test setPremiumFactors
 
     /*
      * setLedger test
@@ -265,6 +246,69 @@ contract('FlightDelayDatabase', (accounts) => {
         Number(data[1]).should.be.equal(1000);
         data[2].valueOf().should.be.equal(web3.toWei(1, 'ether'));
     });
+
+    /*
+     * setState test
+     */
+    it('setState shoud set policy state', async () => {
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, true);
+
+        const { logs, } = await FD.DB.setState(0, 2, 1504719597917, 'message')
+            .should.not.be.rejectedWith(utils.EVMThow());
+
+        const policy = await FD.DB.policies(0);
+
+        policy[6].valueOf().should.be.equal('2');
+        policy[7].valueOf().should.be.equal('1504719597917');
+        web3.toUtf8(policy[8]).should.be.equal('message');
+
+        const log = logs[0];
+
+        log.event.should.be.equal('LogSetState');
+        log.args._policyId.valueOf().should.be.equal('0');
+        log.args._policyState.valueOf().should.be.equal('2');
+        log.args._stateTime.valueOf().should.be.equal('1504719597917');
+        web3.toUtf8(log.args._stateMessage).should.be.equal('message');
+
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, false);
+    });
+
+    /*
+     * setDelay test
+     */
+    it('setDelay should set delay info to the risk', async () => {
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, true);
+
+        const policyId = 0;
+        const delay = 2;
+        const delayMinutes = 55;
+
+        await FD.DB.setDelay(policyId, delay, delayMinutes)
+            .should.not.be.rejectedWith(utils.EVMThow());
+
+        const policy = await FD.DB.policies(policyId);
+        const rId = policy[2];
+
+        const risk = await FD.DB.risks(rId);
+
+        // delay
+        risk[3].valueOf().should.be.equal('55');
+
+        // delay minutes
+        risk[4].valueOf().should.be.equal('2');
+
+        await FD.DB.setAccessControlTestOnly(FD.DB.address, accounts[0], 101, false);
+    });
+
+    // todo: test getCustomerPremium
+
+    // todo: test setPremiumFactors
+
+    // todo: getRiskParameters
+
+    // todo: test getPremiumFactors
+
+    // todo: test getAccessControl
 
     // todo: test getOraclizeCallback
 

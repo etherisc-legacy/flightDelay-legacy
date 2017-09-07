@@ -19,7 +19,7 @@ contract('FlightDelayLedger', (accounts) => {
     /*
      * Initilization
      */
-    it('Controller should be set to FD.Controller', async () => {
+    it('controller should be set to FD.Controller', async () => {
         const controller = await FD.LG.controller.call();
         controller.should.be.equal(FD.C.address);
     });
@@ -39,7 +39,7 @@ contract('FlightDelayLedger', (accounts) => {
     /*
      * setContracts tests
      */
-    it('Should not be accessed from external account', async () => {
+    it('should not be accessed from external account', async () => {
         await FD.LG.setContracts()
             .should.be.rejectedWith(utils.EVMThrow);
     });
@@ -49,7 +49,7 @@ contract('FlightDelayLedger', (accounts) => {
     /*
      * fund tests
      */
-    it('Should accept ETH from FD.Funder', async () => {
+    it('should accept ETH from FD.Funder', async () => {
         const balanceBefore = web3.eth.getBalance(FD.LG.address);
         const value = web3.toWei(10, 'ether');
 
