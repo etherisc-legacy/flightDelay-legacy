@@ -34,6 +34,6 @@ env:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./ci_cd/deploy.sh kovan
+    script: ./ci-cd/deploy.sh kovan
     on:
       branch: develop

@@ -9,33 +9,56 @@
 `sudo pip install base58`
 
 ## FlightStat
+
 Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API credentials
-`APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY ./preprocess.sh`
+
+`APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run test-mode`
 
 ## Testrpc
+
 `npm run testrpc`
 
 ## Bridge to Oraclize (only for testrpc)
-`cd external/ethereum-bridge && npm install`
 
-`node bridge -a 1 -H localhost:9545`
+`npm run bridge`
 
-## Migrations
-`./migselect.sh`
+## Select migrations and tests
+
+`npm run select-resources`
 
 ## Tests
-`./testselect.sh`
 
-`npm run test -- --network testrpc`
+for testrpc
 
-## Deploy to testrpc
-`npm run deploy -- --network testrpc`
+`npm test`
 
-`npm run console`
+for kovan
+
+`parity --author 0xc3878b8566f5626fb8d6ad43b647e3405668f20b --chain kovan --unlock 0xc3878b8566f5626fb8d6ad43b647e3405668f20b,0x1d45c059e511241a5c1b3081e56302a59621c94c,0x79e3c795890175180c492b66b69f0d35ff031de4,0xa3a645c963ca4c03328afbd9a79f45716b492231,0x6e5dc1285a441627c0046604586b081bbe41fbc8,0x189a99226ad233df825cc1f9d48c8afba529b803,0x5226d6ce4d0b84ec9f8214ee4f5883738dad130e,0x1885bf0a04c6948061007cb556935a903b1bed95,0xd3ce03dfcc6b95c55f991b989b48bff28a9f3962,0xc95efc83de5832510dac2c29198279eb8662d77e --password ~/Desktop/keys/kovan.txt --keys-path ~/Desktop/keys/ --mode active --geth --force-ui`
+
+`APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run prod-mode`
+
+`npm test -- --network kovan`
+
+## Deploy
+
+for testrpc
+
+`npm run deploy`
+
+for kovan
+
+`parity --author 0xc3878b8566f5626fb8d6ad43b647e3405668f20b --chain kovan --unlock 0xc3878b8566f5626fb8d6ad43b647e3405668f20b,0x1d45c059e511241a5c1b3081e56302a59621c94c,0x79e3c795890175180c492b66b69f0d35ff031de4,0xa3a645c963ca4c03328afbd9a79f45716b492231,0x6e5dc1285a441627c0046604586b081bbe41fbc8,0x189a99226ad233df825cc1f9d48c8afba529b803,0x5226d6ce4d0b84ec9f8214ee4f5883738dad130e,0x1885bf0a04c6948061007cb556935a903b1bed95,0xd3ce03dfcc6b95c55f991b989b48bff28a9f3962,0xc95efc83de5832510dac2c29198279eb8662d77e --password ~/Desktop/keys/kovan.txt --keys-path ~/Desktop/keys/ --mode active --geth --force-ui`
+
+`APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run prod-mode`
+
+`npm run recompile`
+
+`npm run deploy -- --network kovan`
 
 ## Degugging
 
-`truffle console`
+`npm run console`
 
 `const FDNewPolicyAt = ""`
 
@@ -44,6 +67,12 @@ Replace $FLIGHT_STAT_APP_ID and $FLIGHT_STAT_APP_KEY with your FlightStat API cr
 `FlightDelayNewPolicy.at(FDNewPolicyAt).allEvents({fromBlock: 0}).get((error, result) => { console.log(result) })`
 
 `FlightDelayNewPolicy.at(FDNewPolicyAt).newPolicy("KL/1770", "/dep/2018/01/01", 1514764800, 1514808000, {from: web3.eth.coinbase, to: FDNewPolicyAt, value: web3.toWei(0.5, 'ether'), gas: 1000000})`
+
+## Commit
+
+You must clean FlightStat creds from source code before commit
+
+`npm run prepare-commit`
 
 ## Changing addresses of accounts in networks
 

@@ -21,9 +21,12 @@ const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 module.exports = (deployer, networks, accounts) => {
     let controller;
 
+    log.info('Deploy FlightDelayController contract');
+
     return deployer
-        // Deploy contracts
+    // Deploy contracts
         .deploy(FlightDelayController)
+        .then(() => log.info('Deploy other contracts'))
         .then(() => deployer.deploy(FlightDelayAccessController, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayDatabase, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayLedger, FlightDelayController.address))
@@ -32,14 +35,17 @@ module.exports = (deployer, networks, accounts) => {
         .then(() => deployer.deploy(FlightDelayPayout, FlightDelayController.address))
 
         // Save link to controller instance
+        .then(() => log.info('Save link to controller instance'))
         .then(() => FlightDelayController.deployed())
         .then((_i) => { controller = _i; return Promise.resolve(); })
 
-        // // Register contracts
+        // Register contracts
+        .then(() => log.info('Register contracts'))
         .then(() => controller.registerContract(accounts[2], 'FD.Funder', false))
         .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
         .then(() => controller.registerContract(accounts[4], 'FD.Emergency', false))
 
+        .then(() => log.info('Register other contracts'))
         .then(() => controller.registerContract(FlightDelayAccessController.address, 'FD.AccessController', true))
         .then(() => controller.registerContract(FlightDelayDatabase.address, 'FD.Database', true))
         .then(() => controller.registerContract(FlightDelayLedger.address, 'FD.Ledger', true))
@@ -48,20 +54,25 @@ module.exports = (deployer, networks, accounts) => {
         .then(() => controller.registerContract(FlightDelayPayout.address, 'FD.Payout', true))
 
         // Setup contracts
+        .then(() => log.info('Setup contracts'))
         .then(() => controller.setAllContracts())
 
         // Set new owner
+        .then(() => log.info('Set new owner'))
         .then(() => controller.transferOwnership(accounts[1]))
 
         // Fund FD.Ledger
+        .then(() => log.info('Fund FD.Ledger'))
         .then(() => FlightDelayLedger.deployed())
         .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(100, 'ether'), }))
 
         // Fund FD.Underwrite
+        .then(() => log.info('Fund FD.Underwrite'))
         .then(() => FlightDelayUnderwrite.deployed())
         .then(FD_UW => FD_UW.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
 
         // Fund FD.Payout
+        .then(() => log.info('Fund FD.Payout'))
         .then(() => FlightDelayPayout.deployed())
         .then(FD_PY => FD_PY.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
 

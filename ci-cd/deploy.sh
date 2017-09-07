@@ -2,8 +2,6 @@
 
 set -e
 
-pushd ../
-
 echo "Deploying to" $1
 
 echo "Installing dependencies"
@@ -17,8 +15,8 @@ npm install
 
 echo "Getting authors"
 author=$(node -e "console.log(require('./truffle.js').networks['$1'].from)")
-author2=$(node -e "console.log(require('./truffle.js').networks['$1'].from2)")
-echo "Author:" $author, $author2
+unlock=$(node -e "console.log(require('./truffle.js').networks['$1'].unlock.join(','))")
+echo "Author:" $author, $unlock
 
 echo "Decrypting keys"
 openssl aes-256-cbc -K $encrypted_d265c45176be_key -iv $encrypted_d265c45176be_iv -in ./ci-cd/keys.tar.enc -out keys.tar -d
@@ -28,8 +26,8 @@ tar xvf keys.tar
 
 echo "Running Parity"
 ls -la ./keys
-echo "parity --author $author --chain $1 --unlock $author,$author2 --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth"
-parity --author $author --chain $1 --unlock $author,$author2 --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth &
+echo "parity --author $author --chain $1 --unlock $author,$unlock --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth"
+parity --author $author --chain $1 --unlock $author,$unlock --password ./keys/$1.txt --keys-path ./keys/ --mode active --geth &
 sleep 5
 
 echo "Synchronising with network"
@@ -42,20 +40,20 @@ done
 echo "Preprocess contracts"
 APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run prod-mode
 
-echo "Compiling"
-npm run compile
-
+echo "Select resources"
 ln -s ./migrations-available/302_deploy_Other.js ./migrations/302_deploy_Other.js
+ln -s ./test-available/logformatter.js ./test/logformatter.js
+ln -s ./test-available/Test_Deploy.js ./test/Test_Deploy.js
+ln -s ./test-available/Test_Destruct.js ./v/Test_Destruct.js
+ln -s ./test-available/Test_FlightDelayNewPolicy.js ./test/Test_FlightDelayNewPolicy.js
 
-ln -s ./test-available/Test_Deploy.js ./migrations/Test_Deploy.js
-ln -s ./test-available/Test_Destruct.js ./migrations/Test_Destruct.js
-ln -s ./test-available/Test_FlightDelayNewPolicy.js ./migrations/Test_FlightDelayNewPolicy.js
+echo "Start compiling"
+npm run recompile
 
+echo "Start testing"
 npm test -- --network $1
 
-echo "Deploying"
+echo "Start deploying"
 npm run deploy -- --network $1
 
 node ./ci-cd/set-contract-address.js $1
-
-popd
