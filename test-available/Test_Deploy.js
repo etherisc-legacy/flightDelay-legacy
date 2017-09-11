@@ -76,4 +76,10 @@ contract('After deploy', (accounts) => {
             utils.assertJump(error);
         }
     });
+
+    after(async () => {
+        if (web3.version.network < 1000) {
+            await FDC.destructAll({ from: accounts[1], gas: 4700000, });
+        }
+    });
 });

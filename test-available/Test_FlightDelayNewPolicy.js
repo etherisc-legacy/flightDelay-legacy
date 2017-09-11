@@ -185,4 +185,11 @@ contract('FlightDelayNewPolicy', (accounts) => {
     };
 
     doTests.forEach((key, i) => testOne(testSuite.find(testDef => testDef.testId === doTests[i])));
+
+    after(async () => {
+        if (web3.version.network < 1000) {
+            const CT = await FlightDelayController.deployed();
+            await CT.destructAll({ from: accounts[1], gas: 4700000, });
+        }
+    });
 }); // contract
