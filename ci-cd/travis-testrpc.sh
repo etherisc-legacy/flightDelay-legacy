@@ -2,6 +2,9 @@
 
 set -e
 
+
+
+
 # APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run test-mode
 # npm run testrpc > testrpc.log &
 # pushd ./external/ethereum-bridge

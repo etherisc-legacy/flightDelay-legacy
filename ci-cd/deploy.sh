@@ -5,7 +5,7 @@ set -e
 echo "Deploying to" $1
 
 echo "Installing dependencies"
-pip install --upgrade --force-reinstall cffi cryptography base58
+pip install --user --upgrade --force-reinstall cffi cryptography base58
 
 echo "Installing Parity"
 bash <(curl https://get.parity.io -Lk)
@@ -38,14 +38,10 @@ do
 done
 
 echo "Preprocess contracts"
-APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run prod-mode
+APP_ID=$FLIGHT_STAT_APP_ID APP_KEY=$FLIGHT_STAT_APP_KEY npm run test-mode
 
 echo "Select resources"
-ln -s ./migrations-available/302_deploy_Other.js ./migrations/302_deploy_Other.js
-ln -s ./test-available/logformatter.js ./test/logformatter.js
-ln -s ./test-available/Test_Deploy.js ./test/Test_Deploy.js
-# ln -s ./test-available/Test_Destruct.js ./v/Test_Destruct.js
-# ln -s ./test-available/Test_FlightDelayNewPolicy.js ./test/Test_FlightDelayNewPolicy.js
+npm run select-resources
 
 echo "Start compiling"
 npm run recompile

@@ -64,7 +64,7 @@ module.exports = (deployer, networks, accounts) => {
         // Fund FD.Ledger
         .then(() => log.info('Fund FD.Ledger'))
         .then(() => FlightDelayLedger.deployed())
-        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(100, 'ether'), }))
+        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(50, 'ether'), }))
 
         // Fund FD.Underwrite
         .then(() => log.info('Fund FD.Underwrite'))
