@@ -219,4 +219,10 @@ contract('FlightDelayLedger', (accounts) => {
 
     // todo: test bookkeeping (diffrent variants)
     // todo: should throw on overflow, check if safeMath for various overflows in bookkeeping works
+
+    after(async () => {
+        if (web3.version.network < 1000) {
+            await FD.C.destructAll({ from: accounts[1], gas: 4700000, });
+        }
+    });
 });

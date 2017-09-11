@@ -6,8 +6,6 @@ cache:
   directories:
     - $HOME/.npm
     - $HOME/.cache/pip
-    - $HOME/external/ethereum-bridge/node_modules
-    - $HOME/build
 
 sudo: required
 addons:

@@ -317,4 +317,10 @@ contract('FlightDelayDatabase', (accounts) => {
     // todo: test createOraclizeCallback
 
     // todo: test checkTime
+
+    after(async () => {
+        if (web3.version.network < 1000) {
+            await FD.C.destructAll({ from: accounts[1], gas: 4700000, });
+        }
+    });
 });
