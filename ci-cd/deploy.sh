@@ -44,8 +44,8 @@ echo "Select resources"
 ln -s ./migrations-available/302_deploy_Other.js ./migrations/302_deploy_Other.js
 ln -s ./test-available/logformatter.js ./test/logformatter.js
 ln -s ./test-available/Test_Deploy.js ./test/Test_Deploy.js
-ln -s ./test-available/Test_Destruct.js ./v/Test_Destruct.js
-ln -s ./test-available/Test_FlightDelayNewPolicy.js ./test/Test_FlightDelayNewPolicy.js
+# ln -s ./test-available/Test_Destruct.js ./v/Test_Destruct.js
+# ln -s ./test-available/Test_FlightDelayNewPolicy.js ./test/Test_FlightDelayNewPolicy.js
 
 echo "Start compiling"
 npm run recompile
@@ -53,7 +53,7 @@ npm run recompile
 echo "Start testing"
 npm test -- --network $1
 
-echo "Start deploying"
-npm run deploy -- --network $1
+# echo "Start deploying"
+# npm run deploy -- --network $1
 
-node ./ci-cd/set-contract-address.js $1
+# node ./ci-cd/set-contract-address.js $1
