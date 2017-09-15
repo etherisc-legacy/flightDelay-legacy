@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-pragma solidity 0.4.13;
+pragma solidity 0.4.15;
 
 import "./../vendors/usingOraclize.sol";
 

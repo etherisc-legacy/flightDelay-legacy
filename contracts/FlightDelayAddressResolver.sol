@@ -3,7 +3,7 @@
   Copyright (c) 2016 Oraclize LTD
 */
 
-pragma solidity 0.4.13;
+pragma solidity 0.4.15;
 
 
 contract FlightDelayAddressResolver {

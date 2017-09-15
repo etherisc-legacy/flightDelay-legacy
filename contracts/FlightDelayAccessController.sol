@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-pragma solidity 0.4.13;
+pragma solidity 0.4.15;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayDatabaseInterface.sol";
