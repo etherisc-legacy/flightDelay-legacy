@@ -21,7 +21,7 @@ module.exports = {
             gas: 4700000,
         },
         kovan: {
-            network_id: 123, // custom private network
+            network_id: 42, // custom private network
             host: 'localhost',
             port: 8545,
             from: '0xc3878b8566f5626fb8d6ad43b647e3405668f20b',
@@ -39,10 +39,11 @@ module.exports = {
             gas: 6000000,
         },
         development: {
-            // host: 'docker.for.mac.localhost',
-            host: 'localhost',
+            network_id: '1234',
+            host: 'localhost', // 'docker.for.mac.localhost',
             port: 9545,
-            network_id: '*',
+            from: '0x2e781b96a14485cdbf7e9457b71165558b1f7d3a',
+            gas: 6000000,
         },
     },
 };

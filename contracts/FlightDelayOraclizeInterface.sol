@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.13;
 
 import "./../vendors/usingOraclize.sol";
 
@@ -15,7 +15,7 @@ contract FlightDelayOraclizeInterface is usingOraclize {
 
     modifier onlyOraclize () {
 // --> prod-mode
-//            require(msg.sender == oraclize_cbAddress());
+        require(msg.sender == oraclize_cbAddress());
 // <-- prod-mode
         _;
     }

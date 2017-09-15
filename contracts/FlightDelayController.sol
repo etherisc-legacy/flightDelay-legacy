@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.13;
 
 import "./Owned.sol";
 import "./FlightDelayControlledContract.sol";
@@ -15,12 +15,14 @@ import "./FlightDelayConstants.sol";
 contract FlightDelayController is Owned, FlightDelayConstants {
 
     struct Controller {
+        bytes32 id;
         address addr;
         bool isControlled;
         bool isInitialized;
     }
 
     mapping (bytes32 => Controller) public contracts;
+    mapping (address => Controller) public contractsReverse;
     bytes32[] public contractIds;
 
     /**
@@ -47,8 +49,13 @@ contract FlightDelayController is Owned, FlightDelayConstants {
     * @param _id         ID of contract
     */
     function setContract(address _addr, bytes32 _id, bool _isControlled) internal {
+        contractsReverse[contracts[_id].addr].id = ''; // erase prev value
+
         contracts[_id].addr = _addr;
         contracts[_id].isControlled = _isControlled;
+
+        contractsReverse[_addr].id = _id;
+        contractsReverse[_addr].isControlled = _isControlled;
     }
 
     /**
@@ -59,6 +66,10 @@ contract FlightDelayController is Owned, FlightDelayConstants {
     */
     function getContract(bytes32 _id) returns (address _addr) {
         _addr = contracts[_id].addr;
+    }
+
+    function getContractReverse(address _addr) returns (bytes32 _id) {
+        _id = contractsReverse[_addr].id;
     }
 
     /**

@@ -20,6 +20,7 @@ const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
 module.exports = (deployer, networks, accounts) => {
     let controller;
+    let MultiSigWallet;
 
     log.info('Deploy FlightDelayController contract');
 
@@ -33,6 +34,10 @@ module.exports = (deployer, networks, accounts) => {
         .then(() => deployer.deploy(FlightDelayNewPolicy, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayPayout, FlightDelayController.address))
+        .then(() => log.info(`Deploy MultiSigWallet with owner ${accounts[1]}`))
+        .then(() => require('../ci-cd/MultiSigWallet')([accounts[1]], 1, networks))
+        .then((w) => MultiSigWallet = w)
+
 
         // Save link to controller instance
         .then(() => log.info('Save link to controller instance'))
@@ -58,26 +63,26 @@ module.exports = (deployer, networks, accounts) => {
         .then(() => controller.setAllContracts())
 
         // Set new owner
-        .then(() => log.info('Set new owner'))
-        .then(() => controller.transferOwnership(accounts[1]))
+        .then(() => log.info(`Set new owner to ${MultiSigWallet.options.address}`))
+        .then(() => controller.transferOwnership(MultiSigWallet.options.address))
 
         // Fund FD.Ledger
         .then(() => log.info('Fund FD.Ledger'))
         .then(() => FlightDelayLedger.deployed())
-        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(50, 'ether'), }))
+        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(0.1, 'ether'), }))
 
         // Fund FD.Underwrite
         .then(() => log.info('Fund FD.Underwrite'))
         .then(() => FlightDelayUnderwrite.deployed())
-        .then(FD_UW => FD_UW.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
+        .then(FD_UW => FD_UW.fund({ from: accounts[2], value: web3.toWei(0.1, 'ether'), }))
 
         // Fund FD.Payout
         .then(() => log.info('Fund FD.Payout'))
         .then(() => FlightDelayPayout.deployed())
-        .then(FD_PY => FD_PY.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
+        .then(FD_PY => FD_PY.fund({ from: accounts[2], value: web3.toWei(0.1, 'ether'), }))
 
         .then(() => {
-            log.info(`FD.Owner: ${accounts[1]}`);
+            log.info(`FD.Owner: ${MultiSigWallet.options.address}`);
             log.info(`FD.Funder: ${accounts[2]}`);
             log.info(`FD.CustomersAdmin: ${accounts[3]}`);
             log.info(`FD.Emeregency: ${accounts[4]}`);

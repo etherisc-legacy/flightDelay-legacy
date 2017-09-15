@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.13;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayDatabaseInterface.sol";
@@ -31,7 +31,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     mapping (bytes32 => Risk) public risks;
 
     // Lookup AccessControl
-    mapping(address => mapping(address => mapping(uint8 => bool))) public accessControl;
+    mapping(address => mapping(bytes32 => mapping(uint8 => bool))) public accessControl;
 
     // Lookup accounts of internal ledger
     int[6] public ledger;
@@ -54,27 +54,39 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     // Getter and Setter for AccessControl
     function setAccessControl(
         address _contract,
-        address _caller,
+        bytes32 _caller,
         uint8 _perm,
         bool _access
     ) {
+// --> debug-mode
+//            LogUint('setAccessControl _perm', _perm);
+//            LogAddress('setAccessControl _contract', _contract);
+//            LogBytes32('setAccessControl _caller', _caller);
+//            LogBool('setAccessControl _access', _access);
+//            LogBool('setAccessControl will meet require', msg.sender == FD_CI.getContract("FD.AccessController"));
+//            LogAddress('setAccessControl msg.sender', msg.sender);
+//            LogAddress('FD.AccessController msg.sender', FD_CI.getContract("FD.AccessController"));
+// <-- debug-mode
         // one and only hardcoded accessControl
         require(msg.sender == FD_CI.getContract("FD.AccessController"));
+// --> debug-mode
+//            LogBool('setAccessControl met require', true);
+// <-- debug-mode
         accessControl[_contract][_caller][_perm] = _access;
     }
 
 // --> test-mode
-    function setAccessControlTestOnly(
-        address _contract,
-        address _caller,
-        uint8 _perm,
-        bool _access
-    ) {
-        accessControl[_contract][_caller][_perm] = _access;
-    }
+//        function setAccessControlTestOnly(
+//            address _contract,
+//            bytes32 _caller,
+//            uint8 _perm,
+//            bool _access
+//        ) {
+//            accessControl[_contract][_caller][_perm] = _access;
+//        }
 // <-- test-mode
 
-    function setAccessControl(address _contract, address _caller, uint8 _perm) {
+    function setAccessControl(address _contract, bytes32 _caller, uint8 _perm) {
         setAccessControl(
             _contract,
             _caller,
@@ -83,7 +95,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         );
     }
 
-    function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed) {
+    function getAccessControl(address _contract, bytes32 _caller, uint8 _perm) returns (bool _allowed) {
         _allowed = accessControl[_contract][_caller][_perm];
     }
 
@@ -139,7 +151,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         //todo: check for ovewflows
 
 // --> test-mode
-        LogUint("_policyId", _policyId);
+//            LogUint("_policyId", _policyId);
 // <-- test-mode
 
         customerPolicies[_customer].push(_policyId);
@@ -223,7 +235,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         );
 
 // --> test-mode
-        LogBytes32("riskId", _riskId);
+//            LogBytes32("riskId", _riskId);
 // <-- test-mode
 
         Risk storage r = risks[_riskId];

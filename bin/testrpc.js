@@ -30,6 +30,9 @@ const options = {
     debug: true,
     logger: { log: log.info, },
     blocktime: 0,
+    hostname: '0.0.0.0',
+    network_id: '1234',
+    gasLimit: 0x6DDD00, // 7200000 http://coderstoolbox.net/number/
 };
 
 TestRPC

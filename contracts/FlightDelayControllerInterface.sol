@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.13;
 
 
 contract FlightDelayControllerInterface {
@@ -16,4 +16,6 @@ contract FlightDelayControllerInterface {
     function selfRegister(bytes32 _id) returns (bool result);
 
     function getContract(bytes32 _id) returns (address _addr);
+
+    function getContractReverse(address _addr) returns (bytes32 _id);
 }

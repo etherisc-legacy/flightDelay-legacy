@@ -6,23 +6,23 @@
  * @author Christoph Mussenbrock, Stephan Karpischek
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.13;
 
 import "./FlightDelayDatabaseModel.sol";
 
 
 contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
 
-    function setAccessControl(address _contract, address _caller, uint8 _perm);
+    function setAccessControl(address _contract, bytes32 _caller, uint8 _perm);
 
     function setAccessControl(
         address _contract,
-        address _caller,
+        bytes32 _caller,
         uint8 _perm,
         bool _access
     );
 
-    function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed);
+    function getAccessControl(address _contract, bytes32 _caller, uint8 _perm) returns (bool _allowed);
 
     function setLedger(uint8 _index, int _value);
 

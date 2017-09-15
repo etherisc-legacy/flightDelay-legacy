@@ -6,7 +6,7 @@
  * @author Christoph Mussenbrock
  */
 
-pragma solidity ^0.4.11;
+pragma solidity 0.4.13;
 
 import "./FlightDelayControlledContract.sol";
 import "./FlightDelayConstants.sol";
@@ -35,6 +35,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         FD_UW = FlightDelayUnderwriteInterface(getContract("FD.Underwrite"));
 
         FD_AC.setPermissionByAddress(101, 0x1);
+        FD_AC.setPermissionById(103, "FD.Owner"); // check!
         FD_AC.setPermissionById(102, "FD.Controller"); // check!
     }
 
@@ -52,8 +53,14 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     }
 
     function maintenanceMode(bool _on) {
-        if (FD_AC.checkPermission(102, msg.sender)) {
-            FD_AC.setPermissionByAddress(101, 0x0, _on);
+// --> debug-mode
+//            LogBool('maintenanceMode', _on);
+// <-- debug-mode
+        if (FD_AC.checkPermission(103, msg.sender)) {
+// --> debug-mode
+//                LogAddress('Allowed permission 103', msg.sender);
+// <-- debug-mode
+            FD_AC.setPermissionByAddress(101, 0x1, _on);
         }
     }
 
