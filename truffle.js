@@ -39,7 +39,7 @@ module.exports = {
             gas: 6000000,
         },
         development: {
-            network_id: '1234',
+            network_id: '4447',
             host: 'localhost', // 'docker.for.mac.localhost',
             port: 9545,
             from: '0x2e781b96a14485cdbf7e9457b71165558b1f7d3a',

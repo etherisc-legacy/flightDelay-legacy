@@ -58,10 +58,10 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
 
     function checkPermission(uint8 _perm, address _addr) returns (bool _success) {
 // --> debug-mode
-//                 LogUint("_perm", _perm);
-//                 LogAddress("_addr", _addr);
-//                 LogAddress("msg.sender", msg.sender);
-//                 LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, FD_CI.getContractReverse(_addr), _perm));
+//             LogUint("_perm", _perm);
+//             LogAddress("_addr", _addr);
+//             LogAddress("msg.sender", msg.sender);
+//             LogBool("getAccessControl", FD_DB.getAccessControl(msg.sender, FD_CI.getContractReverse(_addr), _perm));
 // <-- debug-mode
         _success = FD_DB.getAccessControl(msg.sender, FD_CI.getContractReverse(_addr), _perm);
     }

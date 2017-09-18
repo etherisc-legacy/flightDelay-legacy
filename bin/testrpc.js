@@ -31,7 +31,7 @@ const options = {
     logger: { log: log.info, },
     blocktime: 0,
     hostname: '0.0.0.0',
-    network_id: '1234',
+    network_id: '4447',
     gasLimit: 0x6DDD00, // 7200000 http://coderstoolbox.net/number/
 };
 
