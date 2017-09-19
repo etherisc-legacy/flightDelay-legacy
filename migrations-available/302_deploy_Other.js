@@ -9,6 +9,7 @@
 
 const log = require('../util/logger');
 const fs = require('fs');
+const mkdirp = require('mkdirp');
 
 const FlightDelayController = artifacts.require('FlightDelayController.sol');
 const FlightDelayAccessController = artifacts.require('FlightDelayAccessController.sol');
@@ -40,7 +41,10 @@ module.exports = (deployer, networks, accounts) => {
         // Save link to controller instance
         .then(() => log.info('Save link to controller instance'))
         .then(() => FlightDelayController.deployed())
-        .then((_i) => { controller = _i; return Promise.resolve(); })
+        .then((_i) => {
+            controller = _i;
+            return Promise.resolve();
+        })
 
         // Register contracts
         .then(() => log.info('Register contracts'))
@@ -67,38 +71,34 @@ module.exports = (deployer, networks, accounts) => {
         // Fund FD.Ledger
         .then(() => log.info('Fund FD.Ledger'))
         .then(() => FlightDelayLedger.deployed())
-        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(0.1, 'ether'), }))
+        .then(FD_LG => FD_LG.fund({from: accounts[2], value: web3.toWei(50, 'ether'),}))
 
         // Fund FD.Underwrite
         .then(() => log.info('Fund FD.Underwrite'))
         .then(() => FlightDelayUnderwrite.deployed())
-        .then(FD_UW => FD_UW.fund({ from: accounts[2], value: web3.toWei(0.1, 'ether'), }))
+        .then(FD_UW => FD_UW.fund({from: accounts[2], value: web3.toWei(10, 'ether'),}))
 
         // Fund FD.Payout
         .then(() => log.info('Fund FD.Payout'))
         .then(() => FlightDelayPayout.deployed())
-        .then(FD_PY => FD_PY.fund({ from: accounts[2], value: web3.toWei(0.1, 'ether'), }))
+        .then(FD_PY => FD_PY.fund({from: accounts[2], value: web3.toWei(10, 'ether'),}))
 
         // Write new addresses to artifacts https://github.com/trufflesuite/truffle/issues/573
         .then(() => {
-          log.info('Saving addresses');
-          [
-            'FlightDelayController',
-            'FlightDelayAccessController',
-            'FlightDelayDatabase',
-            'FlightDelayLedger',
-            'FlightDelayNewPolicy',
-            'FlightDelayUnderwrite',
-            'FlightDelayPayout',
-            'MultiSigWallet'
-          ].forEach((name) => {
-            const artifact = artifacts.require(`${name}.sol`);
-            const metaDataFile = `${__dirname}/../build/contracts/${name}.json`;
-            const metaData = require(metaDataFile);
-            metaData.networks[deployer.network_id] = {};
-            metaData.networks[deployer.network_id].address = artifact.address;
-            fs.writeFileSync(metaDataFile, JSON.stringify(metaData, null, 4));
-          });
+            log.info('Saving addresses');
+            mkdirp.sync(`${__dirname}/../build/contracts`);
+            [
+                'FlightDelayController',
+                'FlightDelayAccessController',
+                'FlightDelayDatabase',
+                'FlightDelayLedger',
+                'FlightDelayNewPolicy',
+                'FlightDelayUnderwrite',
+                'FlightDelayPayout',
+                'MultiSigWallet',
+            ].forEach((name) => {
+                fs.writeFileSync(`${__dirname}/../build/contracts/${name}.json`, JSON.stringify(eval(name).toJSON(), null, 4));
+            });
         })
         .then(() => {
             log.info(`FD.Owner: ${MultiSigWallet.address}`);
