@@ -15,7 +15,7 @@ contract FlightDelayOraclizeInterface is usingOraclize {
 
     modifier onlyOraclize () {
 // --> prod-mode
-//            require(msg.sender == oraclize_cbAddress());
+        require(msg.sender == oraclize_cbAddress());
 // <-- prod-mode
         _;
     }

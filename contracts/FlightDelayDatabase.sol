@@ -64,14 +64,14 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
 // --> test-mode
-    function setAccessControlTestOnly(
-        address _contract,
-        address _caller,
-        uint8 _perm,
-        bool _access
-    ) {
-        accessControl[_contract][_caller][_perm] = _access;
-    }
+//        function setAccessControlTestOnly(
+//            address _contract,
+//            address _caller,
+//            uint8 _perm,
+//            bool _access
+//        ) {
+//            accessControl[_contract][_caller][_perm] = _access;
+//        }
 // <-- test-mode
 
     function setAccessControl(address _contract, address _caller, uint8 _perm) {
@@ -139,7 +139,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         //todo: check for ovewflows
 
 // --> test-mode
-        LogUint("_policyId", _policyId);
+//            LogUint("_policyId", _policyId);
 // <-- test-mode
 
         customerPolicies[_customer].push(_policyId);
@@ -223,7 +223,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         );
 
 // --> test-mode
-        LogBytes32("riskId", _riskId);
+//            LogBytes32("riskId", _riskId);
 // <-- test-mode
 
         Risk storage r = risks[_riskId];
