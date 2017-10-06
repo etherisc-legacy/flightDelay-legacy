@@ -80,6 +80,10 @@ contract FlightDelayDatabaseModel {
         bytes32 stateMessage;
         // 9 - TLSNotary Proof
         bytes proof;
+        // 10 - Currency
+        bytes32 currency;
+        // 10 - External customer id
+        bytes32 customerExternalId;
     }
 
     // the risk structure; this structure keeps track of the risk-

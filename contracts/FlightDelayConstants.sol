@@ -90,6 +90,11 @@ contract FlightDelayConstants {
         uint _stateTime,
         bytes32 _stateMessage
     );
+    event LogExternal(
+        address _address,
+        bytes32 _externalId,
+        uint256 _policyId
+    );
 
     /*
     * General constants

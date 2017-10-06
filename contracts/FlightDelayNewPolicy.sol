@@ -61,12 +61,16 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     function newPolicy(
         bytes32 _carrierFlightNumber,
         bytes32 _departureYearMonthDay,
-        uint _departureTime,
-        uint _arrivalTime) payable
+        uint256 _departureTime,
+        uint256 _arrivalTime,
+        bytes32 _customerExternalId,
+        bytes32 _currency) payable
     {
 
         // here we can switch it off.
         FD_AC.checkPermission(101, 0x1);
+
+        // todo: require CustomersAdmin to currency not ETH
 
         // forward premium
         FD_LG.receiveFunds.value(msg.value)(Acc.Premium);
@@ -74,11 +78,11 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         // sanity checks:
         // don't Accept too low or too high policies
 
-        if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
-            LogPolicyDeclined(0, "Invalid premium value");
-            FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-            return;
-        }
+        // if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
+        //     LogPolicyDeclined(0, "Invalid premium value");
+        //     FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+        //     return;
+        // }
 
         // don't Accept flights with departure time earlier than in 24 hours,
         // or arrivalTime before departureTime,
@@ -118,7 +122,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         }
 
         uint premium = bookAndCalcRemainingPremium();
-        uint policyId = FD_DB.createPolicy(msg.sender, premium, riskId);
+        uint policyId = FD_DB.createPolicy(msg.sender, premium, _currency, _customerExternalId, riskId);
 
         if (premiumMultiplier > 0) {
             FD_DB.setPremiumFactors(
@@ -141,6 +145,12 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
             msg.sender,
             _carrierFlightNumber,
             premium
+        );
+
+        LogExternal(
+            msg.sender,
+            _customerExternalId,
+            policyId
         );
 
         FD_UW.scheduleUnderwriteOraclizeCall(policyId, _carrierFlightNumber);

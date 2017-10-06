@@ -19,6 +19,8 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     // Table of policies
     Policy[] public policies;
 
+    mapping (bytes32 => uint[]) public extCustomerPolicies;
+
     mapping (address => Customer) public customers;
 
     // Lookup policyIds from customer addresses
@@ -47,8 +49,10 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
         FD_AC.setPermissionById(101, "FD.Underwrite");
+
         FD_AC.setPermissionById(101, "FD.Payout");
         FD_AC.setPermissionById(101, "FD.Ledger");
+
     }
 
     // Getter and Setter for AccessControl
@@ -131,7 +135,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         _riskId = p.riskId;
     }
 
-    function createPolicy(address _customer, uint _premium, bytes32 _riskId) returns (uint _policyId) {
+    function createPolicy(address _customer, uint _premium, bytes32 _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId) {
         require(FD_AC.checkPermission(101, msg.sender));
 
         _policyId = policies.length++;
@@ -143,9 +147,13 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 // <-- test-mode
 
         customerPolicies[_customer].push(_policyId);
+        extCustomerPolicies[_customerExternalId].push(_policyId);
+
         Policy storage p = policies[_policyId];
 
         p.customer = _customer;
+        p.currency = _currency;
+        p.customerExternalId = _customerExternalId;
         p.premium = _premium;
         p.riskId = _riskId;
     }
