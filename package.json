@@ -23,6 +23,7 @@
     "lint-js": "eslint **/*.js",
     "lint-sol": "solium --dir ./contracts",
     "remix": "remixd -S ./contracts"
+    "parity": "./bin/parity.sh"
   },
   "dependencies": {
     "chai": "^4.1.2",
