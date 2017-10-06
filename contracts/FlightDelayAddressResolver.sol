@@ -25,7 +25,7 @@ contract FlightDelayAddressResolver {
         return addr;
     }
 
-    function setAddr(address _addr) {
+    function setAddress(address _addr) {
         require(msg.sender == owner);
         addr = _addr;
     }
