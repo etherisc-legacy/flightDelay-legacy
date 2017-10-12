@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CHAIN=${1:-kovan}
+
 parity ui \
 --author 0xc3878b8566f5626fb8d6ad43b647e3405668f20b \
 --unlock 0xc3878b8566f5626fb8d6ad43b647e3405668f20b,\
@@ -12,8 +14,8 @@ parity ui \
 0x1885bf0a04c6948061007cb556935a903b1bed95,\
 0xd3ce03dfcc6b95c55f991b989b48bff28a9f3962,\
 0xc95efc83de5832510dac2c29198279eb8662d77e \
---password ./env/keys/kovan.txt \
+--password ./env/keys/`echo $CHAIN`.txt \
 --keys-path ./env/keys/ \
 --mode dark \
 --force-ui \
---chain ${1:-kovan}
+--chain $CHAIN
