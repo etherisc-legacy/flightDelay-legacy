@@ -4,21 +4,14 @@ module.exports = {
             network_id: 1, // Ethereum public network
             host: 'localhost',
             port: 8545,
-            from: '0xfee595b6b4a30bfa12604a5ec92156f1b5a1607f',
+            from: '', // 0 - deployer
             unlock: [
-                '0xb77f7f6c5c916899ed6b40ee9b2bd05f8e71044c',
+                '', // 1 - new owner & FD.Owner
+                '', // 2 - FD.Funder
             ], // to unlock in parity
+            addressResolver: '',
+            funder: '', // multisig
             gas: 6700000,
-        },
-        ropsten: {
-            network_id: 3, // Official Ethereum test network
-            host: 'localhost',
-            port: 8545,
-            from: '0x39ecc2b084f83ca2a6939dd88e18542c29320fbd',
-            unlock: [
-                '0xcf6cafaad72b9929613b891463b1f22ed1b08b00',
-            ], // to unlock in parity
-            gas: 4700000,
         },
         kovan: {
             network_id: 42, // custom private network
@@ -36,7 +29,8 @@ module.exports = {
                 '0xc95efc83de5832510dac2c29198279eb8662d77e', // 8 - Test 2
             ], // to unlock in parity
             addressResolver: '0x48fbda035c53d7d4e7a0ac8adc1fd88e541e7336',
-            gas: 6000000,
+            funder: '0x74c90c06e20113c9e628f9ce374611db28da1f93', // multisig
+            gas: 6700000,
         },
         development: {
             // host: 'docker.for.mac.localhost',

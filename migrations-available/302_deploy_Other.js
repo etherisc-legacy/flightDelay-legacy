@@ -44,7 +44,8 @@ module.exports = (deployer, network, accounts) => {
 
         // Register contracts
         .then(() => log.info('Register administators'))
-        .then(() => controller.registerContract(accounts[2], 'FD.Funder', false))
+        .then(() => controller.registerContract(network === 'mainnet' ? truffle.networks[network].funder : accounts[2], 'FD.Funder', false))
+
         .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
         .then(() => controller.registerContract(accounts[4], 'FD.Emergency', false))
 
@@ -64,20 +65,29 @@ module.exports = (deployer, network, accounts) => {
         .then(() => log.info('Transfer ownership'))
         .then(() => controller.transferOwnership(accounts[1]))
 
-        // Fund FD.Ledger
-        .then(() => log.info('Fund FD.Ledger'))
-        .then(() => FlightDelayLedger.deployed())
-        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: fund(50), }))
+        // Fund Contracts
+        .then(() => {
+            if (network !== 'mainnet') {
+                return FlightDelayController.deployed()
 
-        // Fund FD.Underwrite
-        .then(() => log.info('Fund FD.Underwrite'))
-        .then(() => FlightDelayUnderwrite.deployed())
-        .then(FD_UW => FD_UW.fund({ from: accounts[2], value: fund(10), }))
+                    // Fund FD.Ledger
+                    .then(() => log.info('Fund FD.Ledger'))
+                    .then(() => FlightDelayLedger.deployed())
+                    .then(FD_LG => FD_LG.fund({from: accounts[2], value: fund(50),}))
 
-        // Fund FD.Payout
-        .then(() => log.info('Fund FD.Payout'))
-        .then(() => FlightDelayPayout.deployed())
-        .then(FD_PY => FD_PY.fund({ from: accounts[2], value: fund(10), }))
+                    // Fund FD.Underwrite
+                    .then(() => log.info('Fund FD.Underwrite'))
+                    .then(() => FlightDelayUnderwrite.deployed())
+                    .then(FD_UW => FD_UW.fund({from: accounts[2], value: fund(10),}))
+
+                    // Fund FD.Payout
+                    .then(() => log.info('Fund FD.Payout'))
+                    .then(() => FlightDelayPayout.deployed())
+                    .then(FD_PY => FD_PY.fund({from: accounts[2], value: fund(10),}))
+            }
+
+            return Promise.resolve();
+        })
 
         // Deploy AddressResolver on Testrpc
         .then(() => {
@@ -99,7 +109,7 @@ module.exports = (deployer, network, accounts) => {
         .then(() => {
             log.info(`Deployer: ${accounts[0]}`);
             log.info(`FD.Owner: ${accounts[1]}`);
-            log.info(`FD.Funder: ${accounts[2]}`);
+            log.info(`FD.Funder: ${network === 'mainnet' ? truffle.networks[network].funder : accounts[2]}`);
             log.info(`FD.CustomersAdmin: ${accounts[3]}`);
             log.info(`FD.Emeregency: ${accounts[4]}`);
             log.info(`FD.Controller: ${FlightDelayController.address}`);
