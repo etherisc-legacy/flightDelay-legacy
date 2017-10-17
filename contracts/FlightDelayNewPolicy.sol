@@ -39,8 +39,6 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
 
         FD_AC.setPermissionByAddress(101, 0x1);
         FD_AC.setPermissionById(102, "FD.Controller");
-
-        FD_AC.setPermissionById(103, "FD.CustomersAdmin");
     }
 
     function bookAndCalcRemainingPremium() internal returns (uint) {
@@ -76,7 +74,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
 
         // sanity checks:
         if (_currency.toSlice().equals("eur".toSlice())) {
-            require(FD_AC.checkPermission(103, msg.sender));
+            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
 
             // don't Accept too low or too high policies
             if (msg.value < MIN_PREMIUM_EUR || msg.value > MAX_PREMIUM_EUR) {
@@ -85,6 +83,8 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
                 return;
             }
         } else if (_currency.toSlice().equals("usd".toSlice())) {
+            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+
             // don't Accept too low or too high policies
             if (msg.value < MIN_PREMIUM_USD || msg.value > MAX_PREMIUM_USD) {
                 LogPolicyDeclined(0, "Invalid premium value");
@@ -92,6 +92,8 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
                 return;
             }
         } else if (_currency.toSlice().equals("gbp".toSlice())) {
+            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+
             // don't Accept too low or too high policies
             if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
                 LogPolicyDeclined(0, "Invalid premium value");
