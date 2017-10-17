@@ -91,15 +91,15 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         var slResult = _result.toSlice();
 
         // we expect result to contain 6 values, something like
-        // "[61, 10, 4, 3, 0, 0]" ->
-        // ['observations','late15','late30','late45','cancelled','diverted']
+        // "[61, 10, 4, 3, 0, 0, \"CUN\"]" ->
+        // ['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode']
         if (bytes(_result).length == 0) {
             decline(policyId, "Declined (empty result)", _proof);
         } else {
             // now slice the string using
             // https://github.com/Arachnid/solidity-stringutils
-            if (slResult.count(", ".toSlice()) != 5) {
-                // check if result contains 6 values
+            if (slResult.count(", ".toSlice()) != 6) {
+                // check if result contains 7 values
                 decline(policyId, "Declined (invalid result)", _proof);
             } else {
                 slResult.beyond("[".toSlice()).until("]".toSlice());
@@ -118,8 +118,18 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
                         statistics[i] = parseInt(slResult.split(", ".toSlice()).toString()) * 10000/observations;
                     }
 
-                    // underwrite policy
-                    underwrite(policyId, statistics, _proof);
+                    var destination  = slResult.split(", ".toSlice());
+
+                    if (
+                        '"CUN"'.toSlice().equals(destination) ||
+                        '"CZM"'.toSlice().equals(destination) ||
+                        '"MID"'.toSlice().equals(destination))
+                    {
+                        // underwrite policy
+                        underwrite(policyId, statistics, _proof);
+                    } else {
+                        decline(policyId, "Not acceptable destination", _proof);
+                    }
                 }
             }
         }

@@ -135,7 +135,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         _riskId = p.riskId;
     }
 
-    function createPolicy(address _customer, uint _premium, bytes32 _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId) {
+    function createPolicy(address _customer, uint _premium, string _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId) {
         require(FD_AC.checkPermission(101, msg.sender));
 
         _policyId = policies.length++;

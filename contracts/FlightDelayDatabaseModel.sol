@@ -81,7 +81,7 @@ contract FlightDelayDatabaseModel {
         // 9 - TLSNotary Proof
         bytes proof;
         // 10 - Currency
-        bytes32 currency;
+        string currency;
         // 10 - External customer id
         bytes32 customerExternalId;
     }

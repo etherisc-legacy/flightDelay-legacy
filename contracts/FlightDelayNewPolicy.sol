@@ -15,9 +15,12 @@ import "./FlightDelayAccessControllerInterface.sol";
 import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayUnderwriteInterface.sol";
 import "./convertLib.sol";
+import "./../vendors/strings.sol";
 
 
 contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConstants, ConvertLib {
+
+    using strings for *;
 
     FlightDelayAccessControllerInterface FD_AC;
     FlightDelayDatabaseInterface FD_DB;
@@ -35,7 +38,9 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         FD_UW = FlightDelayUnderwriteInterface(getContract("FD.Underwrite"));
 
         FD_AC.setPermissionByAddress(101, 0x1);
-        FD_AC.setPermissionById(102, "FD.Controller"); // check!
+        FD_AC.setPermissionById(102, "FD.Controller");
+
+        FD_AC.setPermissionById(103, "FD.CustomersAdmin");
     }
 
     function bookAndCalcRemainingPremium() internal returns (uint) {
@@ -63,26 +68,50 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         bytes32 _departureYearMonthDay,
         uint256 _departureTime,
         uint256 _arrivalTime,
-        bytes32 _customerExternalId,
-        bytes32 _currency) payable
+        string _currency,
+        bytes32 _customerExternalId) payable
     {
-
         // here we can switch it off.
         FD_AC.checkPermission(101, 0x1);
 
-        // todo: require CustomersAdmin to currency not ETH
+        // sanity checks:
+        if (_currency.toSlice().equals("eur".toSlice())) {
+            require(FD_AC.checkPermission(103, msg.sender));
+
+            // don't Accept too low or too high policies
+            if (msg.value < MIN_PREMIUM_EUR || msg.value > MAX_PREMIUM_EUR) {
+                LogPolicyDeclined(0, "Invalid premium value");
+                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                return;
+            }
+        } else if (_currency.toSlice().equals("usd".toSlice())) {
+            // don't Accept too low or too high policies
+            if (msg.value < MIN_PREMIUM_USD || msg.value > MAX_PREMIUM_USD) {
+                LogPolicyDeclined(0, "Invalid premium value");
+                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                return;
+            }
+        } else if (_currency.toSlice().equals("gbp".toSlice())) {
+            // don't Accept too low or too high policies
+            if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
+                LogPolicyDeclined(0, "Invalid premium value");
+                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                return;
+            }
+        } else {
+            require(_currency.toSlice().equals("eth".toSlice()));
+
+            // don't Accept too low or too high policies
+            if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
+                LogPolicyDeclined(0, "Invalid premium value");
+                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                return;
+            }
+        }
 
         // forward premium
         FD_LG.receiveFunds.value(msg.value)(Acc.Premium);
 
-        // sanity checks:
-        // don't Accept too low or too high policies
-
-        // if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
-        //     LogPolicyDeclined(0, "Invalid premium value");
-        //     FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-        //     return;
-        // }
 
         // don't Accept flights with departure time earlier than in 24 hours,
         // or arrivalTime before departureTime,
@@ -95,7 +124,14 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
 // <-- debug-mode
 
         if (
-            _arrivalTime < _departureTime || _arrivalTime > _departureTime + MAX_FLIGHT_DURATION || _departureTime < now + MIN_TIME_BEFORE_DEPARTURE || _departureTime > CONTRACT_DEAD_LINE || _departureTime < dmy || _departureTime > dmy + 24 hours
+            _arrivalTime < _departureTime ||
+            _arrivalTime > _departureTime + MAX_FLIGHT_DURATION ||
+            _departureTime < now + MIN_TIME_BEFORE_DEPARTURE ||
+            _departureTime > CONTRACT_DEAD_LINE ||
+            _departureTime < dmy ||
+            _departureTime > dmy + 24 hours ||
+            _departureTime < MIN_DEPARTURE_LIM ||
+            _departureTime > MAX_DEPARTURE_LIM
         ) {
             LogPolicyDeclined(0, "Invalid arrival/departure time");
             FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
@@ -111,9 +147,11 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         // but we are conservative;
         // if this is the first policy, the left side will be 0
         if (msg.value * premiumMultiplier + cumulatedWeightedPremium >= MAX_CUMULATED_WEIGHTED_PREMIUM) {
-            LogPolicyDeclined(0, "Cluster risk");
-            FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-            return;
+            // Let's ingore MAX_CUMULATED_WEIGHTED_PREMIUM for Cancun
+
+            // LogPolicyDeclined(0, "Cluster risk");
+            // FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+            // return;
         } else if (cumulatedWeightedPremium == 0) {
             // at the first police, we set r.cumulatedWeightedPremium to the max.
             // this prevents further polices to be Accepted, until the correct
@@ -148,9 +186,9 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         );
 
         LogExternal(
+            policyId,
             msg.sender,
-            _customerExternalId,
-            policyId
+            _customerExternalId
         );
 
         FD_UW.scheduleUnderwriteOraclizeCall(policyId, _carrierFlightNumber);

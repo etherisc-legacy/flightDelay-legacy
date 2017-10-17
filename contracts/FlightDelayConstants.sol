@@ -91,9 +91,9 @@ contract FlightDelayConstants {
         bytes32 _stateMessage
     );
     event LogExternal(
+        uint256 _policyId,
         address _address,
-        bytes32 _externalId,
-        uint256 _policyId
+        bytes32 _externalId
     );
 
     /*
@@ -103,11 +103,24 @@ contract FlightDelayConstants {
     // minimum observations for valid prediction
     uint constant MIN_OBSERVATIONS = 10;
     // minimum premium to cover costs
-    uint constant MIN_PREMIUM = 500 finney;
+    uint constant MIN_PREMIUM = 50 finney;
     // maximum premium
-    uint constant MAX_PREMIUM = 5 ether;
+    uint constant MAX_PREMIUM = 1 ether;
     // maximum payout
-    uint constant MAX_PAYOUT = 150 ether;
+    uint constant MAX_PAYOUT = 1100 finney;
+
+    uint constant MIN_PREMIUM_EUR = 1500 wei;
+    uint constant MAX_PREMIUM_EUR = 29000 wei;
+    uint constant MAX_PAYOUT_EUR = 30000 wei;
+
+    uint constant MIN_PREMIUM_USD = 1700 wei;
+    uint constant MAX_PREMIUM_USD = 34000 wei;
+    uint constant MAX_PAYOUT_USD = 35000 wei;
+
+    uint constant MIN_PREMIUM_GBP = 1300 wei;
+    uint constant MAX_PREMIUM_GBP = 25000 wei;
+    uint constant MAX_PAYOUT_GBP = 270 wei;
+
     // maximum cumulated weighted premium per risk
     uint constant MAX_CUMULATED_WEIGHTED_PREMIUM = 300 ether;
     // 1 percent for DAO, 1 percent for maintainer
@@ -147,6 +160,10 @@ contract FlightDelayConstants {
     // Deadline for acceptance of policies: 31.12.2030 (Testnet)
     uint constant CONTRACT_DEAD_LINE = 1922396399;
 
+    uint constant MIN_DEPARTURE_LIM = 1508198400;
+
+    uint constant MAX_DEPARTURE_LIM = 1509494400;
+
     // gas Constants for oraclize
     uint constant ORACLIZE_GAS = 1000000;
 
@@ -177,7 +194,7 @@ contract FlightDelayConstants {
 //            "[URL] json(https://api-test.etherisc.com/flex/ratings/rest/v1/json/flight/";
 //        string constant ORACLIZE_RATINGS_QUERY =
 //            // for testrpc:
-//            ").ratings[0]['observations','late15','late30','late45','cancelled','diverted']";
+//            ").ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode']";
 //        string constant ORACLIZE_STATUS_BASE_URL =
 //            // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
 //            "[URL] json(https://api-test.etherisc.com/flex/flightstatus/rest/v2/json/flight/status/";
