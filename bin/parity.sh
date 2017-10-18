@@ -1,8 +1,10 @@
 #!/bin/bash
 
 CHAIN=${1:-kovan}
+KEYS_PATH=`pwd`/env/keys/
+PASSWORD=`pwd`/env/keys/`echo $CHAIN`.txt
 
-parity ui \
+parity \
 --author 0xc3878b8566f5626fb8d6ad43b647e3405668f20b \
 --unlock 0xc3878b8566f5626fb8d6ad43b647e3405668f20b,\
 0x1d45c059e511241a5c1b3081e56302a59621c94c,\
@@ -14,8 +16,8 @@ parity ui \
 0x1885bf0a04c6948061007cb556935a903b1bed95,\
 0xd3ce03dfcc6b95c55f991b989b48bff28a9f3962,\
 0xc95efc83de5832510dac2c29198279eb8662d77e \
---password ./env/keys/`echo $CHAIN`.txt \
---keys-path ./env/keys/ \
---mode dark \
+--password=$PASSWORD \
+--keys-path=$KEYS_PATH \
+--mode active \
 --force-ui \
 --chain $CHAIN
