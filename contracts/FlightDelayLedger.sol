@@ -35,6 +35,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         FD_AC.setPermissionById(102, "FD.NewPolicy");
         FD_AC.setPermissionById(102, "FD.Controller"); // todo: check!
         FD_AC.setPermissionById(102, "FD.Underwrite");
+        FD_AC.setPermissionById(102, "FD.Owner");
 
         FD_AC.setPermissionById(103, "FD.Funder");
         FD_AC.setPermissionById(103, "FD.Underwrite");
@@ -42,6 +43,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         FD_AC.setPermissionById(103, "FD.Ledger");
         FD_AC.setPermissionById(103, "FD.NewPolicy");
         FD_AC.setPermissionById(103, "FD.Controller");
+        FD_AC.setPermissionById(103, "FD.Owner");
 
         FD_AC.setPermissionById(104, "FD.Funder");
     }

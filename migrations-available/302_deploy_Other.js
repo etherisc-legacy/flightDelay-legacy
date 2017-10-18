@@ -57,13 +57,13 @@ module.exports = (deployer, network, accounts) => {
         .then(() => controller.registerContract(FlightDelayUnderwrite.address, 'FD.Underwrite', true))
         .then(() => controller.registerContract(FlightDelayPayout.address, 'FD.Payout', true))
 
-        // Setup contracts
-        .then(() => log.info('Setup contracts'))
-        .then(() => controller.setAllContracts())
-
         // Set new owner
         .then(() => log.info('Transfer ownership'))
         .then(() => controller.transferOwnership(accounts[1]))
+
+        // Setup contracts
+        .then(() => log.info('Setup contracts'))
+        .then(() => controller.setAllContracts({from: accounts[1]}))
 
         // Fund Contracts
         .then(() => {

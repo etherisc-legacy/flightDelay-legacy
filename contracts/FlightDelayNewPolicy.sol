@@ -37,8 +37,9 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
         FD_UW = FlightDelayUnderwriteInterface(getContract("FD.Underwrite"));
 
-        FD_AC.setPermissionByAddress(101, 0x1);
+        FD_AC.setPermissionByAddress(101, 0x0);
         FD_AC.setPermissionById(102, "FD.Controller");
+        FD_AC.setPermissionById(103, "FD.Owner");
     }
 
     function bookAndCalcRemainingPremium() internal returns (uint) {
@@ -55,8 +56,8 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     }
 
     function maintenanceMode(bool _on) {
-        if (FD_AC.checkPermission(102, msg.sender)) {
-            FD_AC.setPermissionByAddress(101, 0x0, _on);
+        if (FD_AC.checkPermission(103, msg.sender)) {
+            FD_AC.setPermissionByAddress(101, 0x0, !_on);
         }
     }
 
@@ -70,7 +71,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         bytes32 _customerExternalId) payable
     {
         // here we can switch it off.
-        FD_AC.checkPermission(101, 0x1);
+        require(FD_AC.checkPermission(101, 0x0));
 
         // sanity checks:
         if (_currency.toSlice().equals("eur".toSlice())) {
