@@ -8,6 +8,7 @@ module.exports = {
             unlock: [
                 '', // 1 - new owner & FD.Owner
                 '', // 2 - FD.Funder
+                '', // 3 - FD.CustomersAdmin
             ], // to unlock in parity
             addressResolver: '',
             funder: '', // multisig
