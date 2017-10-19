@@ -19,7 +19,7 @@
     "test-mode": "npm run clean && ./bin/preprocess.js test",
     "prod-mode": "npm run clean && ./bin/preprocess.js prod",
     "testrpc": "./bin/testrpc.js",
-    "bridge": "pushd ./external/ethereum-bridge && npm install && node bridge -a 6 -H localhost:9545 --dev",
+    "bridge": "pushd ./external/ethereum-bridge && npm install && rm -f package-lock.json && node bridge -a 6 -H localhost:9545 --dev",
     "lint-js": "eslint **/*.js",
     "lint-sol": "solium --dir ./contracts",
     "remix": "remixd -S ./contracts",
