@@ -138,7 +138,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         }
     } // __callback
 
-    function decline(uint _policyId, bytes32 _reason) external {
+    function externalDecline(uint _policyId, bytes32 _reason) external {
         require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
 
         LogPolicyDeclined(_policyId, _reason);
