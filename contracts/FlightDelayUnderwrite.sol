@@ -121,6 +121,9 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
                     var destination  = slResult.split(", ".toSlice());
 
                     if (
+// --> test-mode
+//                            '"JFK"'.toSlice().equals(destination) ||
+// <-- test-mode
                         '"CUN"'.toSlice().equals(destination) ||
                         '"CZM"'.toSlice().equals(destination) ||
                         '"MID"'.toSlice().equals(destination))
