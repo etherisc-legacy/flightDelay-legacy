@@ -130,12 +130,17 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         _premium = p.premium;
     }
 
+    function getPolicyState(uint _policyId) returns (policyState _state) {
+        Policy storage p = policies[_policyId];
+        _state = p.state;
+    }
+
     function getRiskId(uint _policyId) returns (bytes32 _riskId) {
         Policy storage p = policies[_policyId];
         _riskId = p.riskId;
     }
 
-    function createPolicy(address _customer, uint _premium, string _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId) {
+    function createPolicy(address _customer, uint _premium, Currency _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId) {
         require(FD_AC.checkPermission(101, msg.sender));
 
         _policyId = policies.length++;

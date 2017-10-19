@@ -105,7 +105,11 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
     function __callback(bytes32 _queryId, string _result, bytes _proof) public onlyOraclize {
         var (policyId, oraclizeTime) = FD_DB.getOraclizeCallback(_queryId);
 
-        // todo: decline if policy is declined
+        // check if policy was declined after this callback was scheduled
+        var state = FD_DB.getPolicyState(policyId);
+        if (uint8(state) == 5) {
+            return;
+        }
 
         bytes32 riskId = FD_DB.getRiskId(policyId);
 

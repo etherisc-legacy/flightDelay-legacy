@@ -32,9 +32,11 @@ contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
 
     function getPolicyData(uint _policyId) returns (address _customer, uint _premium, uint _weight);
 
+    function getPolicyState(uint _policyId) returns (policyState _state);
+
     function getRiskId(uint _policyId) returns (bytes32 _riskId);
 
-    function createPolicy(address _customer, uint _premium, string _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId);
+    function createPolicy(address _customer, uint _premium, Currency _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId);
 
     function setState(
         uint _policyId,

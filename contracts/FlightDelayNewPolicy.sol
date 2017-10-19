@@ -15,12 +15,9 @@ import "./FlightDelayAccessControllerInterface.sol";
 import "./FlightDelayLedgerInterface.sol";
 import "./FlightDelayUnderwriteInterface.sol";
 import "./convertLib.sol";
-import "./../vendors/strings.sol";
 
 
 contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConstants, ConvertLib {
-
-    using strings for *;
 
     FlightDelayAccessControllerInterface FD_AC;
     FlightDelayDatabaseInterface FD_DB;
@@ -67,48 +64,51 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         bytes32 _departureYearMonthDay,
         uint256 _departureTime,
         uint256 _arrivalTime,
-        string _currency,
+        Currency _currency,
         bytes32 _customerExternalId) payable
     {
         // here we can switch it off.
         require(FD_AC.checkPermission(101, 0x0));
 
-        // sanity checks:
-        if (_currency.toSlice().equals("eur".toSlice())) {
-            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+        require(uint256(_currency) <= 3);
 
-            // don't Accept too low or too high policies
-            if (msg.value < MIN_PREMIUM_EUR || msg.value > MAX_PREMIUM_EUR) {
-                LogPolicyDeclined(0, "Invalid premium value");
-                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-                return;
-            }
-        } else if (_currency.toSlice().equals("usd".toSlice())) {
-            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+        uint8 paymentType = uint8(_currency);
 
-            // don't Accept too low or too high policies
-            if (msg.value < MIN_PREMIUM_USD || msg.value > MAX_PREMIUM_USD) {
-                LogPolicyDeclined(0, "Invalid premium value");
-                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-                return;
-            }
-        } else if (_currency.toSlice().equals("gbp".toSlice())) {
-            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
-
-            // don't Accept too low or too high policies
-            if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
+        if (paymentType == 0) {
+            // ETH
+            if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
                 LogPolicyDeclined(0, "Invalid premium value");
                 FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
                 return;
             }
         } else {
-            require(_currency.toSlice().equals("eth".toSlice()));
+            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
 
-            // don't Accept too low or too high policies
-            if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
-                LogPolicyDeclined(0, "Invalid premium value");
-                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-                return;
+            if (paymentType == 1) {
+                // EUR
+                if (msg.value < MIN_PREMIUM_EUR || msg.value > MAX_PREMIUM_EUR) {
+                    LogPolicyDeclined(0, "Invalid premium value");
+                    FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                    return;
+                }
+            }
+
+            if (paymentType == 2) {
+                // USD
+                if (msg.value < MIN_PREMIUM_USD || msg.value > MAX_PREMIUM_USD) {
+                    LogPolicyDeclined(0, "Invalid premium value");
+                    FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                    return;
+                }
+            }
+
+            if (paymentType == 3) {
+                // GBP
+                if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
+                    LogPolicyDeclined(0, "Invalid premium value");
+                    FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                    return;
+                }
             }
         }
 

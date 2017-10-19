@@ -135,6 +135,32 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         }
     } // __callback
 
+    function decline(uint _policyId, bytes32 _reason) external {
+        require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+
+        LogPolicyDeclined(_policyId, _reason);
+
+        FD_DB.setState(
+            _policyId,
+            policyState.Declined,
+            now,
+            _reason
+        );
+
+        FD_DB.setWeight(_policyId, 0, "");
+
+        var (customer, premium) = FD_DB.getCustomerPremium(_policyId);
+
+        if (!FD_LG.sendFunds(customer, Acc.Premium, premium)) {
+            FD_DB.setState(
+                _policyId,
+                policyState.SendFailed,
+                now,
+                "decline: Send failed."
+            );
+        }
+    }
+
     function decline(uint _policyId, bytes32 _reason, bytes _proof)	internal {
         LogPolicyDeclined(_policyId, _reason);
 
