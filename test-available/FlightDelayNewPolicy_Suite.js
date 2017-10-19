@@ -275,7 +275,7 @@ const testSuite = [
                 },
             },
         ]),
-        tx: standardTx(web3.toWei(499, 'finney')),
+        tx: standardTx(web3.toWei(49, 'finney')),
     },
     {
         testId: '#42',
