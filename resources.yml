@@ -2,6 +2,9 @@ migrations:
 #    - 1_initial_migration.js
     - 302_deploy_Other.js
 #    - 401_deploy_AddressResolver.js
+#    - 900_deploy_set_contracts.js
+#    - 901_deploy_fund_contracts.js
+#    - 999_deploy_show_contracts.js
 test:
     - logformatter.js
     - Test_Deploy.js

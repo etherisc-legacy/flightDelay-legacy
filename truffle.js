@@ -7,10 +7,11 @@ module.exports = {
             from: '0x6f692c070f3263d1c3400367832faf5ccc6cd2f2', // 0 - deployer
             unlock: [
                 '0x2c53d79e4069480ca1f40db68f88c51732462f93', // 1 - new owner & FD.Owner
+
                 '0xA60e0E709384243016e322a00826Eb3603A13a12', // 3 - FD.CustomersAdmin
             ], // to unlock in parity
             addressResolver: '0x63338bB37Bc3A0d55d2E9505F11E56c613b51494',
-            funder: '', // multisig
+            funder: '0xb5771324A8209c4b581a5f1e5c0DD48a9ABA2a59', // multisig
             gas: 6600000,
         },
         kovan: {
