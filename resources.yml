@@ -1,6 +1,7 @@
 migrations:
+#    - 1_initial_migration.js
     - 302_deploy_Other.js
-
+#    - 401_deploy_AddressResolver.js
 test:
     - logformatter.js
     - Test_Deploy.js

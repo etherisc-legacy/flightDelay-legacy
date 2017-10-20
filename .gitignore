@@ -9,3 +9,5 @@ external/encryptedQuery/allEncryptedQueryStrings.txt
 external/encryptedQuery/encryptedQueryString.txt
 ContractLogs.log
 .node-xmlhttprequest-*
+mainnet.txt
+deploy_doc.txt

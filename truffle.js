@@ -4,15 +4,14 @@ module.exports = {
             network_id: 1, // Ethereum public network
             host: 'localhost',
             port: 8545,
-            from: '', // 0 - deployer
+            from: '0x6f692c070f3263d1c3400367832faf5ccc6cd2f2', // 0 - deployer
             unlock: [
-                '', // 1 - new owner & FD.Owner
-                '', // 2 - FD.Funder
-                '', // 3 - FD.CustomersAdmin
+                '0x2c53d79e4069480ca1f40db68f88c51732462f93', // 1 - new owner & FD.Owner
+                '0xA60e0E709384243016e322a00826Eb3603A13a12', // 3 - FD.CustomersAdmin
             ], // to unlock in parity
-            addressResolver: '',
+            addressResolver: '0x63338bB37Bc3A0d55d2E9505F11E56c613b51494',
             funder: '', // multisig
-            gas: 6700000,
+            gas: 6600000,
         },
         kovan: {
             network_id: 42, // custom private network
