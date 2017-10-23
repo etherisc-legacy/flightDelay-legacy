@@ -163,7 +163,7 @@ contract FlightDelayConstants {
 
     uint constant MIN_DEPARTURE_LIM = 1508198400;
 
-    uint constant MAX_DEPARTURE_LIM = 1509494400;
+    uint constant MAX_DEPARTURE_LIM = 1509840000;
 
     // gas Constants for oraclize
     uint constant ORACLIZE_GAS = 1000000;
