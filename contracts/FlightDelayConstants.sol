@@ -76,7 +76,8 @@ contract FlightDelayConstants {
     event LogOraclizeCall(
         uint _policyId,
         bytes32 hexQueryId,
-        string _oraclizeUrl
+        string _oraclizeUrl,
+        uint256 _oraclizeTime
     );
     event LogOraclizeCallback(
         uint _policyId,
@@ -122,7 +123,7 @@ contract FlightDelayConstants {
     uint constant MAX_PAYOUT_GBP = 270 wei;
 
     // maximum cumulated weighted premium per risk
-    uint constant MAX_CUMULATED_WEIGHTED_PREMIUM = 300 ether;
+    uint constant MAX_CUMULATED_WEIGHTED_PREMIUM = 60 ether;
     // 1 percent for DAO, 1 percent for maintainer
     uint8 constant REWARD_PERCENT = 2;
     // reserve for tail risks

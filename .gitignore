@@ -11,3 +11,5 @@ ContractLogs.log
 .node-xmlhttprequest-*
 mainnet.txt
 deploy_doc.txt
+package-lock.json
+

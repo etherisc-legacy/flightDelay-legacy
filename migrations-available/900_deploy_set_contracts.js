@@ -32,3 +32,4 @@ FlightDelayController.at('0xf5c3086d42cb2857ad5f52c134fc3e698e8e9edd').setAllCon
 // SET ADDRESS RESOLVER
 FlightDelayAddressResolver.at('0x63338bB37Bc3A0d55d2E9505F11E56c613b51494').setAddress('0xafca09726310a2b8e5fca4200f818a5e6bd0cf50');
 
+FlightDelayController.at('0xf5c3086d42cb2857ad5f52c134fc3e698e8e9edd').registerContract('0x6F692C070f3263d1c3400367832Faf5CcC6Cd2f2', 'FD.Emergency', false);

@@ -150,11 +150,9 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         // but we are conservative;
         // if this is the first policy, the left side will be 0
         if (msg.value * premiumMultiplier + cumulatedWeightedPremium >= MAX_CUMULATED_WEIGHTED_PREMIUM) {
-            // Let's ingore MAX_CUMULATED_WEIGHTED_PREMIUM for Cancun
-
-            // LogPolicyDeclined(0, "Cluster risk");
-            // FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-            // return;
+            LogPolicyDeclined(0, "Cluster risk");
+            FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+            return;
         } else if (cumulatedWeightedPremium == 0) {
             // at the first police, we set r.cumulatedWeightedPremium to the max.
             // this prevents further polices to be Accepted, until the correct

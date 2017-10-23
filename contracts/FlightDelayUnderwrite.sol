@@ -78,15 +78,13 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
             0
         );
 
-        LogOraclizeCall(_policyId, queryId, oraclizeUrl);
+        LogOraclizeCall(_policyId, queryId, oraclizeUrl, 0);
     }
 
-    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclize {
-// --> debug-mode
-//            LogString("_result", _result);
-// <-- debug-mode
+    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclize(getContract('FD.Emergency')) {
 
         var (policyId,) = FD_DB.getOraclizeCallback(_queryId);
+        LogOraclizeCallback(policyId, _queryId, _result, _proof);
 
         var slResult = _result.toSlice();
 
