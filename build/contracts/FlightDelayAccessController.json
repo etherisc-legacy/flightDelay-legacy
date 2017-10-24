@@ -1,0 +1,442 @@
+{
+  "contract_name": "FlightDelayAccessController",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "destruct",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "checkPermission",
+      "outputs": [
+        {
+          "name": "_success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_addr",
+          "type": "address"
+        },
+        {
+          "name": "_access",
+          "type": "bool"
+        }
+      ],
+      "name": "setPermissionByAddress",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setPermissionById",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setPermissionByAddress",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_id",
+          "type": "bytes32"
+        },
+        {
+          "name": "_access",
+          "type": "bool"
+        }
+      ],
+      "name": "setPermissionById",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "setContracts",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "controller",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_controller",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "strCarrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "ethPremium",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyApplied",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics0",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics1",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics2",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics3",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics4",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics5",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyAccepted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyPaidOut",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyExpired",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyDeclined",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyManualPayout",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_from",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogSendFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_to",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogReceiveFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSendFail",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeUrl",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogOraclizeCall",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_result",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "hexProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "LogOraclizeCallback",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_policyState",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "_stateTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_stateMessage",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSetState",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_externalId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogExternal",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x606060405260c0604051908101604090815260008252600a6020830152601490820152601e606082015260326080820181905260a08201526100459060029060066100b7565b50341561005157600080fd5b604051602080610815833981016040528080519150505b61007e8164010000000061062d61008682021704565b505b5061016f565b60008054600160a060020a038316600160a060020a031991821681179092556001805490911690911781555b919050565b60018301918390821561013a5791602002820160005b8382111561010b57835183826101000a81548160ff021916908360ff16021790555092602001926001016020816000010492830192600103026100cd565b80156101385782816101000a81549060ff021916905560010160208160000104928301926001030261010b565b505b5061014692915061014a565b5090565b61016c91905b8082111561014657805460ff19168155600101610150565b5090565b90565b6106978061017e6000396000f300606060405236156100725763ffffffff60e060020a6000350416632b68b9c681146100775780633ebd60921461008c578063983c7630146100c5578063c28b4577146100f1578063c3d08f061461010f578063d6a43a3e14610136578063e0d6d53014610159578063f77c47911461016e575b600080fd5b341561008257600080fd5b61008a61019d565b005b341561009757600080fd5b6100b160ff60043516600160a060020a03602435166101c9565b604051901515815260200160405180910390f35b34156100d057600080fd5b61008a60ff60043516600160a060020a0360243516604435151561025c565b005b34156100fc57600080fd5b61008a60ff600435166024356102e2565b005b341561011a57600080fd5b61008a60ff60043516600160a060020a03602435166103c8565b005b341561014157600080fd5b61008a60ff600435166024356044351515610446565b005b341561016457600080fd5b61008a610534565b005b341561017957600080fd5b6101816105a9565b604051600160a060020a03909116815260200160405180910390f35b60005433600160a060020a039081169116146101b857600080fd5b600054600160a060020a0316ff5b5b565b600354600090600160a060020a031663d45efad5338486856040516020015260405160e060020a63ffffffff8616028152600160a060020a03938416600482015291909216602482015260ff9091166044820152606401602060405180830381600087803b151561023957600080fd5b6102c65a03f1151561024a57600080fd5b50505060405180519150505b92915050565b600354600160a060020a031663c58a33213384868560405160e060020a63ffffffff8716028152600160a060020a03948516600482015292909316602483015260ff1660448201529015156064820152608401600060405180830381600087803b15156102c857600080fd5b6102c65a03f115156102d957600080fd5b5050505b505050565b600354600154600160a060020a039182169163ca2d553a9133911663e16c7d988560006040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b151561034257600080fd5b6102c65a03f1151561035357600080fd5b505050604051805190508560405160e060020a63ffffffff8616028152600160a060020a03938416600482015291909216602482015260ff9091166044820152606401600060405180830381600087803b15156103af57600080fd5b6102c65a03f115156103c057600080fd5b5050505b5050565b600354600160a060020a031663ca2d553a33838560405160e060020a63ffffffff8616028152600160a060020a03938416600482015291909216602482015260ff9091166044820152606401600060405180830381600087803b15156103af57600080fd5b6102c65a03f115156103c057600080fd5b5050505b5050565b600354600154600160a060020a039182169163c58a33219133911663e16c7d988660006040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b15156104a657600080fd5b6102c65a03f115156104b757600080fd5b50505060405180519050868560405160e060020a63ffffffff8716028152600160a060020a03948516600482015292909316602483015260ff1660448201529015156064820152608401600060405180830381600087803b15156102c857600080fd5b6102c65a03f115156102d957600080fd5b5050505b505050565b60005433600160a060020a0390811691161461054f57600080fd5b6105787f46442e44617461626173650000000000000000000000000000000000000000006105b8565b6003805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555b5b565b600054600160a060020a031681565b600154600090600160a060020a031663e16c7d9883836040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b151561060b57600080fd5b6102c65a03f1151561061c57600080fd5b50505060405180519150505b919050565b60008054600160a060020a03831673ffffffffffffffffffffffffffffffffffffffff1991821681179092556001805490911690911781555b9190505600a165627a7a72305820128a6d5b054b56fd09d9ff2f3d1b16258c0098e2697e1a5f976a2ab247bd92cd0029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1508832164954
+}

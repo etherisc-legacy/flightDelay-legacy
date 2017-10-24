@@ -1,0 +1,305 @@
+{
+  "contract_name": "FlightDelayConstants",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "strCarrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "ethPremium",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyApplied",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics0",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics1",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics2",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics3",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics4",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics5",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyAccepted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyPaidOut",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyExpired",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyDeclined",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyManualPayout",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_from",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogSendFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_to",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogReceiveFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSendFail",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeUrl",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogOraclizeCall",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_result",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "hexProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "LogOraclizeCallback",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_policyState",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "_stateTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_stateMessage",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSetState",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_externalId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogExternal",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x606060405260c060405190810160409081526000808352600a6020840152601491830191909152601e606083015260326080830181905260a0830152610046916006610057565b50341561005257600080fd5b61010f565b6001830191839082156100da5791602002820160005b838211156100ab57835183826101000a81548160ff021916908360ff160217905550926020019260010160208160000104928301926001030261006d565b80156100d85782816101000a81549060ff02191690556001016020816000010492830192600103026100ab565b505b506100e69291506100ea565b5090565b61010c91905b808211156100e657805460ff191681556001016100f0565b5090565b90565b60368061011d6000396000f30060606040525b600080fd00a165627a7a72305820b4abd25b814abbc1fad01d1ade08cb3daabdd90f8ef9a31cd9843104a6fc5f6d0029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1508832164954
+}

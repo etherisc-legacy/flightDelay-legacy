@@ -70,42 +70,39 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         // here we can switch it off.
         require(FD_AC.checkPermission(101, 0x0));
 
-        require(uint256(_currency) <= 3);
-
-        uint8 paymentType = uint8(_currency);
-
-        if (paymentType == 0) {
+        // solidity checks for valid _currency parameter
+        if (_currency == Currency.ETH) {
             // ETH
             if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
-                LogPolicyDeclined(0, "Invalid premium value");
+                LogPolicyDeclined(0, "Invalid premium value ETH");
                 FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
                 return;
             }
         } else {
-            require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+            require(msg.sender == getContract("FD.CustomersAdmin"));
 
-            if (paymentType == 1) {
+            if (_currency == Currency.EUR) {
                 // EUR
                 if (msg.value < MIN_PREMIUM_EUR || msg.value > MAX_PREMIUM_EUR) {
-                    LogPolicyDeclined(0, "Invalid premium value");
+                    LogPolicyDeclined(0, "Invalid premium value EUR");
                     FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
                     return;
                 }
             }
 
-            if (paymentType == 2) {
+            if (_currency == Currency.USD) {
                 // USD
                 if (msg.value < MIN_PREMIUM_USD || msg.value > MAX_PREMIUM_USD) {
-                    LogPolicyDeclined(0, "Invalid premium value");
+                    LogPolicyDeclined(0, "Invalid premium value USD");
                     FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
                     return;
                 }
             }
 
-            if (paymentType == 3) {
+            if (_currency == Currency.GPB) {
                 // GBP
                 if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
-                    LogPolicyDeclined(0, "Invalid premium value");
+                    LogPolicyDeclined(0, "Invalid premium value GBP");
                     FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
                     return;
                 }

@@ -192,6 +192,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         bytes32 riskId = FD_DB.getRiskId(_policyId);
 
         var (, premiumMultiplier) = FD_DB.getPremiumFactors(riskId);
+        var (, , arrivalTime) = FD_DB.getRiskParameters(riskId);
 
         uint weight;
         for (uint8 i = 1; i <= 5; i++ ) {
@@ -230,6 +231,6 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         );
 
         // schedule payout Oracle
-        FD_PY.schedulePayoutOraclizeCall(_policyId, riskId, CHECK_PAYOUT_OFFSET);
+        FD_PY.schedulePayoutOraclizeCall(_policyId, riskId, arrivalTime + CHECK_PAYOUT_OFFSET);
     }
 }

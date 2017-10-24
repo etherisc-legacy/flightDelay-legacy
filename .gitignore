@@ -2,7 +2,6 @@
 .vscode
 env
 node_modules
-build
 migrations
 test
 external/encryptedQuery/allEncryptedQueryStrings.txt

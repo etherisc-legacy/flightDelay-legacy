@@ -10,10 +10,10 @@ const log = require('../util/logger');
 
 const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy.sol');
 
-module.exports = (deployer, network, accounts) => {
+module.exports = (deployer) => {
 
     log.info('Deploy FlightDelayNewPolicy contract');
 
-    return deployer.deploy(FlightDelayNewPolicy);
+    return deployer.deploy(FlightDelayNewPolicy, '0xf5c3086d42cb2857ad5f52c134fc3e698e8e9edd');
 
 };

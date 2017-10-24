@@ -1,0 +1,1083 @@
+{
+  "contract_name": "FlightDelayDatabase",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_calculatedPayout",
+          "type": "uint256"
+        },
+        {
+          "name": "_actualPayout",
+          "type": "uint256"
+        }
+      ],
+      "name": "setPayouts",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "ledger",
+      "outputs": [
+        {
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_carrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "name": "_departureYearMonthDay",
+          "type": "bytes32"
+        },
+        {
+          "name": "_arrivalTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "createUpdateRisk",
+      "outputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "name": "accessControl",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_index",
+          "type": "uint8"
+        }
+      ],
+      "name": "getLedger",
+      "outputs": [
+        {
+          "name": "_value",
+          "type": "int256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_delay",
+          "type": "uint8"
+        },
+        {
+          "name": "_delayInMinutes",
+          "type": "uint256"
+        }
+      ],
+      "name": "setDelay",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "destruct",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_oraclizeState",
+          "type": "uint8"
+        },
+        {
+          "name": "_oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "createOraclizeCallback",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "customers",
+      "outputs": [
+        {
+          "name": "customerExternalId",
+          "type": "bytes32"
+        },
+        {
+          "name": "identityConfirmed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_index",
+          "type": "uint8"
+        },
+        {
+          "name": "_value",
+          "type": "int256"
+        }
+      ],
+      "name": "setLedger",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "customerPolicies",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "extCustomerPolicies",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_state",
+          "type": "uint8"
+        },
+        {
+          "name": "_stateTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_stateMessage",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setState",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "oraclizeCallbacks",
+      "outputs": [
+        {
+          "name": "policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "oState",
+          "type": "uint8"
+        },
+        {
+          "name": "oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPolicyState",
+      "outputs": [
+        {
+          "name": "_state",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getOraclizePolicyId",
+      "outputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPolicyData",
+      "outputs": [
+        {
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "name": "_weight",
+          "type": "uint256"
+        },
+        {
+          "name": "_premium",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getOraclizeCallback",
+      "outputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_arrivalTime",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_cumulatedWeightedPremium",
+          "type": "uint256"
+        },
+        {
+          "name": "_premiumMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "name": "setPremiumFactors",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "risks",
+      "outputs": [
+        {
+          "name": "carrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "name": "departureYearMonthDay",
+          "type": "bytes32"
+        },
+        {
+          "name": "arrivalTime",
+          "type": "uint256"
+        },
+        {
+          "name": "delayInMinutes",
+          "type": "uint256"
+        },
+        {
+          "name": "delay",
+          "type": "uint8"
+        },
+        {
+          "name": "cumulatedWeightedPremium",
+          "type": "uint256"
+        },
+        {
+          "name": "premiumMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_offset",
+          "type": "uint256"
+        }
+      ],
+      "name": "checkTime",
+      "outputs": [
+        {
+          "name": "_result",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getPremiumFactors",
+      "outputs": [
+        {
+          "name": "_cumulatedWeightedPremium",
+          "type": "uint256"
+        },
+        {
+          "name": "_premiumMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCustomerPremium",
+      "outputs": [
+        {
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "name": "_premium",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contract",
+          "type": "address"
+        },
+        {
+          "name": "_caller",
+          "type": "address"
+        },
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_access",
+          "type": "bool"
+        }
+      ],
+      "name": "setAccessControl",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contract",
+          "type": "address"
+        },
+        {
+          "name": "_caller",
+          "type": "address"
+        },
+        {
+          "name": "_perm",
+          "type": "uint8"
+        }
+      ],
+      "name": "setAccessControl",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getRiskParameters",
+      "outputs": [
+        {
+          "name": "_carrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "name": "_departureYearMonthDay",
+          "type": "bytes32"
+        },
+        {
+          "name": "_arrivalTime",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "policies",
+      "outputs": [
+        {
+          "name": "customer",
+          "type": "address"
+        },
+        {
+          "name": "premium",
+          "type": "uint256"
+        },
+        {
+          "name": "riskId",
+          "type": "bytes32"
+        },
+        {
+          "name": "weight",
+          "type": "uint256"
+        },
+        {
+          "name": "calculatedPayout",
+          "type": "uint256"
+        },
+        {
+          "name": "actualPayout",
+          "type": "uint256"
+        },
+        {
+          "name": "state",
+          "type": "uint8"
+        },
+        {
+          "name": "stateTime",
+          "type": "uint256"
+        },
+        {
+          "name": "stateMessage",
+          "type": "bytes32"
+        },
+        {
+          "name": "proof",
+          "type": "bytes"
+        },
+        {
+          "name": "currency",
+          "type": "uint8"
+        },
+        {
+          "name": "customerExternalId",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contract",
+          "type": "address"
+        },
+        {
+          "name": "_caller",
+          "type": "address"
+        },
+        {
+          "name": "_perm",
+          "type": "uint8"
+        }
+      ],
+      "name": "getAccessControl",
+      "outputs": [
+        {
+          "name": "_allowed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "setContracts",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getRiskId",
+      "outputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "controller",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "name": "_premium",
+          "type": "uint256"
+        },
+        {
+          "name": "_currency",
+          "type": "uint8"
+        },
+        {
+          "name": "_customerExternalId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "createPolicy",
+      "outputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_weight",
+          "type": "uint256"
+        },
+        {
+          "name": "_proof",
+          "type": "bytes"
+        }
+      ],
+      "name": "setWeight",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_controller",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "strCarrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "ethPremium",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyApplied",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics0",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics1",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics2",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics3",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics4",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics5",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyAccepted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyPaidOut",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyExpired",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyDeclined",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyManualPayout",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_from",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogSendFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_to",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogReceiveFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSendFail",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeUrl",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogOraclizeCall",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_result",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "hexProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "LogOraclizeCallback",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_policyState",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "_stateTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_stateMessage",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSetState",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_externalId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogExternal",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x606060405260c0604051908101604090815260008252600a6020830152601490820152601e606082015260326080820181905260a082015262000047906002906006620000bf565b5034156200005457600080fd5b60405160208062001dc5833981016040528080519150505b620000858164010000000062001bca6200008e82021704565b505b5062000181565b60008054600160a060020a038316600160a060020a031991821681179092556001805490911690911781555b919050565b600183019183908215620001475791602002820160005b838211156200011657835183826101000a81548160ff021916908360ff1602179055509260200192600101602081600001049283019260010302620000d6565b8015620001455782816101000a81549060ff021916905560010160208160000104928301926001030262000116565b505b506200015592915062000159565b5090565b6200017e91905b808211156200015557805460ff1916815560010162000160565b5090565b90565b611c3480620001916000396000f300606060405236156101855763ffffffff60e060020a6000350416630d4c8f62811461018a57806310a7fd7b146101a8578063128a1c74146101d05780631733c3c8146101fe578063196f9aa51461023d57806319a08058146102685780632b68b9c6146102895780632ba1e4391461029e578063336989ae146102c257806336be2a73146102fb5780633e79e4c2146103195780633f31b3ac1461034d578063418cf5b114610378578063426d5ef11461039c57806343f46a5c146103e457806359f02c4d1461041e5780637a5402e9146104465780637f205c8c14610492578063802de8fc146104c05780638993021b146104de5780639c66452e146105355780639d5176fd14610565578063c168e03714610593578063c58a3321146105cb578063ca2d553a146105fd578063cdcdb4631461062a578063d3e8948314610664578063d45efad514610782578063e0d6d530146107c1578063eb807339146107d6578063f77c4791146107fe578063f92a69ec1461082d578063ffe280ee1461086d575b600080fd5b341561019557600080fd5b6101a66004356024356044356108cb565b005b34156101b357600080fd5b6101be60043561098d565b60405190815260200160405180910390f35b34156101db57600080fd5b6101be6004356024356044356109a5565b60405190815260200160405180910390f35b341561020957600080fd5b610229600160a060020a036004358116906024351660ff60443516610a92565b604051901515815260200160405180910390f35b341561024857600080fd5b6101be60ff60043516610ab8565b60405190815260200160405180910390f35b341561027357600080fd5b6101a660043560ff60243516604435610ad8565b005b341561029457600080fd5b6101a6610bbd565b005b34156102a957600080fd5b6101a660043560243560ff60443516606435610be9565b005b34156102cd57600080fd5b6102e1600160a060020a0360043516610ce4565b604051918252151560208201526040908101905180910390f35b341561030657600080fd5b6101a660ff60043516602435610d00565b005b341561032457600080fd5b6101be600160a060020a0360043516602435610e1b565b60405190815260200160405180910390f35b341561035857600080fd5b6101be600435602435610e4d565b60405190815260200160405180910390f35b341561038357600080fd5b6101a660043560ff60243516604435606435610e7f565b005b34156103a757600080fd5b6103b2600435610fc4565b604051808481526020018360018111156103c857fe5b60ff168152602001828152602001935050505060405180910390f35b34156103ef57600080fd5b6103fa600435610fe8565b6040518082600681111561040a57fe5b60ff16815260200191505060405180910390f35b341561042957600080fd5b6101be60043561101f565b60405190815260200160405180910390f35b341561045157600080fd5b61045c600435611037565b6040518084600160a060020a0316600160a060020a03168152602001838152602001828152602001935050505060405180910390f35b341561049d57600080fd5b6104a8600435611086565b60405191825260208201526040908101905180910390f35b34156104cb57600080fd5b6101a66004356024356044356110dd565b005b34156104e957600080fd5b6104f460043561118c565b6040519687526020870195909552604080870194909452606086019290925260ff16608085015260a084015260c083019190915260e0909101905180910390f35b341561054057600080fd5b6102296004356024356044356111cd565b604051901515815260200160405180910390f35b341561057057600080fd5b6104a8600435611204565b60405191825260208201526040908101905180910390f35b341561059e57600080fd5b6105a9600435611225565b604051600160a060020a03909216825260208201526040908101905180910390f35b34156105d657600080fd5b6101a6600160a060020a036004358116906024351660ff60443516606435151561126a565b005b341561060857600080fd5b6101a6600160a060020a036004358116906024351660ff60443516611355565b005b341561063557600080fd5b610640600435611368565b60405192835260208301919091526040808301919091526060909101905180910390f35b341561066f57600080fd5b61067a600435611390565b604051600160a060020a038d168152602081018c9052604081018b9052606081018a90526080810189905260a0810188905260c081018760068111156106bc57fe5b60ff168152602081018790526040810186905260608101906080018460038111156106e357fe5b60ff16815260208101849052604083820381018352865460026000196001831615610100020190911604908201819052606090910190869080156107685780601f1061073d57610100808354040283529160200191610768565b820191906000526020600020905b81548152906001019060200180831161074b57829003601f168201915b50509d505050505050505050505050505060405180910390f35b341561078d57600080fd5b610229600160a060020a036004358116906024351660ff60443516611412565b604051901515815260200160405180910390f35b34156107cc57600080fd5b6101a661144f565b005b34156107e157600080fd5b6101be6004356116ce565b60405190815260200160405180910390f35b341561080957600080fd5b610811611702565b604051600160a060020a03909116815260200160405180910390f35b341561083857600080fd5b6101be600160a060020a036004351660243560ff60443516606435608435611711565b60405190815260200160405180910390f35b341561087857600080fd5b6101a6600480359060248035919060649060443590810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496506118a895505050505050565b005b601054600090600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561093057600080fd5b6102c65a03f1151561094157600080fd5b50505060405180519050151561095657600080fd5b600380548590811061096457fe5b90600052602060002090600c020160005b50600481018490556005810183905590505b50505050565b600a816006811061099a57fe5b0160005b5054905081565b6010546000908190600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b1515610a0c57600080fd5b6102c65a03f11515610a1d57600080fd5b505050604051805190501515610a3257600080fd5b8484846040519283526020830191909152604080830191909152606090910190519081900390206000818152600860205260409020600681015491935091501515610a895784815560018101849055600281018390555b5b509392505050565b600960209081526000938452604080852082529284528284209052825290205460ff1681565b6000600a60ff831660068110610aca57fe5b0160005b505490505b919050565b601054600090600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b1515610b3d57600080fd5b6102c65a03f11515610b4e57600080fd5b505050604051805190501515610b6357600080fd5b60086000600386815481101515610b7657fe5b90600052602060002090600c020160005b50600201548152602081019190915260400160002060048101805460ff191660ff86161790556003810183905590505b50505050565b60005433600160a060020a03908116911614610bd857600080fd5b600054600160a060020a0316ff5b5b565b601054600160a060020a0316633ebd609260653360006040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b1515610c4c57600080fd5b6102c65a03f11515610c5d57600080fd5b505050604051805190501515610c7257600080fd5b606060405190810160405280848152602001836001811115610c9057fe5b81526020908101839052600086815260079091526040902081518155602082015160018083018054909160ff19909116908381811115610ccc57fe5b02179055506040820151600290910155505b50505050565b6005602052600090815260409020805460019091015460ff1682565b601054600090600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b1515610d6557600080fd5b6102c65a03f11515610d7657600080fd5b505050604051805190501515610d8b57600080fd5b600a60ff841660068110610d9b57fe5b0160005b5054905081600a60ff851660068110610db457fe5b0160005b50805490910190556000821215610dec5780600a60ff851660068110610dda57fe5b0160005b505412610de757fe5b610e13565b6000821315610e135780600a60ff851660068110610e0657fe5b0160005b505413610e1357fe5b5b5b5b505050565b600660205281600052604060002081815481101515610e3657fe5b906000526020600020900160005b91509150505481565b600460205281600052604060002081815481101515610e3657fe5b906000526020600020900160005b91509150505481565b601054600090600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b1515610ee457600080fd5b6102c65a03f11515610ef557600080fd5b505050604051805190501515610f0a57600080fd5b7f0f3fb52a4b3a9f6b9191fcfe3320487160165440bcdabb6577a8bc165a87dcc885856006811115610f3857fe5b858560405193845260ff909216602084015260408084019190915260608301919091526080909101905180910390a16003805486908110610f7557fe5b90600052602060002090600c020160005b509050838160060160006101000a81548160ff02191690836006811115610fa957fe5b021790555060078101839055600881018290555b5050505050565b600760205260009081526040902080546001820154600290920154909160ff169083565b600080600383815481101515610ffa57fe5b90600052602060002090600c020160005b50600681015460ff16925090505b50919050565b60008181526007602052604090208054905b50919050565b60008060008060038581548110151561104c57fe5b90600052602060002090600c020160005b50805460038201546001830154600160a060020a0390921696509450925090505b509193909250565b600081815260076020526040812054600380549192916008918391859081106110ab57fe5b90600052602060002090600c020160005b5060029081015482526020820192909252604001600020015490505b915091565b601054600090600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561114257600080fd5b6102c65a03f1151561115357600080fd5b50505060405180519050151561116857600080fd5b50600083815260086020526040902060058101839055600681018290555b50505050565b6008602052600090815260409020805460018201546002830154600384015460048501546005860154600690960154949593949293919260ff909116919087565b6000838152600760209081526040808320858452600890925290912060028082015490830154908401901191905b50509392505050565b60008181526008602052604090206005810154600682015490915b50915091565b600080600060038481548110151561123957fe5b90600052602060002090600c020160005b5080546001820154600160a060020a039091169450925090505b50915091565b600154600160a060020a031663e16c7d9860006040516020015260405160e060020a63ffffffff83160281527f46442e416363657373436f6e74726f6c6c6572000000000000000000000000006004820152602401602060405180830381600087803b15156112d857600080fd5b6102c65a03f115156112e957600080fd5b50505060405180519050600160a060020a031633600160a060020a031614151561131257600080fd5b600160a060020a038481166000908152600960209081526040808320938716835292815282822060ff86168352905220805460ff19168215151790555b50505050565b610e13838383600161126a565b5b505050565b600081815260086020526040902080546001820154600283015491929091905b509193909250565b600380548290811061139e57fe5b90600052602060002090600c020160005b50805460018201546002830154600384015460048501546005860154600687015460078801546008890154600a8a0154600b8b0154600160a060020a03909a169b509799969895979496939560ff9384169592949193600990920192909116908c565b600160a060020a038084166000908152600960209081526040808320938616835292815282822060ff8086168452915291902054165b9392505050565b60005433600160a060020a0390811691161461146a57600080fd5b6114937f46442e416363657373436f6e74726f6c6c657200000000000000000000000000611979565b6010805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392831617908190551663c28b4577606560405160e060020a63ffffffff841602815260ff90911660048201527f46442e4e6577506f6c69637900000000000000000000000000000000000000006024820152604401600060405180830381600087803b151561152457600080fd5b6102c65a03f1151561153557600080fd5b5050601054600160a060020a0316905063c28b4577606560405160e060020a63ffffffff841602815260ff90911660048201527f46442e556e6465727772697465000000000000000000000000000000000000006024820152604401600060405180830381600087803b15156115aa57600080fd5b6102c65a03f115156115bb57600080fd5b5050601054600160a060020a0316905063c28b4577606560405160e060020a63ffffffff841602815260ff90911660048201527f46442e5061796f757400000000000000000000000000000000000000000000006024820152604401600060405180830381600087803b151561163057600080fd5b6102c65a03f1151561164157600080fd5b5050601054600160a060020a0316905063c28b4577606560405160e060020a63ffffffff841602815260ff90911660048201527f46442e4c656467657200000000000000000000000000000000000000000000006024820152604401600060405180830381600087803b15156116b657600080fd5b6102c65a03f11515610e1357600080fd5b5050505b5b565b6000806003838154811015156116e057fe5b90600052602060002090600c020160005b509050806002015491505b50919050565b600054600160a060020a031681565b6010546000908190600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561177857600080fd5b6102c65a03f1151561178957600080fd5b50505060405180519050151561179e57600080fd5b60038054906117b090600183016119ee565b600160a060020a0388166000908152600660205260409020805491935090600181016117dc8382611a20565b916000526020600020900160005b5083905550600084815260046020526040902080546001810161180d8382611a20565b916000526020600020900160005b5083905550600380548390811061182e57fe5b90600052602060002090600c020160005b50805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038916178155600a81018054919250869160ff1916600183600381111561188357fe5b0217905550600b810184905560018101869055600281018390555b5095945050505050565b601054600090600160a060020a0316633ebd6092606533846040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561190d57600080fd5b6102c65a03f1151561191e57600080fd5b50505060405180519050151561193357600080fd5b600380548590811061194157fe5b90600052602060002090600c020160005b5060038101849055905060098101828051610fbd929160200190611a4a565b505b50505050565b600154600090600160a060020a031663e16c7d9883836040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b15156119cc57600080fd5b6102c65a03f115156119dd57600080fd5b50505060405180519150505b919050565b815481835581811511610e1357600c0281600c028360005260206000209182019101610e139190611ac9565b5b505050565b815481835581811511610e1357600083815260209020610e13918101908301611b61565b5b505050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10611a8b57805160ff1916838001178555611ab8565b82800160010185558215611ab8579182015b82811115611ab8578251825591602001919060010190611a9d565b5b50611ac5929150611b61565b5090565b611b5e91905b80821115611ac557805473ffffffffffffffffffffffffffffffffffffffff191681556000600182018190556002820181905560038201819055600482018190556005820181905560068201805460ff191690556007820181905560088201819055611b3e6009830182611b82565b50600a8101805460ff191690556000600b820155600c01611acf565b5090565b90565b611b5e91905b80821115611ac55760008155600101611b67565b5090565b90565b50805460018160011615610100020316600290046000825580601f10611ba85750611bc6565b601f016020900490600052602060002090810190611bc69190611b61565b5b50565b60008054600160a060020a03831673ffffffffffffffffffffffffffffffffffffffff1991821681179092556001805490911690911781555b9190505600a165627a7a723058203a1b0b6c2a4ece38ca57c2a6c7df350825f591956e1bc591d05961d0f1f839f10029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1508832164955
+}

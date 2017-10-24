@@ -1,0 +1,787 @@
+{
+  "contract_name": "FlightDelayController",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "deregister",
+      "outputs": [
+        {
+          "name": "_result",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "contractIds",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "i",
+          "type": "uint256"
+        }
+      ],
+      "name": "setOneContract",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "destructOne",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        },
+        {
+          "name": "_id",
+          "type": "bytes32"
+        },
+        {
+          "name": "_isControlled",
+          "type": "bool"
+        }
+      ],
+      "name": "registerContract",
+      "outputs": [
+        {
+          "name": "_result",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "destructAll",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "setAllContracts",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getContract",
+      "outputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "contracts",
+      "outputs": [
+        {
+          "name": "addr",
+          "type": "address"
+        },
+        {
+          "name": "isControlled",
+          "type": "bool"
+        },
+        {
+          "name": "isInitialized",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "strCarrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "ethPremium",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyApplied",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics0",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics1",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics2",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics3",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics4",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_statistics5",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyAccepted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyPaidOut",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPolicyExpired",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyDeclined",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogPolicyManualPayout",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_from",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogSendFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_to",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogReceiveFunds",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "strReason",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSendFail",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeUrl",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "_oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogOraclizeCall",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "hexQueryId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "_result",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "hexProof",
+          "type": "bytes"
+        }
+      ],
+      "name": "LogOraclizeCallback",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_policyState",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "name": "_stateTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_stateMessage",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogSetState",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_externalId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "LogExternal",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x606060405260c0604051908101604090815260008252600a6020830152601490820152601e606082015260326080820181905260a082015262000047906001906006620001c0565b5034156200005457600080fd5b5b5b60008054600160a060020a03191633600160a060020a03161790555b60008054620000bd91600160a060020a03909116907f46442e4f776e657200000000000000000000000000000000000000000000000090640100000000620004056200010282021704565b50620000fa307f46442e436f6e74726f6c6c6572000000000000000000000000000000000000006000640100000000620004056200010282021704565b505b620002d3565b6000805433600160a060020a039081169116146200011f57600080fd5b6200013a8484846401000000006200070b6200016e82021704565b60038054600181016200014e83826200025a565b916000526020600020900160005b5084905550600190505b5b9392505050565b60008281526002602052604090208054600160a060020a031916600160a060020a0385161760a060020a60ff02191674010000000000000000000000000000000000000000831515021790555b505050565b600183019183908215620002485791602002820160005b838211156200021757835183826101000a81548160ff021916908360ff1602179055509260200192600101602081600001049283019260010302620001d7565b8015620002465782816101000a81549060ff021916905560010160208160000104928301926001030262000217565b505b506200025692915062000287565b5090565b815481835581811511620001bb57600083815260209020620001bb918101908301620002af565b5b505050565b620002ac91905b808211156200025657805460ff191681556001016200028e565b5090565b90565b620002ac91905b80821115620002565760008155600101620002b6565b5090565b90565b6107de80620002e36000396000f300606060405236156100935763ffffffff60e060020a600035041663208131548114610098578063438c3aff146100c25780636820f8d2146100ea5780636dafc6b7146101025780638da5cb5b1461011a5780639576e5b314610149578063ca88b3b214610184578063d257106214610199578063e16c7d98146101ae578063ec56a373146101e0578063f2fde38b14610226575b600080fd5b34156100a357600080fd5b6100ae600435610247565b604051901515815260200160405180910390f35b34156100cd57600080fd5b6100d860043561029a565b60405190815260200160405180910390f35b34156100f557600080fd5b6101006004356102bd565b005b341561010d57600080fd5b610100600435610368565b005b341561012557600080fd5b61012d6103f6565b604051600160a060020a03909116815260200160405180910390f35b341561015457600080fd5b6100ae600160a060020a03600435166024356044351515610405565b604051901515815260200160405180910390f35b341561018f57600080fd5b61010061045e565b005b34156101a457600080fd5b610100610513565b005b34156101b957600080fd5b61012d600435610620565b604051600160a060020a03909116815260200160405180910390f35b34156101eb57600080fd5b6101f660043561063e565b604051600160a060020a039093168352901515602083015215156040808301919091526060909101905180910390f35b341561023157600080fd5b610100600160a060020a0360043516610681565b005b6000805433600160a060020a0390811691161461026357600080fd5b61026c82610620565b600160a060020a0316151561028357506000610294565b610290600083600061070b565b5060015b5b919050565b60038054829081106102a857fe5b906000526020600020900160005b5054905081565b6000805433600160a060020a039081169116146102d957600080fd5b600260006003848154811015156102ec57fe5b906000526020600020900160005b505481526020810191909152604090810160002054600160a060020a03169150819063e0d6d53090518163ffffffff1660e060020a028152600401600060405180830381600087803b151561034e57600080fd5b6102c65a03f1151561035f57600080fd5b5050505b5b5050565b6000805433600160a060020a0390811691161461038457600080fd5b61038d82610620565b9050600160a060020a038116156103635780600160a060020a0316632b68b9c66040518163ffffffff1660e060020a028152600401600060405180830381600087803b151561034e57600080fd5b6102c65a03f1151561035f57600080fd5b5050505b5b5b5050565b600054600160a060020a031681565b6000805433600160a060020a0390811691161461042157600080fd5b61042c84848461070b565b600380546001810161043e8382610767565b916000526020600020900160005b5084905550600190505b5b9392505050565b6000805433600160a060020a0390811691161461047a57600080fd5b5060005b600354811015610501576002600060038381548110151561049b57fe5b906000526020600020900160005b5054815260208101919091526040016000205460a060020a900460ff161515600114156104f7576104f76003828154811015156104e257fe5b906000526020600020900160005b5054610368565b5b5b60010161047e565b600054600160a060020a0316ff5b5b50565b60008054819033600160a060020a0390811691161461053157600080fd5b5060005b600354811015610363576002600060038381548110151561055257fe5b906000526020600020900160005b5054815260208101919091526040016000205460a060020a900460ff16151560011415610611576002600060038381548110151561059a57fe5b906000526020600020900160005b505481526020810191909152604090810160002054600160a060020a03169250829063e0d6d53090518163ffffffff1660e060020a028152600401600060405180830381600087803b15156105fc57600080fd5b6102c65a03f1151561060d57600080fd5b5050505b5b600101610535565b5b5b5050565b600081815260026020526040902054600160a060020a03165b919050565b600260205260009081526040902054600160a060020a0381169060ff60a060020a8204811691750100000000000000000000000000000000000000000090041683565b60005433600160a060020a0390811691161461069c57600080fd5b600160a060020a03811615156106b157600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03831617815561050f9082907f46442e4f776e65720000000000000000000000000000000000000000000000009061070b565b5b5b50565b6000828152600260205260409020805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0385161774ff0000000000000000000000000000000000000000191660a060020a831515021790555b505050565b81548183558181151161076257600083815260209020610762918101908301610791565b5b505050565b6107af91905b808211156107ab5760008155600101610797565b5090565b905600a165627a7a7230582046b9919515dd61a1f5dda2bbde9344d063accbed55c40d63fe9ba8351231a03c0029",
+  "networks": {
+    "1": {
+      "links": {},
+      "events": {
+        "0xa1a0ee9005fffba1f170ed11d5512d7983400e59419ceb31221f71832fa6cb2c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_customer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "strCarrierFlightNumber",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "ethPremium",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogPolicyApplied",
+          "type": "event"
+        },
+        "0x70385f0d2eec84d8ff6456734404ae65b06b980e7360ea503ca23dcc56a1c515": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_statistics0",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_statistics1",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_statistics2",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_statistics3",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_statistics4",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_statistics5",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogPolicyAccepted",
+          "type": "event"
+        },
+        "0xa4952f195dcb5d573305f9d9fe2fd0d63f66aa1149e328d2629377ababab53a7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "ethAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogPolicyPaidOut",
+          "type": "event"
+        },
+        "0x08b74d3cccbcb3894ccc99c3a75f6a6890f71ea4c039fe60eabd7bee40b1231c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogPolicyExpired",
+          "type": "event"
+        },
+        "0x9ee71fae4eaec97727495a88dce95da03083cceac90064c30bd03ef65b86a3ae": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "strReason",
+              "type": "bytes32"
+            }
+          ],
+          "name": "LogPolicyDeclined",
+          "type": "event"
+        },
+        "0xa868cd6faa17ac2172ea3d4f9f7910ca932112bfeb017f45ed09bd881c054030": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "strReason",
+              "type": "bytes32"
+            }
+          ],
+          "name": "LogPolicyManualPayout",
+          "type": "event"
+        },
+        "0x58d25b935835d1791b52774277ec18acc66c328af44c3a19fcf57cb68065611c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_recipient",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_from",
+              "type": "uint8"
+            },
+            {
+              "indexed": false,
+              "name": "ethAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogSendFunds",
+          "type": "event"
+        },
+        "0xd03e9bccd46f248f783faac581aa0546bf19c3646bb6be5ce14839513bb90391": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_to",
+              "type": "uint8"
+            },
+            {
+              "indexed": false,
+              "name": "ethAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogReceiveFunds",
+          "type": "event"
+        },
+        "0xa552c8a0921dff81852c41a9081153b41b89ada680ef32d9e6ed0e8a7d296182": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "strReason",
+              "type": "bytes32"
+            }
+          ],
+          "name": "LogSendFail",
+          "type": "event"
+        },
+        "0x57d5927fefa8de5620b57ca7ac0948a9ea457d8f3af2bd8867728325a6ca5d92": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "hexQueryId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "_oraclizeUrl",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_oraclizeTime",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogOraclizeCall",
+          "type": "event"
+        },
+        "0x4e010942cd8d70ef60f3bd7e17c62008722f9551f8f28dc7040004160de7e2cc": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "hexQueryId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "_result",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "hexProof",
+              "type": "bytes"
+            }
+          ],
+          "name": "LogOraclizeCallback",
+          "type": "event"
+        },
+        "0x0f3fb52a4b3a9f6b9191fcfe3320487160165440bcdabb6577a8bc165a87dcc8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_policyState",
+              "type": "uint8"
+            },
+            {
+              "indexed": false,
+              "name": "_stateTime",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_stateMessage",
+              "type": "bytes32"
+            }
+          ],
+          "name": "LogSetState",
+          "type": "event"
+        },
+        "0x61dc648f76dcf4df63a23b1cd65ae4a116413759706ff1c99fd5e839e4765e4d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_policyId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_address",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_externalId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "LogExternal",
+          "type": "event"
+        }
+      },
+      "updated_at": 1508834069252
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508834069252
+}
