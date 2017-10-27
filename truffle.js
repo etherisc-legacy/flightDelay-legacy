@@ -12,8 +12,8 @@ module.exports = {
             ], // to unlock in parity
             addressResolver: '0x63338bB37Bc3A0d55d2E9505F11E56c613b51494',
             funder: '0xb5771324A8209c4b581a5f1e5c0DD48a9ABA2a59', // multisig
-            gas: 6600000,
-            gasprice: 10000000000,
+            gas: 4000000,
+            gasPrice: 4000000000,
         },
         mainnet2: {
             network_id: 1, // Ethereum public network

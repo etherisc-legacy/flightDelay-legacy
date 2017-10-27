@@ -17,6 +17,11 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
 
     FlightDelayDatabaseInterface FD_DB;
 
+    modifier onlyEmergency() {
+        require(msg.sender == FD_CI.getContract('FD.Emergency'));
+        _;
+    }
+
     function FlightDelayAccessController(address _controller) {
         setController(_controller);
     }
@@ -27,6 +32,16 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
 
     function setPermissionById(uint8 _perm, bytes32 _id) {
         FD_DB.setAccessControl(msg.sender, FD_CI.getContract(_id), _perm);
+    }
+
+    function fixPermission(address _target, address _accessor, uint8 _perm, bool _access) onlyEmergency {
+        FD_DB.setAccessControl(
+            _target,
+            _accessor,
+            _perm,
+            _access
+        );
+
     }
 
     function setPermissionById(uint8 _perm, bytes32 _id, bool _access) {
