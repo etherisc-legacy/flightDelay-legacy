@@ -11,4 +11,5 @@ ContractLogs.log
 mainnet.txt
 deploy_doc.txt
 package-lock.json
+migrations-available/9*
 

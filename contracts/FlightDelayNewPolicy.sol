@@ -99,7 +99,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
                 }
             }
 
-            if (_currency == Currency.GPB) {
+            if (_currency == Currency.GBP) {
                 // GBP
                 if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
                     LogPolicyDeclined(0, "Invalid premium value GBP");
