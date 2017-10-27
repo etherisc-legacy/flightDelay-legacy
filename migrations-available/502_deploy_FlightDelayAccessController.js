@@ -14,6 +14,6 @@ module.exports = (deployer, network, accounts) => {
 
     log.info('Deploy FlightDelayAccessController contract');
 
-    return deployer.deploy(FlightDelayAccessController);
+    return deployer.deploy(FlightDelayAccessController, '0xf5c3086d42cb2857ad5f52c134fc3e698e8e9edd');
 
 };
