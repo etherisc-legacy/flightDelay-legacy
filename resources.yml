@@ -1,5 +1,26 @@
 migrations:
-    - 302_deploy_Other.js
+#    - 1_initial_migration.js
+#    - 302_deploy_Other.js
+#    - 401_deploy_AddressResolver.js
+#    - 900_deploy_set_contracts.js
+#    - 901_deploy_fund_contracts.js
+#    - 999_deploy_show_contracts.js
+#    - 299_deploy_finish.js
+#    - 401_deploy_AddressResolver.js
+#    - 501_deploy_FlightDelayController.js
+#    - 502_deploy_FlightDelayAccessController.js
+#    - 503_deploy_FlightDelayDatabase.js
+#    - 504_deploy_FlightDelayLedger.js
+#    - 505_deploy_FlightDelayNewPolicy.js
+#    - 506_deploy_FlightDelayUnderwrite.js
+#    - 507_deploy_FlightDelayPayout.js
+#    - 510_deploy_registerContracts.js
+#    - 900_deploy_set_contracts.js
+#    - 910_deploy_set_contracts.js
+    - 930_fix_callbacks.js
+#    - 920_read_ACL.js
+#    - 901_deploy_fund_contracts.js
+#    - 999_deploy_show_contracts.js
 
 test:
     - logformatter.js

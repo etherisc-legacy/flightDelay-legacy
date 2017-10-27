@@ -49,6 +49,9 @@ contract FlightDelayDatabaseModel {
     // oraclize callback types:
     enum oraclizeState { ForUnderwriting, ForPayout }
 
+    //               00   01   02   03
+    enum Currency { ETH, EUR, USD, GBP }
+
     // the policy structure: this structure keeps track of the individual parameters of a policy.
     // typically customer address, premium and some status information.
     struct Policy {
@@ -80,6 +83,10 @@ contract FlightDelayDatabaseModel {
         bytes32 stateMessage;
         // 9 - TLSNotary Proof
         bytes proof;
+        // 10 - Currency
+        Currency currency;
+        // 10 - External customer id
+        bytes32 customerExternalId;
     }
 
     // the risk structure; this structure keeps track of the risk-

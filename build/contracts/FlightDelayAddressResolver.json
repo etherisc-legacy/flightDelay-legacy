@@ -1,0 +1,72 @@
+{
+  "contract_name": "FlightDelayAddressResolver",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAddress",
+      "outputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "addr",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwner",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setAddress",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b60018054600160a060020a03191633600160a060020a03161790555b5b6101d78061003c6000396000f300606060405263ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166338cc4831811461005e578063767800de1461008d578063a6f9dae1146100bc578063e30081a0146100dd575b600080fd5b341561006957600080fd5b6100716100fe565b604051600160a060020a03909116815260200160405180910390f35b341561009857600080fd5b61007161010e565b604051600160a060020a03909116815260200160405180910390f35b34156100c757600080fd5b6100db600160a060020a036004351661011d565b005b34156100e857600080fd5b6100db600160a060020a0360043516610164565b005b600054600160a060020a03165b90565b600054600160a060020a031681565b60015433600160a060020a0390811691161461013857600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0383161790555b50565b60015433600160a060020a0390811691161461017f57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0383161790555b505600a165627a7a7230582025c965b5f6fb43eb35d3fb02aab43f6ca196c3a52fa440951894201cdf815c990029",
+  "networks": {
+    "1": {
+      "links": {},
+      "events": {},
+      "updated_at": 1509058801306
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1509058801306
+}

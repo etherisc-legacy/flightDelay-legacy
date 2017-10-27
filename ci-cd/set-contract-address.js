@@ -1,37 +1,67 @@
 const Web3 = require('web3');
 
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-const newPolicy = require('./build/contracts/FlightDelayNewPolicy.json');
+const newPolicy = require('../build/contracts/FlightDelayNewPolicy.json');
 
-const abi = [{
-    "constant": false,
-    "inputs": [],
-    "name": "getAddress",
-    "outputs": [{ "name": "oaddr", "type": "address" }],
-    "payable": false,
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [],
-    "name": "addr",
-    "outputs": [{ "name": "", "type": "address" }],
-    "payable": false,
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{ "name": "newowner", "type": "address" }],
-    "name": "changeOwner",
-    "outputs": [],
-    "payable": false,
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{ "name": "newaddr", "type": "address" }],
-    "name": "setAddr",
-    "outputs": [],
-    "payable": false,
-    "type": "function"
-}, { "inputs": [], "payable": false, "type": "constructor" }];
+const abi = [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAddress",
+      "outputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "addr",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwner",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setAddress",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    }
+  ];
 
 const resolvers = {
     kovan: {
@@ -56,7 +86,7 @@ const FlightDelayAddressResolver = new web3.eth.Contract(abi, resolver.address);
 web3.eth.getCoinbase()
     .then((coinbase) => {
         FlightDelayAddressResolver
-            .methods.setAddr(newPolicy.networks[resolver.networkId].address)
+            .methods.setAddress(newPolicy.networks[resolver.networkId].address)
             .send({ from: coinbase, })
             .on('receipt', receipt =>
                 console.log('New contract address is saved in block', receipt))

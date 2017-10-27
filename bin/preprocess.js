@@ -66,14 +66,17 @@ function setEncryptedQuery(data, mode) {
     const matches = data.match(regexp);
 
     if (matches) {
-        let encryptedQuery;
-        if (mode === 'commit-mode') {
-            encryptedQuery = '<!--PUT ENCRYPTED_QUERY HERE--> ';
-        } else {
-            encryptedQuery = execSync('./external/encryptedQuery/createEncryptedQuery.sh').toString().trim();
-        }
-
         matches.forEach((match) => {
+            let encryptedQuery;
+            if (mode === 'commit-mode') {
+                encryptedQuery = '<!--PUT ENCRYPTED_QUERY HERE--> ';
+            } else {
+                if(!process.env.APP_ID || !process.env.APP_KEY) {
+                    console.log('APP_ID or APP_KEY is not specified');
+                    process.exit(1);
+                }
+                encryptedQuery = execSync('./external/encryptedQuery/createEncryptedQuery.sh').toString().trim();
+            }
             output = output.replace(match, `{[decrypt] ${encryptedQuery}}`);
         });
     }

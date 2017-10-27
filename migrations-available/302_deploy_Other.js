@@ -6,9 +6,10 @@
  * @copyright (c) 2017 etherisc GmbH
  *
  */
-
+const truffle = require('../truffle.js');
 const log = require('../util/logger');
 
+const FlightDelayAddressResolver = artifacts.require('FlightDelayAddressResolver.sol');
 const FlightDelayController = artifacts.require('FlightDelayController.sol');
 const FlightDelayAccessController = artifacts.require('FlightDelayAccessController.sol');
 const FlightDelayDatabase = artifacts.require('FlightDelayDatabase.sol');
@@ -18,15 +19,18 @@ const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
 const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
 
-module.exports = (deployer, networks, accounts) => {
+module.exports = (deployer, network, accounts) => {
     let controller;
+
+    const fund = value =>
+        web3.toWei(value, 'ether');
 
     log.info('Deploy FlightDelayController contract');
 
     return deployer
     // Deploy contracts
         .deploy(FlightDelayController)
-        .then(() => log.info('Deploy other contracts'))
+        .then(() => log.info('Deploy contracts'))
         .then(() => deployer.deploy(FlightDelayAccessController, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayDatabase, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayLedger, FlightDelayController.address))
@@ -34,18 +38,18 @@ module.exports = (deployer, networks, accounts) => {
         .then(() => deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address))
         .then(() => deployer.deploy(FlightDelayPayout, FlightDelayController.address))
 
-        // Save link to controller instance
-        .then(() => log.info('Save link to controller instance'))
+        // Get controller instance
         .then(() => FlightDelayController.deployed())
         .then((_i) => { controller = _i; return Promise.resolve(); })
 
         // Register contracts
-        .then(() => log.info('Register contracts'))
-        .then(() => controller.registerContract(accounts[2], 'FD.Funder', false))
+        .then(() => log.info('Register administators'))
+        .then(() => controller.registerContract(network === 'mainnet' ? truffle.networks[network].funder : accounts[2], 'FD.Funder', false))
+
         .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
         .then(() => controller.registerContract(accounts[4], 'FD.Emergency', false))
 
-        .then(() => log.info('Register other contracts'))
+        .then(() => log.info('Register contracts'))
         .then(() => controller.registerContract(FlightDelayAccessController.address, 'FD.AccessController', true))
         .then(() => controller.registerContract(FlightDelayDatabase.address, 'FD.Database', true))
         .then(() => controller.registerContract(FlightDelayLedger.address, 'FD.Ledger', true))
@@ -53,32 +57,59 @@ module.exports = (deployer, networks, accounts) => {
         .then(() => controller.registerContract(FlightDelayUnderwrite.address, 'FD.Underwrite', true))
         .then(() => controller.registerContract(FlightDelayPayout.address, 'FD.Payout', true))
 
-        // Setup contracts
-        .then(() => log.info('Setup contracts'))
-        .then(() => controller.setAllContracts())
-
         // Set new owner
-        .then(() => log.info('Set new owner'))
+        .then(() => log.info('Transfer ownership'))
         .then(() => controller.transferOwnership(accounts[1]))
 
-        // Fund FD.Ledger
-        .then(() => log.info('Fund FD.Ledger'))
-        .then(() => FlightDelayLedger.deployed())
-        .then(FD_LG => FD_LG.fund({ from: accounts[2], value: web3.toWei(50, 'ether'), }))
+        // Setup contracts
+        .then(() => log.info('Setup contracts'))
+        .then(() => controller.setAllContracts({from: accounts[1]}))
 
-        // Fund FD.Underwrite
-        .then(() => log.info('Fund FD.Underwrite'))
-        .then(() => FlightDelayUnderwrite.deployed())
-        .then(FD_UW => FD_UW.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
+        // Fund Contracts
+        .then(() => {
+            if (network !== 'mainnet') {
+                return FlightDelayController.deployed()
 
-        // Fund FD.Payout
-        .then(() => log.info('Fund FD.Payout'))
-        .then(() => FlightDelayPayout.deployed())
-        .then(FD_PY => FD_PY.fund({ from: accounts[2], value: web3.toWei(10, 'ether'), }))
+                    // Fund FD.Ledger
+                    .then(() => log.info('Fund FD.Ledger'))
+                    .then(() => FlightDelayLedger.deployed())
+                    .then(FD_LG => FD_LG.fund({from: accounts[2], value: fund(50),}))
+
+                    // Fund FD.Underwrite
+                    .then(() => log.info('Fund FD.Underwrite'))
+                    .then(() => FlightDelayUnderwrite.deployed())
+                    .then(FD_UW => FD_UW.fund({from: accounts[2], value: fund(10),}))
+
+                    // Fund FD.Payout
+                    .then(() => log.info('Fund FD.Payout'))
+                    .then(() => FlightDelayPayout.deployed())
+                    .then(FD_PY => FD_PY.fund({from: accounts[2], value: fund(10),}))
+            }
+
+            return Promise.resolve();
+        })
+
+        // Deploy AddressResolver on Testrpc
+        .then(() => {
+            if (network === 'development') {
+                // todo: check the account nonce, determine if we really need to deploy AR
+                return deployer.deploy(FlightDelayAddressResolver)
+                    .then(() => FlightDelayAddressResolver.deployed())
+                    .then(AR => AR.setAddress(FlightDelayNewPolicy.address));
+            } else if (network === 'kovan') {
+                const { addressResolver, } = truffle.networks[network];
+                FlightDelayAddressResolver.at(addressResolver)
+                    .setAddress(FlightDelayNewPolicy.address);
+
+                return Promise.resolve();
+            }
+            return Promise.resolve();
+        })
 
         .then(() => {
+            log.info(`Deployer: ${accounts[0]}`);
             log.info(`FD.Owner: ${accounts[1]}`);
-            log.info(`FD.Funder: ${accounts[2]}`);
+            log.info(`FD.Funder: ${network === 'mainnet' ? truffle.networks[network].funder : accounts[2]}`);
             log.info(`FD.CustomersAdmin: ${accounts[3]}`);
             log.info(`FD.Emeregency: ${accounts[4]}`);
             log.info(`FD.Controller: ${FlightDelayController.address}`);

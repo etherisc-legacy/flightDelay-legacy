@@ -169,6 +169,8 @@ contract('FlightDelayNewPolicy', (accounts) => {
                         flight.departureYearMonthDay,
                         flight.departureTime,
                         flight.arrivalTime,
+                        0,
+                        '12345',
                         args.tx(context)
                     );
                 })

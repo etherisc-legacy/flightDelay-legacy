@@ -28,6 +28,8 @@ rules:
           imports: never
           exports: never
           functions: ignore
+    padded-blocks:
+      0
 
 globals:
     artifacts: true

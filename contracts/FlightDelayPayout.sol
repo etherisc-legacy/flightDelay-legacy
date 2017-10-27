@@ -93,23 +93,27 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
             _oraclizeTime
         );
 
-        LogOraclizeCall(_policyId, queryId, oraclizeUrl);
+        LogOraclizeCall(_policyId, queryId, oraclizeUrl, _oraclizeTime);
     }
 
     /*
-     * @dev Oraclize callback
+     * @dev Oraclize callback. In an emergency case, we can call this directly from FD.Emergency Account.
      * @param _queryId
      * @param _result
      * @param _proof
      */
-    function __callback(bytes32 _queryId, string _result, bytes _proof) public onlyOraclize {
+    function __callback(bytes32 _queryId, string _result, bytes _proof) public onlyOraclizeOr(getContract('FD.Emergency')) {
+
         var (policyId, oraclizeTime) = FD_DB.getOraclizeCallback(_queryId);
+        LogOraclizeCallback(policyId, _queryId, _result, _proof);
+
+        // check if policy was declined after this callback was scheduled
+        var state = FD_DB.getPolicyState(policyId);
+        require(uint8(state) != 5);
+
         bytes32 riskId = FD_DB.getRiskId(policyId);
 
 // --> debug-mode
-//            LogString("im payout callback, result = ", _result);
-//            LogUint("policyId: ", policyId);
-//            LogUintTime("oTime", oraclizeTime);
 //            LogBytes32("riskId", riskId);
 // <-- debug-mode
 

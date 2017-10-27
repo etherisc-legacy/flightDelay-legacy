@@ -78,28 +78,26 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
             0
         );
 
-        LogOraclizeCall(_policyId, queryId, oraclizeUrl);
+        LogOraclizeCall(_policyId, queryId, oraclizeUrl, 0);
     }
 
-    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclize {
-// --> debug-mode
-//            LogString("_result", _result);
-// <-- debug-mode
+    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclizeOr(getContract('FD.Emergency')) {
 
         var (policyId,) = FD_DB.getOraclizeCallback(_queryId);
+        LogOraclizeCallback(policyId, _queryId, _result, _proof);
 
         var slResult = _result.toSlice();
 
         // we expect result to contain 6 values, something like
-        // "[61, 10, 4, 3, 0, 0]" ->
-        // ['observations','late15','late30','late45','cancelled','diverted']
+        // "[61, 10, 4, 3, 0, 0, \"CUN\"]" ->
+        // ['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode']
         if (bytes(_result).length == 0) {
             decline(policyId, "Declined (empty result)", _proof);
         } else {
             // now slice the string using
             // https://github.com/Arachnid/solidity-stringutils
-            if (slResult.count(", ".toSlice()) != 5) {
-                // check if result contains 6 values
+            if (slResult.count(", ".toSlice()) != 6) {
+                // check if result contains 7 values
                 decline(policyId, "Declined (invalid result)", _proof);
             } else {
                 slResult.beyond("[".toSlice()).until("]".toSlice());
@@ -118,12 +116,51 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
                         statistics[i] = parseInt(slResult.split(", ".toSlice()).toString()) * 10000/observations;
                     }
 
-                    // underwrite policy
-                    underwrite(policyId, statistics, _proof);
+                    var destination  = slResult.split(", ".toSlice());
+
+                    if (
+// --> test-mode
+//                            '"JFK"'.toSlice().equals(destination) ||
+// <-- test-mode
+                        '"CUN"'.toSlice().equals(destination) ||
+                        '"CZM"'.toSlice().equals(destination) ||
+                        '"MID"'.toSlice().equals(destination))
+                    {
+                        // underwrite policy
+                        underwrite(policyId, statistics, _proof);
+                    } else {
+                        decline(policyId, "Not acceptable destination", _proof);
+                    }
                 }
             }
         }
     } // __callback
+
+    function externalDecline(uint _policyId, bytes32 _reason) external {
+        require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
+
+        LogPolicyDeclined(_policyId, _reason);
+
+        FD_DB.setState(
+            _policyId,
+            policyState.Declined,
+            now,
+            _reason
+        );
+
+        FD_DB.setWeight(_policyId, 0, "");
+
+        var (customer, premium) = FD_DB.getCustomerPremium(_policyId);
+
+        if (!FD_LG.sendFunds(customer, Acc.Premium, premium)) {
+            FD_DB.setState(
+                _policyId,
+                policyState.SendFailed,
+                now,
+                "decline: Send failed."
+            );
+        }
+    }
 
     function decline(uint _policyId, bytes32 _reason, bytes _proof)	internal {
         LogPolicyDeclined(_policyId, _reason);
@@ -155,6 +192,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         bytes32 riskId = FD_DB.getRiskId(_policyId);
 
         var (, premiumMultiplier) = FD_DB.getPremiumFactors(riskId);
+        var (, , arrivalTime) = FD_DB.getRiskParameters(riskId);
 
         uint weight;
         for (uint8 i = 1; i <= 5; i++ ) {
@@ -193,6 +231,6 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         );
 
         // schedule payout Oracle
-        FD_PY.schedulePayoutOraclizeCall(_policyId, riskId, CHECK_PAYOUT_OFFSET);
+        FD_PY.schedulePayoutOraclizeCall(_policyId, riskId, arrivalTime + CHECK_PAYOUT_OFFSET);
     }
 }

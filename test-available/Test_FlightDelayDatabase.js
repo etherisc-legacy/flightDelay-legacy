@@ -149,6 +149,8 @@ contract('FlightDelayDatabase', (accounts) => {
         const { logs, } = await FD.DB.createPolicy(
             accounts[0],
             web3.toWei(1, 'ether'),
+            0,
+            '12345',
             riskId
         );
 

@@ -34,8 +34,9 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
         FD_UW = FlightDelayUnderwriteInterface(getContract("FD.Underwrite"));
 
-        FD_AC.setPermissionByAddress(101, 0x1);
-        FD_AC.setPermissionById(102, "FD.Controller"); // check!
+        FD_AC.setPermissionByAddress(101, 0x0);
+        FD_AC.setPermissionById(102, "FD.Controller");
+        FD_AC.setPermissionById(103, "FD.Owner");
     }
 
     function bookAndCalcRemainingPremium() internal returns (uint) {
@@ -52,8 +53,8 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     }
 
     function maintenanceMode(bool _on) {
-        if (FD_AC.checkPermission(102, msg.sender)) {
-            FD_AC.setPermissionByAddress(101, 0x0, _on);
+        if (FD_AC.checkPermission(103, msg.sender)) {
+            FD_AC.setPermissionByAddress(101, 0x0, !_on);
         }
     }
 
@@ -61,24 +62,56 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     function newPolicy(
         bytes32 _carrierFlightNumber,
         bytes32 _departureYearMonthDay,
-        uint _departureTime,
-        uint _arrivalTime) payable
+        uint256 _departureTime,
+        uint256 _arrivalTime,
+        Currency _currency,
+        bytes32 _customerExternalId) payable
     {
-
         // here we can switch it off.
-        FD_AC.checkPermission(101, 0x1);
+        require(FD_AC.checkPermission(101, 0x0));
+
+        // solidity checks for valid _currency parameter
+        if (_currency == Currency.ETH) {
+            // ETH
+            if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
+                LogPolicyDeclined(0, "Invalid premium value ETH");
+                FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                return;
+            }
+        } else {
+            require(msg.sender == getContract("FD.CustomersAdmin"));
+
+            if (_currency == Currency.EUR) {
+                // EUR
+                if (msg.value < MIN_PREMIUM_EUR || msg.value > MAX_PREMIUM_EUR) {
+                    LogPolicyDeclined(0, "Invalid premium value EUR");
+                    FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                    return;
+                }
+            }
+
+            if (_currency == Currency.USD) {
+                // USD
+                if (msg.value < MIN_PREMIUM_USD || msg.value > MAX_PREMIUM_USD) {
+                    LogPolicyDeclined(0, "Invalid premium value USD");
+                    FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                    return;
+                }
+            }
+
+            if (_currency == Currency.GBP) {
+                // GBP
+                if (msg.value < MIN_PREMIUM_GBP || msg.value > MAX_PREMIUM_GBP) {
+                    LogPolicyDeclined(0, "Invalid premium value GBP");
+                    FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
+                    return;
+                }
+            }
+        }
 
         // forward premium
         FD_LG.receiveFunds.value(msg.value)(Acc.Premium);
 
-        // sanity checks:
-        // don't Accept too low or too high policies
-
-        if (msg.value < MIN_PREMIUM || msg.value > MAX_PREMIUM) {
-            LogPolicyDeclined(0, "Invalid premium value");
-            FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
-            return;
-        }
 
         // don't Accept flights with departure time earlier than in 24 hours,
         // or arrivalTime before departureTime,
@@ -91,7 +124,14 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
 // <-- debug-mode
 
         if (
-            _arrivalTime < _departureTime || _arrivalTime > _departureTime + MAX_FLIGHT_DURATION || _departureTime < now + MIN_TIME_BEFORE_DEPARTURE || _departureTime > CONTRACT_DEAD_LINE || _departureTime < dmy || _departureTime > dmy + 24 hours
+            _arrivalTime < _departureTime ||
+            _arrivalTime > _departureTime + MAX_FLIGHT_DURATION ||
+            _departureTime < now + MIN_TIME_BEFORE_DEPARTURE ||
+            _departureTime > CONTRACT_DEAD_LINE ||
+            _departureTime < dmy ||
+            _departureTime > dmy + 24 hours ||
+            _departureTime < MIN_DEPARTURE_LIM ||
+            _departureTime > MAX_DEPARTURE_LIM
         ) {
             LogPolicyDeclined(0, "Invalid arrival/departure time");
             FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);
@@ -118,7 +158,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         }
 
         uint premium = bookAndCalcRemainingPremium();
-        uint policyId = FD_DB.createPolicy(msg.sender, premium, riskId);
+        uint policyId = FD_DB.createPolicy(msg.sender, premium, _currency, _customerExternalId, riskId);
 
         if (premiumMultiplier > 0) {
             FD_DB.setPremiumFactors(
@@ -141,6 +181,12 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
             msg.sender,
             _carrierFlightNumber,
             premium
+        );
+
+        LogExternal(
+            policyId,
+            msg.sender,
+            _customerExternalId
         );
 
         FD_UW.scheduleUnderwriteOraclizeCall(policyId, _carrierFlightNumber);
