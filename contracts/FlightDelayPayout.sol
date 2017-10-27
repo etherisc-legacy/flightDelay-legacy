@@ -48,6 +48,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
 
         FD_AC.setPermissionById(101, "FD.Underwrite");
+        FD_AC.setPermissionById(101, "FD.Payout");
         FD_AC.setPermissionById(102, "FD.Funder");
     }
 
