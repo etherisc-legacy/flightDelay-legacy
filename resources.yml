@@ -17,8 +17,9 @@ migrations:
 #    - 510_deploy_registerContracts.js
 #    - 900_deploy_set_contracts.js
 #    - 910_deploy_set_contracts.js
-    - 930_fix_callbacks.js
-#    - 920_read_ACL.js
+#    - 915_fix_access_control.js
+#    - 930_fix_callbacks.js
+    - 920_read_ACL.js
 #    - 901_deploy_fund_contracts.js
 #    - 999_deploy_show_contracts.js
 
