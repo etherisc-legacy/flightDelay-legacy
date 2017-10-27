@@ -2,55 +2,122 @@
  * Deployment script for FlightDelay
  *
  * @author Christoph Mussenbrock
- * @description Deploy FlightDelayController 
+ * @description Deploy FlightDelayController
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
+const truffle = require('../truffle.js');
+const log = require('../util/logger');
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
-/* eslint no-console: 0 */
-
-var FlightDelayController 				= artifacts.require('FlightDelayController.sol');
-var FlightDelayAccessController 		= artifacts.require('FlightDelayAccessController.sol');
-var FlightDelayDatabase					= artifacts.require('FlightDelayDatabase.sol');
-var FlightDelayLedger					= artifacts.require('FlightDelayLedger.sol');
-var FlightDelayNewPolicy 				= artifacts.require('FlightDelayNewPolicy.sol');
-var FlightDelayUnderwrite				= artifacts.require('FlightDelayUnderwrite.sol');
-var FlightDelayPayout					= artifacts.require('FlightDelayPayout.sol');
-
+const FlightDelayAddressResolver = artifacts.require('FlightDelayAddressResolver.sol');
+const FlightDelayController = artifacts.require('FlightDelayController.sol');
+const FlightDelayAccessController = artifacts.require('FlightDelayAccessController.sol');
+const FlightDelayDatabase = artifacts.require('FlightDelayDatabase.sol');
+const FlightDelayLedger = artifacts.require('FlightDelayLedger.sol');
+const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy.sol');
+const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
+const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
 
-module.exports = function(deployer) {
+module.exports = (deployer, network, accounts) => {
+    let controller;
 
+    const fund = value =>
+        web3.toWei(value, 'ether');
 
-	deployer.deploy(FlightDelayController, {value: web3.toWei(50, 'ether')})
-	.then(function(){
-		return deployer.deploy(FlightDelayAccessController, FlightDelayController.address);
-	}).then(function () {
-		return deployer.deploy(FlightDelayDatabase, FlightDelayController.address);
-	}).then(function () {
-		return deployer.deploy(FlightDelayLedger, FlightDelayController.address, {value: web3.toWei(500, 'ether')});
-	}).then(function () {
-		return deployer.deploy(FlightDelayNewPolicy, FlightDelayController.address);
-	}).then(function () {
-		return deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address, {value: web3.toWei(50, 'ether')});
-	}).then(function () {
-		return deployer.deploy(FlightDelayPayout, FlightDelayController.address, {value: web3.toWei(50, 'ether')});
-	}).then(function () {
+    log.info('Deploy FlightDelayController contract');
 
-		// finish, call setAllContracts on each
-		FlightDelayController.deployed()
-		.then(function (instance){
+    return deployer
+    // Deploy contracts
+        .deploy(FlightDelayController)
+        .then(() => log.info('Deploy contracts'))
+        .then(() => deployer.deploy(FlightDelayAccessController, FlightDelayController.address))
+        .then(() => deployer.deploy(FlightDelayDatabase, FlightDelayController.address))
+        .then(() => deployer.deploy(FlightDelayLedger, FlightDelayController.address))
+        .then(() => deployer.deploy(FlightDelayNewPolicy, FlightDelayController.address))
+        .then(() => deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address))
+        .then(() => deployer.deploy(FlightDelayPayout, FlightDelayController.address))
 
-			return instance.setAllContracts({gas: 3000000});
+        // Get controller instance
+        .then(() => FlightDelayController.deployed())
+        .then((_i) => { controller = _i; return Promise.resolve(); })
 
-		})
-		.then(function (result){
-			console.log(result);
-		});
+        // Register contracts
+        .then(() => log.info('Register administators'))
+        .then(() => controller.registerContract(network === 'mainnet' ? truffle.networks[network].funder : accounts[2], 'FD.Funder', false))
 
-	});
+        .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
+        .then(() => controller.registerContract(accounts[4], 'FD.Emergency', false))
 
+        .then(() => log.info('Register contracts'))
+        .then(() => controller.registerContract(FlightDelayAccessController.address, 'FD.AccessController', true))
+        .then(() => controller.registerContract(FlightDelayDatabase.address, 'FD.Database', true))
+        .then(() => controller.registerContract(FlightDelayLedger.address, 'FD.Ledger', true))
+        .then(() => controller.registerContract(FlightDelayNewPolicy.address, 'FD.NewPolicy', true))
+        .then(() => controller.registerContract(FlightDelayUnderwrite.address, 'FD.Underwrite', true))
+        .then(() => controller.registerContract(FlightDelayPayout.address, 'FD.Payout', true))
 
+        // Set new owner
+        .then(() => log.info('Transfer ownership'))
+        .then(() => controller.transferOwnership(accounts[1]))
+
+        // Setup contracts
+        .then(() => log.info('Setup contracts'))
+        .then(() => controller.setAllContracts({from: accounts[1]}))
+
+        // Fund Contracts
+        .then(() => {
+            if (network !== 'mainnet') {
+                return FlightDelayController.deployed()
+
+                    // Fund FD.Ledger
+                    .then(() => log.info('Fund FD.Ledger'))
+                    .then(() => FlightDelayLedger.deployed())
+                    .then(FD_LG => FD_LG.fund({from: accounts[2], value: fund(50),}))
+
+                    // Fund FD.Underwrite
+                    .then(() => log.info('Fund FD.Underwrite'))
+                    .then(() => FlightDelayUnderwrite.deployed())
+                    .then(FD_UW => FD_UW.fund({from: accounts[2], value: fund(10),}))
+
+                    // Fund FD.Payout
+                    .then(() => log.info('Fund FD.Payout'))
+                    .then(() => FlightDelayPayout.deployed())
+                    .then(FD_PY => FD_PY.fund({from: accounts[2], value: fund(10),}))
+            }
+
+            return Promise.resolve();
+        })
+
+        // Deploy AddressResolver on Testrpc
+        .then(() => {
+            if (network === 'development') {
+                // todo: check the account nonce, determine if we really need to deploy AR
+                return deployer.deploy(FlightDelayAddressResolver)
+                    .then(() => FlightDelayAddressResolver.deployed())
+                    .then(AR => AR.setAddress(FlightDelayNewPolicy.address));
+            } else if (network === 'kovan') {
+                const { addressResolver, } = truffle.networks[network];
+                FlightDelayAddressResolver.at(addressResolver)
+                    .setAddress(FlightDelayNewPolicy.address);
+
+                return Promise.resolve();
+            }
+            return Promise.resolve();
+        })
+
+        .then(() => {
+            log.info(`Deployer: ${accounts[0]}`);
+            log.info(`FD.Owner: ${accounts[1]}`);
+            log.info(`FD.Funder: ${network === 'mainnet' ? truffle.networks[network].funder : accounts[2]}`);
+            log.info(`FD.CustomersAdmin: ${accounts[3]}`);
+            log.info(`FD.Emeregency: ${accounts[4]}`);
+            log.info(`FD.Controller: ${FlightDelayController.address}`);
+            log.info(`FD.AccessController: ${FlightDelayAccessController.address}`);
+            log.info(`FD.Database: ${FlightDelayDatabase.address}`);
+            log.info(`FD.Ledger: ${FlightDelayLedger.address}`);
+            log.info(`FD.NewPolicy: ${FlightDelayNewPolicy.address}`);
+            log.info(`FD.Underwrite: ${FlightDelayUnderwrite.address}`);
+            log.info(`FD.Payout: ${FlightDelayPayout.address}`);
+        });
 };

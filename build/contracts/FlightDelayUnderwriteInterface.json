@@ -1,0 +1,26 @@
+{
+  "contract_name": "FlightDelayUnderwriteInterface",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_carrierFlightNumber",
+          "type": "bytes32"
+        }
+      ],
+      "name": "scheduleUnderwriteOraclizeCall",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    }
+  ],
+  "unlinked_binary": "0x",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1509038311951
+}

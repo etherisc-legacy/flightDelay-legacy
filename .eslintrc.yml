@@ -1,0 +1,38 @@
+root: true
+
+env:
+    node: true
+    mocha: true
+    es6: true
+
+parserOptions:
+  ecmaVersion: 2017
+
+extends:
+    - airbnb-base
+
+rules:
+    require-jsdoc:
+    - error
+    - require:
+        FunctionDeclaration: true
+        MethodDefinition: false
+        ClassDeclaration: false
+        ArrowFunctionExpression: false
+    indent: [ "error", 4 ]
+    array-bracket-spacing: [ "error", always ]
+    comma-dangle:
+        - error
+        - arrays: always
+          objects: always
+          imports: never
+          exports: never
+          functions: ignore
+    padded-blocks:
+      0
+
+globals:
+    artifacts: true
+    web3: true
+    contract: true
+    assert: true

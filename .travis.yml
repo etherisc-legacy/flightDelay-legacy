@@ -1,0 +1,37 @@
+language: node_js
+node_js:
+  - "7"
+script: ./ci-cd/travis-testrpc.sh
+cache:
+  directories:
+    - $HOME/.npm
+    - $HOME/.cache/pip
+
+sudo: required
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - libcurl4-openssl-dev
+    - libelf-dev
+    - libdw-dev
+    - gcc-4.8
+    - g++-4.8
+    - python-pip
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - python-dev
+env:
+  global:
+  - CXX="g++-4.8"
+  - CC="gcc-4.8"
+  - secure: FQ/Rw7Ptyqx5DedMgP3tWiiMCHcw6CiuoLRWSkPl7E7I0719bf+eV9Dsp7+zi4eLAaDX8bf7Uemc0jECDAc2CCF6NjRltjlO8B0aDI1HMTOvLOaKnTsF7FUst+TiHuPfz8BsGIkH5JVHRTP+vffTnhEDbYRleKhrA57XDhPzu4Q8QO/DlZoTtR5f1PbWk2nYRqACESTnyJaTX32YnZRW0gdHThVblN/V28EXG1JOJTJFznxwVe1NGD7l5EINhhmmk4rFvrS2XiNVd3rNTRZpRr7iUu2hPcGL/hpNvqvfmC+wArFjPQ5x7MC0dSJIfPRE21SlC8nUkzcpQUHsG8/QmaAUN3hNkOcPcKODPHpirAAD6NAz5Fx0lmuXunv9+HkhCPy4cWUzbuGmGnbU2AQ01zcBR+rUufh/d7hvowIiGZaKY/400E7Pnq9JOu4TmvDfVmbNjQIPca92ERsMail6uItNN/nSsVZiUt+2mkOWwTy2xmf2ieiW8+thqyDnvU/0TNyk2ls/5nLmHHyB6MGi23xQE6krffXoECL49kt9ODSKQTAMNbm/0SY1sFJTeTuPPA/XElWCpjAPeMmOOGF99ZJR2jPr50UK3tbyQBqfriXtv++6aWhf4TQvXpNqlTTIQmIBZTVzknbacIH9kiDblZC6+FMgEDQYv43p5WaPN5g=
+  - secure: pvoAxKVH+HC9to8R4Q/4VmigRSexdyVGxKjGxQ8ucfDSNHgua1XhcOEfpc/XKKwPQdQj6DvSNKqdf8qquZm1YK8q15Xh3elmZkl6RKOnhSGgDE4liHElelvFeiqQLt7hGvEddlhlRClgCdbWkNqNPoUdP6V2ao+kv5Zrb1b9/4RF5BCsn7rQdXnzGScxWZq1CeXlWKyMzn9rVEFQjqVhm2BZVzoJOfT80AsJuUJoFYY5slknORd6+DjRJun2qBIIfNm9BGQB/N9YUyLaTR1yz4Lmpw/R9zoZR1ImpS0cg9GUmA3PzIzV3qPkKexLpeeJihyFZCwr9M5fUXaXRBW8VdoZdkYV2IbWqJOu62fx8bs1Xp/Qea/YpV6lX/kcT9k4h03WVR6olhqv5OC/tqHQcHr7hpqcybeylYh4xLhUADYVnE4u9aiu0IWx7/e1lndL4UfHF0r4/rWfMQ1aHsQfqzV5VwshwnioLvGAgTbPyElMJFRp4iEu6c+xH8LFtjTObHtCPZRhH5vMqfZn8mNpo8dHxsgsTH3FxUlvBwQ7OMuObB3PEmGVZ9xXofWTSSYWxJ4NP3zZLfZsaGnRuh4Xy/0DG9LC2osaaW8FAVyyMQmyxKXO4dj9Y/bSOM09DEdXlBct3O4ehy9spGUD7eVqoODUBvsYl0T+lRnkhK3Ilj0=
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./ci-cd/deploy.sh kovan
+    on:
+      branch: develop

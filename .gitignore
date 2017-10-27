@@ -1,7 +1,15 @@
 .idea
-build
-contracts
+.vscode
+env
+node_modules
 migrations
 test
 external/encryptedQuery/allEncryptedQueryStrings.txt
 external/encryptedQuery/encryptedQueryString.txt
+ContractLogs.log
+.node-xmlhttprequest-*
+mainnet.txt
+deploy_doc.txt
+package-lock.json
+migrations-available/9*
+

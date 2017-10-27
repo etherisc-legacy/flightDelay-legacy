@@ -4,21 +4,18 @@
  * @author Christoph Mussenbrock
  * @description t.b.d
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
-
-pragma solidity ^0.4.7;
-
+pragma solidity ^0.4.11;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/FlightDelayDatabase.sol";
 import "../contracts/convertLib.sol";
 
-contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 
-{
+contract Test_FlightDelayDatabase is FlightDelayDatabaseModel {
 
 	// Fixture
 	uint policyId;
@@ -41,19 +38,19 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 	}
 
 	function test_set_get_RiskParameters () {
-	
+
 		riskId = FD_DB.createUpdateRisk(carrierFlightNumber, departureYearMonthDay, arrivalTime);
 
-		Assert.equal(riskId, sha3(carrierFlightNumber, departureYearMonthDay, arrivalTime), 'riskId should be correct');
-		
+		Assert.equal(riskId, sha3(carrierFlightNumber, departureYearMonthDay, arrivalTime), "riskId should be correct");
+
 		bytes32 cfn;
 		bytes32 dmy;
 		uint at;
 		(cfn, dmy, at) = FD_DB.getRiskParameters(riskId);
 
-		Assert.equal(cfn, carrierFlightNumber, 'carrierFlightNumber should be correct');
-		Assert.equal(dmy, departureYearMonthDay, 'departureYearMonthDay should be correct');
-		Assert.equal(at, arrivalTime, 'arrivalTime should be correct');
+		Assert.equal(cfn, carrierFlightNumber, "carrierFlightNumber should be correct");
+		Assert.equal(dmy, departureYearMonthDay, "departureYearMonthDay should be correct");
+		Assert.equal(at, arrivalTime, "arrivalTime should be correct");
 
 	}
 
@@ -64,8 +61,8 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 		uint pm;
 		(cw, pm) = FD_DB.getPremiumFactors(riskId);
 
-		Assert.equal(cw, cumulatedWeightedPremium, 'cumulatedWeightedPremium should be correct');
-		Assert.equal(pm, premiumMultiplier, 'cumulatedWeightedPremium should be correct');
+		Assert.equal(cw, cumulatedWeightedPremium, "cumulatedWeightedPremium should be correct");
+		Assert.equal(pm, premiumMultiplier, "cumulatedWeightedPremium should be correct");
 
 	}
 
@@ -74,13 +71,13 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 
 		policyId = FD_DB.createPolicy(customer, premium, riskId);
 
-		Assert.equal(FD_DB.getRiskId(policyId), riskId, 'policy should have correct riskId');
+		Assert.equal(FD_DB.getRiskId(policyId), riskId, "policy should have correct riskId");
 
 		address cu;
 		uint pr;
 		(cu,pr) = FD_DB.getCustomerPremium(policyId);
-		Assert.equal(cu, customer, 'policy should have correct customer');
-		Assert.equal(pr, premium, 'policy should have correct premium');
+		Assert.equal(cu, customer, "policy should have correct customer");
+		Assert.equal(pr, premium, "policy should have correct premium");
 
 	}
 
@@ -92,8 +89,8 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 		uint aT;
 		(pId, aT) = FD_DB.getOraclizeCallback(queryId);
 
-		Assert.equal(pId, policyId, 'oraclizeCallback should have correct policyId');
-		Assert.equal(aT, arrivalTime, 'oraclizeCallback should have correct arrivalTime');
+		Assert.equal(pId, policyId, "oraclizeCallback should have correct policyId");
+		Assert.equal(aT, arrivalTime, "oraclizeCallback should have correct arrivalTime");
 
 	}
 
@@ -115,9 +112,9 @@ contract Test_FlightDelayDatabase is convertLib, FlightDelayDatabaseModel
 
 
 	function createOraclizeCallback(
-		bytes32 _queryId, 
-		uint _policyId, 
-		oraclizeState _oraclizeState, 
+		bytes32 _queryId,
+		uint _policyId,
+		oraclizeState _oraclizeState,
 		uint _oraclizeTime) {
 		oraclizeCallbacks[_queryId] = oraclizeCallback(_policyId, _oraclizeState, _oraclizeTime);
 	}

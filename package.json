@@ -1,0 +1,46 @@
+{
+  "name": "flight-delay",
+  "version": "0.3.0",
+  "engines": {
+    "node": ">=7.6.0 <=7.10.1"
+  },
+  "config": {
+    "solidity-compiler": "^0.4.11"
+  },
+  "scripts": {
+    "deploy": "truffle migrate --reset",
+    "compile": "truffle compile",
+    "recompile": "truffle compile --all",
+    "test": "truffle test",
+    "console": "truffle console",
+    "select-resources": "./bin/select-resources.js",
+    "clean": "rimraf build",
+    "prepare-commit": "npm run clean && COMMIT_MODE=true npm run prod-mode && npm run recompile",
+    "test-mode": "npm run clean && ./bin/preprocess.js test",
+    "prod-mode": "npm run clean && ./bin/preprocess.js prod",
+    "testrpc": "./bin/testrpc.js",
+    "bridge": "pushd ./external/ethereum-bridge && npm install && rm -f package-lock.json && node bridge -a 6 -H localhost:9545 --dev",
+    "lint-js": "eslint **/*.js",
+    "lint-sol": "solium --dir ./contracts",
+    "remix": "remixd -S ./contracts",
+    "parity": "./bin/parity.sh"
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.1",
+    "chalk": "^2.1.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-plugin-import": "^2.7.0",
+    "ethereumjs-testrpc": "^4.1.3",
+    "fs-jetpack": "^1.2.0",
+    "js-yaml": "^3.10.0",
+    "moment": "^2.18.1",
+    "remixd": "^0.1.2",
+    "solium": "^0.5.5",
+    "truffle": "^3.4.11",
+    "web3": "^1.0.0-beta.18",
+    "winston": "^2.4.0"
+  }
+}

@@ -1,0 +1,508 @@
+{
+  "contract_name": "FlightDelayDatabaseInterface",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_calculatedPayout",
+          "type": "uint256"
+        },
+        {
+          "name": "_actualPayout",
+          "type": "uint256"
+        }
+      ],
+      "name": "setPayouts",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_carrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "name": "_departureYearMonthDay",
+          "type": "bytes32"
+        },
+        {
+          "name": "_arrivalTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "createUpdateRisk",
+      "outputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_index",
+          "type": "uint8"
+        }
+      ],
+      "name": "getLedger",
+      "outputs": [
+        {
+          "name": "_value",
+          "type": "int256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_delay",
+          "type": "uint8"
+        },
+        {
+          "name": "_delayInMinutes",
+          "type": "uint256"
+        }
+      ],
+      "name": "setDelay",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_oraclizeState",
+          "type": "uint8"
+        },
+        {
+          "name": "_oraclizeTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "createOraclizeCallback",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_index",
+          "type": "uint8"
+        },
+        {
+          "name": "_value",
+          "type": "int256"
+        }
+      ],
+      "name": "setLedger",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_state",
+          "type": "uint8"
+        },
+        {
+          "name": "_stateTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_stateMessage",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setState",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPolicyState",
+      "outputs": [
+        {
+          "name": "_state",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getOraclizePolicyId",
+      "outputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPolicyData",
+      "outputs": [
+        {
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "name": "_premium",
+          "type": "uint256"
+        },
+        {
+          "name": "_weight",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getOraclizeCallback",
+      "outputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_arrivalTime",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_cumulatedWeightedPremium",
+          "type": "uint256"
+        },
+        {
+          "name": "_premiumMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "name": "setPremiumFactors",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_queryId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_offset",
+          "type": "uint256"
+        }
+      ],
+      "name": "checkTime",
+      "outputs": [
+        {
+          "name": "_result",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getPremiumFactors",
+      "outputs": [
+        {
+          "name": "_cumulatedWeightedPremium",
+          "type": "uint256"
+        },
+        {
+          "name": "_premiumMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCustomerPremium",
+      "outputs": [
+        {
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "name": "_premium",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contract",
+          "type": "address"
+        },
+        {
+          "name": "_caller",
+          "type": "address"
+        },
+        {
+          "name": "_perm",
+          "type": "uint8"
+        },
+        {
+          "name": "_access",
+          "type": "bool"
+        }
+      ],
+      "name": "setAccessControl",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contract",
+          "type": "address"
+        },
+        {
+          "name": "_caller",
+          "type": "address"
+        },
+        {
+          "name": "_perm",
+          "type": "uint8"
+        }
+      ],
+      "name": "setAccessControl",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getRiskParameters",
+      "outputs": [
+        {
+          "name": "_carrierFlightNumber",
+          "type": "bytes32"
+        },
+        {
+          "name": "_departureYearMonthDay",
+          "type": "bytes32"
+        },
+        {
+          "name": "_arrivalTime",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contract",
+          "type": "address"
+        },
+        {
+          "name": "_caller",
+          "type": "address"
+        },
+        {
+          "name": "_perm",
+          "type": "uint8"
+        }
+      ],
+      "name": "getAccessControl",
+      "outputs": [
+        {
+          "name": "_allowed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getRiskId",
+      "outputs": [
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_customer",
+          "type": "address"
+        },
+        {
+          "name": "_premium",
+          "type": "uint256"
+        },
+        {
+          "name": "_currency",
+          "type": "uint8"
+        },
+        {
+          "name": "_customerExternalId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_riskId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "createPolicy",
+      "outputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_policyId",
+          "type": "uint256"
+        },
+        {
+          "name": "_weight",
+          "type": "uint256"
+        },
+        {
+          "name": "_proof",
+          "type": "bytes"
+        }
+      ],
+      "name": "setWeight",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    }
+  ],
+  "unlinked_binary": "0x",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1509038311950
+}

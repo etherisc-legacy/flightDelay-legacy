@@ -2,65 +2,55 @@
  * Deployment script for FlightDelay
  *
  * @author Christoph Mussenbrock
- * @description Deploys all the contracts and 
+ * @description Deploys all the contracts and
  * @copyright (c) 2017 etherisc GmbH
- * 
+ *
  */
 
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
-/* eslint no-console: 0 */
+const fs = require('fs');
+const log = require('../util/logger');
 
-//var scanChain = require('./util/scanChain.js');
-//var Web3 = require('web3');
+const FlightDelayController = artifacts.require('FlightDelayController.sol');
+const FlightDelayAccessController = artifacts.require('FlightDelayAccessController.sol');
+const FlightDelayDatabase = artifacts.require('FlightDelayDatabase.sol');
+const FlightDelayLedger = artifacts.require('FlightDelayLedger.sol');
+const FlightDelayNewPolicy = artifacts.require('FlightDelayNewPolicy.sol');
+const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
+const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
-//var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-
-var fs = require('fs');
-
-var scanChain = {};
+const scanChain = {};
 scanChain.contracts = [];
 
-var getBlockTxR = function(bn) {
-	return (web3.eth.getBlock(bn, true)
-		.transactions
-		.map(function(elem) {
-			var txr = web3.eth.getTransactionReceipt(elem.hash);
-			if (typeof txr.contractAddress !== 'undefined' && txr.contractAddress !== '' && txr.contractAddress !== null) {
-				// console.log(txr.contractAddress, ' : ', txr.gasUsed);
-				scanChain.contracts[txr.contractAddress] = txr.gasUsed;
-			}
-			return txr;
-		}));
+const getBlockTxR = bn =>
+    web3.eth.getBlock(bn, true)
+        .transactions
+        .map((elem) => {
+            const txr = web3.eth.getTransactionReceipt(elem.hash);
+            if (typeof txr.contractAddress !== 'undefined' && txr.contractAddress !== '' && txr.contractAddress !== null) {
+                // log(txr.contractAddress, ' : ', txr.gasUsed);
+                scanChain.contracts[txr.contractAddress] = txr.gasUsed;
+            }
+            return txr;
+        });
+
+scanChain.getAllBlocks = () => {
+    const lastBlock = JSON.parse(fs.readFileSync('blockNumber.json')).blockNumber;
+
+    for (let i = 302; i <= lastBlock; i += 1) {
+        getBlockTxR(i);
+    }
 };
 
-scanChain.getAllBlocks = function() {
+module.exports = (deployer) => { // eslint-disable-line
+    scanChain.getAllBlocks();
 
-	var lastBlock = JSON.parse(fs.readFileSync('blockNumber.json')).blockNumber;
+    log('!!!!FlightDelayController      : ', scanChain.contracts[FlightDelayController.address]);
+    log('FlightDelayAccessController: ', scanChain.contracts[FlightDelayAccessController.address]);
+    log('FlightDelayDatabase        : ', scanChain.contracts[FlightDelayDatabase.address]);
+    log('FlightDelayLedger          : ', scanChain.contracts[FlightDelayLedger.address]);
+    log('FlightDelayNewPolicy       : ', scanChain.contracts[FlightDelayNewPolicy.address]);
+    log('FlightDelayUnderwrite      : ', scanChain.contracts[FlightDelayUnderwrite.address]);
+    log('FlightDelayPayout          : ', scanChain.contracts[FlightDelayPayout.address]);
 
-	for (var i = 302; i <= lastBlock; i++ ) {
-		getBlockTxR(i);
-	}
-
-};
-
-module.exports = function(deployer) {
-  
-	var FD_CT = FlightDelayController.deployed();
-
-	// estimateGas == 201000
-	FD_CT.setAllContracts({gas: 3000000});
-
-	scanChain.getAllBlocks();
-	
-	console.log('FlightDelayController      : ', scanChain.contracts[FlightDelayController.address]);
-	console.log('FlightDelayAccessController: ', scanChain.contracts[FlightDelayAccessController.address]);
-	console.log('FlightDelayDatabase        : ', scanChain.contracts[FlightDelayDatabase.address]);
-	console.log('FlightDelayLedger          : ', scanChain.contracts[FlightDelayLedger.address]);
-	console.log('FlightDelayNewPolicy       : ', scanChain.contracts[FlightDelayNewPolicy.address]);
-	console.log('FlightDelayUnderwrite      : ', scanChain.contracts[FlightDelayUnderwrite.address]);
-	console.log('FlightDelayPayout          : ', scanChain.contracts[FlightDelayPayout.address]);
-
-
-	console.log('BlockNumber: ', web3.eth.blockNumber);
+    log('BlockNumber: ', web3.eth.blockNumber);
 };
