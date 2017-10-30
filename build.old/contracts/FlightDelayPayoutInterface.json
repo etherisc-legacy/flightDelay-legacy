@@ -1,5 +1,5 @@
 {
-  "contract_name": "FlightDelayUnderwriteInterface",
+  "contract_name": "FlightDelayPayoutInterface",
   "abi": [
     {
       "constant": false,
@@ -9,11 +9,15 @@
           "type": "uint256"
         },
         {
-          "name": "_carrierFlightNumber",
+          "name": "_riskId",
           "type": "bytes32"
+        },
+        {
+          "name": "_offset",
+          "type": "uint256"
         }
       ],
-      "name": "scheduleUnderwriteOraclizeCall",
+      "name": "schedulePayoutOraclizeCall",
       "outputs": [],
       "payable": false,
       "type": "function"
@@ -22,5 +26,5 @@
   "unlinked_binary": "0x",
   "networks": {},
   "schema_version": "0.0.5",
-  "updated_at": 1509380935952
+  "updated_at": 1509201170750
 }

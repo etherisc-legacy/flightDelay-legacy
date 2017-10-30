@@ -1,5 +1,5 @@
 {
-  "contract_name": "FlightDelayDatabase",
+  "contract_name": "FlightDelayFix",
   "abi": [
     {
       "constant": false,
@@ -19,94 +19,6 @@
       ],
       "name": "setPayouts",
       "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "ledger",
-      "outputs": [
-        {
-          "name": "",
-          "type": "int256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_carrierFlightNumber",
-          "type": "bytes32"
-        },
-        {
-          "name": "_departureYearMonthDay",
-          "type": "bytes32"
-        },
-        {
-          "name": "_arrivalTime",
-          "type": "uint256"
-        }
-      ],
-      "name": "createUpdateRisk",
-      "outputs": [
-        {
-          "name": "_riskId",
-          "type": "bytes32"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        },
-        {
-          "name": "",
-          "type": "address"
-        },
-        {
-          "name": "",
-          "type": "uint8"
-        }
-      ],
-      "name": "accessControl",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_index",
-          "type": "uint8"
-        }
-      ],
-      "name": "getLedger",
-      "outputs": [
-        {
-          "name": "_value",
-          "type": "int256"
-        }
-      ],
       "payable": false,
       "type": "function"
     },
@@ -165,89 +77,6 @@
       "type": "function"
     },
     {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "customers",
-      "outputs": [
-        {
-          "name": "customerExternalId",
-          "type": "bytes32"
-        },
-        {
-          "name": "identityConfirmed",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_index",
-          "type": "uint8"
-        },
-        {
-          "name": "_value",
-          "type": "int256"
-        }
-      ],
-      "name": "setLedger",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        },
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "customerPolicies",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "bytes32"
-        },
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "extCustomerPolicies",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
       "constant": false,
       "inputs": [
         {
@@ -273,32 +102,6 @@
       "type": "function"
     },
     {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "name": "oraclizeCallbacks",
-      "outputs": [
-        {
-          "name": "policyId",
-          "type": "uint256"
-        },
-        {
-          "name": "oState",
-          "type": "uint8"
-        },
-        {
-          "name": "oraclizeTime",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
       "constant": false,
       "inputs": [
         {
@@ -311,24 +114,6 @@
         {
           "name": "_state",
           "type": "uint8"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_queryId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "getOraclizePolicyId",
-      "outputs": [
-        {
-          "name": "_policyId",
-          "type": "uint256"
         }
       ],
       "payable": false,
@@ -375,70 +160,7 @@
           "type": "uint256"
         },
         {
-          "name": "_arrivalTime",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_riskId",
-          "type": "bytes32"
-        },
-        {
-          "name": "_cumulatedWeightedPremium",
-          "type": "uint256"
-        },
-        {
-          "name": "_premiumMultiplier",
-          "type": "uint256"
-        }
-      ],
-      "name": "setPremiumFactors",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "name": "risks",
-      "outputs": [
-        {
-          "name": "carrierFlightNumber",
-          "type": "bytes32"
-        },
-        {
-          "name": "departureYearMonthDay",
-          "type": "bytes32"
-        },
-        {
-          "name": "arrivalTime",
-          "type": "uint256"
-        },
-        {
-          "name": "delayInMinutes",
-          "type": "uint256"
-        },
-        {
-          "name": "delay",
-          "type": "uint8"
-        },
-        {
-          "name": "cumulatedWeightedPremium",
-          "type": "uint256"
-        },
-        {
-          "name": "premiumMultiplier",
+          "name": "_oraclizeTime",
           "type": "uint256"
         }
       ],
@@ -479,96 +201,6 @@
           "type": "bytes32"
         }
       ],
-      "name": "getPremiumFactors",
-      "outputs": [
-        {
-          "name": "_cumulatedWeightedPremium",
-          "type": "uint256"
-        },
-        {
-          "name": "_premiumMultiplier",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_policyId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getCustomerPremium",
-      "outputs": [
-        {
-          "name": "_customer",
-          "type": "address"
-        },
-        {
-          "name": "_premium",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_contract",
-          "type": "address"
-        },
-        {
-          "name": "_caller",
-          "type": "address"
-        },
-        {
-          "name": "_perm",
-          "type": "uint8"
-        },
-        {
-          "name": "_access",
-          "type": "bool"
-        }
-      ],
-      "name": "setAccessControl",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_contract",
-          "type": "address"
-        },
-        {
-          "name": "_caller",
-          "type": "address"
-        },
-        {
-          "name": "_perm",
-          "type": "uint8"
-        }
-      ],
-      "name": "setAccessControl",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_riskId",
-          "type": "bytes32"
-        }
-      ],
       "name": "getRiskParameters",
       "outputs": [
         {
@@ -582,94 +214,6 @@
         {
           "name": "_arrivalTime",
           "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "policies",
-      "outputs": [
-        {
-          "name": "customer",
-          "type": "address"
-        },
-        {
-          "name": "premium",
-          "type": "uint256"
-        },
-        {
-          "name": "riskId",
-          "type": "bytes32"
-        },
-        {
-          "name": "weight",
-          "type": "uint256"
-        },
-        {
-          "name": "calculatedPayout",
-          "type": "uint256"
-        },
-        {
-          "name": "actualPayout",
-          "type": "uint256"
-        },
-        {
-          "name": "state",
-          "type": "uint8"
-        },
-        {
-          "name": "stateTime",
-          "type": "uint256"
-        },
-        {
-          "name": "stateMessage",
-          "type": "bytes32"
-        },
-        {
-          "name": "proof",
-          "type": "bytes"
-        },
-        {
-          "name": "currency",
-          "type": "uint8"
-        },
-        {
-          "name": "customerExternalId",
-          "type": "bytes32"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_contract",
-          "type": "address"
-        },
-        {
-          "name": "_caller",
-          "type": "address"
-        },
-        {
-          "name": "_perm",
-          "type": "uint8"
-        }
-      ],
-      "name": "getAccessControl",
-      "outputs": [
-        {
-          "name": "_allowed",
-          "type": "bool"
         }
       ],
       "payable": false,
@@ -711,61 +255,6 @@
           "type": "address"
         }
       ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_customer",
-          "type": "address"
-        },
-        {
-          "name": "_premium",
-          "type": "uint256"
-        },
-        {
-          "name": "_currency",
-          "type": "uint8"
-        },
-        {
-          "name": "_customerExternalId",
-          "type": "bytes32"
-        },
-        {
-          "name": "_riskId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "createPolicy",
-      "outputs": [
-        {
-          "name": "_policyId",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_policyId",
-          "type": "uint256"
-        },
-        {
-          "name": "_weight",
-          "type": "uint256"
-        },
-        {
-          "name": "_proof",
-          "type": "bytes"
-        }
-      ],
-      "name": "setWeight",
-      "outputs": [],
       "payable": false,
       "type": "function"
     },
@@ -1076,10 +565,9 @@
       "type": "event"
     }
   ],
-  "unlinked_binary": "0x",
+  "unlinked_binary": "0x606060405260c0604051908101604090815260008252600a6020830152601490820152601e606082015260326080820181905260a08201526100459060029060066100b7565b50341561005157600080fd5b604051602080610de4833981016040528080519150505b61007e81640100000000610bfc61008682021704565b505b5061016f565b60008054600160a060020a038316600160a060020a031991821681179092556001805490911690911781555b919050565b60018301918390821561013a5791602002820160005b8382111561010b57835183826101000a81548160ff021916908360ff16021790555092602001926001016020816000010492830192600103026100cd565b80156101385782816101000a81549060ff021916905560010160208160000104928301926001030261010b565b505b5061014692915061014a565b5090565b61016c91905b8082111561014657805460ff19168155600101610150565b5090565b90565b610c668061017e6000396000f300606060405236156100a95763ffffffff60e060020a6000350416630d4c8f6281146100ae57806319a08058146100cc5780632b68b9c6146100ed5780632ba1e43914610102578063418cf5b11461012657806343f46a5c1461014a5780637a5402e9146101845780637f205c8c146101d05780639c66452e146101fe578063cdcdb4631461022e578063e0d6d53014610268578063eb8073391461027d578063f77c4791146102a5575b600080fd5b34156100b957600080fd5b6100ca6004356024356044356102d4565b005b34156100d757600080fd5b6100ca60043560ff602435166044356103ce565b005b34156100f857600080fd5b6100ca6104ca565b005b341561010d57600080fd5b6100ca60043560243560ff604435166064356104f6565b005b341561013157600080fd5b6100ca60043560ff6024351660443560643561060c565b005b341561015557600080fd5b610160600435610724565b6040518082600681111561017057fe5b60ff16815260200191505060405180910390f35b341561018f57600080fd5b61019a600435610799565b6040518084600160a060020a0316600160a060020a03168152602001838152602001828152602001935050505060405180910390f35b34156101db57600080fd5b6101e6600435610825565b60405191825260208201526040908101905180910390f35b341561020957600080fd5b61021a6004356024356044356108ad565b604051901515815260200160405180910390f35b341561023957600080fd5b610244600435610933565b60405192835260208301919091526040808301919091526060909101905180910390f35b341561027357600080fd5b6100ca6109bf565b005b341561028857600080fd5b610293600435610b03565b60405190815260200160405180910390f35b34156102b057600080fd5b6102b8610b78565b604051600160a060020a03909116815260200160405180910390f35b600354600160a060020a0316633ebd609260653360006040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561033757600080fd5b6102c65a03f1151561034857600080fd5b50505060405180519050151561035d57600080fd5b600454600160a060020a0316630d4c8f6284848460405160e060020a63ffffffff8616028152600481019390935260248301919091526044820152606401600060405180830381600087803b15156103b457600080fd5b6102c65a03f115156103c557600080fd5b5050505b505050565b600354600160a060020a0316633ebd609260653360006040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561043157600080fd5b6102c65a03f1151561044257600080fd5b50505060405180519050151561045757600080fd5b600454600160a060020a03166319a0805884848460405160e060020a63ffffffff8616028152600481019390935260ff90911660248301526044820152606401600060405180830381600087803b15156103b457600080fd5b6102c65a03f115156103c557600080fd5b5050505b505050565b60005433600160a060020a039081169116146104e557600080fd5b600054600160a060020a0316ff5b5b565b600354600160a060020a0316633ebd609260653360006040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561055957600080fd5b6102c65a03f1151561056a57600080fd5b50505060405180519050151561057f57600080fd5b600454600160a060020a0316632ba1e4398585858560405160e060020a63ffffffff87160281526004810185815260248201859052906044018360018111156105c457fe5b60ff168152602001828152602001945050505050600060405180830381600087803b15156105f157600080fd5b6102c65a03f1151561060257600080fd5b5050505b50505050565b600354600160a060020a0316633ebd609260653360006040516020015260405160e060020a63ffffffff851602815260ff9092166004830152600160a060020a03166024820152604401602060405180830381600087803b151561066f57600080fd5b6102c65a03f1151561068057600080fd5b50505060405180519050151561069557600080fd5b600454600160a060020a031663418cf5b1858585856040518563ffffffff1660e060020a028152600401808581526020018460068111156106d257fe5b60ff16815260208101939093525060408083019190915260609091019250600091505180830381600087803b15156105f157600080fd5b6102c65a03f1151561060257600080fd5b5050505b50505050565b600454600090600160a060020a03166343f46a5c83836040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b151561077757600080fd5b6102c65a03f1151561078857600080fd5b50505060405180519150505b919050565b60045460009081908190600160a060020a0316637a5402e985836040516060015260405160e060020a63ffffffff84160281526004810191909152602401606060405180830381600087803b15156107f057600080fd5b6102c65a03f1151561080157600080fd5b505050604051805190602001805190602001805190509250925092505b9193909250565b6004546000908190600160a060020a031663426d5ef184836040516060015260405160e060020a63ffffffff84160281526004810191909152602401606060405180830381600087803b151561087a57600080fd5b6102c65a03f1151561088b57600080fd5b505050604051805190602001805190602001805192945091925050505b915091565b600454600090600160a060020a0316639c66452e858585856040516020015260405160e060020a63ffffffff8616028152600481019390935260248301919091526044820152606401602060405180830381600087803b151561090f57600080fd5b6102c65a03f1151561092057600080fd5b50505060405180519150505b9392505050565b60045460009081908190600160a060020a031663cdcdb46385836040516060015260405160e060020a63ffffffff84160281526004810191909152602401606060405180830381600087803b15156107f057600080fd5b6102c65a03f1151561080157600080fd5b505050604051805190602001805190602001805190509250925092505b9193909250565b60005433600160a060020a039081169116146109da57600080fd5b610a037f46442e416363657373436f6e74726f6c6c657200000000000000000000000000610b87565b6003805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055610a597f46442e44617461626173652e3200000000000000000000000000000000000000610b87565b6004805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039283161790556003541663c28b4577606560405160e060020a63ffffffff841602815260ff90911660048201527f46442e5061796f757400000000000000000000000000000000000000000000006024820152604401600060405180830381600087803b1515610aeb57600080fd5b6102c65a03f115156103c957600080fd5b5050505b5b565b600454600090600160a060020a031663eb80733983836040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b151561077757600080fd5b6102c65a03f1151561078857600080fd5b50505060405180519150505b919050565b600054600160a060020a031681565b600154600090600160a060020a031663e16c7d9883836040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b151561077757600080fd5b6102c65a03f1151561078857600080fd5b50505060405180519150505b919050565b60008054600160a060020a03831673ffffffffffffffffffffffffffffffffffffffff1991821681179092556001805490911690911781555b9190505600a165627a7a72305820a28b4ebb678dc99236ca76557ea8faea2a6692a720e2e6a82ba074f9cb401b380029",
   "networks": {
     "1": {
-      "links": {},
       "events": {
         "0xa1a0ee9005fffba1f170ed11d5512d7983400e59419ceb31221f71832fa6cb2c": {
           "anonymous": false,
@@ -1378,9 +866,11 @@
           "type": "event"
         }
       },
-      "updated_at": 1509387655630
+      "links": {},
+      "address": "0x0f3512d29eff8d8aa840ccdba3edaaeb10c3e69d",
+      "updated_at": 1509382242814
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1509387655630
+  "updated_at": 1509382242814
 }

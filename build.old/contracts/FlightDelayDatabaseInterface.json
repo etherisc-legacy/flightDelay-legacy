@@ -158,32 +158,6 @@
       "constant": false,
       "inputs": [
         {
-          "name": "_queryId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "oraclizeCallbacks",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "name": "",
-          "type": "uint8"
-        },
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
           "name": "_policyId",
           "type": "uint256"
         }
@@ -530,5 +504,5 @@
   "unlinked_binary": "0x",
   "networks": {},
   "schema_version": "0.0.5",
-  "updated_at": 1509381383753
+  "updated_at": 1509201170749
 }

@@ -18,8 +18,9 @@ migrations:
 #    - 900_deploy_set_contracts.js
 #    - 910_deploy_set_contracts.js
 #    - 915_fix_access_control.js
-#    - 930_fix_callbacks.js
-    - 920_read_ACL.js
+    - 930_fix_callbacks.js
+#    - 925_deploy_database_fix.js
+#    - 920_read_ACL.js
 #    - 901_deploy_fund_contracts.js
 #    - 999_deploy_show_contracts.js
 
