@@ -111,7 +111,7 @@ module.exports = (deployer, network, accounts) => {
             log.info(`FD.Owner: ${accounts[1]}`);
             log.info(`FD.Funder: ${network === 'mainnet' ? truffle.networks[network].funder : accounts[2]}`);
             log.info(`FD.CustomersAdmin: ${accounts[3]}`);
-            log.info(`FD.Emeregency: ${accounts[4]}`);
+            log.info(`FD.Emergency: ${accounts[4]}`);
             log.info(`FD.Controller: ${FlightDelayController.address}`);
             log.info(`FD.AccessController: ${FlightDelayAccessController.address}`);
             log.info(`FD.Database: ${FlightDelayDatabase.address}`);

@@ -38,7 +38,7 @@ module.exports = {
             ], // to unlock in parity
             addressResolver: '0x48fbda035c53d7d4e7a0ac8adc1fd88e541e7336',
             funder: '0x74c90c06e20113c9e628f9ce374611db28da1f93', // multisig
-            gas: 6700000,
+            gas: 4700000,
         },
         development: {
             // host: 'docker.for.mac.localhost',

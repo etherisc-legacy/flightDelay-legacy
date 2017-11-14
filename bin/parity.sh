@@ -20,4 +20,5 @@ parity \
 --keys-path=$KEYS_PATH \
 --mode active \
 --force-ui \
+--geth \
 --chain $CHAIN
