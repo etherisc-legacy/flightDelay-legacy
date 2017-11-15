@@ -88,16 +88,16 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
 
         var slResult = _result.toSlice();
 
-        // we expect result to contain 6 values, something like
-        // "[61, 10, 4, 3, 0, 0, \"CUN\"]" ->
-        // ['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode']
+        // we expect result to contain 8 values, something like
+        // "[61, 10, 4, 3, 0, 0, \"CUN\", \"SFO\"]" ->
+        // ['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']
         if (bytes(_result).length == 0) {
             decline(policyId, "Declined (empty result)", _proof);
         } else {
             // now slice the string using
             // https://github.com/Arachnid/solidity-stringutils
-            if (slResult.count(", ".toSlice()) != 6) {
-                // check if result contains 7 values
+            if (slResult.count(", ".toSlice()) != 7) {
+                // check if result contains 8 values
                 decline(policyId, "Declined (invalid result)", _proof);
             } else {
                 slResult.beyond("[".toSlice()).until("]".toSlice());
@@ -116,21 +116,23 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
                         statistics[i] = parseInt(slResult.split(", ".toSlice()).toString()) * 10000/observations;
                     }
 
-                    var destination  = slResult.split(", ".toSlice());
-
-                    if (
-// --> test-mode
-//                            '"JFK"'.toSlice().equals(destination) ||
-// <-- test-mode
-                        '"CUN"'.toSlice().equals(destination) ||
-                        '"CZM"'.toSlice().equals(destination) ||
-                        '"MID"'.toSlice().equals(destination))
-                    {
-                        // underwrite policy
-                        underwrite(policyId, statistics, _proof);
-                    } else {
-                        decline(policyId, "Not acceptable destination", _proof);
+                    var origin = slResult.split(", ".toSlice());
+                    for (uint j = 0; j < FD_DB.countOrigins(); j++) {
+                        if (b32toString(FD_DB.getOriginByIndex(j)).toSlice().equals(origin)) {
+                            underwrite(policyId, statistics, _proof);
+                            return;
+                        }
                     }
+
+                    var destination = slResult.split(", ".toSlice());
+                    for (uint k = 0; k < FD_DB.countDestinations(); k++) {
+                        if (b32toString(FD_DB.getDestinationByIndex(k)).toSlice().equals(destination)) {
+                           underwrite(policyId, statistics, _proof);
+                           return;
+                        }
+                    }
+
+                    decline(policyId, "Not acceptable airport", _proof);
                 }
             }
         }

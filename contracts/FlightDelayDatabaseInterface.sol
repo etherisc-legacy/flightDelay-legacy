@@ -13,6 +13,22 @@ import "./FlightDelayDatabaseModel.sol";
 
 contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
 
+    uint public MIN_DEPARTURE_LIM;
+
+    uint public MAX_DEPARTURE_LIM;
+
+    bytes32[] public validOrigins;
+
+    bytes32[] public validDestinations;
+
+    function countOrigins() public constant returns (uint256 _length);
+
+    function getOriginByIndex(uint256 _i) public constant returns (bytes32 _origin);
+
+    function countDestinations() public constant returns (uint256 _length);
+
+    function getDestinationByIndex(uint256 _i) public constant returns (bytes32 _destination);
+
     function setAccessControl(address _contract, address _caller, uint8 _perm);
 
     function setAccessControl(

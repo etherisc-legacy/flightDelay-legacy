@@ -161,10 +161,6 @@ contract FlightDelayConstants {
     // Deadline for acceptance of policies: 31.12.2030 (Testnet)
     uint constant CONTRACT_DEAD_LINE = 1922396399;
 
-    uint constant MIN_DEPARTURE_LIM = 1508198400;
-
-    uint constant MAX_DEPARTURE_LIM = 1509840000;
-
     // gas Constants for oraclize
     uint constant ORACLIZE_GAS = 1000000;
 
@@ -179,7 +175,7 @@ contract FlightDelayConstants {
         // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
         "[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/";
     string constant ORACLIZE_RATINGS_QUERY =
-        "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode']";
+        "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']";
     string constant ORACLIZE_STATUS_BASE_URL =
         // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
         "[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/";
@@ -195,7 +191,7 @@ contract FlightDelayConstants {
 //            "[URL] json(https://api-test.etherisc.com/flex/ratings/rest/v1/json/flight/";
 //        string constant ORACLIZE_RATINGS_QUERY =
 //            // for testrpc:
-//            ").ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode']";
+//            ").ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']";
 //        string constant ORACLIZE_STATUS_BASE_URL =
 //            // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
 //            "[URL] json(https://api-test.etherisc.com/flex/flightstatus/rest/v2/json/flight/status/";

@@ -55,8 +55,15 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         require(FD_AC.checkPermission(104, msg.sender));
 
         bookkeeping(Acc.Balance, Acc.RiskFund, msg.value);
+    }
 
-        // todo: fire funding event
+    function withdraw(uint256 _amount) {
+        require(FD_AC.checkPermission(104, msg.sender));
+        require(this.balance >= _amount);
+
+        bookkeeping(Acc.RiskFund, Acc.Balance, _amount);
+
+        getContract("FD.Funder").transfer(_amount);
     }
 
     function receiveFunds(Acc _to) payable {

@@ -21,6 +21,7 @@ const FlightDelayPayout = artifacts.require('FlightDelayPayout.sol');
 
 module.exports = (deployer, network, accounts) => {
     let controller;
+    let database;
 
     const fund = value =>
         web3.toWei(value, 'ether');
@@ -64,6 +65,22 @@ module.exports = (deployer, network, accounts) => {
         // Setup contracts
         .then(() => log.info('Setup contracts'))
         .then(() => controller.setAllContracts({from: accounts[1]}))
+
+        .then(() => FlightDelayDatabase.deployed())
+        .then((_d) => { database = _d; return Promise.resolve(); })
+        // Setup valid origin airports
+        .then(() => database.addOrigin('"ZRH"', { from: accounts[1], }))
+        .then(() => database.addOrigin('"SFO"', { from: accounts[1], }))
+        .then(() => database.addOrigin('"SJC"', { from: accounts[1], }))
+        .then(() => database.addOrigin('"OAK"', { from: accounts[1], }))
+        // Setup valid destination airports
+        .then(() => database.addDestination('"ZRH"', { from: accounts[1], }))
+        .then(() => database.addDestination('"SFO"', { from: accounts[1], }))
+        .then(() => database.addDestination('"SJC"', { from: accounts[1], }))
+        .then(() => database.addDestination('"OAK"', { from: accounts[1], }))
+        // Setup min and max departure timestamps
+        .then(() => database.setMinDepartureLim(1510704000, { from: accounts[1], }))
+        .then(() => database.setMaxDepartureLim(1512950399, { from: accounts[1], }))
 
         // Fund Contracts
         .then(() => {

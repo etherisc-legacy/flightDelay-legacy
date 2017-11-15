@@ -130,8 +130,8 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
             _departureTime > CONTRACT_DEAD_LINE ||
             _departureTime < dmy ||
             _departureTime > dmy + 24 hours ||
-            _departureTime < MIN_DEPARTURE_LIM ||
-            _departureTime > MAX_DEPARTURE_LIM
+            _departureTime < FD_DB.MIN_DEPARTURE_LIM() ||
+            _departureTime > FD_DB.MAX_DEPARTURE_LIM()
         ) {
             LogPolicyDeclined(0, "Invalid arrival/departure time");
             FD_LG.sendFunds(msg.sender, Acc.Premium, msg.value);

@@ -16,6 +16,13 @@ import "./FlightDelayConstants.sol";
 
 contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDatabaseInterface, FlightDelayConstants {
 
+    uint public MIN_DEPARTURE_LIM;
+
+    uint public MAX_DEPARTURE_LIM;
+
+    bytes32[] public validOrigins;
+    bytes32[] public validDestinations;
+
     // Table of policies
     Policy[] public policies;
 
@@ -53,7 +60,79 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         FD_AC.setPermissionById(101, "FD.Payout");
         FD_AC.setPermissionById(101, "FD.Ledger");
 
+        FD_AC.setPermissionById(102, "FD.Owner");
     }
+
+    function setMinDepartureLim(uint _timestamp) returns (bool _success) {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        MIN_DEPARTURE_LIM = _timestamp;
+        _success = true;
+    }
+
+    function setMaxDepartureLim(uint _timestamp) returns (bool _success) {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        MAX_DEPARTURE_LIM = _timestamp;
+        _success = true;
+    }
+
+    function addOrigin(bytes32 _origin) returns (uint256 _index) {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        validOrigins.push(_origin);
+        _index = validOrigins.length - 1;
+    }
+
+    function removeOriginByIndex(uint256 _index) returns (bool _success) {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        if (validOrigins.length == 0) {
+            return false;
+        } else {
+            bytes32 lastElement = validOrigins[validOrigins.length - 1];
+            validOrigins[_index] = lastElement;
+            validOrigins.length--;
+            return true;
+        }
+    }
+
+    function countOrigins() public constant returns (uint256 _length) {
+        _length = validOrigins.length;
+    }
+
+    function getOriginByIndex(uint256 _i) public constant returns (bytes32 _origin) {
+        _origin = validOrigins[_i];
+    }
+
+    function addDestination(bytes32 _origin) returns (uint256 _index) {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        validDestinations.push(_origin);
+        _index = validDestinations.length - 1;
+    }
+
+    function removeDestinationByIndex(uint256 _index) returns (bool _success) {
+        require(FD_AC.checkPermission(102, msg.sender));
+
+        if (validDestinations.length == 0) {
+            return false;
+        } else {
+            bytes32 lastElement = validDestinations[validDestinations.length - 1];
+            validDestinations[_index] = lastElement;
+            validDestinations.length--;
+            return true;
+        }
+    }
+
+    function countDestinations() public constant returns (uint256 _length) {
+        _length = validDestinations.length;
+    }
+
+    function getDestinationByIndex(uint256 _i) public constant returns (bytes32 _destination) {
+        _destination = validDestinations[_i];
+    }
+
 
     // Getter and Setter for AccessControl
     function setAccessControl(
