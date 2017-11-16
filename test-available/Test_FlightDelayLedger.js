@@ -66,6 +66,22 @@ contract('FlightDelayLedger', (accounts) => {
         Number(balanceAfter).should.be.equal(Number(value) + Number(balanceBefore));
     });
 
+    /*
+     * withdraw
+     */
+    it('should witdraw', async () => {
+        const funderBefore = web3.eth.getBalance(accounts[2]);
+        const balanceBefore = web3.eth.getBalance(FD.LG.address);
+
+        await FD.LG.withdraw(Number(balanceBefore), { from: accounts[2] });
+
+        const funderAfter = web3.eth.getBalance(accounts[2]);
+        const balanceAfter = web3.eth.getBalance(FD.LG.address);
+
+        Number(web3.fromWei((Number(funderAfter) - Number(funderBefore)) - Number(balanceBefore), 'ether'))
+            .should.be.below(0.1);
+    });
+
     it('should not accept ETH from other accounts', async () => {
         try {
             await FD.LG.sendTransaction({ from: accounts[1], value: web3.toWei(10, 'ether'), });

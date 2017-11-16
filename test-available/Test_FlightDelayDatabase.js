@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
+const moment = require('moment');
 const utils = require('../util/test-utils.js');
+
 
 const BigNumber = web3.BigNumber;
 
@@ -42,6 +44,88 @@ contract('FlightDelayDatabase', (accounts) => {
     it('should not be accessed from external account', async () => {
         await FD.DB.setContracts()
             .should.be.rejectedWith(utils.EVMThrow);
+    });
+
+    /*
+     * MIN_DEPARTURE_LIM, MAX_DEPARTURE_LIM timestamps
+     */
+
+    it('MIN_DEPARTURE_LIM should be set to valid timestamp', async () => {
+        const timestamp = await FD.DB.MIN_DEPARTURE_LIM();
+        moment(timestamp).isValid().should.be.true;
+    });
+
+    it('should set MIN_DEPARTURE_LIM', async () => {
+        const timestamp = moment().unix();
+        await FD.DB.setMinDepartureLim(timestamp, { from: accounts[1] });
+        const newTimestamp = await FD.DB.MIN_DEPARTURE_LIM();
+        Number(newTimestamp).should.be.equal(timestamp);
+    });
+
+    it('MAX_DEPARTURE_LIM should be set to valid timestamp', async () => {
+        const timestamp = await FD.DB.MAX_DEPARTURE_LIM();
+        moment(timestamp).isValid().should.be.true;
+    });
+
+    it('should set MAX_DEPARTURE_LIM', async () => {
+        const timestamp = moment().add(10, 'days').unix();
+        await FD.DB.setMaxDepartureLim(timestamp, { from: accounts[1] });
+        const newTimestamp = await FD.DB.MAX_DEPARTURE_LIM();
+        Number(newTimestamp).should.be.equal(timestamp);
+    });
+
+    /*
+     * Add origin airport
+     */
+    it('should should add/remove valid origin airport', async () => {
+        const count = Number(await FD.DB.countOrigins());
+
+        const airport = '"CUN"';
+
+        // add origin
+        await FD.DB.addOrigin(airport, { from: accounts[1] });
+
+        // count origins
+        const newCount = Number(await FD.DB.countOrigins());
+        (newCount - count).should.be.equal(1);
+
+        const lastOrigin = await FD.DB.validOrigins(newCount - 1);
+        web3.toUtf8(lastOrigin).should.be.equal(airport);
+
+        // getOriginByIndex
+        const originByIndex = await FD.DB.getOriginByIndex(newCount - 1);
+        web3.toUtf8(originByIndex).should.be.equal(airport);
+
+        // removeOriginByIndex
+        await FD.DB.removeOriginByIndex(newCount - 1, { from: accounts[1] });
+        Number(await FD.DB.countOrigins()).should.be.equal(count);
+    });
+
+    /*
+     * Add destination airport
+     */
+    it('should should add/remove valid destination airport', async () => {
+        const count = Number(await FD.DB.countDestinations());
+
+        const airport = '"CUN"';
+
+        // add destination
+        await FD.DB.addDestination(airport, { from: accounts[1] });
+
+        // count origins
+        const newCount = Number(await FD.DB.countDestinations());
+        (newCount - count).should.be.equal(1);
+
+        const lastDestination = await FD.DB.validDestinations(newCount - 1);
+        web3.toUtf8(lastDestination).should.be.equal(airport);
+
+        // getDestinationByIndex
+        const destinationByIndex = await FD.DB.getDestinationByIndex(newCount - 1);
+        web3.toUtf8(destinationByIndex).should.be.equal(airport);
+
+        // removeDestinationByIndex
+        await FD.DB.removeDestinationByIndex(newCount - 1, { from: accounts[1] });
+        Number(await FD.DB.countDestinations()).should.be.equal(count);
     });
 
     /*
