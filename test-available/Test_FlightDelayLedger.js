@@ -54,7 +54,7 @@ contract('FlightDelayLedger', (accounts) => {
         const value = web3.toWei(10, 'ether');
 
         try {
-            await FD.LG.fund({ from: accounts[2], value, });
+            await FD.LG.sendTransaction({ from: accounts[2], value, });
             assert.ok('should not be rejected');
         } catch (error) {
             utils.assertJump(error);
@@ -68,7 +68,7 @@ contract('FlightDelayLedger', (accounts) => {
 
     it('should not accept ETH from other accounts', async () => {
         try {
-            await FD.LG.fund({ from: accounts[1], value: web3.toWei(10, 'ether'), });
+            await FD.LG.sendTransaction({ from: accounts[1], value: web3.toWei(10, 'ether'), });
             assert.fail('should be rejected');
         } catch (error) {
             utils.assertJump(error);

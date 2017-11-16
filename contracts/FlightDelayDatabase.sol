@@ -147,12 +147,12 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
 // --> test-mode
-//        function setAccessControlTestOnly public(
+//        function setAccessControlTestOnly (
 //            address _contract,
 //            address _caller,
 //            uint8 _perm,
 //            bool _access
-//        ) {
+//        ) public {
 //            accessControl[_contract][_caller][_perm] = _access;
 //        }
 // <-- test-mode
