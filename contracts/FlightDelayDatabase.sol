@@ -47,11 +47,11 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
     FlightDelayAccessControllerInterface FD_AC;
 
-    function FlightDelayDatabase (address _controller) {
+    function FlightDelayDatabase (address _controller) public {
         setController(_controller);
     }
 
-    function setContracts() onlyController {
+    function setContracts() public onlyController {
         FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
@@ -135,19 +135,19 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 
 
     // Getter and Setter for AccessControl
-    function setAccessControl(
+    function setAccessControl (
         address _contract,
         address _caller,
         uint8 _perm,
         bool _access
-    ) {
+    ) public {
         // one and only hardcoded accessControl
         require(msg.sender == FD_CI.getContract("FD.AccessController"));
         accessControl[_contract][_caller][_perm] = _access;
     }
 
 // --> test-mode
-//        function setAccessControlTestOnly(
+//        function setAccessControlTestOnly public(
 //            address _contract,
 //            address _caller,
 //            uint8 _perm,
@@ -157,7 +157,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
 //        }
 // <-- test-mode
 
-    function setAccessControl(address _contract, address _caller, uint8 _perm) {
+    function setAccessControl(address _contract, address _caller, uint8 _perm) public {
         setAccessControl(
             _contract,
             _caller,
@@ -166,12 +166,12 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         );
     }
 
-    function getAccessControl(address _contract, address _caller, uint8 _perm) returns (bool _allowed) {
+    function getAccessControl(address _contract, address _caller, uint8 _perm) public returns (bool _allowed) {
         _allowed = accessControl[_contract][_caller][_perm];
     }
 
     // Getter and Setter for ledger
-    function setLedger(uint8 _index, int _value) {
+    function setLedger(uint8 _index, int _value) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         int previous = ledger[_index];
@@ -191,35 +191,35 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         }
     }
 
-    function getLedger(uint8 _index) returns (int _value) {
+    function getLedger(uint8 _index) public returns (int _value) {
         _value = ledger[_index];
     }
 
     // Getter and Setter for policies
-    function getCustomerPremium(uint _policyId) returns (address _customer, uint _premium) {
+    function getCustomerPremium(uint _policyId) public returns (address _customer, uint _premium) {
         Policy storage p = policies[_policyId];
         _customer = p.customer;
         _premium = p.premium;
     }
 
-    function getPolicyData(uint _policyId) returns (address _customer, uint _weight, uint _premium) {
+    function getPolicyData(uint _policyId) public returns (address _customer, uint _weight, uint _premium) {
         Policy storage p = policies[_policyId];
         _customer = p.customer;
         _weight = p.weight;
         _premium = p.premium;
     }
 
-    function getPolicyState(uint _policyId) returns (policyState _state) {
+    function getPolicyState(uint _policyId) public returns (policyState _state) {
         Policy storage p = policies[_policyId];
         _state = p.state;
     }
 
-    function getRiskId(uint _policyId) returns (bytes32 _riskId) {
+    function getRiskId(uint _policyId) public returns (bytes32 _riskId) {
         Policy storage p = policies[_policyId];
         _riskId = p.riskId;
     }
 
-    function createPolicy(address _customer, uint _premium, Currency _currency, bytes32 _customerExternalId, bytes32 _riskId) returns (uint _policyId) {
+    function createPolicy(address _customer, uint _premium, Currency _currency, bytes32 _customerExternalId, bytes32 _riskId) public returns (uint _policyId) {
         require(FD_AC.checkPermission(101, msg.sender));
 
         _policyId = policies.length++;
@@ -247,7 +247,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         policyState _state,
         uint _stateTime,
         bytes32 _stateMessage
-    ) {
+    ) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         LogSetState(
@@ -264,7 +264,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         p.stateMessage = _stateMessage;
     }
 
-    function setWeight(uint _policyId, uint _weight, bytes _proof) {
+    function setWeight(uint _policyId, uint _weight, bytes _proof) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         Policy storage p = policies[_policyId];
@@ -273,7 +273,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         p.proof = _proof;
     }
 
-    function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) {
+    function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         Policy storage p = policies[_policyId];
@@ -282,7 +282,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         p.actualPayout = _actualPayout;
     }
 
-    function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) {
+    function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         Risk storage r = risks[policies[_policyId].riskId];
@@ -292,14 +292,14 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     // Getter and Setter for risks
-    function getRiskParameters(bytes32 _riskId) returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
+    function getRiskParameters(bytes32 _riskId) public returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) {
         Risk storage r = risks[_riskId];
         _carrierFlightNumber = r.carrierFlightNumber;
         _departureYearMonthDay = r.departureYearMonthDay;
         _arrivalTime = r.arrivalTime;
     }
 
-    function getPremiumFactors(bytes32 _riskId) returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
+    function getPremiumFactors(bytes32 _riskId) public returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
         Risk storage r = risks[_riskId];
         _cumulatedWeightedPremium = r.cumulatedWeightedPremium;
         _premiumMultiplier = r.premiumMultiplier;
@@ -327,7 +327,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         }
     }
 
-    function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) {
+    function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         Risk storage r = risks[_riskId];
@@ -336,12 +336,13 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     // Getter and Setter for oraclizeCallbacks
-    function getOraclizeCallback(bytes32 _queryId) returns (uint _policyId, uint _arrivalTime) {
-        _policyId = oraclizeCallbacks[_queryId].policyId;
-        _arrivalTime = risks[policies[_policyId].riskId].arrivalTime;
+    function getOraclizeCallback(bytes32 _queryId) public returns (uint _policyId, uint _oraclizeTime) {
+        OraclizeCallback storage o = oraclizeCallbacks[_queryId];
+        _policyId = o.policyId;
+        _oraclizeTime = o.oraclizeTime;
     }
 
-    function getOraclizePolicyId(bytes32 _queryId) returns (uint _policyId) {
+    function getOraclizePolicyId(bytes32 _queryId) public returns (uint _policyId) {
         OraclizeCallback storage o = oraclizeCallbacks[_queryId];
         _policyId = o.policyId;
     }
@@ -350,7 +351,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
         bytes32 _queryId,
         uint _policyId,
         oraclizeState _oraclizeState,
-        uint _oraclizeTime) {
+        uint _oraclizeTime) public {
 
         require(FD_AC.checkPermission(101, msg.sender));
 
@@ -358,7 +359,7 @@ contract FlightDelayDatabase is FlightDelayControlledContract, FlightDelayDataba
     }
 
     // mixed
-    function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset) returns (bool _result) {
+    function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset) public returns (bool _result) {
         OraclizeCallback storage o = oraclizeCallbacks[_queryId];
         Risk storage r = risks[_riskId];
 

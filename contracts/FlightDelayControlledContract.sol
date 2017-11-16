@@ -28,11 +28,11 @@ contract FlightDelayControlledContract is FlightDelayDatabaseModel {
         _result = true;
     }
 
-    function destruct() onlyController {
+    function destruct() public onlyController {
         selfdestruct(controller);
     }
 
-    function setContracts() onlyController {}
+    function setContracts() public onlyController {}
 
     function getContract(bytes32 _id) internal returns (address _addr) {
         _addr = FD_CI.getContract(_id);

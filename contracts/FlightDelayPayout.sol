@@ -31,7 +31,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
      * @dev Contract constructor sets its controller
      * @param _controller FD.Controller
      */
-    function FlightDelayPayout(address _controller) {
+    function FlightDelayPayout(address _controller) public {
         setController(_controller);
     }
 
@@ -55,7 +55,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
     /*
      * @dev Fund contract
      */
-    function fund() payable {
+    function () public payable {
         require(FD_AC.checkPermission(102, msg.sender));
 
         // todo: bookkeeping

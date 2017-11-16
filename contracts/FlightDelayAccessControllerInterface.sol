@@ -11,13 +11,13 @@ pragma solidity ^0.4.11;
 
 contract FlightDelayAccessControllerInterface {
 
-    function setPermissionById(uint8 _perm, bytes32 _id);
+    function setPermissionById(uint8 _perm, bytes32 _id) public;
 
-    function setPermissionById(uint8 _perm, bytes32 _id, bool _access);
+    function setPermissionById(uint8 _perm, bytes32 _id, bool _access) public;
 
-    function setPermissionByAddress(uint8 _perm, address _addr);
+    function setPermissionByAddress(uint8 _perm, address _addr) public;
 
-    function setPermissionByAddress(uint8 _perm, address _addr, bool _access);
+    function setPermissionByAddress(uint8 _perm, address _addr, bool _access) public;
 
-    function checkPermission(uint8 _perm, address _addr) returns (bool _success);
+    function checkPermission(uint8 _perm, address _addr) public returns (bool _success);
 }

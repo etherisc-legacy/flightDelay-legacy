@@ -11,5 +11,5 @@ pragma solidity ^0.4.11;
 
 contract FlightDelayPayoutInterface {
 
-    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset);
+    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset) public;
 }

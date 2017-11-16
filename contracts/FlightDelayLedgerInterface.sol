@@ -13,9 +13,9 @@ import "./FlightDelayDatabaseModel.sol";
 
 contract FlightDelayLedgerInterface is FlightDelayDatabaseModel {
 
-    function receiveFunds(Acc _to) payable;
+    function receiveFunds(Acc _to) public payable;
 
-    function sendFunds(address _recipient, Acc _from, uint _amount) returns (bool _success);
+    function sendFunds(address _recipient, Acc _from, uint _amount) public returns (bool _success);
 
-    function bookkeeping(Acc _from, Acc _to, uint amount);
+    function bookkeeping(Acc _from, Acc _to, uint amount) public;
 }

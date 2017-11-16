@@ -11,5 +11,5 @@ pragma solidity ^0.4.11;
 
 contract FlightDelayUnderwriteInterface {
 
-    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber);
+    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) public;
 }

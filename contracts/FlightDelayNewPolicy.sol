@@ -24,11 +24,11 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
     FlightDelayLedgerInterface FD_LG;
     FlightDelayUnderwriteInterface FD_UW;
 
-    function FlightDelayNewPolicy(address _controller) {
+    function FlightDelayNewPolicy(address _controller) public {
         setController(_controller);
     }
 
-    function setContracts() onlyController {
+    function setContracts() public onlyController {
         FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
         FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
         FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
@@ -52,7 +52,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         return (uint(remain - reward));
     }
 
-    function maintenanceMode(bool _on) {
+    function maintenanceMode(bool _on) public {
         if (FD_AC.checkPermission(103, msg.sender)) {
             FD_AC.setPermissionByAddress(101, 0x0, !_on);
         }
@@ -65,7 +65,7 @@ contract FlightDelayNewPolicy is FlightDelayControlledContract, FlightDelayConst
         uint256 _departureTime,
         uint256 _arrivalTime,
         Currency _currency,
-        bytes32 _customerExternalId) payable
+        bytes32 _customerExternalId) public payable
     {
         // here we can switch it off.
         require(FD_AC.checkPermission(101, 0x0));

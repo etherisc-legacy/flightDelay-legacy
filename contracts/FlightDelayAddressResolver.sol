@@ -12,20 +12,20 @@ contract FlightDelayAddressResolver {
 
     address owner;
 
-    function FlightDelayAddressResolver() {
+    function FlightDelayAddressResolver() public {
         owner = msg.sender;
     }
 
-    function changeOwner(address _owner) {
+    function changeOwner(address _owner) public {
         require(msg.sender == owner);
         owner = _owner;
     }
 
-    function getAddress() constant returns (address _addr) {
+    function getAddress() public constant returns (address _addr) {
         return addr;
     }
 
-    function setAddress(address _addr) {
+    function setAddress(address _addr) public {
         require(msg.sender == owner);
         addr = _addr;
     }

@@ -20,11 +20,11 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
     FlightDelayDatabaseInterface FD_DB;
     FlightDelayAccessControllerInterface FD_AC;
 
-    function FlightDelayLedger(address _controller) {
+    function FlightDelayLedger(address _controller) public {
         setController(_controller);
     }
 
-    function setContracts() onlyController {
+    function setContracts() public onlyController {
         FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
         FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
 
@@ -51,7 +51,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
     /*
      * @dev Fund contract
      */
-    function fund() payable {
+    function () public payable {
         require(FD_AC.checkPermission(104, msg.sender));
 
         bookkeeping(Acc.Balance, Acc.RiskFund, msg.value);
@@ -66,7 +66,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         getContract("FD.Funder").transfer(_amount);
     }
 
-    function receiveFunds(Acc _to) payable {
+    function receiveFunds(Acc _to) public payable {
         require(FD_AC.checkPermission(101, msg.sender));
 
         LogReceiveFunds(msg.sender, uint8(_to), msg.value);
@@ -74,7 +74,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
         bookkeeping(Acc.Balance, _to, msg.value);
     }
 
-    function sendFunds(address _recipient, Acc _from, uint _amount) returns (bool _success) {
+    function sendFunds(address _recipient, Acc _from, uint _amount) public returns (bool _success) {
         require(FD_AC.checkPermission(102, msg.sender));
 
         if (this.balance < _amount) {
@@ -95,7 +95,7 @@ contract FlightDelayLedger is FlightDelayControlledContract, FlightDelayLedgerIn
 
     // invariant: acc_Premium + acc_RiskFund + acc_Payout + acc_Balance + acc_Reward + acc_OraclizeCosts == 0
 
-    function bookkeeping(Acc _from, Acc _to, uint256 _amount) {
+    function bookkeeping(Acc _from, Acc _to, uint256 _amount) public {
         require(FD_AC.checkPermission(103, msg.sender));
 
         // check against type cast overflow

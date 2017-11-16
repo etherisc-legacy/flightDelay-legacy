@@ -29,11 +29,11 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
     FlightDelayPayoutInterface FD_PY;
     FlightDelayAccessControllerInterface FD_AC;
 
-    function FlightDelayUnderwrite(address _controller) {
+    function FlightDelayUnderwrite(address _controller) public {
         setController(_controller);
     }
 
-    function setContracts() onlyController {
+    function setContracts() public onlyController {
         FD_AC = FlightDelayAccessControllerInterface(getContract("FD.AccessController"));
         FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
         FD_LG = FlightDelayLedgerInterface(getContract("FD.Ledger"));
@@ -46,14 +46,14 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
     /*
      * @dev Fund contract
      */
-    function fund() payable {
+    function () payable {
         require(FD_AC.checkPermission(102, msg.sender));
 
         // todo: bookkeeping
         // todo: fire funding event
     }
 
-    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) {
+    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) public {
         require(FD_AC.checkPermission(101, msg.sender));
 
         string memory oraclizeUrl = strConcat(
@@ -81,7 +81,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         LogOraclizeCall(_policyId, queryId, oraclizeUrl, 0);
     }
 
-    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclizeOr(getContract('FD.Emergency')) {
+    function __callback(bytes32 _queryId, string _result, bytes _proof) onlyOraclizeOr(getContract('FD.Emergency')) public {
 
         var (policyId,) = FD_DB.getOraclizeCallback(_queryId);
         LogOraclizeCallback(policyId, _queryId, _result, _proof);
@@ -138,7 +138,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
         }
     } // __callback
 
-    function externalDecline(uint _policyId, bytes32 _reason) external {
+    function externalDecline(uint _policyId, bytes32 _reason) public {
         require(msg.sender == FD_CI.getContract("FD.CustomersAdmin"));
 
         LogPolicyDeclined(_policyId, _reason);

@@ -22,19 +22,19 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
         _;
     }
 
-    function FlightDelayAccessController(address _controller) {
+    function FlightDelayAccessController(address _controller) public {
         setController(_controller);
     }
 
-    function setContracts() onlyController {
+    function setContracts() public onlyController {
         FD_DB = FlightDelayDatabaseInterface(getContract("FD.Database"));
     }
 
-    function setPermissionById(uint8 _perm, bytes32 _id) {
+    function setPermissionById(uint8 _perm, bytes32 _id) public {
         FD_DB.setAccessControl(msg.sender, FD_CI.getContract(_id), _perm);
     }
 
-    function fixPermission(address _target, address _accessor, uint8 _perm, bool _access) onlyEmergency {
+    function fixPermission(address _target, address _accessor, uint8 _perm, bool _access) public onlyEmergency {
         FD_DB.setAccessControl(
             _target,
             _accessor,
@@ -44,7 +44,7 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
 
     }
 
-    function setPermissionById(uint8 _perm, bytes32 _id, bool _access) {
+    function setPermissionById(uint8 _perm, bytes32 _id, bool _access) public {
         FD_DB.setAccessControl(
             msg.sender,
             FD_CI.getContract(_id),
@@ -53,11 +53,11 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
         );
     }
 
-    function setPermissionByAddress(uint8 _perm, address _addr) {
+    function setPermissionByAddress(uint8 _perm, address _addr) public {
         FD_DB.setAccessControl(msg.sender, _addr, _perm);
     }
 
-    function setPermissionByAddress(uint8 _perm, address _addr, bool _access) {
+    function setPermissionByAddress(uint8 _perm, address _addr, bool _access) public {
         FD_DB.setAccessControl(
             msg.sender,
             _addr,
@@ -66,7 +66,7 @@ contract FlightDelayAccessController is FlightDelayControlledContract, FlightDel
         );
     }
 
-    function checkPermission(uint8 _perm, address _addr) returns (bool _success) {
+    function checkPermission(uint8 _perm, address _addr) public returns (bool _success) {
 // --> debug-mode
 //            // LogUint("_perm", _perm);
 //            // LogAddress("_addr", _addr);
