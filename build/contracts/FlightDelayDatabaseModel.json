@@ -1,8 +1,946 @@
 {
-  "contract_name": "FlightDelayDatabaseModel",
+  "contractName": "FlightDelayDatabaseModel",
   "abi": [],
-  "unlinked_binary": "0x60606040523415600e57600080fd5b5b603680601c6000396000f30060606040525b600080fd00a165627a7a723058200bf6a291607b997c35525ea9b4f35b6519ccb33fe84dbab73b2aada22d588c510029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820891bdd256e5285cafaef22c1a46ae21606100de4f21e0b20f29dfdf70ea359bc0029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820891bdd256e5285cafaef22c1a46ae21606100de4f21e0b20f29dfdf70ea359bc0029",
+  "sourceMap": "214:4368:9:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "214:4368:9:-;;;;;",
+  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Database model\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayDatabaseModel {\n\n    // Ledger accounts.\n    enum Acc {\n        Premium,      // 0\n        RiskFund,     // 1\n        Payout,       // 2\n        Balance,      // 3\n        Reward,       // 4\n        OraclizeCosts // 5\n    }\n\n    // policy Status Codes and meaning:\n    //\n    // 00 = Applied:\t  the customer has payed a premium, but the oracle has\n    //\t\t\t\t\t        not yet checked and confirmed.\n    //\t\t\t\t\t        The customer can still revoke the policy.\n    // 01 = Accepted:\t  the oracle has checked and confirmed.\n    //\t\t\t\t\t        The customer can still revoke the policy.\n    // 02 = Revoked:\t  The customer has revoked the policy.\n    //\t\t\t\t\t        The premium minus cancellation fee is payed back to the\n    //\t\t\t\t\t        customer by the oracle.\n    // 03 = PaidOut:\t  The flight has ended with delay.\n    //\t\t\t\t\t        The oracle has checked and payed out.\n    // 04 = Expired:\t  The flight has endet with <15min. delay.\n    //\t\t\t\t\t        No payout.\n    // 05 = Declined:\t  The application was invalid.\n    //\t\t\t\t\t        The premium minus cancellation fee is payed back to the\n    //\t\t\t\t\t        customer by the oracle.\n    // 06 = SendFailed:\tDuring Revoke, Decline or Payout, sending ether failed\n    //\t\t\t\t\t        for unknown reasons.\n    //\t\t\t\t\t        The funds remain in the contracts RiskFund.\n\n\n    //                   00       01        02       03        04      05           06\n    enum policyState { Applied, Accepted, Revoked, PaidOut, Expired, Declined, SendFailed }\n\n    // oraclize callback types:\n    enum oraclizeState { ForUnderwriting, ForPayout }\n\n    //               00   01   02   03\n    enum Currency { ETH, EUR, USD, GBP }\n\n    // the policy structure: this structure keeps track of the individual parameters of a policy.\n    // typically customer address, premium and some status information.\n    struct Policy {\n        // 0 - the customer\n        address customer;\n\n        // 1 - premium\n        uint premium;\n        // risk specific parameters:\n        // 2 - pointer to the risk in the risks mapping\n        bytes32 riskId;\n        // custom payout pattern\n        // in future versions, customer will be able to tamper with this array.\n        // to keep things simple, we have decided to hard-code the array for all policies.\n        // uint8[5] pattern;\n        // 3 - probability weight. this is the central parameter\n        uint weight;\n        // 4 - calculated Payout\n        uint calculatedPayout;\n        // 5 - actual Payout\n        uint actualPayout;\n\n        // status fields:\n        // 6 - the state of the policy\n        policyState state;\n        // 7 - time of last state change\n        uint stateTime;\n        // 8 - state change message/reason\n        bytes32 stateMessage;\n        // 9 - TLSNotary Proof\n        bytes proof;\n        // 10 - Currency\n        Currency currency;\n        // 10 - External customer id\n        bytes32 customerExternalId;\n    }\n\n    // the risk structure; this structure keeps track of the risk-\n    // specific parameters.\n    // several policies can share the same risk structure (typically\n    // some people flying with the same plane)\n    struct Risk {\n        // 0 - Airline Code + FlightNumber\n        bytes32 carrierFlightNumber;\n        // 1 - scheduled departure and arrival time in the format /dep/YYYY/MM/DD\n        bytes32 departureYearMonthDay;\n        // 2 - the inital arrival time\n        uint arrivalTime;\n        // 3 - the final delay in minutes\n        uint delayInMinutes;\n        // 4 - the determined delay category (0-5)\n        uint8 delay;\n        // 5 - we limit the cumulated weighted premium to avoid cluster risks\n        uint cumulatedWeightedPremium;\n        // 6 - max cumulated Payout for this risk\n        uint premiumMultiplier;\n    }\n\n    // the oraclize callback structure: we use several oraclize calls.\n    // all oraclize calls will result in a common callback to __callback(...).\n    // to keep track of the different querys we have to introduce this struct.\n    struct OraclizeCallback {\n        // for which policy have we called?\n        uint policyId;\n        // for which purpose did we call? {ForUnderwrite | ForPayout}\n        oraclizeState oState;\n        // time\n        uint oraclizeTime;\n    }\n\n    struct Customer {\n        bytes32 customerExternalId;\n        bool identityConfirmed;\n    }\n}\n",
+  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+      "exportedSymbols": {
+        "FlightDelayDatabaseModel": [
+          2334
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 2258,
+        "name": "PragmaDirective",
+        "src": "187:24:9"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            2334
+          ],
+          "name": "FlightDelayDatabaseModel",
+          "scope": 2335
+        },
+        "children": [
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.Acc",
+              "name": "Acc"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "Premium"
+                },
+                "id": 2259,
+                "name": "EnumValue",
+                "src": "298:7:9"
+              },
+              {
+                "attributes": {
+                  "name": "RiskFund"
+                },
+                "id": 2260,
+                "name": "EnumValue",
+                "src": "325:8:9"
+              },
+              {
+                "attributes": {
+                  "name": "Payout"
+                },
+                "id": 2261,
+                "name": "EnumValue",
+                "src": "352:6:9"
+              },
+              {
+                "attributes": {
+                  "name": "Balance"
+                },
+                "id": 2262,
+                "name": "EnumValue",
+                "src": "379:7:9"
+              },
+              {
+                "attributes": {
+                  "name": "Reward"
+                },
+                "id": 2263,
+                "name": "EnumValue",
+                "src": "406:6:9"
+              },
+              {
+                "attributes": {
+                  "name": "OraclizeCosts"
+                },
+                "id": 2264,
+                "name": "EnumValue",
+                "src": "433:13:9"
+              }
+            ],
+            "id": 2265,
+            "name": "EnumDefinition",
+            "src": "279:178:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.policyState",
+              "name": "policyState"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "Applied"
+                },
+                "id": 2266,
+                "name": "EnumValue",
+                "src": "1666:7:9"
+              },
+              {
+                "attributes": {
+                  "name": "Accepted"
+                },
+                "id": 2267,
+                "name": "EnumValue",
+                "src": "1675:8:9"
+              },
+              {
+                "attributes": {
+                  "name": "Revoked"
+                },
+                "id": 2268,
+                "name": "EnumValue",
+                "src": "1685:7:9"
+              },
+              {
+                "attributes": {
+                  "name": "PaidOut"
+                },
+                "id": 2269,
+                "name": "EnumValue",
+                "src": "1694:7:9"
+              },
+              {
+                "attributes": {
+                  "name": "Expired"
+                },
+                "id": 2270,
+                "name": "EnumValue",
+                "src": "1703:7:9"
+              },
+              {
+                "attributes": {
+                  "name": "Declined"
+                },
+                "id": 2271,
+                "name": "EnumValue",
+                "src": "1712:8:9"
+              },
+              {
+                "attributes": {
+                  "name": "SendFailed"
+                },
+                "id": 2272,
+                "name": "EnumValue",
+                "src": "1722:10:9"
+              }
+            ],
+            "id": 2273,
+            "name": "EnumDefinition",
+            "src": "1647:87:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.oraclizeState",
+              "name": "oraclizeState"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "ForUnderwriting"
+                },
+                "id": 2274,
+                "name": "EnumValue",
+                "src": "1793:15:9"
+              },
+              {
+                "attributes": {
+                  "name": "ForPayout"
+                },
+                "id": 2275,
+                "name": "EnumValue",
+                "src": "1810:9:9"
+              }
+            ],
+            "id": 2276,
+            "name": "EnumDefinition",
+            "src": "1772:49:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.Currency",
+              "name": "Currency"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "ETH"
+                },
+                "id": 2277,
+                "name": "EnumValue",
+                "src": "1882:3:9"
+              },
+              {
+                "attributes": {
+                  "name": "EUR"
+                },
+                "id": 2278,
+                "name": "EnumValue",
+                "src": "1887:3:9"
+              },
+              {
+                "attributes": {
+                  "name": "USD"
+                },
+                "id": 2279,
+                "name": "EnumValue",
+                "src": "1892:3:9"
+              },
+              {
+                "attributes": {
+                  "name": "GBP"
+                },
+                "id": 2280,
+                "name": "EnumValue",
+                "src": "1897:3:9"
+              }
+            ],
+            "id": 2281,
+            "name": "EnumDefinition",
+            "src": "1866:36:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.Policy",
+              "name": "Policy",
+              "scope": 2334,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "customer",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "address",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 2282,
+                    "name": "ElementaryTypeName",
+                    "src": "2130:7:9"
+                  }
+                ],
+                "id": 2283,
+                "name": "VariableDeclaration",
+                "src": "2130:16:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "premium",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2284,
+                    "name": "ElementaryTypeName",
+                    "src": "2180:4:9"
+                  }
+                ],
+                "id": 2285,
+                "name": "VariableDeclaration",
+                "src": "2180:12:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "riskId",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 2286,
+                    "name": "ElementaryTypeName",
+                    "src": "2295:7:9"
+                  }
+                ],
+                "id": 2287,
+                "name": "VariableDeclaration",
+                "src": "2295:14:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "weight",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2288,
+                    "name": "ElementaryTypeName",
+                    "src": "2617:4:9"
+                  }
+                ],
+                "id": 2289,
+                "name": "VariableDeclaration",
+                "src": "2617:11:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "calculatedPayout",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2290,
+                    "name": "ElementaryTypeName",
+                    "src": "2671:4:9"
+                  }
+                ],
+                "id": 2291,
+                "name": "VariableDeclaration",
+                "src": "2671:21:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "actualPayout",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2292,
+                    "name": "ElementaryTypeName",
+                    "src": "2731:4:9"
+                  }
+                ],
+                "id": 2293,
+                "name": "VariableDeclaration",
+                "src": "2731:17:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "state",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "enum FlightDelayDatabaseModel.policyState",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "policyState",
+                      "referencedDeclaration": 2273,
+                      "type": "enum FlightDelayDatabaseModel.policyState"
+                    },
+                    "id": 2294,
+                    "name": "UserDefinedTypeName",
+                    "src": "2824:11:9"
+                  }
+                ],
+                "id": 2295,
+                "name": "VariableDeclaration",
+                "src": "2824:17:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "stateTime",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2296,
+                    "name": "ElementaryTypeName",
+                    "src": "2892:4:9"
+                  }
+                ],
+                "id": 2297,
+                "name": "VariableDeclaration",
+                "src": "2892:14:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "stateMessage",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 2298,
+                    "name": "ElementaryTypeName",
+                    "src": "2959:7:9"
+                  }
+                ],
+                "id": 2299,
+                "name": "VariableDeclaration",
+                "src": "2959:20:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "proof",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes",
+                      "type": "bytes storage pointer"
+                    },
+                    "id": 2300,
+                    "name": "ElementaryTypeName",
+                    "src": "3020:5:9"
+                  }
+                ],
+                "id": 2301,
+                "name": "VariableDeclaration",
+                "src": "3020:11:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "currency",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "enum FlightDelayDatabaseModel.Currency",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Currency",
+                      "referencedDeclaration": 2281,
+                      "type": "enum FlightDelayDatabaseModel.Currency"
+                    },
+                    "id": 2302,
+                    "name": "UserDefinedTypeName",
+                    "src": "3066:8:9"
+                  }
+                ],
+                "id": 2303,
+                "name": "VariableDeclaration",
+                "src": "3066:17:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "customerExternalId",
+                  "scope": 2306,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 2304,
+                    "name": "ElementaryTypeName",
+                    "src": "3130:7:9"
+                  }
+                ],
+                "id": 2305,
+                "name": "VariableDeclaration",
+                "src": "3130:26:9"
+              }
+            ],
+            "id": 2306,
+            "name": "StructDefinition",
+            "src": "2078:1085:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.Risk",
+              "name": "Risk",
+              "scope": 2334,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "carrierFlightNumber",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 2307,
+                    "name": "ElementaryTypeName",
+                    "src": "3445:7:9"
+                  }
+                ],
+                "id": 2308,
+                "name": "VariableDeclaration",
+                "src": "3445:27:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "departureYearMonthDay",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 2309,
+                    "name": "ElementaryTypeName",
+                    "src": "3564:7:9"
+                  }
+                ],
+                "id": 2310,
+                "name": "VariableDeclaration",
+                "src": "3564:29:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "arrivalTime",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2311,
+                    "name": "ElementaryTypeName",
+                    "src": "3642:4:9"
+                  }
+                ],
+                "id": 2312,
+                "name": "VariableDeclaration",
+                "src": "3642:16:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "delayInMinutes",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2313,
+                    "name": "ElementaryTypeName",
+                    "src": "3710:4:9"
+                  }
+                ],
+                "id": 2314,
+                "name": "VariableDeclaration",
+                "src": "3710:19:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "delay",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint8",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint8",
+                      "type": "uint8"
+                    },
+                    "id": 2315,
+                    "name": "ElementaryTypeName",
+                    "src": "3790:5:9"
+                  }
+                ],
+                "id": 2316,
+                "name": "VariableDeclaration",
+                "src": "3790:11:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "cumulatedWeightedPremium",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2317,
+                    "name": "ElementaryTypeName",
+                    "src": "3889:4:9"
+                  }
+                ],
+                "id": 2318,
+                "name": "VariableDeclaration",
+                "src": "3889:29:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "premiumMultiplier",
+                  "scope": 2321,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2319,
+                    "name": "ElementaryTypeName",
+                    "src": "3978:4:9"
+                  }
+                ],
+                "id": 2320,
+                "name": "VariableDeclaration",
+                "src": "3978:22:9"
+              }
+            ],
+            "id": 2321,
+            "name": "StructDefinition",
+            "src": "3380:627:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.OraclizeCallback",
+              "name": "OraclizeCallback",
+              "scope": 2334,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "policyId",
+                  "scope": 2328,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2322,
+                    "name": "ElementaryTypeName",
+                    "src": "4320:4:9"
+                  }
+                ],
+                "id": 2323,
+                "name": "VariableDeclaration",
+                "src": "4320:13:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "oState",
+                  "scope": 2328,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "enum FlightDelayDatabaseModel.oraclizeState",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "oraclizeState",
+                      "referencedDeclaration": 2276,
+                      "type": "enum FlightDelayDatabaseModel.oraclizeState"
+                    },
+                    "id": 2324,
+                    "name": "UserDefinedTypeName",
+                    "src": "4413:13:9"
+                  }
+                ],
+                "id": 2325,
+                "name": "VariableDeclaration",
+                "src": "4413:20:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "oraclizeTime",
+                  "scope": 2328,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 2326,
+                    "name": "ElementaryTypeName",
+                    "src": "4459:4:9"
+                  }
+                ],
+                "id": 2327,
+                "name": "VariableDeclaration",
+                "src": "4459:17:9"
+              }
+            ],
+            "id": 2328,
+            "name": "StructDefinition",
+            "src": "4242:241:9"
+          },
+          {
+            "attributes": {
+              "canonicalName": "FlightDelayDatabaseModel.Customer",
+              "name": "Customer",
+              "scope": 2334,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "customerExternalId",
+                  "scope": 2333,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 2329,
+                    "name": "ElementaryTypeName",
+                    "src": "4515:7:9"
+                  }
+                ],
+                "id": 2330,
+                "name": "VariableDeclaration",
+                "src": "4515:26:9"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "identityConfirmed",
+                  "scope": 2333,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bool",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bool",
+                      "type": "bool"
+                    },
+                    "id": 2331,
+                    "name": "ElementaryTypeName",
+                    "src": "4551:4:9"
+                  }
+                ],
+                "id": 2332,
+                "name": "VariableDeclaration",
+                "src": "4551:22:9"
+              }
+            ],
+            "id": 2333,
+            "name": "StructDefinition",
+            "src": "4489:91:9"
+          }
+        ],
+        "id": 2334,
+        "name": "ContractDefinition",
+        "src": "214:4368:9"
+      }
+    ],
+    "id": 2335,
+    "name": "SourceUnit",
+    "src": "187:4396:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1509103519108
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-16T22:39:14.258Z"
 }

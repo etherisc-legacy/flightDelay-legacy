@@ -79,7 +79,7 @@ contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
     function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) public;
 
     function getOraclizeCallback(bytes32 _queryId)
-        public returns (uint _policyId, uint _arrivalTime) ;
+        public returns (uint _policyId, uint _oraclizeTime) ;
 
     function getOraclizePolicyId(bytes32 _queryId)
         public returns (uint _policyId) ;

@@ -1,5 +1,5 @@
 {
-  "contract_name": "FlightDelayPayoutInterface",
+  "contractName": "FlightDelayPayoutInterface",
   "abi": [
     {
       "constant": false,
@@ -20,11 +20,190 @@
       "name": "schedulePayoutOraclizeCall",
       "outputs": [],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "unlinked_binary": "0x",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tPayout contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayPayoutInterface {\n\n    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset) public;\n}\n",
+  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+      "exportedSymbols": {
+        "FlightDelayPayoutInterface": [
+          3958
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 3948,
+        "name": "PragmaDirective",
+        "src": "198:24:15"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            3958
+          ],
+          "name": "FlightDelayPayoutInterface",
+          "scope": 3959
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "schedulePayoutOraclizeCall",
+              "payable": false,
+              "scope": 3958,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_policyId",
+                      "scope": 3957,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 3949,
+                        "name": "ElementaryTypeName",
+                        "src": "304:4:15"
+                      }
+                    ],
+                    "id": 3950,
+                    "name": "VariableDeclaration",
+                    "src": "304:14:15"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_riskId",
+                      "scope": 3957,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 3951,
+                        "name": "ElementaryTypeName",
+                        "src": "320:7:15"
+                      }
+                    ],
+                    "id": 3952,
+                    "name": "VariableDeclaration",
+                    "src": "320:15:15"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_offset",
+                      "scope": 3957,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 3953,
+                        "name": "ElementaryTypeName",
+                        "src": "337:4:15"
+                      }
+                    ],
+                    "id": 3954,
+                    "name": "VariableDeclaration",
+                    "src": "337:12:15"
+                  }
+                ],
+                "id": 3955,
+                "name": "ParameterList",
+                "src": "303:47:15"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 3956,
+                "name": "ParameterList",
+                "src": "357:0:15"
+              }
+            ],
+            "id": 3957,
+            "name": "FunctionDefinition",
+            "src": "268:90:15"
+          }
+        ],
+        "id": 3958,
+        "name": "ContractDefinition",
+        "src": "225:135:15"
+      }
+    ],
+    "id": 3959,
+    "name": "SourceUnit",
+    "src": "198:163:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1509103519109
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-16T22:39:14.299Z"
 }

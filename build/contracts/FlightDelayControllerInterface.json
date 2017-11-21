@@ -1,5 +1,5 @@
 {
-  "contract_name": "FlightDelayControllerInterface",
+  "contractName": "FlightDelayControllerInterface",
   "abi": [
     {
       "constant": false,
@@ -17,6 +17,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -35,6 +36,7 @@
         }
       ],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -53,11 +55,336 @@
         }
       ],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "unlinked_binary": "0x",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayControllerInterface {\n\n    function isOwner(address _addr) public returns (bool _isOwner);\n\n    function selfRegister(bytes32 _id) public returns (bool result);\n\n    function getContract(bytes32 _id) public returns (address _addr);\n}\n",
+  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControllerInterface.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControllerInterface.sol",
+      "exportedSymbols": {
+        "FlightDelayControllerInterface": [
+          878
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 856,
+        "name": "PragmaDirective",
+        "src": "191:24:6"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            878
+          ],
+          "name": "FlightDelayControllerInterface",
+          "scope": 879
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "isOwner",
+              "payable": false,
+              "scope": 878,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_addr",
+                      "scope": 863,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 857,
+                        "name": "ElementaryTypeName",
+                        "src": "282:7:6"
+                      }
+                    ],
+                    "id": 858,
+                    "name": "VariableDeclaration",
+                    "src": "282:13:6"
+                  }
+                ],
+                "id": 859,
+                "name": "ParameterList",
+                "src": "281:15:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_isOwner",
+                      "scope": 863,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 860,
+                        "name": "ElementaryTypeName",
+                        "src": "313:4:6"
+                      }
+                    ],
+                    "id": 861,
+                    "name": "VariableDeclaration",
+                    "src": "313:13:6"
+                  }
+                ],
+                "id": 862,
+                "name": "ParameterList",
+                "src": "312:15:6"
+              }
+            ],
+            "id": 863,
+            "name": "FunctionDefinition",
+            "src": "265:63:6"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "selfRegister",
+              "payable": false,
+              "scope": 878,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_id",
+                      "scope": 870,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 864,
+                        "name": "ElementaryTypeName",
+                        "src": "356:7:6"
+                      }
+                    ],
+                    "id": 865,
+                    "name": "VariableDeclaration",
+                    "src": "356:11:6"
+                  }
+                ],
+                "id": 866,
+                "name": "ParameterList",
+                "src": "355:13:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "result",
+                      "scope": 870,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 867,
+                        "name": "ElementaryTypeName",
+                        "src": "385:4:6"
+                      }
+                    ],
+                    "id": 868,
+                    "name": "VariableDeclaration",
+                    "src": "385:11:6"
+                  }
+                ],
+                "id": 869,
+                "name": "ParameterList",
+                "src": "384:13:6"
+              }
+            ],
+            "id": 870,
+            "name": "FunctionDefinition",
+            "src": "334:64:6"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getContract",
+              "payable": false,
+              "scope": 878,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_id",
+                      "scope": 877,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 871,
+                        "name": "ElementaryTypeName",
+                        "src": "425:7:6"
+                      }
+                    ],
+                    "id": 872,
+                    "name": "VariableDeclaration",
+                    "src": "425:11:6"
+                  }
+                ],
+                "id": 873,
+                "name": "ParameterList",
+                "src": "424:13:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_addr",
+                      "scope": 877,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 874,
+                        "name": "ElementaryTypeName",
+                        "src": "454:7:6"
+                      }
+                    ],
+                    "id": 875,
+                    "name": "VariableDeclaration",
+                    "src": "454:13:6"
+                  }
+                ],
+                "id": 876,
+                "name": "ParameterList",
+                "src": "453:15:6"
+              }
+            ],
+            "id": 877,
+            "name": "FunctionDefinition",
+            "src": "404:65:6"
+          }
+        ],
+        "id": 878,
+        "name": "ContractDefinition",
+        "src": "218:253:6"
+      }
+    ],
+    "id": 879,
+    "name": "SourceUnit",
+    "src": "191:281:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1509103519108
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-16T22:39:14.241Z"
 }

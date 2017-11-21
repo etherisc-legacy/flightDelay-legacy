@@ -9,11 +9,13 @@
 const log = require('../util/logger');
 
 const FlightDelayUnderwrite = artifacts.require('FlightDelayUnderwrite.sol');
+const FlightDelayController = artifacts.require('FlightDelayController.sol');
 
 module.exports = (deployer) => {
 
     log.info('Deploy FlightDelayUnderwrite contract');
+    log.info('FlightDelayController.address: ', FlightDelayController.address);
 
-    return deployer.deploy(FlightDelayUnderwrite, '0xf5c3086d42cb2857ad5f52c134fc3e698e8e9edd');
+    return deployer.deploy(FlightDelayUnderwrite, FlightDelayController.address);
 
 };

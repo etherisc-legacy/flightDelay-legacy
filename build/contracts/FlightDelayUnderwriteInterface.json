@@ -1,5 +1,5 @@
 {
-  "contract_name": "FlightDelayUnderwriteInterface",
+  "contractName": "FlightDelayUnderwriteInterface",
   "abi": [
     {
       "constant": false,
@@ -16,11 +16,164 @@
       "name": "scheduleUnderwriteOraclizeCall",
       "outputs": [],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "unlinked_binary": "0x",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tUnderwrite contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayUnderwriteInterface {\n\n    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) public;\n}\n",
+  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayUnderwriteInterface.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayUnderwriteInterface.sol",
+      "exportedSymbols": {
+        "FlightDelayUnderwriteInterface": [
+          4638
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 4630,
+        "name": "PragmaDirective",
+        "src": "202:24:17"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4638
+          ],
+          "name": "FlightDelayUnderwriteInterface",
+          "scope": 4639
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "scheduleUnderwriteOraclizeCall",
+              "payable": false,
+              "scope": 4638,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_policyId",
+                      "scope": 4637,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 4631,
+                        "name": "ElementaryTypeName",
+                        "src": "316:4:17"
+                      }
+                    ],
+                    "id": 4632,
+                    "name": "VariableDeclaration",
+                    "src": "316:14:17"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_carrierFlightNumber",
+                      "scope": 4637,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4633,
+                        "name": "ElementaryTypeName",
+                        "src": "332:7:17"
+                      }
+                    ],
+                    "id": 4634,
+                    "name": "VariableDeclaration",
+                    "src": "332:28:17"
+                  }
+                ],
+                "id": 4635,
+                "name": "ParameterList",
+                "src": "315:46:17"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4636,
+                "name": "ParameterList",
+                "src": "368:0:17"
+              }
+            ],
+            "id": 4637,
+            "name": "FunctionDefinition",
+            "src": "276:93:17"
+          }
+        ],
+        "id": 4638,
+        "name": "ContractDefinition",
+        "src": "229:142:17"
+      }
+    ],
+    "id": 4639,
+    "name": "SourceUnit",
+    "src": "202:170:17"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1509038311951
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-16T22:39:14.308Z"
 }

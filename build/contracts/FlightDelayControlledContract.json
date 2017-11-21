@@ -1,5 +1,5 @@
 {
-  "contract_name": "FlightDelayControlledContract",
+  "contractName": "FlightDelayControlledContract",
   "abi": [
     {
       "constant": false,
@@ -7,6 +7,7 @@
       "name": "destruct",
       "outputs": [],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -15,6 +16,7 @@
       "name": "setContracts",
       "outputs": [],
       "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -28,11 +30,1022 @@
         }
       ],
       "payable": false,
+      "stateMutability": "view",
       "type": "function"
     }
   ],
-  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6101738061001f6000396000f300606060405263ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c68114610053578063e0d6d53014610068578063f77c47911461007d575b600080fd5b341561005e57600080fd5b6100666100b9565b005b341561007357600080fd5b6100666100ff565b005b341561008857600080fd5b61009061012b565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e157600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b5b565b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100fc57600080fd5b5b5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a72305820162b0024c9ed9413332456455eb31eb89dc09c93f0dd53b39ea1877e6d69f9f50029",
+  "bytecode": "0x6060604052341561000f57600080fd5b6101748061001e6000396000f3006060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058203610af4ac958b1d28a935b440007390addeddf910bdd689d0ae5762bb05d70a50029",
+  "deployedBytecode": "0x6060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058203610af4ac958b1d28a935b440007390addeddf910bdd689d0ae5762bb05d70a50029",
+  "sourceMap": "298:708:4:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "298:708:4:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;747:83;;;;;;;;;;;;;;836:48;;;;;;;;;;;;372:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;747:83;504:10;;490;504;490:24;;;504:10;;490:24;482:33;;;;;;812:10;;;;799:24;836:48;504:10;;490;504;490:24;;;504:10;;490:24;482:33;;;;;;836:48::o;372:25::-;;;;;;:::o",
+  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Controlled contract Interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock\n */\n\npragma solidity ^0.4.11;\n\nimport \"./FlightDelayControllerInterface.sol\";\nimport \"./FlightDelayDatabaseModel.sol\";\n\n\ncontract FlightDelayControlledContract is FlightDelayDatabaseModel {\n\n    address public controller;\n    FlightDelayControllerInterface FD_CI;\n\n    modifier onlyController() {\n        require(msg.sender == controller);\n        _;\n    }\n\n    function setController(address _controller) internal returns (bool _result) {\n        controller = _controller;\n        FD_CI = FlightDelayControllerInterface(_controller);\n        _result = true;\n    }\n\n    function destruct() public onlyController {\n        selfdestruct(controller);\n    }\n\n    function setContracts() public onlyController {}\n\n    function getContract(bytes32 _id) internal returns (address _addr) {\n        _addr = FD_CI.getContract(_id);\n    }\n}\n",
+  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControlledContract.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControlledContract.sol",
+      "exportedSymbols": {
+        "FlightDelayControlledContract": [
+          549
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 476,
+        "name": "PragmaDirective",
+        "src": "182:24:4"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 879,
+          "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControllerInterface.sol",
+          "file": "./FlightDelayControllerInterface.sol",
+          "scope": 550,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 477,
+        "name": "ImportDirective",
+        "src": "208:46:4"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 2335,
+          "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+          "file": "./FlightDelayDatabaseModel.sol",
+          "scope": 550,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 478,
+        "name": "ImportDirective",
+        "src": "255:40:4"
+      },
+      {
+        "attributes": {
+          "contractDependencies": [
+            2334
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            549,
+            2334
+          ],
+          "name": "FlightDelayControlledContract",
+          "scope": 550
+        },
+        "children": [
+          {
+            "attributes": {
+              "arguments": [
+                null
+              ]
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "FlightDelayDatabaseModel",
+                  "referencedDeclaration": 2334,
+                  "type": "contract FlightDelayDatabaseModel"
+                },
+                "id": 479,
+                "name": "UserDefinedTypeName",
+                "src": "340:24:4"
+              }
+            ],
+            "id": 480,
+            "name": "InheritanceSpecifier",
+            "src": "340:24:4"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "controller",
+              "scope": 549,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "address",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "address",
+                  "type": "address"
+                },
+                "id": 481,
+                "name": "ElementaryTypeName",
+                "src": "372:7:4"
+              }
+            ],
+            "id": 482,
+            "name": "VariableDeclaration",
+            "src": "372:25:4"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "FD_CI",
+              "scope": 549,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "contract FlightDelayControllerInterface",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "FlightDelayControllerInterface",
+                  "referencedDeclaration": 878,
+                  "type": "contract FlightDelayControllerInterface"
+                },
+                "id": 483,
+                "name": "UserDefinedTypeName",
+                "src": "403:30:4"
+              }
+            ],
+            "id": 484,
+            "name": "VariableDeclaration",
+            "src": "403:36:4"
+          },
+          {
+            "attributes": {
+              "name": "onlyController",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 485,
+                "name": "ParameterList",
+                "src": "469:2:4"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                }
+                              ],
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 12595,
+                              "type": "function (bool) pure",
+                              "value": "require"
+                            },
+                            "id": 486,
+                            "name": "Identifier",
+                            "src": "482:7:4"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": "==",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "sender",
+                                  "referencedDeclaration": null,
+                                  "type": "address"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 12592,
+                                      "type": "msg",
+                                      "value": "msg"
+                                    },
+                                    "id": 487,
+                                    "name": "Identifier",
+                                    "src": "490:3:4"
+                                  }
+                                ],
+                                "id": 488,
+                                "name": "MemberAccess",
+                                "src": "490:10:4"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 482,
+                                  "type": "address",
+                                  "value": "controller"
+                                },
+                                "id": 489,
+                                "name": "Identifier",
+                                "src": "504:10:4"
+                              }
+                            ],
+                            "id": 490,
+                            "name": "BinaryOperation",
+                            "src": "490:24:4"
+                          }
+                        ],
+                        "id": 491,
+                        "name": "FunctionCall",
+                        "src": "482:33:4"
+                      }
+                    ],
+                    "id": 492,
+                    "name": "ExpressionStatement",
+                    "src": "482:33:4"
+                  },
+                  {
+                    "id": 493,
+                    "name": "PlaceholderStatement",
+                    "src": "525:1:4"
+                  }
+                ],
+                "id": 494,
+                "name": "Block",
+                "src": "472:61:4"
+              }
+            ],
+            "id": 495,
+            "name": "ModifierDefinition",
+            "src": "446:87:4"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "setController",
+              "payable": false,
+              "scope": 549,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_controller",
+                      "scope": 517,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 496,
+                        "name": "ElementaryTypeName",
+                        "src": "562:7:4"
+                      }
+                    ],
+                    "id": 497,
+                    "name": "VariableDeclaration",
+                    "src": "562:19:4"
+                  }
+                ],
+                "id": 498,
+                "name": "ParameterList",
+                "src": "561:21:4"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_result",
+                      "scope": 517,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 499,
+                        "name": "ElementaryTypeName",
+                        "src": "601:4:4"
+                      }
+                    ],
+                    "id": 500,
+                    "name": "VariableDeclaration",
+                    "src": "601:12:4"
+                  }
+                ],
+                "id": 501,
+                "name": "ParameterList",
+                "src": "600:14:4"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 482,
+                              "type": "address",
+                              "value": "controller"
+                            },
+                            "id": 502,
+                            "name": "Identifier",
+                            "src": "625:10:4"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 497,
+                              "type": "address",
+                              "value": "_controller"
+                            },
+                            "id": 503,
+                            "name": "Identifier",
+                            "src": "638:11:4"
+                          }
+                        ],
+                        "id": 504,
+                        "name": "Assignment",
+                        "src": "625:24:4"
+                      }
+                    ],
+                    "id": 505,
+                    "name": "ExpressionStatement",
+                    "src": "625:24:4"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "contract FlightDelayControllerInterface"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 484,
+                              "type": "contract FlightDelayControllerInterface",
+                              "value": "FD_CI"
+                            },
+                            "id": 506,
+                            "name": "Identifier",
+                            "src": "659:5:4"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "isStructConstructorCall": false,
+                              "lValueRequested": false,
+                              "names": [
+                                null
+                              ],
+                              "type": "contract FlightDelayControllerInterface",
+                              "type_conversion": true
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  ],
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 878,
+                                  "type": "type(contract FlightDelayControllerInterface)",
+                                  "value": "FlightDelayControllerInterface"
+                                },
+                                "id": 507,
+                                "name": "Identifier",
+                                "src": "667:30:4"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 497,
+                                  "type": "address",
+                                  "value": "_controller"
+                                },
+                                "id": 508,
+                                "name": "Identifier",
+                                "src": "698:11:4"
+                              }
+                            ],
+                            "id": 509,
+                            "name": "FunctionCall",
+                            "src": "667:43:4"
+                          }
+                        ],
+                        "id": 510,
+                        "name": "Assignment",
+                        "src": "659:51:4"
+                      }
+                    ],
+                    "id": 511,
+                    "name": "ExpressionStatement",
+                    "src": "659:51:4"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "bool"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 500,
+                              "type": "bool",
+                              "value": "_result"
+                            },
+                            "id": 512,
+                            "name": "Identifier",
+                            "src": "720:7:4"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "74727565",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "bool",
+                              "type": "bool",
+                              "value": "true"
+                            },
+                            "id": 513,
+                            "name": "Literal",
+                            "src": "730:4:4"
+                          }
+                        ],
+                        "id": 514,
+                        "name": "Assignment",
+                        "src": "720:14:4"
+                      }
+                    ],
+                    "id": 515,
+                    "name": "ExpressionStatement",
+                    "src": "720:14:4"
+                  }
+                ],
+                "id": 516,
+                "name": "Block",
+                "src": "615:126:4"
+              }
+            ],
+            "id": 517,
+            "name": "FunctionDefinition",
+            "src": "539:202:4"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "name": "destruct",
+              "payable": false,
+              "scope": 549,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 518,
+                "name": "ParameterList",
+                "src": "764:2:4"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 521,
+                "name": "ParameterList",
+                "src": "789:0:4"
+              },
+              {
+                "attributes": {
+                  "arguments": [
+                    null
+                  ]
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "argumentTypes": null,
+                      "overloadedDeclarations": [
+                        null
+                      ],
+                      "referencedDeclaration": 495,
+                      "type": "modifier ()",
+                      "value": "onlyController"
+                    },
+                    "id": 519,
+                    "name": "Identifier",
+                    "src": "774:14:4"
+                  }
+                ],
+                "id": 520,
+                "name": "ModifierInvocation",
+                "src": "774:14:4"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 12598,
+                              "type": "function (address)",
+                              "value": "selfdestruct"
+                            },
+                            "id": 522,
+                            "name": "Identifier",
+                            "src": "799:12:4"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 482,
+                              "type": "address",
+                              "value": "controller"
+                            },
+                            "id": 523,
+                            "name": "Identifier",
+                            "src": "812:10:4"
+                          }
+                        ],
+                        "id": 524,
+                        "name": "FunctionCall",
+                        "src": "799:24:4"
+                      }
+                    ],
+                    "id": 525,
+                    "name": "ExpressionStatement",
+                    "src": "799:24:4"
+                  }
+                ],
+                "id": 526,
+                "name": "Block",
+                "src": "789:41:4"
+              }
+            ],
+            "id": 527,
+            "name": "FunctionDefinition",
+            "src": "747:83:4"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "name": "setContracts",
+              "payable": false,
+              "scope": 549,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 528,
+                "name": "ParameterList",
+                "src": "857:2:4"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 531,
+                "name": "ParameterList",
+                "src": "882:0:4"
+              },
+              {
+                "attributes": {
+                  "arguments": [
+                    null
+                  ]
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "argumentTypes": null,
+                      "overloadedDeclarations": [
+                        null
+                      ],
+                      "referencedDeclaration": 495,
+                      "type": "modifier ()",
+                      "value": "onlyController"
+                    },
+                    "id": 529,
+                    "name": "Identifier",
+                    "src": "867:14:4"
+                  }
+                ],
+                "id": 530,
+                "name": "ModifierInvocation",
+                "src": "867:14:4"
+              },
+              {
+                "attributes": {
+                  "statements": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 532,
+                "name": "Block",
+                "src": "882:2:4"
+              }
+            ],
+            "id": 533,
+            "name": "FunctionDefinition",
+            "src": "836:48:4"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getContract",
+              "payable": false,
+              "scope": 549,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_id",
+                      "scope": 548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 534,
+                        "name": "ElementaryTypeName",
+                        "src": "911:7:4"
+                      }
+                    ],
+                    "id": 535,
+                    "name": "VariableDeclaration",
+                    "src": "911:11:4"
+                  }
+                ],
+                "id": 536,
+                "name": "ParameterList",
+                "src": "910:13:4"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_addr",
+                      "scope": 548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 537,
+                        "name": "ElementaryTypeName",
+                        "src": "942:7:4"
+                      }
+                    ],
+                    "id": 538,
+                    "name": "VariableDeclaration",
+                    "src": "942:13:4"
+                  }
+                ],
+                "id": 539,
+                "name": "ParameterList",
+                "src": "941:15:4"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 538,
+                              "type": "address",
+                              "value": "_addr"
+                            },
+                            "id": 540,
+                            "name": "Identifier",
+                            "src": "967:5:4"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "isStructConstructorCall": false,
+                              "lValueRequested": false,
+                              "names": [
+                                null
+                              ],
+                              "type": "address",
+                              "type_conversion": false
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_bytes32",
+                                      "typeString": "bytes32"
+                                    }
+                                  ],
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "getContract",
+                                  "referencedDeclaration": 877,
+                                  "type": "function (bytes32) external returns (address)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 484,
+                                      "type": "contract FlightDelayControllerInterface",
+                                      "value": "FD_CI"
+                                    },
+                                    "id": 541,
+                                    "name": "Identifier",
+                                    "src": "975:5:4"
+                                  }
+                                ],
+                                "id": 542,
+                                "name": "MemberAccess",
+                                "src": "975:17:4"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 535,
+                                  "type": "bytes32",
+                                  "value": "_id"
+                                },
+                                "id": 543,
+                                "name": "Identifier",
+                                "src": "993:3:4"
+                              }
+                            ],
+                            "id": 544,
+                            "name": "FunctionCall",
+                            "src": "975:22:4"
+                          }
+                        ],
+                        "id": 545,
+                        "name": "Assignment",
+                        "src": "967:30:4"
+                      }
+                    ],
+                    "id": 546,
+                    "name": "ExpressionStatement",
+                    "src": "967:30:4"
+                  }
+                ],
+                "id": 547,
+                "name": "Block",
+                "src": "957:47:4"
+              }
+            ],
+            "id": 548,
+            "name": "FunctionDefinition",
+            "src": "890:114:4"
+          }
+        ],
+        "id": 549,
+        "name": "ContractDefinition",
+        "src": "298:708:4"
+      }
+    ],
+    "id": 550,
+    "name": "SourceUnit",
+    "src": "182:825:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
   "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1509103519108
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-16T22:39:14.235Z"
 }

@@ -6,12 +6,17 @@
  * @copyright (c) 2017 etherisc GmbH
  *
  */
+
+
 const deployment = require('../deployment.js');
 const log = require('../util/logger');
 
 const FlightDelayController = artifacts.require('FlightDelayController.sol');
 
-module.exports = (deployer, network) =>
+module.exports = (deployer, network) => {
+
+    // currently we don't do this:
+    return;
 
     deployer.then(async () => {
 
@@ -21,3 +26,4 @@ module.exports = (deployer, network) =>
         await controller.transferOwnership(deployment.networks[network].FD.owner);
 
     });
+};

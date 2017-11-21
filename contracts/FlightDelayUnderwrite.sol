@@ -31,6 +31,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
 
     function FlightDelayUnderwrite(address _controller) public {
         setController(_controller);
+        oraclize_setCustomGasPrice(ORACLIZE_GASPRICE);
     }
 
     function setContracts() public onlyController {

@@ -11,23 +11,37 @@ const log = require('../util/logger');
 const FlightDelayDatabase = artifacts.require('FlightDelayDatabase.sol');
 
 module.exports = (deployer, network, accounts) => {
-    let database;
 
     log.info('Set limitations');
 
-    return FlightDelayDatabase.deployed()
-        .then((_d) => { database = _d; return Promise.resolve(); })
+    deployer.then(async () => {
+
+        const database = await FlightDelayDatabase.deployed();
+
         // Setup valid origin airports
-        .then(() => database.addOrigin('"ZRH"', { from: accounts[1], }))
-        .then(() => database.addOrigin('"SFO"', { from: accounts[1], }))
-        .then(() => database.addOrigin('"SJC"', { from: accounts[1], }))
-        .then(() => database.addOrigin('"OAK"', { from: accounts[1], }))
+        log.info('Add origin ZRH');
+        database.addOrigin('"ZRH"');
+        log.info('Add origin SFO');
+        database.addOrigin('"SFO"');
+        log.info('Add origin SJC');
+        database.addOrigin('"SJC"');
+        log.info('Add origin OAK');
+        database.addOrigin('"OAK"');
+
         // Setup valid destination airports
-        .then(() => database.addDestination('"ZRH"', { from: accounts[1], }))
-        .then(() => database.addDestination('"SFO"', { from: accounts[1], }))
-        .then(() => database.addDestination('"SJC"', { from: accounts[1], }))
-        .then(() => database.addDestination('"OAK"', { from: accounts[1], }))
+        log.info('Add origin ZRH');
+        database.addDestination('"ZRH"');
+        log.info('Add origin SFO');
+        database.addDestination('"SFO"');
+        log.info('Add origin SJC');
+        database.addDestination('"SJC"');
+        log.info('Add origin OAK');
+        database.addDestination('"OAK"');
+
         // Setup min and max departure timestamps
-        .then(() => database.setMinDepartureLim(1510704000, { from: accounts[1], }))
-        .then(() => database.setMaxDepartureLim(1512950399, { from: accounts[1], }));
+        log.info('setMinDepartureLim');
+        database.setMinDepartureLim(1510704000); // 15.11.2017 12:00AM
+        log.info('setMaxDepartureLim');
+        database.setMaxDepartureLim(1512950399); // 10.12.2017 11:59PM
+    });
 };

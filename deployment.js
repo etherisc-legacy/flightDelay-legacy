@@ -3,11 +3,11 @@ module.exports = {
         mainnet: {
             addressResolver: '0x63338bB37Bc3A0d55d2E9505F11E56c613b51494',
             FD: {
-                deployer: '',
-                owner: '',
-                funder: '0xb5771324A8209c4b581a5f1e5c0DD48a9ABA2a59', // multisig
-                CustomersAdmin: '',
-                Emergency: '',
+                deployer: '0x6F692C070f3263d1c3400367832Faf5CcC6Cd2f2',
+                owner: '0x6F692C070f3263d1c3400367832Faf5CcC6Cd2f2',
+                funder: '0x6F692C070f3263d1c3400367832Faf5CcC6Cd2f2', // multisig
+                CustomersAdmin: '0xfEe595B6B4A30bFA12604a5EC92156f1b5a1607f',
+                Emergency: '0x6F692C070f3263d1c3400367832Faf5CcC6Cd2f2',
             },
         },
         kovan: {
@@ -32,6 +32,4 @@ module.exports = {
         },
     },
 };
-
-
 

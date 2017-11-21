@@ -33,6 +33,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
      */
     function FlightDelayPayout(address _controller) public {
         setController(_controller);
+        oraclize_setCustomGasPrice(ORACLIZE_GASPRICE);
     }
 
     /*
