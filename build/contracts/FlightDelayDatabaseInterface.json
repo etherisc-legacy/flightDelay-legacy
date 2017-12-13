@@ -660,10 +660,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Database contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\nimport \"./FlightDelayDatabaseModel.sol\";\n\n\ncontract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {\n\n    uint public MIN_DEPARTURE_LIM;\n\n    uint public MAX_DEPARTURE_LIM;\n\n    bytes32[] public validOrigins;\n\n    bytes32[] public validDestinations;\n\n    function countOrigins() public constant returns (uint256 _length);\n\n    function getOriginByIndex(uint256 _i) public constant returns (bytes32 _origin);\n\n    function countDestinations() public constant returns (uint256 _length);\n\n    function getDestinationByIndex(uint256 _i) public constant returns (bytes32 _destination);\n\n    function setAccessControl(address _contract, address _caller, uint8 _perm) public;\n\n    function setAccessControl(\n        address _contract,\n        address _caller,\n        uint8 _perm,\n        bool _access\n    ) public;\n\n    function getAccessControl(address _contract, address _caller, uint8 _perm) public returns (bool _allowed) ;\n\n    function setLedger(uint8 _index, int _value) public;\n\n    function getLedger(uint8 _index) public returns (int _value) ;\n\n    function getCustomerPremium(uint _policyId) public returns (address _customer, uint _premium) ;\n\n    function getPolicyData(uint _policyId) public returns (address _customer, uint _premium, uint _weight) ;\n\n    function getPolicyState(uint _policyId) public returns (policyState _state) ;\n\n    function getRiskId(uint _policyId) public returns (bytes32 _riskId);\n\n    function createPolicy(address _customer, uint _premium, Currency _currency, bytes32 _customerExternalId, bytes32 _riskId) public returns (uint _policyId) ;\n\n    function setState(\n        uint _policyId,\n        policyState _state,\n        uint _stateTime,\n        bytes32 _stateMessage\n    ) public;\n\n    function setWeight(uint _policyId, uint _weight, bytes _proof) public;\n\n    function setPayouts(uint _policyId, uint _calculatedPayout, uint _actualPayout) public;\n\n    function setDelay(uint _policyId, uint8 _delay, uint _delayInMinutes) public;\n\n    function getRiskParameters(bytes32 _riskId)\n        public returns (bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime) ;\n\n    function getPremiumFactors(bytes32 _riskId)\n        public returns (uint _cumulatedWeightedPremium, uint _premiumMultiplier);\n\n    function createUpdateRisk(bytes32 _carrierFlightNumber, bytes32 _departureYearMonthDay, uint _arrivalTime)\n        public returns (bytes32 _riskId);\n\n    function setPremiumFactors(bytes32 _riskId, uint _cumulatedWeightedPremium, uint _premiumMultiplier) public;\n\n    function getOraclizeCallback(bytes32 _queryId)\n        public returns (uint _policyId, uint _oraclizeTime) ;\n\n    function getOraclizePolicyId(bytes32 _queryId)\n        public returns (uint _policyId) ;\n\n    function createOraclizeCallback(\n        bytes32 _queryId,\n        uint _policyId,\n        oraclizeState _oraclizeState,\n        uint _oraclizeTime\n    ) public;\n\n    function checkTime(bytes32 _queryId, bytes32 _riskId, uint _offset)\n        public returns (bool _result) ;\n}\n",
-  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseInterface.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayDatabaseInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseInterface.sol",
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayDatabaseInterface.sol",
       "exportedSymbols": {
         "FlightDelayDatabaseInterface": [
           2256
@@ -687,7 +687,7 @@
       {
         "attributes": {
           "SourceUnit": 2335,
-          "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+          "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayDatabaseModel.sol",
           "file": "./FlightDelayDatabaseModel.sol",
           "scope": 2257,
           "symbolAliases": [
@@ -3896,5 +3896,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-16T22:39:14.256Z"
+  "updatedAt": "2017-12-12T00:50:45.174Z"
 }

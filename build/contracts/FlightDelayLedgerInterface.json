@@ -70,10 +70,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tLedger contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\nimport \"./FlightDelayDatabaseModel.sol\";\n\n\ncontract FlightDelayLedgerInterface is FlightDelayDatabaseModel {\n\n    function receiveFunds(Acc _to) public payable;\n\n    function sendFunds(address _recipient, Acc _from, uint _amount) public returns (bool _success);\n\n    function bookkeeping(Acc _from, Acc _to, uint amount) public;\n}\n",
-  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayLedgerInterface.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayLedgerInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayLedgerInterface.sol",
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayLedgerInterface.sol",
       "exportedSymbols": {
         "FlightDelayLedgerInterface": [
           2729
@@ -97,7 +97,7 @@
       {
         "attributes": {
           "SourceUnit": 2335,
-          "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+          "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayDatabaseModel.sol",
           "file": "./FlightDelayDatabaseModel.sol",
           "scope": 2730,
           "symbolAliases": [
@@ -496,5 +496,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-16T22:39:14.284Z"
+  "updatedAt": "2017-12-12T00:50:45.179Z"
 }

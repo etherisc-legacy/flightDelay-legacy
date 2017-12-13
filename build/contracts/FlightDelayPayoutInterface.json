@@ -29,10 +29,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tPayout contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayPayoutInterface {\n\n    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset) public;\n}\n",
-  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayPayoutInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayPayoutInterface.sol",
       "exportedSymbols": {
         "FlightDelayPayoutInterface": [
           3958
@@ -205,5 +205,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-16T22:39:14.299Z"
+  "updatedAt": "2017-12-12T00:50:45.189Z"
 }

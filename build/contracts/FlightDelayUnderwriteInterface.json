@@ -25,13 +25,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tUnderwrite contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayUnderwriteInterface {\n\n    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) public;\n}\n",
-  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayUnderwriteInterface.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayUnderwriteInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayUnderwriteInterface.sol",
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayUnderwriteInterface.sol",
       "exportedSymbols": {
         "FlightDelayUnderwriteInterface": [
-          4638
+          4554
         ]
       }
     },
@@ -45,7 +45,7 @@
             ".11"
           ]
         },
-        "id": 4630,
+        "id": 4546,
         "name": "PragmaDirective",
         "src": "202:24:17"
       },
@@ -61,10 +61,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            4638
+            4554
           ],
           "name": "FlightDelayUnderwriteInterface",
-          "scope": 4639
+          "scope": 4555
         },
         "children": [
           {
@@ -78,7 +78,7 @@
               ],
               "name": "scheduleUnderwriteOraclizeCall",
               "payable": false,
-              "scope": 4638,
+              "scope": 4554,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -90,7 +90,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_policyId",
-                      "scope": 4637,
+                      "scope": 4553,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -103,12 +103,12 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 4631,
+                        "id": 4547,
                         "name": "ElementaryTypeName",
                         "src": "316:4:17"
                       }
                     ],
-                    "id": 4632,
+                    "id": 4548,
                     "name": "VariableDeclaration",
                     "src": "316:14:17"
                   },
@@ -116,7 +116,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_carrierFlightNumber",
-                      "scope": 4637,
+                      "scope": 4553,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -129,17 +129,17 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 4633,
+                        "id": 4549,
                         "name": "ElementaryTypeName",
                         "src": "332:7:17"
                       }
                     ],
-                    "id": 4634,
+                    "id": 4550,
                     "name": "VariableDeclaration",
                     "src": "332:28:17"
                   }
                 ],
-                "id": 4635,
+                "id": 4551,
                 "name": "ParameterList",
                 "src": "315:46:17"
               },
@@ -150,22 +150,22 @@
                   ]
                 },
                 "children": [],
-                "id": 4636,
+                "id": 4552,
                 "name": "ParameterList",
                 "src": "368:0:17"
               }
             ],
-            "id": 4637,
+            "id": 4553,
             "name": "FunctionDefinition",
             "src": "276:93:17"
           }
         ],
-        "id": 4638,
+        "id": 4554,
         "name": "ContractDefinition",
         "src": "229:142:17"
       }
     ],
-    "id": 4639,
+    "id": 4555,
     "name": "SourceUnit",
     "src": "202:170:17"
   },
@@ -175,5 +175,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-16T22:39:14.308Z"
+  "updatedAt": "2017-12-12T00:50:45.195Z"
 }

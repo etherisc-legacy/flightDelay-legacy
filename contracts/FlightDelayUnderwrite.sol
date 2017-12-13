@@ -117,23 +117,25 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
                         statistics[i] = parseInt(slResult.split(", ".toSlice()).toString()) * 10000/observations;
                     }
 
-                    var origin = slResult.split(", ".toSlice());
-                    for (uint j = 0; j < FD_DB.countOrigins(); j++) {
-                        if (b32toString(FD_DB.getOriginByIndex(j)).toSlice().equals(origin)) {
-                            underwrite(policyId, statistics, _proof);
-                            return;
-                        }
-                    }
+                    underwrite(policyId, statistics, _proof);
 
-                    var destination = slResult.split(", ".toSlice());
-                    for (uint k = 0; k < FD_DB.countDestinations(); k++) {
-                        if (b32toString(FD_DB.getDestinationByIndex(k)).toSlice().equals(destination)) {
-                           underwrite(policyId, statistics, _proof);
-                           return;
-                        }
-                    }
-
-                    decline(policyId, "Not acceptable airport", _proof);
+//                    var origin = slResult.split(", ".toSlice());
+//                    for (uint j = 0; j < FD_DB.countOrigins(); j++) {
+//                        if (b32toString(FD_DB.getOriginByIndex(j)).toSlice().equals(origin)) {
+//                            underwrite(policyId, statistics, _proof);
+//                            return;
+//                        }
+//                    }
+//
+//                    var destination = slResult.split(", ".toSlice());
+//                    for (uint k = 0; k < FD_DB.countDestinations(); k++) {
+//                        if (b32toString(FD_DB.getDestinationByIndex(k)).toSlice().equals(destination)) {
+//                           underwrite(policyId, statistics, _proof);
+//                           return;
+//                        }
+//                    }
+//
+//                    decline(policyId, "Not acceptable airport", _proof);
                 }
             }
         }

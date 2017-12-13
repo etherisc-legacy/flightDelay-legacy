@@ -29,7 +29,7 @@ module.exports = (deployer, network, accounts) => {
     log.info('Deploy FlightDelayController contract');
 
     return deployer
-    // Deploy contracts
+        // Deploy contracts
         .deploy(FlightDelayController)
         .then(() => log.info('Deploy contracts'))
         .then(() => deployer.deploy(FlightDelayAccessController, FlightDelayController.address))
@@ -91,8 +91,8 @@ module.exports = (deployer, network, accounts) => {
         .then(() => database.addDestination('"SJC"', { from: accounts[1], }))
         .then(() => database.addDestination('"OAK"', { from: accounts[1], }))
         // Setup min and max departure timestamps
-        .then(() => database.setMinDepartureLim(1510704000, { from: accounts[1], }))
-        .then(() => database.setMaxDepartureLim(1512950399, { from: accounts[1], }))
+        .then(() => database.setMinDepartureLim(1512950400, { from: accounts[1], }))
+        .then(() => database.setMaxDepartureLim(1544486400, { from: accounts[1], }))
 
         // Fund Contracts
         .then(() => {
@@ -102,17 +102,17 @@ module.exports = (deployer, network, accounts) => {
                     // Fund FD.Ledger
                     .then(() => log.info('Fund FD.Ledger'))
                     .then(() => FlightDelayLedger.deployed())
-                    .then(FD_LG => FD_LG.sendTransaction({from: accounts[2], value: fund(50)}))
+                    .then(FD_LG => FD_LG.sendTransaction({from: accounts[2], value: fund(6)}))
 
                     // Fund FD.Underwrite
                     .then(() => log.info('Fund FD.Underwrite'))
                     .then(() => FlightDelayUnderwrite.deployed())
-                    .then(FD_UW => FD_UW.sendTransaction({from: accounts[2], value: fund(10)}))
+                    .then(FD_UW => FD_UW.sendTransaction({from: accounts[2], value: fund(2)}))
 
                     // Fund FD.Payout
                     .then(() => log.info('Fund FD.Payout'))
                     .then(() => FlightDelayPayout.deployed())
-                    .then(FD_PY => FD_PY.sendTransaction({from: accounts[2], value: fund(10)}))
+                    .then(FD_PY => FD_PY.sendTransaction({from: accounts[2], value: fund(2)}))
             }
 
             return Promise.resolve();
@@ -148,5 +148,6 @@ module.exports = (deployer, network, accounts) => {
             log.info(`FD.NewPolicy: ${FlightDelayNewPolicy.address}`);
             log.info(`FD.Underwrite: ${FlightDelayUnderwrite.address}`);
             log.info(`FD.Payout: ${FlightDelayPayout.address}`);
+            log.info(`FD.AddressResolver: ${FlightDelayAddressResolver.address}`);
         });
 };

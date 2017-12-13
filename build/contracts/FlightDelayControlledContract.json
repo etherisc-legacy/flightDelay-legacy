@@ -34,15 +34,15 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b6101748061001e6000396000f3006060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058203610af4ac958b1d28a935b440007390addeddf910bdd689d0ae5762bb05d70a50029",
-  "deployedBytecode": "0x6060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058203610af4ac958b1d28a935b440007390addeddf910bdd689d0ae5762bb05d70a50029",
+  "bytecode": "0x6060604052341561000f57600080fd5b6101748061001e6000396000f3006060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a7230582049d63cde411e9baa64afa0ac6267bc4fb717c5f5aa0c46f45e4d7fa4f2022b3b0029",
+  "deployedBytecode": "0x6060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a7230582049d63cde411e9baa64afa0ac6267bc4fb717c5f5aa0c46f45e4d7fa4f2022b3b0029",
   "sourceMap": "298:708:4:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "298:708:4:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;747:83;;;;;;;;;;;;;;836:48;;;;;;;;;;;;372:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;747:83;504:10;;490;504;490:24;;;504:10;;490:24;482:33;;;;;;812:10;;;;799:24;836:48;504:10;;490;504;490:24;;;504:10;;490:24;482:33;;;;;;836:48::o;372:25::-;;;;;;:::o",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Controlled contract Interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock\n */\n\npragma solidity ^0.4.11;\n\nimport \"./FlightDelayControllerInterface.sol\";\nimport \"./FlightDelayDatabaseModel.sol\";\n\n\ncontract FlightDelayControlledContract is FlightDelayDatabaseModel {\n\n    address public controller;\n    FlightDelayControllerInterface FD_CI;\n\n    modifier onlyController() {\n        require(msg.sender == controller);\n        _;\n    }\n\n    function setController(address _controller) internal returns (bool _result) {\n        controller = _controller;\n        FD_CI = FlightDelayControllerInterface(_controller);\n        _result = true;\n    }\n\n    function destruct() public onlyController {\n        selfdestruct(controller);\n    }\n\n    function setContracts() public onlyController {}\n\n    function getContract(bytes32 _id) internal returns (address _addr) {\n        _addr = FD_CI.getContract(_id);\n    }\n}\n",
-  "sourcePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControlledContract.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayControlledContract.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControlledContract.sol",
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayControlledContract.sol",
       "exportedSymbols": {
         "FlightDelayControlledContract": [
           549
@@ -66,7 +66,7 @@
       {
         "attributes": {
           "SourceUnit": 879,
-          "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayControllerInterface.sol",
+          "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayControllerInterface.sol",
           "file": "./FlightDelayControllerInterface.sol",
           "scope": 550,
           "symbolAliases": [
@@ -81,7 +81,7 @@
       {
         "attributes": {
           "SourceUnit": 2335,
-          "absolutePath": "/home/christoph/Documents/fdi/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+          "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayDatabaseModel.sol",
           "file": "./FlightDelayDatabaseModel.sol",
           "scope": 550,
           "symbolAliases": [
@@ -233,7 +233,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 12595,
+                              "referencedDeclaration": 12511,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -274,7 +274,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 12592,
+                                      "referencedDeclaration": 12508,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -711,7 +711,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 12598,
+                              "referencedDeclaration": 12514,
                               "type": "function (address)",
                               "value": "selfdestruct"
                             },
@@ -1047,5 +1047,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-16T22:39:14.235Z"
+  "updatedAt": "2017-12-12T00:50:45.164Z"
 }
