@@ -100,6 +100,10 @@ contract FlightDelayConstants {
     /*
     * General constants
     */
+    // contracts release version
+    uint constant MAJOR_VERSION = 1;
+    uint constant MINOR_VERSION = 0;
+    uint constant PATCH_VERSION = 1;
 
     // minimum observations for valid prediction
     uint constant MIN_OBSERVATIONS = 10;
