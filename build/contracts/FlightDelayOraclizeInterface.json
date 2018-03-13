@@ -42,381 +42,667 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b6101a38061001e6000396000f30060606040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327dc297e811461005057806338bbfa50146100a8575b600080fd5b341561005b57600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061014095505050505050565b005b34156100b357600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052818152929190602084018383808284375094965061017295505050505050565b61016e828260006040518059106101545750595b818152601f19601f83011681016020016040529050610172565b5050565b5050505600a165627a7a72305820f08551ffa022538c01b86d22fd2a1086d47c48cf28f5b6ea9c93a003091ff7c70029",
-  "deployedBytecode": "0x60606040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327dc297e811461005057806338bbfa50146100a8575b600080fd5b341561005b57600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061014095505050505050565b005b34156100b357600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052818152929190602084018383808284375094965061017295505050505050565b61016e828260006040518059106101545750595b818152601f19601f83011681016020016040529050610172565b5050565b5050505600a165627a7a72305820f08551ffa022538c01b86d22fd2a1086d47c48cf28f5b6ea9c93a003091ff7c70029",
+  "bytecode": "0x6060604052341561000f57600080fd5b6101a38061001e6000396000f30060606040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327dc297e811461005057806338bbfa50146100a8575b600080fd5b341561005b57600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061014095505050505050565b005b34156100b357600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052818152929190602084018383808284375094965061017295505050505050565b61016e828260006040518059106101545750595b818152601f19601f83011681016020016040529050610172565b5050565b5050505600a165627a7a72305820d051b2e6af9ff490c5c55f73413ef28a724faf34eac749bb31f2ea9f7f7498f10029",
+  "deployedBytecode": "0x60606040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327dc297e811461005057806338bbfa50146100a8575b600080fd5b341561005b57600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061014095505050505050565b005b34156100b357600080fd5b6100a6600480359060446024803590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052818152929190602084018383808284375094965061017295505050505050565b61016e828260006040518059106101545750595b818152601f19601f83011681016020016040529050610172565b5050565b5050505600a165627a7a72305820d051b2e6af9ff490c5c55f73413ef28a724faf34eac749bb31f2ea9f7f7498f10029",
   "sourceMap": "264:242:13:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "264:242:13:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;5217:104:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;5217:104:22;;-1:-1:-1;5217:104:22;;-1:-1:-1;;;;;;5217:104:22;;;5326:69;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;5326:69:22;;-1:-1:-1;5326:69:22;;-1:-1:-1;;;;;;5326:69:22;5217:104;5276:38;5287:4;5293:6;5311:1;5301:12;;;;;;;;;;;;;-1:-1:-1;;5301:12:22;;;;;;;;;;;;5276:10;:38::i;:::-;5217:104;;:::o;5326:69::-;;;;:::o",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tOcaclize API interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\nimport \"./../vendors/usingOraclize.sol\";\n\n\ncontract FlightDelayOraclizeInterface is usingOraclize {\n\n    modifier onlyOraclizeOr (address _emergency) {\n// --> prod-mode\n        require(msg.sender == oraclize_cbAddress() || msg.sender == _emergency);\n// <-- prod-mode\n        _;\n    }\n}\n",
-  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayOraclizeInterface.sol",
+  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayOraclizeInterface.sol",
   "ast": {
-    "attributes": {
-      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/contracts/FlightDelayOraclizeInterface.sol",
-      "exportedSymbols": {
-        "FlightDelayOraclizeInterface": [
-          3300
-        ]
-      }
+    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayOraclizeInterface.sol",
+    "exportedSymbols": {
+      "FlightDelayOraclizeInterface": [
+        3300
+      ]
     },
-    "children": [
+    "id": 3301,
+    "nodeType": "SourceUnit",
+    "nodes": [
       {
-        "attributes": {
-          "literals": [
-            "solidity",
-            "^",
-            "0.4",
-            ".11"
-          ]
-        },
         "id": 3277,
-        "name": "PragmaDirective",
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
         "src": "195:24:13"
       },
       {
-        "attributes": {
-          "SourceUnit": 12497,
-          "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repositories/flightDelay/vendors/usingOraclize.sol",
-          "file": "./../vendors/usingOraclize.sol",
-          "scope": 3301,
-          "symbolAliases": [
-            null
-          ],
-          "unitAlias": ""
-        },
+        "absolutePath": "/Users/melnikaite/projects/flightDelay/vendors/usingOraclize.sol",
+        "file": "./../vendors/usingOraclize.sol",
         "id": 3278,
-        "name": "ImportDirective",
-        "src": "221:40:13"
+        "nodeType": "ImportDirective",
+        "scope": 3301,
+        "sourceUnit": 12497,
+        "src": "221:40:13",
+        "symbolAliases": [],
+        "unitAlias": ""
       },
       {
-        "attributes": {
-          "contractDependencies": [
-            12496
-          ],
-          "contractKind": "contract",
-          "documentation": null,
-          "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            3300,
-            12496
-          ],
-          "name": "FlightDelayOraclizeInterface",
-          "scope": 3301
-        },
-        "children": [
+        "baseContracts": [
           {
-            "attributes": {
-              "arguments": [
-                null
-              ]
-            },
-            "children": [
-              {
-                "attributes": {
-                  "contractScope": null,
-                  "name": "usingOraclize",
-                  "referencedDeclaration": 12496,
-                  "type": "contract usingOraclize"
-                },
-                "id": 3279,
-                "name": "UserDefinedTypeName",
-                "src": "305:13:13"
+            "arguments": [],
+            "baseName": {
+              "contractScope": null,
+              "id": 3279,
+              "name": "usingOraclize",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 12496,
+              "src": "305:13:13",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_usingOraclize_$12496",
+                "typeString": "contract usingOraclize"
               }
-            ],
-            "id": 3280,
-            "name": "InheritanceSpecifier",
-            "src": "305:13:13"
-          },
-          {
-            "attributes": {
-              "name": "onlyOraclizeOr",
-              "visibility": "internal"
             },
-            "children": [
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "_emergency",
-                      "scope": 3299,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "address",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
+            "id": 3280,
+            "nodeType": "InheritanceSpecifier",
+            "src": "305:13:13"
+          }
+        ],
+        "contractDependencies": [
+          12496
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3300,
+        "linearizedBaseContracts": [
+          3300,
+          12496
+        ],
+        "name": "FlightDelayOraclizeInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3298,
+              "nodeType": "Block",
+              "src": "371:133:13",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
                       {
-                        "attributes": {
-                          "name": "address",
-                          "type": "address"
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
                         },
-                        "id": 3281,
-                        "name": "ElementaryTypeName",
-                        "src": "351:7:13"
-                      }
-                    ],
-                    "id": 3282,
-                    "name": "VariableDeclaration",
-                    "src": "351:18:13"
-                  }
-                ],
-                "id": 3283,
-                "name": "ParameterList",
-                "src": "350:20:13"
-              },
-              {
-                "children": [
-                  {
-                    "children": [
-                      {
-                        "attributes": {
+                        "id": 3294,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
                           "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "id": 3289,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
-                          "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
-                          "type": "tuple()",
-                          "type_conversion": false
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": [
-                                {
-                                  "typeIdentifier": "t_bool",
-                                  "typeString": "bool"
-                                }
-                              ],
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 12511,
-                              "type": "function (bool) pure",
-                              "value": "require"
-                            },
-                            "id": 3284,
-                            "name": "Identifier",
-                            "src": "398:7:13"
-                          },
-                          {
-                            "attributes": {
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
                               "argumentTypes": null,
-                              "commonType": {
-                                "typeIdentifier": "t_bool",
-                                "typeString": "bool"
-                              },
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": false,
-                              "lValueRequested": false,
-                              "operator": "||",
-                              "type": "bool"
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "commonType": {
-                                    "typeIdentifier": "t_address",
-                                    "typeString": "address"
-                                  },
-                                  "isConstant": false,
-                                  "isLValue": false,
-                                  "isPure": false,
-                                  "lValueRequested": false,
-                                  "operator": "==",
-                                  "type": "bool"
-                                },
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "isConstant": false,
-                                      "isLValue": false,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "member_name": "sender",
-                                      "referencedDeclaration": null,
-                                      "type": "address"
-                                    },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
-                                          "referencedDeclaration": 12508,
-                                          "type": "msg",
-                                          "value": "msg"
-                                        },
-                                        "id": 3285,
-                                        "name": "Identifier",
-                                        "src": "406:3:13"
-                                      }
-                                    ],
-                                    "id": 3286,
-                                    "name": "MemberAccess",
-                                    "src": "406:10:13"
-                                  },
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "arguments": [
-                                        null
-                                      ],
-                                      "isConstant": false,
-                                      "isLValue": false,
-                                      "isPure": false,
-                                      "isStructConstructorCall": false,
-                                      "lValueRequested": false,
-                                      "names": [
-                                        null
-                                      ],
-                                      "type": "address",
-                                      "type_conversion": false
-                                    },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": [
-                                            null
-                                          ],
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
-                                          "referencedDeclaration": 10148,
-                                          "type": "function () returns (address)",
-                                          "value": "oraclize_cbAddress"
-                                        },
-                                        "id": 3287,
-                                        "name": "Identifier",
-                                        "src": "420:18:13"
-                                      }
-                                    ],
-                                    "id": 3288,
-                                    "name": "FunctionCall",
-                                    "src": "420:20:13"
-                                  }
-                                ],
-                                "id": 3289,
-                                "name": "BinaryOperation",
-                                "src": "406:34:13"
-                              },
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "commonType": {
-                                    "typeIdentifier": "t_address",
-                                    "typeString": "address"
-                                  },
-                                  "isConstant": false,
-                                  "isLValue": false,
-                                  "isPure": false,
-                                  "lValueRequested": false,
-                                  "operator": "==",
-                                  "type": "bool"
-                                },
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "isConstant": false,
-                                      "isLValue": false,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "member_name": "sender",
-                                      "referencedDeclaration": null,
-                                      "type": "address"
-                                    },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
-                                          "referencedDeclaration": 12508,
-                                          "type": "msg",
-                                          "value": "msg"
-                                        },
-                                        "id": 3290,
-                                        "name": "Identifier",
-                                        "src": "444:3:13"
-                                      }
-                                    ],
-                                    "id": 3291,
-                                    "name": "MemberAccess",
-                                    "src": "444:10:13"
-                                  },
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "overloadedDeclarations": [
-                                        null
-                                      ],
-                                      "referencedDeclaration": 3282,
-                                      "type": "address",
-                                      "value": "_emergency"
-                                    },
-                                    "id": 3292,
-                                    "name": "Identifier",
-                                    "src": "458:10:13"
-                                  }
-                                ],
-                                "id": 3293,
-                                "name": "BinaryOperation",
-                                "src": "444:24:13"
+                              "id": 3285,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 12508,
+                              "src": "406:3:13",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
                               }
-                            ],
-                            "id": 3294,
-                            "name": "BinaryOperation",
-                            "src": "406:62:13"
+                            },
+                            "id": 3286,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "406:10:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "id": 3287,
+                              "name": "oraclize_cbAddress",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 10148,
+                              "src": "420:18:13",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_nonpayable$__$returns$_t_address_$",
+                                "typeString": "function () returns (address)"
+                              }
+                            },
+                            "id": 3288,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "420:20:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "406:34:13",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
                           }
-                        ],
-                        "id": 3295,
-                        "name": "FunctionCall",
-                        "src": "398:71:13"
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "||",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "id": 3293,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 3290,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 12508,
+                              "src": "444:3:13",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 3291,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "444:10:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "id": 3292,
+                            "name": "_emergency",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3282,
+                            "src": "458:10:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "444:24:13",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "src": "406:62:13",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
                       }
                     ],
-                    "id": 3296,
-                    "name": "ExpressionStatement",
-                    "src": "398:71:13"
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 3284,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 12511,
+                      "src": "398:7:13",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 3295,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "398:71:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
                   },
-                  {
-                    "id": 3297,
-                    "name": "PlaceholderStatement",
-                    "src": "496:1:13"
-                  }
-                ],
-                "id": 3298,
-                "name": "Block",
-                "src": "371:133:13"
-              }
-            ],
+                  "id": 3296,
+                  "nodeType": "ExpressionStatement",
+                  "src": "398:71:13"
+                },
+                {
+                  "id": 3297,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "496:1:13"
+                }
+              ]
+            },
             "id": 3299,
-            "name": "ModifierDefinition",
-            "src": "326:178:13"
+            "name": "onlyOraclizeOr",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 3283,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3282,
+                  "name": "_emergency",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3299,
+                  "src": "351:18:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3281,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "351:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "350:20:13"
+            },
+            "src": "326:178:13",
+            "visibility": "internal"
           }
         ],
-        "id": 3300,
-        "name": "ContractDefinition",
+        "scope": 3301,
         "src": "264:242:13"
       }
     ],
+    "src": "195:312:13"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayOraclizeInterface.sol",
+    "exportedSymbols": {
+      "FlightDelayOraclizeInterface": [
+        3300
+      ]
+    },
     "id": 3301,
-    "name": "SourceUnit",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3277,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "195:24:13"
+      },
+      {
+        "absolutePath": "/Users/melnikaite/projects/flightDelay/vendors/usingOraclize.sol",
+        "file": "./../vendors/usingOraclize.sol",
+        "id": 3278,
+        "nodeType": "ImportDirective",
+        "scope": 3301,
+        "sourceUnit": 12497,
+        "src": "221:40:13",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": [],
+            "baseName": {
+              "contractScope": null,
+              "id": 3279,
+              "name": "usingOraclize",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 12496,
+              "src": "305:13:13",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_usingOraclize_$12496",
+                "typeString": "contract usingOraclize"
+              }
+            },
+            "id": 3280,
+            "nodeType": "InheritanceSpecifier",
+            "src": "305:13:13"
+          }
+        ],
+        "contractDependencies": [
+          12496
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3300,
+        "linearizedBaseContracts": [
+          3300,
+          12496
+        ],
+        "name": "FlightDelayOraclizeInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3298,
+              "nodeType": "Block",
+              "src": "371:133:13",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        "id": 3294,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "id": 3289,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 3285,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 12508,
+                              "src": "406:3:13",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 3286,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "406:10:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "id": 3287,
+                              "name": "oraclize_cbAddress",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 10148,
+                              "src": "420:18:13",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_nonpayable$__$returns$_t_address_$",
+                                "typeString": "function () returns (address)"
+                              }
+                            },
+                            "id": 3288,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "420:20:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "406:34:13",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "||",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "id": 3293,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 3290,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 12508,
+                              "src": "444:3:13",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 3291,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "444:10:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "id": 3292,
+                            "name": "_emergency",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 3282,
+                            "src": "458:10:13",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "444:24:13",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "src": "406:62:13",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 3284,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 12511,
+                      "src": "398:7:13",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 3295,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "398:71:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3296,
+                  "nodeType": "ExpressionStatement",
+                  "src": "398:71:13"
+                },
+                {
+                  "id": 3297,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "496:1:13"
+                }
+              ]
+            },
+            "id": 3299,
+            "name": "onlyOraclizeOr",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 3283,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3282,
+                  "name": "_emergency",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3299,
+                  "src": "351:18:13",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3281,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "351:7:13",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "350:20:13"
+            },
+            "src": "326:178:13",
+            "visibility": "internal"
+          }
+        ],
+        "scope": 3301,
+        "src": "264:242:13"
+      }
+    ],
     "src": "195:312:13"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-12T00:50:45.183Z"
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-03-13T09:40:39.971Z"
 }
