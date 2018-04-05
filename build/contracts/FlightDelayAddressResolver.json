@@ -64,14 +64,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b60018054600160a060020a03191633600160a060020a03161790556101c6806100396000396000f3006060604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166338cc48318114610066578063767800de14610095578063a6f9dae1146100a8578063e30081a0146100c9575b600080fd5b341561007157600080fd5b6100796100e8565b604051600160a060020a03909116815260200160405180910390f35b34156100a057600080fd5b6100796100f7565b34156100b357600080fd5b6100c7600160a060020a0360043516610106565b005b34156100d457600080fd5b6100c7600160a060020a0360043516610150565b600054600160a060020a031690565b600054600160a060020a031681565b60015433600160a060020a0390811691161461012157600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b60015433600160a060020a0390811691161461016b57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820650ed06ad9f0e53a752c829142bb48ba4be977f561d05085cea8dda1d1fc01ae0029",
-  "deployedBytecode": "0x6060604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166338cc48318114610066578063767800de14610095578063a6f9dae1146100a8578063e30081a0146100c9575b600080fd5b341561007157600080fd5b6100796100e8565b604051600160a060020a03909116815260200160405180910390f35b34156100a057600080fd5b6100796100f7565b34156100b357600080fd5b6100c7600160a060020a0360043516610106565b005b34156100d457600080fd5b6100c7600160a060020a0360043516610150565b600054600160a060020a031690565b600054600160a060020a031681565b60015433600160a060020a0390811691161461012157600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b60015433600160a060020a0390811691161461016b57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820650ed06ad9f0e53a752c829142bb48ba4be977f561d05085cea8dda1d1fc01ae0029",
+  "bytecode": "0x6060604052341561000f57600080fd5b60018054600160a060020a03191633600160a060020a03161790556101c6806100396000396000f3006060604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166338cc48318114610066578063767800de14610095578063a6f9dae1146100a8578063e30081a0146100c9575b600080fd5b341561007157600080fd5b6100796100e8565b604051600160a060020a03909116815260200160405180910390f35b34156100a057600080fd5b6100796100f7565b34156100b357600080fd5b6100c7600160a060020a0360043516610106565b005b34156100d457600080fd5b6100c7600160a060020a0360043516610150565b600054600160a060020a031690565b600054600160a060020a031681565b60015433600160a060020a0390811691161461012157600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b60015433600160a060020a0390811691161461016b57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820cabfda4c0337e1b3f23700affd74e69eb0e38f6fd95108a4b3f32796fcb5d75b0029",
+  "deployedBytecode": "0x6060604052600436106100615763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166338cc48318114610066578063767800de14610095578063a6f9dae1146100a8578063e30081a0146100c9575b600080fd5b341561007157600080fd5b6100796100e8565b604051600160a060020a03909116815260200160405180910390f35b34156100a057600080fd5b6100796100f7565b34156100b357600080fd5b6100c7600160a060020a0360043516610106565b005b34156100d457600080fd5b6100c7600160a060020a0360043516610150565b600054600160a060020a031690565b600054600160a060020a031681565b60015433600160a060020a0390811691161461012157600080fd5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b60015433600160a060020a0390811691161461016b57600080fd5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820cabfda4c0337e1b3f23700affd74e69eb0e38f6fd95108a4b3f32796fcb5d75b0029",
   "sourceMap": "107:501:2:-;;;196:80;;;;;;;;251:5;:18;;-1:-1:-1;;;;;;251:18:2;259:10;-1:-1:-1;;;;;251:18:2;;;;107:501;;;-1:-1:-1;107:501:2;;",
   "deployedSourceMap": "107:501:2:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;401:90;;;;;;;;;;;;;;;-1:-1:-1;;;;;401:90:2;;;;;;;;;;;;;;150:19;;;;;;;;;;;;282:113;;;;;;;;;;-1:-1:-1;;;;;282:113:2;;;;;;;497:109;;;;;;;;;;-1:-1:-1;;;;;497:109:2;;;;;401:90;448:13;480:4;-1:-1:-1;;;;;480:4:2;401:90;:::o;150:19::-;;;-1:-1:-1;;;;;150:19:2;;:::o;282:113::-;358:5;;344:10;-1:-1:-1;;;;;344:19:2;;;358:5;;344:19;336:28;;;;;;374:5;:14;;-1:-1:-1;;374:14:2;-1:-1:-1;;;;;374:14:2;;;;;;;;;;282:113::o;497:109::-;571:5;;557:10;-1:-1:-1;;;;;557:19:2;;;571:5;;557:19;549:28;;;;;;587:4;:12;;-1:-1:-1;;587:12:2;-1:-1:-1;;;;;587:12:2;;;;;;;;;;497:109::o",
   "source": "/*\n  Copyright (c) 2015-2016 Oraclize SRL\n  Copyright (c) 2016 Oraclize LTD\n*/\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayAddressResolver {\n\n    address public addr;\n\n    address owner;\n\n    function FlightDelayAddressResolver() public {\n        owner = msg.sender;\n    }\n\n    function changeOwner(address _owner) public {\n        require(msg.sender == owner);\n        owner = _owner;\n    }\n\n    function getAddress() public constant returns (address _addr) {\n        return addr;\n    }\n\n    function setAddress(address _addr) public {\n        require(msg.sender == owner);\n        addr = _addr;\n    }\n}\n",
-  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayAddressResolver.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayAddressResolver.sol",
   "ast": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayAddressResolver.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayAddressResolver.sol",
     "exportedSymbols": {
       "FlightDelayAddressResolver": [
         274
@@ -193,7 +193,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 12508,
+                        "referencedDeclaration": 12517,
                         "src": "259:3:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -281,7 +281,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 12508,
+                            "referencedDeclaration": 12517,
                             "src": "344:3:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -335,7 +335,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12511,
+                      "referencedDeclaration": 12520,
                       "src": "336:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -570,7 +570,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 12508,
+                            "referencedDeclaration": 12517,
                             "src": "557:3:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -624,7 +624,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12511,
+                      "referencedDeclaration": 12520,
                       "src": "549:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -758,7 +758,7 @@
     "src": "80:529:2"
   },
   "legacyAST": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayAddressResolver.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayAddressResolver.sol",
     "exportedSymbols": {
       "FlightDelayAddressResolver": [
         274
@@ -880,7 +880,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 12508,
+                        "referencedDeclaration": 12517,
                         "src": "259:3:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -968,7 +968,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 12508,
+                            "referencedDeclaration": 12517,
                             "src": "344:3:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1022,7 +1022,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12511,
+                      "referencedDeclaration": 12520,
                       "src": "336:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1257,7 +1257,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 12508,
+                            "referencedDeclaration": 12517,
                             "src": "557:3:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -1311,7 +1311,7 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12511,
+                      "referencedDeclaration": 12520,
                       "src": "549:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1450,5 +1450,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-13T09:40:39.918Z"
+  "updatedAt": "2018-04-05T12:35:45.899Z"
 }

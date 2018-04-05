@@ -29,19 +29,19 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tPayout contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayPayoutInterface {\n\n    function schedulePayoutOraclizeCall(uint _policyId, bytes32 _riskId, uint _offset) public;\n}\n",
-  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayPayoutInterface.sol",
   "ast": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayPayoutInterface.sol",
     "exportedSymbols": {
       "FlightDelayPayoutInterface": [
-        3958
+        3967
       ]
     },
-    "id": 3959,
+    "id": 3968,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3948,
+        "id": 3957,
         "literals": [
           "solidity",
           "^",
@@ -57,16 +57,16 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 3958,
+        "id": 3967,
         "linearizedBaseContracts": [
-          3958
+          3967
         ],
         "name": "FlightDelayPayoutInterface",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
-            "id": 3957,
+            "id": 3966,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -74,15 +74,15 @@
             "name": "schedulePayoutOraclizeCall",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3955,
+              "id": 3964,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3950,
+                  "id": 3959,
                   "name": "_policyId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3957,
+                  "scope": 3966,
                   "src": "304:14:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -91,7 +91,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3949,
+                    "id": 3958,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "304:4:15",
@@ -105,10 +105,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 3952,
+                  "id": 3961,
                   "name": "_riskId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3957,
+                  "scope": 3966,
                   "src": "320:15:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -117,7 +117,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 3951,
+                    "id": 3960,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "320:7:15",
@@ -131,10 +131,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 3954,
+                  "id": 3963,
                   "name": "_offset",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3957,
+                  "scope": 3966,
                   "src": "337:12:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -143,7 +143,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3953,
+                    "id": 3962,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "337:4:15",
@@ -160,36 +160,36 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3956,
+              "id": 3965,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "357:0:15"
             },
-            "scope": 3958,
+            "scope": 3967,
             "src": "268:90:15",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 3959,
+        "scope": 3968,
         "src": "225:135:15"
       }
     ],
     "src": "198:163:15"
   },
   "legacyAST": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayPayoutInterface.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayPayoutInterface.sol",
     "exportedSymbols": {
       "FlightDelayPayoutInterface": [
-        3958
+        3967
       ]
     },
-    "id": 3959,
+    "id": 3968,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3948,
+        "id": 3957,
         "literals": [
           "solidity",
           "^",
@@ -205,16 +205,16 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 3958,
+        "id": 3967,
         "linearizedBaseContracts": [
-          3958
+          3967
         ],
         "name": "FlightDelayPayoutInterface",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
-            "id": 3957,
+            "id": 3966,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -222,15 +222,15 @@
             "name": "schedulePayoutOraclizeCall",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3955,
+              "id": 3964,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3950,
+                  "id": 3959,
                   "name": "_policyId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3957,
+                  "scope": 3966,
                   "src": "304:14:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -239,7 +239,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3949,
+                    "id": 3958,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "304:4:15",
@@ -253,10 +253,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 3952,
+                  "id": 3961,
                   "name": "_riskId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3957,
+                  "scope": 3966,
                   "src": "320:15:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -265,7 +265,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 3951,
+                    "id": 3960,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "320:7:15",
@@ -279,10 +279,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 3954,
+                  "id": 3963,
                   "name": "_offset",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3957,
+                  "scope": 3966,
                   "src": "337:12:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -291,7 +291,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3953,
+                    "id": 3962,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "337:4:15",
@@ -308,19 +308,19 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3956,
+              "id": 3965,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "357:0:15"
             },
-            "scope": 3958,
+            "scope": 3967,
             "src": "268:90:15",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 3959,
+        "scope": 3968,
         "src": "225:135:15"
       }
     ],
@@ -332,5 +332,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-13T09:40:39.971Z"
+  "updatedAt": "2018-04-05T12:35:45.927Z"
 }

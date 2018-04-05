@@ -1,24 +1,24 @@
 {
   "contractName": "FlightDelayDatabaseModel",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820af4e24cefbc7666b43eacb357fa28be6e93fce69e5ae1b66ec8c1fafc558ce3a0029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820af4e24cefbc7666b43eacb357fa28be6e93fce69e5ae1b66ec8c1fafc558ce3a0029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058207aeaf308b84e0f717b17fa46db751b1784145e5106263241db6cc803ddc5a3c20029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058207aeaf308b84e0f717b17fa46db751b1784145e5106263241db6cc803ddc5a3c20029",
   "sourceMap": "214:4368:9:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "214:4368:9:-;;;;;",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Database model\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayDatabaseModel {\n\n    // Ledger accounts.\n    enum Acc {\n        Premium,      // 0\n        RiskFund,     // 1\n        Payout,       // 2\n        Balance,      // 3\n        Reward,       // 4\n        OraclizeCosts // 5\n    }\n\n    // policy Status Codes and meaning:\n    //\n    // 00 = Applied:\t  the customer has payed a premium, but the oracle has\n    //\t\t\t\t\t        not yet checked and confirmed.\n    //\t\t\t\t\t        The customer can still revoke the policy.\n    // 01 = Accepted:\t  the oracle has checked and confirmed.\n    //\t\t\t\t\t        The customer can still revoke the policy.\n    // 02 = Revoked:\t  The customer has revoked the policy.\n    //\t\t\t\t\t        The premium minus cancellation fee is payed back to the\n    //\t\t\t\t\t        customer by the oracle.\n    // 03 = PaidOut:\t  The flight has ended with delay.\n    //\t\t\t\t\t        The oracle has checked and payed out.\n    // 04 = Expired:\t  The flight has endet with <15min. delay.\n    //\t\t\t\t\t        No payout.\n    // 05 = Declined:\t  The application was invalid.\n    //\t\t\t\t\t        The premium minus cancellation fee is payed back to the\n    //\t\t\t\t\t        customer by the oracle.\n    // 06 = SendFailed:\tDuring Revoke, Decline or Payout, sending ether failed\n    //\t\t\t\t\t        for unknown reasons.\n    //\t\t\t\t\t        The funds remain in the contracts RiskFund.\n\n\n    //                   00       01        02       03        04      05           06\n    enum policyState { Applied, Accepted, Revoked, PaidOut, Expired, Declined, SendFailed }\n\n    // oraclize callback types:\n    enum oraclizeState { ForUnderwriting, ForPayout }\n\n    //               00   01   02   03\n    enum Currency { ETH, EUR, USD, GBP }\n\n    // the policy structure: this structure keeps track of the individual parameters of a policy.\n    // typically customer address, premium and some status information.\n    struct Policy {\n        // 0 - the customer\n        address customer;\n\n        // 1 - premium\n        uint premium;\n        // risk specific parameters:\n        // 2 - pointer to the risk in the risks mapping\n        bytes32 riskId;\n        // custom payout pattern\n        // in future versions, customer will be able to tamper with this array.\n        // to keep things simple, we have decided to hard-code the array for all policies.\n        // uint8[5] pattern;\n        // 3 - probability weight. this is the central parameter\n        uint weight;\n        // 4 - calculated Payout\n        uint calculatedPayout;\n        // 5 - actual Payout\n        uint actualPayout;\n\n        // status fields:\n        // 6 - the state of the policy\n        policyState state;\n        // 7 - time of last state change\n        uint stateTime;\n        // 8 - state change message/reason\n        bytes32 stateMessage;\n        // 9 - TLSNotary Proof\n        bytes proof;\n        // 10 - Currency\n        Currency currency;\n        // 10 - External customer id\n        bytes32 customerExternalId;\n    }\n\n    // the risk structure; this structure keeps track of the risk-\n    // specific parameters.\n    // several policies can share the same risk structure (typically\n    // some people flying with the same plane)\n    struct Risk {\n        // 0 - Airline Code + FlightNumber\n        bytes32 carrierFlightNumber;\n        // 1 - scheduled departure and arrival time in the format /dep/YYYY/MM/DD\n        bytes32 departureYearMonthDay;\n        // 2 - the inital arrival time\n        uint arrivalTime;\n        // 3 - the final delay in minutes\n        uint delayInMinutes;\n        // 4 - the determined delay category (0-5)\n        uint8 delay;\n        // 5 - we limit the cumulated weighted premium to avoid cluster risks\n        uint cumulatedWeightedPremium;\n        // 6 - max cumulated Payout for this risk\n        uint premiumMultiplier;\n    }\n\n    // the oraclize callback structure: we use several oraclize calls.\n    // all oraclize calls will result in a common callback to __callback(...).\n    // to keep track of the different querys we have to introduce this struct.\n    struct OraclizeCallback {\n        // for which policy have we called?\n        uint policyId;\n        // for which purpose did we call? {ForUnderwrite | ForPayout}\n        oraclizeState oState;\n        // time\n        uint oraclizeTime;\n    }\n\n    struct Customer {\n        bytes32 customerExternalId;\n        bool identityConfirmed;\n    }\n}\n",
-  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
   "ast": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
     "exportedSymbols": {
       "FlightDelayDatabaseModel": [
-        2334
+        2343
       ]
     },
-    "id": 2335,
+    "id": 2344,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2258,
+        "id": 2267,
         "literals": [
           "solidity",
           "^",
@@ -34,49 +34,49 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2334,
+        "id": 2343,
         "linearizedBaseContracts": [
-          2334
+          2343
         ],
         "name": "FlightDelayDatabaseModel",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "FlightDelayDatabaseModel.Acc",
-            "id": 2265,
+            "id": 2274,
             "members": [
               {
-                "id": 2259,
+                "id": 2268,
                 "name": "Premium",
                 "nodeType": "EnumValue",
                 "src": "298:7:9"
               },
               {
-                "id": 2260,
+                "id": 2269,
                 "name": "RiskFund",
                 "nodeType": "EnumValue",
                 "src": "325:8:9"
               },
               {
-                "id": 2261,
+                "id": 2270,
                 "name": "Payout",
                 "nodeType": "EnumValue",
                 "src": "352:6:9"
               },
               {
-                "id": 2262,
+                "id": 2271,
                 "name": "Balance",
                 "nodeType": "EnumValue",
                 "src": "379:7:9"
               },
               {
-                "id": 2263,
+                "id": 2272,
                 "name": "Reward",
                 "nodeType": "EnumValue",
                 "src": "406:6:9"
               },
               {
-                "id": 2264,
+                "id": 2273,
                 "name": "OraclizeCosts",
                 "nodeType": "EnumValue",
                 "src": "433:13:9"
@@ -88,46 +88,46 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.policyState",
-            "id": 2273,
+            "id": 2282,
             "members": [
               {
-                "id": 2266,
+                "id": 2275,
                 "name": "Applied",
                 "nodeType": "EnumValue",
                 "src": "1666:7:9"
               },
               {
-                "id": 2267,
+                "id": 2276,
                 "name": "Accepted",
                 "nodeType": "EnumValue",
                 "src": "1675:8:9"
               },
               {
-                "id": 2268,
+                "id": 2277,
                 "name": "Revoked",
                 "nodeType": "EnumValue",
                 "src": "1685:7:9"
               },
               {
-                "id": 2269,
+                "id": 2278,
                 "name": "PaidOut",
                 "nodeType": "EnumValue",
                 "src": "1694:7:9"
               },
               {
-                "id": 2270,
+                "id": 2279,
                 "name": "Expired",
                 "nodeType": "EnumValue",
                 "src": "1703:7:9"
               },
               {
-                "id": 2271,
+                "id": 2280,
                 "name": "Declined",
                 "nodeType": "EnumValue",
                 "src": "1712:8:9"
               },
               {
-                "id": 2272,
+                "id": 2281,
                 "name": "SendFailed",
                 "nodeType": "EnumValue",
                 "src": "1722:10:9"
@@ -139,16 +139,16 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.oraclizeState",
-            "id": 2276,
+            "id": 2285,
             "members": [
               {
-                "id": 2274,
+                "id": 2283,
                 "name": "ForUnderwriting",
                 "nodeType": "EnumValue",
                 "src": "1793:15:9"
               },
               {
-                "id": 2275,
+                "id": 2284,
                 "name": "ForPayout",
                 "nodeType": "EnumValue",
                 "src": "1810:9:9"
@@ -160,28 +160,28 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Currency",
-            "id": 2281,
+            "id": 2290,
             "members": [
               {
-                "id": 2277,
+                "id": 2286,
                 "name": "ETH",
                 "nodeType": "EnumValue",
                 "src": "1882:3:9"
               },
               {
-                "id": 2278,
+                "id": 2287,
                 "name": "EUR",
                 "nodeType": "EnumValue",
                 "src": "1887:3:9"
               },
               {
-                "id": 2279,
+                "id": 2288,
                 "name": "USD",
                 "nodeType": "EnumValue",
                 "src": "1892:3:9"
               },
               {
-                "id": 2280,
+                "id": 2289,
                 "name": "GBP",
                 "nodeType": "EnumValue",
                 "src": "1897:3:9"
@@ -193,14 +193,14 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Policy",
-            "id": 2306,
+            "id": 2315,
             "members": [
               {
                 "constant": false,
-                "id": 2283,
+                "id": 2292,
                 "name": "customer",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2130:16:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -209,7 +209,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 2282,
+                  "id": 2291,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "2130:7:9",
@@ -223,10 +223,10 @@
               },
               {
                 "constant": false,
-                "id": 2285,
+                "id": 2294,
                 "name": "premium",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2180:12:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -235,7 +235,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2284,
+                  "id": 2293,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2180:4:9",
@@ -249,10 +249,10 @@
               },
               {
                 "constant": false,
-                "id": 2287,
+                "id": 2296,
                 "name": "riskId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2295:14:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -261,7 +261,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2286,
+                  "id": 2295,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "2295:7:9",
@@ -275,10 +275,10 @@
               },
               {
                 "constant": false,
-                "id": 2289,
+                "id": 2298,
                 "name": "weight",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2617:11:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -287,7 +287,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2288,
+                  "id": 2297,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2617:4:9",
@@ -301,10 +301,10 @@
               },
               {
                 "constant": false,
-                "id": 2291,
+                "id": 2300,
                 "name": "calculatedPayout",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2671:21:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -313,7 +313,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2290,
+                  "id": 2299,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2671:4:9",
@@ -327,10 +327,10 @@
               },
               {
                 "constant": false,
-                "id": 2293,
+                "id": 2302,
                 "name": "actualPayout",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2731:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -339,7 +339,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2292,
+                  "id": 2301,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2731:4:9",
@@ -353,26 +353,26 @@
               },
               {
                 "constant": false,
-                "id": 2295,
+                "id": 2304,
                 "name": "state",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2824:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_policyState_$2273",
+                  "typeIdentifier": "t_enum$_policyState_$2282",
                   "typeString": "enum FlightDelayDatabaseModel.policyState"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 2294,
+                  "id": 2303,
                   "name": "policyState",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 2273,
+                  "referencedDeclaration": 2282,
                   "src": "2824:11:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_policyState_$2273",
+                    "typeIdentifier": "t_enum$_policyState_$2282",
                     "typeString": "enum FlightDelayDatabaseModel.policyState"
                   }
                 },
@@ -381,10 +381,10 @@
               },
               {
                 "constant": false,
-                "id": 2297,
+                "id": 2306,
                 "name": "stateTime",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2892:14:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -393,7 +393,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2296,
+                  "id": 2305,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2892:4:9",
@@ -407,10 +407,10 @@
               },
               {
                 "constant": false,
-                "id": 2299,
+                "id": 2308,
                 "name": "stateMessage",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2959:20:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -419,7 +419,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2298,
+                  "id": 2307,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "2959:7:9",
@@ -433,10 +433,10 @@
               },
               {
                 "constant": false,
-                "id": 2301,
+                "id": 2310,
                 "name": "proof",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "3020:11:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -445,7 +445,7 @@
                   "typeString": "bytes storage pointer"
                 },
                 "typeName": {
-                  "id": 2300,
+                  "id": 2309,
                   "name": "bytes",
                   "nodeType": "ElementaryTypeName",
                   "src": "3020:5:9",
@@ -459,26 +459,26 @@
               },
               {
                 "constant": false,
-                "id": 2303,
+                "id": 2312,
                 "name": "currency",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "3066:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_Currency_$2281",
+                  "typeIdentifier": "t_enum$_Currency_$2290",
                   "typeString": "enum FlightDelayDatabaseModel.Currency"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 2302,
+                  "id": 2311,
                   "name": "Currency",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 2281,
+                  "referencedDeclaration": 2290,
                   "src": "3066:8:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Currency_$2281",
+                    "typeIdentifier": "t_enum$_Currency_$2290",
                     "typeString": "enum FlightDelayDatabaseModel.Currency"
                   }
                 },
@@ -487,10 +487,10 @@
               },
               {
                 "constant": false,
-                "id": 2305,
+                "id": 2314,
                 "name": "customerExternalId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "3130:26:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -499,7 +499,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2304,
+                  "id": 2313,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "3130:7:9",
@@ -514,20 +514,20 @@
             ],
             "name": "Policy",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "2078:1085:9",
             "visibility": "public"
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Risk",
-            "id": 2321,
+            "id": 2330,
             "members": [
               {
                 "constant": false,
-                "id": 2308,
+                "id": 2317,
                 "name": "carrierFlightNumber",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3445:27:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -536,7 +536,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2307,
+                  "id": 2316,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "3445:7:9",
@@ -550,10 +550,10 @@
               },
               {
                 "constant": false,
-                "id": 2310,
+                "id": 2319,
                 "name": "departureYearMonthDay",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3564:29:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -562,7 +562,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2309,
+                  "id": 2318,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "3564:7:9",
@@ -576,10 +576,10 @@
               },
               {
                 "constant": false,
-                "id": 2312,
+                "id": 2321,
                 "name": "arrivalTime",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3642:16:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -588,7 +588,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2311,
+                  "id": 2320,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3642:4:9",
@@ -602,10 +602,10 @@
               },
               {
                 "constant": false,
-                "id": 2314,
+                "id": 2323,
                 "name": "delayInMinutes",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3710:19:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -614,7 +614,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2313,
+                  "id": 2322,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3710:4:9",
@@ -628,10 +628,10 @@
               },
               {
                 "constant": false,
-                "id": 2316,
+                "id": 2325,
                 "name": "delay",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3790:11:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -640,7 +640,7 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 2315,
+                  "id": 2324,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
                   "src": "3790:5:9",
@@ -654,10 +654,10 @@
               },
               {
                 "constant": false,
-                "id": 2318,
+                "id": 2327,
                 "name": "cumulatedWeightedPremium",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3889:29:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -666,7 +666,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2317,
+                  "id": 2326,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3889:4:9",
@@ -680,10 +680,10 @@
               },
               {
                 "constant": false,
-                "id": 2320,
+                "id": 2329,
                 "name": "premiumMultiplier",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3978:22:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -692,7 +692,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2319,
+                  "id": 2328,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3978:4:9",
@@ -707,20 +707,20 @@
             ],
             "name": "Risk",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "3380:627:9",
             "visibility": "public"
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.OraclizeCallback",
-            "id": 2328,
+            "id": 2337,
             "members": [
               {
                 "constant": false,
-                "id": 2323,
+                "id": 2332,
                 "name": "policyId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2328,
+                "scope": 2337,
                 "src": "4320:13:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -729,7 +729,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2322,
+                  "id": 2331,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "4320:4:9",
@@ -743,26 +743,26 @@
               },
               {
                 "constant": false,
-                "id": 2325,
+                "id": 2334,
                 "name": "oState",
                 "nodeType": "VariableDeclaration",
-                "scope": 2328,
+                "scope": 2337,
                 "src": "4413:20:9",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_oraclizeState_$2276",
+                  "typeIdentifier": "t_enum$_oraclizeState_$2285",
                   "typeString": "enum FlightDelayDatabaseModel.oraclizeState"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 2324,
+                  "id": 2333,
                   "name": "oraclizeState",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 2276,
+                  "referencedDeclaration": 2285,
                   "src": "4413:13:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_oraclizeState_$2276",
+                    "typeIdentifier": "t_enum$_oraclizeState_$2285",
                     "typeString": "enum FlightDelayDatabaseModel.oraclizeState"
                   }
                 },
@@ -771,10 +771,10 @@
               },
               {
                 "constant": false,
-                "id": 2327,
+                "id": 2336,
                 "name": "oraclizeTime",
                 "nodeType": "VariableDeclaration",
-                "scope": 2328,
+                "scope": 2337,
                 "src": "4459:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -783,7 +783,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2326,
+                  "id": 2335,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "4459:4:9",
@@ -798,20 +798,20 @@
             ],
             "name": "OraclizeCallback",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "4242:241:9",
             "visibility": "public"
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Customer",
-            "id": 2333,
+            "id": 2342,
             "members": [
               {
                 "constant": false,
-                "id": 2330,
+                "id": 2339,
                 "name": "customerExternalId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2333,
+                "scope": 2342,
                 "src": "4515:26:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -820,7 +820,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2329,
+                  "id": 2338,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "4515:7:9",
@@ -834,10 +834,10 @@
               },
               {
                 "constant": false,
-                "id": 2332,
+                "id": 2341,
                 "name": "identityConfirmed",
                 "nodeType": "VariableDeclaration",
-                "scope": 2333,
+                "scope": 2342,
                 "src": "4551:22:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -846,7 +846,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 2331,
+                  "id": 2340,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "4551:4:9",
@@ -861,29 +861,29 @@
             ],
             "name": "Customer",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "4489:91:9",
             "visibility": "public"
           }
         ],
-        "scope": 2335,
+        "scope": 2344,
         "src": "214:4368:9"
       }
     ],
     "src": "187:4396:9"
   },
   "legacyAST": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
     "exportedSymbols": {
       "FlightDelayDatabaseModel": [
-        2334
+        2343
       ]
     },
-    "id": 2335,
+    "id": 2344,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2258,
+        "id": 2267,
         "literals": [
           "solidity",
           "^",
@@ -899,49 +899,49 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2334,
+        "id": 2343,
         "linearizedBaseContracts": [
-          2334
+          2343
         ],
         "name": "FlightDelayDatabaseModel",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "FlightDelayDatabaseModel.Acc",
-            "id": 2265,
+            "id": 2274,
             "members": [
               {
-                "id": 2259,
+                "id": 2268,
                 "name": "Premium",
                 "nodeType": "EnumValue",
                 "src": "298:7:9"
               },
               {
-                "id": 2260,
+                "id": 2269,
                 "name": "RiskFund",
                 "nodeType": "EnumValue",
                 "src": "325:8:9"
               },
               {
-                "id": 2261,
+                "id": 2270,
                 "name": "Payout",
                 "nodeType": "EnumValue",
                 "src": "352:6:9"
               },
               {
-                "id": 2262,
+                "id": 2271,
                 "name": "Balance",
                 "nodeType": "EnumValue",
                 "src": "379:7:9"
               },
               {
-                "id": 2263,
+                "id": 2272,
                 "name": "Reward",
                 "nodeType": "EnumValue",
                 "src": "406:6:9"
               },
               {
-                "id": 2264,
+                "id": 2273,
                 "name": "OraclizeCosts",
                 "nodeType": "EnumValue",
                 "src": "433:13:9"
@@ -953,46 +953,46 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.policyState",
-            "id": 2273,
+            "id": 2282,
             "members": [
               {
-                "id": 2266,
+                "id": 2275,
                 "name": "Applied",
                 "nodeType": "EnumValue",
                 "src": "1666:7:9"
               },
               {
-                "id": 2267,
+                "id": 2276,
                 "name": "Accepted",
                 "nodeType": "EnumValue",
                 "src": "1675:8:9"
               },
               {
-                "id": 2268,
+                "id": 2277,
                 "name": "Revoked",
                 "nodeType": "EnumValue",
                 "src": "1685:7:9"
               },
               {
-                "id": 2269,
+                "id": 2278,
                 "name": "PaidOut",
                 "nodeType": "EnumValue",
                 "src": "1694:7:9"
               },
               {
-                "id": 2270,
+                "id": 2279,
                 "name": "Expired",
                 "nodeType": "EnumValue",
                 "src": "1703:7:9"
               },
               {
-                "id": 2271,
+                "id": 2280,
                 "name": "Declined",
                 "nodeType": "EnumValue",
                 "src": "1712:8:9"
               },
               {
-                "id": 2272,
+                "id": 2281,
                 "name": "SendFailed",
                 "nodeType": "EnumValue",
                 "src": "1722:10:9"
@@ -1004,16 +1004,16 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.oraclizeState",
-            "id": 2276,
+            "id": 2285,
             "members": [
               {
-                "id": 2274,
+                "id": 2283,
                 "name": "ForUnderwriting",
                 "nodeType": "EnumValue",
                 "src": "1793:15:9"
               },
               {
-                "id": 2275,
+                "id": 2284,
                 "name": "ForPayout",
                 "nodeType": "EnumValue",
                 "src": "1810:9:9"
@@ -1025,28 +1025,28 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Currency",
-            "id": 2281,
+            "id": 2290,
             "members": [
               {
-                "id": 2277,
+                "id": 2286,
                 "name": "ETH",
                 "nodeType": "EnumValue",
                 "src": "1882:3:9"
               },
               {
-                "id": 2278,
+                "id": 2287,
                 "name": "EUR",
                 "nodeType": "EnumValue",
                 "src": "1887:3:9"
               },
               {
-                "id": 2279,
+                "id": 2288,
                 "name": "USD",
                 "nodeType": "EnumValue",
                 "src": "1892:3:9"
               },
               {
-                "id": 2280,
+                "id": 2289,
                 "name": "GBP",
                 "nodeType": "EnumValue",
                 "src": "1897:3:9"
@@ -1058,14 +1058,14 @@
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Policy",
-            "id": 2306,
+            "id": 2315,
             "members": [
               {
                 "constant": false,
-                "id": 2283,
+                "id": 2292,
                 "name": "customer",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2130:16:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1074,7 +1074,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 2282,
+                  "id": 2291,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "2130:7:9",
@@ -1088,10 +1088,10 @@
               },
               {
                 "constant": false,
-                "id": 2285,
+                "id": 2294,
                 "name": "premium",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2180:12:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1100,7 +1100,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2284,
+                  "id": 2293,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2180:4:9",
@@ -1114,10 +1114,10 @@
               },
               {
                 "constant": false,
-                "id": 2287,
+                "id": 2296,
                 "name": "riskId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2295:14:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1126,7 +1126,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2286,
+                  "id": 2295,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "2295:7:9",
@@ -1140,10 +1140,10 @@
               },
               {
                 "constant": false,
-                "id": 2289,
+                "id": 2298,
                 "name": "weight",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2617:11:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1152,7 +1152,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2288,
+                  "id": 2297,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2617:4:9",
@@ -1166,10 +1166,10 @@
               },
               {
                 "constant": false,
-                "id": 2291,
+                "id": 2300,
                 "name": "calculatedPayout",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2671:21:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1178,7 +1178,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2290,
+                  "id": 2299,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2671:4:9",
@@ -1192,10 +1192,10 @@
               },
               {
                 "constant": false,
-                "id": 2293,
+                "id": 2302,
                 "name": "actualPayout",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2731:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1204,7 +1204,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2292,
+                  "id": 2301,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2731:4:9",
@@ -1218,26 +1218,26 @@
               },
               {
                 "constant": false,
-                "id": 2295,
+                "id": 2304,
                 "name": "state",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2824:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_policyState_$2273",
+                  "typeIdentifier": "t_enum$_policyState_$2282",
                   "typeString": "enum FlightDelayDatabaseModel.policyState"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 2294,
+                  "id": 2303,
                   "name": "policyState",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 2273,
+                  "referencedDeclaration": 2282,
                   "src": "2824:11:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_policyState_$2273",
+                    "typeIdentifier": "t_enum$_policyState_$2282",
                     "typeString": "enum FlightDelayDatabaseModel.policyState"
                   }
                 },
@@ -1246,10 +1246,10 @@
               },
               {
                 "constant": false,
-                "id": 2297,
+                "id": 2306,
                 "name": "stateTime",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2892:14:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1258,7 +1258,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2296,
+                  "id": 2305,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "2892:4:9",
@@ -1272,10 +1272,10 @@
               },
               {
                 "constant": false,
-                "id": 2299,
+                "id": 2308,
                 "name": "stateMessage",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "2959:20:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1284,7 +1284,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2298,
+                  "id": 2307,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "2959:7:9",
@@ -1298,10 +1298,10 @@
               },
               {
                 "constant": false,
-                "id": 2301,
+                "id": 2310,
                 "name": "proof",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "3020:11:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1310,7 +1310,7 @@
                   "typeString": "bytes storage pointer"
                 },
                 "typeName": {
-                  "id": 2300,
+                  "id": 2309,
                   "name": "bytes",
                   "nodeType": "ElementaryTypeName",
                   "src": "3020:5:9",
@@ -1324,26 +1324,26 @@
               },
               {
                 "constant": false,
-                "id": 2303,
+                "id": 2312,
                 "name": "currency",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "3066:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_Currency_$2281",
+                  "typeIdentifier": "t_enum$_Currency_$2290",
                   "typeString": "enum FlightDelayDatabaseModel.Currency"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 2302,
+                  "id": 2311,
                   "name": "Currency",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 2281,
+                  "referencedDeclaration": 2290,
                   "src": "3066:8:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Currency_$2281",
+                    "typeIdentifier": "t_enum$_Currency_$2290",
                     "typeString": "enum FlightDelayDatabaseModel.Currency"
                   }
                 },
@@ -1352,10 +1352,10 @@
               },
               {
                 "constant": false,
-                "id": 2305,
+                "id": 2314,
                 "name": "customerExternalId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2306,
+                "scope": 2315,
                 "src": "3130:26:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1364,7 +1364,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2304,
+                  "id": 2313,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "3130:7:9",
@@ -1379,20 +1379,20 @@
             ],
             "name": "Policy",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "2078:1085:9",
             "visibility": "public"
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Risk",
-            "id": 2321,
+            "id": 2330,
             "members": [
               {
                 "constant": false,
-                "id": 2308,
+                "id": 2317,
                 "name": "carrierFlightNumber",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3445:27:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1401,7 +1401,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2307,
+                  "id": 2316,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "3445:7:9",
@@ -1415,10 +1415,10 @@
               },
               {
                 "constant": false,
-                "id": 2310,
+                "id": 2319,
                 "name": "departureYearMonthDay",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3564:29:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1427,7 +1427,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2309,
+                  "id": 2318,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "3564:7:9",
@@ -1441,10 +1441,10 @@
               },
               {
                 "constant": false,
-                "id": 2312,
+                "id": 2321,
                 "name": "arrivalTime",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3642:16:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1453,7 +1453,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2311,
+                  "id": 2320,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3642:4:9",
@@ -1467,10 +1467,10 @@
               },
               {
                 "constant": false,
-                "id": 2314,
+                "id": 2323,
                 "name": "delayInMinutes",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3710:19:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1479,7 +1479,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2313,
+                  "id": 2322,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3710:4:9",
@@ -1493,10 +1493,10 @@
               },
               {
                 "constant": false,
-                "id": 2316,
+                "id": 2325,
                 "name": "delay",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3790:11:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1505,7 +1505,7 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 2315,
+                  "id": 2324,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
                   "src": "3790:5:9",
@@ -1519,10 +1519,10 @@
               },
               {
                 "constant": false,
-                "id": 2318,
+                "id": 2327,
                 "name": "cumulatedWeightedPremium",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3889:29:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1531,7 +1531,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2317,
+                  "id": 2326,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3889:4:9",
@@ -1545,10 +1545,10 @@
               },
               {
                 "constant": false,
-                "id": 2320,
+                "id": 2329,
                 "name": "premiumMultiplier",
                 "nodeType": "VariableDeclaration",
-                "scope": 2321,
+                "scope": 2330,
                 "src": "3978:22:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1557,7 +1557,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2319,
+                  "id": 2328,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "3978:4:9",
@@ -1572,20 +1572,20 @@
             ],
             "name": "Risk",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "3380:627:9",
             "visibility": "public"
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.OraclizeCallback",
-            "id": 2328,
+            "id": 2337,
             "members": [
               {
                 "constant": false,
-                "id": 2323,
+                "id": 2332,
                 "name": "policyId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2328,
+                "scope": 2337,
                 "src": "4320:13:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1594,7 +1594,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2322,
+                  "id": 2331,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "4320:4:9",
@@ -1608,26 +1608,26 @@
               },
               {
                 "constant": false,
-                "id": 2325,
+                "id": 2334,
                 "name": "oState",
                 "nodeType": "VariableDeclaration",
-                "scope": 2328,
+                "scope": 2337,
                 "src": "4413:20:9",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_oraclizeState_$2276",
+                  "typeIdentifier": "t_enum$_oraclizeState_$2285",
                   "typeString": "enum FlightDelayDatabaseModel.oraclizeState"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 2324,
+                  "id": 2333,
                   "name": "oraclizeState",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 2276,
+                  "referencedDeclaration": 2285,
                   "src": "4413:13:9",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_oraclizeState_$2276",
+                    "typeIdentifier": "t_enum$_oraclizeState_$2285",
                     "typeString": "enum FlightDelayDatabaseModel.oraclizeState"
                   }
                 },
@@ -1636,10 +1636,10 @@
               },
               {
                 "constant": false,
-                "id": 2327,
+                "id": 2336,
                 "name": "oraclizeTime",
                 "nodeType": "VariableDeclaration",
-                "scope": 2328,
+                "scope": 2337,
                 "src": "4459:17:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1648,7 +1648,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 2326,
+                  "id": 2335,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "4459:4:9",
@@ -1663,20 +1663,20 @@
             ],
             "name": "OraclizeCallback",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "4242:241:9",
             "visibility": "public"
           },
           {
             "canonicalName": "FlightDelayDatabaseModel.Customer",
-            "id": 2333,
+            "id": 2342,
             "members": [
               {
                 "constant": false,
-                "id": 2330,
+                "id": 2339,
                 "name": "customerExternalId",
                 "nodeType": "VariableDeclaration",
-                "scope": 2333,
+                "scope": 2342,
                 "src": "4515:26:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1685,7 +1685,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 2329,
+                  "id": 2338,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "4515:7:9",
@@ -1699,10 +1699,10 @@
               },
               {
                 "constant": false,
-                "id": 2332,
+                "id": 2341,
                 "name": "identityConfirmed",
                 "nodeType": "VariableDeclaration",
-                "scope": 2333,
+                "scope": 2342,
                 "src": "4551:22:9",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1711,7 +1711,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 2331,
+                  "id": 2340,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "4551:4:9",
@@ -1726,12 +1726,12 @@
             ],
             "name": "Customer",
             "nodeType": "StructDefinition",
-            "scope": 2334,
+            "scope": 2343,
             "src": "4489:91:9",
             "visibility": "public"
           }
         ],
-        "scope": 2335,
+        "scope": 2344,
         "src": "214:4368:9"
       }
     ],
@@ -1743,5 +1743,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-13T09:40:39.967Z"
+  "updatedAt": "2018-04-05T12:35:45.913Z"
 }

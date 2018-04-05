@@ -34,24 +34,24 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b6101748061001e6000396000f3006060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058209422fc87d42fa2b3990322c1d25d514aba6b753e855f692b39f934f382acb9100029",
-  "deployedBytecode": "0x6060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058209422fc87d42fa2b3990322c1d25d514aba6b753e855f692b39f934f382acb9100029",
+  "bytecode": "0x6060604052341561000f57600080fd5b6101748061001e6000396000f3006060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058204ff6125a310c164a7d98ddfad13741c3627cea9a0ab7bbbf9204e2db73b50ef50029",
+  "deployedBytecode": "0x6060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632b68b9c6811461005b578063e0d6d53014610070578063f77c479114610083575b600080fd5b341561006657600080fd5b61006e6100bf565b005b341561007b57600080fd5b61006e610102565b341561008e57600080fd5b61009661012c565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b6000543373ffffffffffffffffffffffffffffffffffffffff9081169116146100e757600080fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b6000543373ffffffffffffffffffffffffffffffffffffffff90811691161461012a57600080fd5b565b60005473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058204ff6125a310c164a7d98ddfad13741c3627cea9a0ab7bbbf9204e2db73b50ef50029",
   "sourceMap": "298:708:4:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "298:708:4:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;747:83;;;;;;;;;;;;;;836:48;;;;;;;;;;;;372:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;747:83;504:10;;490;504;490:24;;;504:10;;490:24;482:33;;;;;;812:10;;;;799:24;836:48;504:10;;490;504;490:24;;;504:10;;490:24;482:33;;;;;;836:48::o;372:25::-;;;;;;:::o",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description Controlled contract Interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock\n */\n\npragma solidity ^0.4.11;\n\nimport \"./FlightDelayControllerInterface.sol\";\nimport \"./FlightDelayDatabaseModel.sol\";\n\n\ncontract FlightDelayControlledContract is FlightDelayDatabaseModel {\n\n    address public controller;\n    FlightDelayControllerInterface FD_CI;\n\n    modifier onlyController() {\n        require(msg.sender == controller);\n        _;\n    }\n\n    function setController(address _controller) internal returns (bool _result) {\n        controller = _controller;\n        FD_CI = FlightDelayControllerInterface(_controller);\n        _result = true;\n    }\n\n    function destruct() public onlyController {\n        selfdestruct(controller);\n    }\n\n    function setContracts() public onlyController {}\n\n    function getContract(bytes32 _id) internal returns (address _addr) {\n        _addr = FD_CI.getContract(_id);\n    }\n}\n",
-  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayControlledContract.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayControlledContract.sol",
   "ast": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayControlledContract.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayControlledContract.sol",
     "exportedSymbols": {
       "FlightDelayControlledContract": [
-        549
+        558
       ]
     },
-    "id": 550,
+    "id": 559,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 476,
+        "id": 485,
         "literals": [
           "solidity",
           "^",
@@ -62,23 +62,23 @@
         "src": "182:24:4"
       },
       {
-        "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayControllerInterface.sol",
+        "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayControllerInterface.sol",
         "file": "./FlightDelayControllerInterface.sol",
-        "id": 477,
+        "id": 486,
         "nodeType": "ImportDirective",
-        "scope": 550,
-        "sourceUnit": 879,
+        "scope": 559,
+        "sourceUnit": 888,
         "src": "208:46:4",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+        "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
         "file": "./FlightDelayDatabaseModel.sol",
-        "id": 478,
+        "id": 487,
         "nodeType": "ImportDirective",
-        "scope": 550,
-        "sourceUnit": 2335,
+        "scope": 559,
+        "sourceUnit": 2344,
         "src": "255:40:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -89,41 +89,41 @@
             "arguments": [],
             "baseName": {
               "contractScope": null,
-              "id": 479,
+              "id": 488,
               "name": "FlightDelayDatabaseModel",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2334,
+              "referencedDeclaration": 2343,
               "src": "340:24:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_FlightDelayDatabaseModel_$2334",
+                "typeIdentifier": "t_contract$_FlightDelayDatabaseModel_$2343",
                 "typeString": "contract FlightDelayDatabaseModel"
               }
             },
-            "id": 480,
+            "id": 489,
             "nodeType": "InheritanceSpecifier",
             "src": "340:24:4"
           }
         ],
         "contractDependencies": [
-          2334
+          2343
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 549,
+        "id": 558,
         "linearizedBaseContracts": [
-          549,
-          2334
+          558,
+          2343
         ],
         "name": "FlightDelayControlledContract",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 482,
+            "id": 491,
             "name": "controller",
             "nodeType": "VariableDeclaration",
-            "scope": 549,
+            "scope": 558,
             "src": "372:25:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -132,7 +132,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 481,
+              "id": 490,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "372:7:4",
@@ -146,26 +146,26 @@
           },
           {
             "constant": false,
-            "id": 484,
+            "id": 493,
             "name": "FD_CI",
             "nodeType": "VariableDeclaration",
-            "scope": 549,
+            "scope": 558,
             "src": "403:36:4",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+              "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
               "typeString": "contract FlightDelayControllerInterface"
             },
             "typeName": {
               "contractScope": null,
-              "id": 483,
+              "id": 492,
               "name": "FlightDelayControllerInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 878,
+              "referencedDeclaration": 887,
               "src": "403:30:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                 "typeString": "contract FlightDelayControllerInterface"
               }
             },
@@ -174,7 +174,7 @@
           },
           {
             "body": {
-              "id": 494,
+              "id": 503,
               "nodeType": "Block",
               "src": "472:61:4",
               "statements": [
@@ -188,7 +188,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 490,
+                        "id": 499,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -197,18 +197,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 487,
+                            "id": 496,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 12508,
+                            "referencedDeclaration": 12517,
                             "src": "490:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 488,
+                          "id": 497,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -226,11 +226,11 @@
                         "operator": "==",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 489,
+                          "id": 498,
                           "name": "controller",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 482,
+                          "referencedDeclaration": 491,
                           "src": "504:10:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -251,18 +251,18 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 486,
+                      "id": 495,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12511,
+                      "referencedDeclaration": 12520,
                       "src": "482:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 491,
+                    "id": 500,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -276,22 +276,22 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 492,
+                  "id": 501,
                   "nodeType": "ExpressionStatement",
                   "src": "482:33:4"
                 },
                 {
-                  "id": 493,
+                  "id": 502,
                   "nodeType": "PlaceholderStatement",
                   "src": "525:1:4"
                 }
               ]
             },
-            "id": 495,
+            "id": 504,
             "name": "onlyController",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 485,
+              "id": 494,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "469:2:4"
@@ -301,25 +301,25 @@
           },
           {
             "body": {
-              "id": 516,
+              "id": 525,
               "nodeType": "Block",
               "src": "615:126:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 504,
+                    "id": 513,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 502,
+                      "id": 511,
                       "name": "controller",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 482,
+                      "referencedDeclaration": 491,
                       "src": "625:10:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -330,11 +330,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 503,
+                      "id": 512,
                       "name": "_controller",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 497,
+                      "referencedDeclaration": 506,
                       "src": "638:11:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -347,28 +347,28 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 505,
+                  "id": 514,
                   "nodeType": "ExpressionStatement",
                   "src": "625:24:4"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 510,
+                    "id": 519,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 506,
+                      "id": 515,
                       "name": "FD_CI",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 484,
+                      "referencedDeclaration": 493,
                       "src": "659:5:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                         "typeString": "contract FlightDelayControllerInterface"
                       }
                     },
@@ -379,11 +379,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 508,
+                          "id": 517,
                           "name": "_controller",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 497,
+                          "referencedDeclaration": 506,
                           "src": "698:11:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -398,18 +398,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 507,
+                        "id": 516,
                         "name": "FlightDelayControllerInterface",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 878,
+                        "referencedDeclaration": 887,
                         "src": "667:30:4",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_FlightDelayControllerInterface_$878_$",
+                          "typeIdentifier": "t_type$_t_contract$_FlightDelayControllerInterface_$887_$",
                           "typeString": "type(contract FlightDelayControllerInterface)"
                         }
                       },
-                      "id": 509,
+                      "id": 518,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -419,35 +419,35 @@
                       "nodeType": "FunctionCall",
                       "src": "667:43:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                         "typeString": "contract FlightDelayControllerInterface"
                       }
                     },
                     "src": "659:51:4",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                      "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                       "typeString": "contract FlightDelayControllerInterface"
                     }
                   },
-                  "id": 511,
+                  "id": 520,
                   "nodeType": "ExpressionStatement",
                   "src": "659:51:4"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 514,
+                    "id": 523,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 512,
+                      "id": 521,
                       "name": "_result",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 500,
+                      "referencedDeclaration": 509,
                       "src": "720:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -459,7 +459,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 513,
+                      "id": 522,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -480,13 +480,13 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 515,
+                  "id": 524,
                   "nodeType": "ExpressionStatement",
                   "src": "720:14:4"
                 }
               ]
             },
-            "id": 517,
+            "id": 526,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -494,15 +494,15 @@
             "name": "setController",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 498,
+              "id": 507,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 497,
+                  "id": 506,
                   "name": "_controller",
                   "nodeType": "VariableDeclaration",
-                  "scope": 517,
+                  "scope": 526,
                   "src": "562:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -511,7 +511,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 496,
+                    "id": 505,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "562:7:4",
@@ -528,15 +528,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 501,
+              "id": 510,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 500,
+                  "id": 509,
                   "name": "_result",
                   "nodeType": "VariableDeclaration",
-                  "scope": 517,
+                  "scope": 526,
                   "src": "601:12:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -545,7 +545,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 499,
+                    "id": 508,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "601:4:4",
@@ -560,7 +560,7 @@
               ],
               "src": "600:14:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "539:202:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -568,7 +568,7 @@
           },
           {
             "body": {
-              "id": 526,
+              "id": 535,
               "nodeType": "Block",
               "src": "789:41:4",
               "statements": [
@@ -578,11 +578,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 523,
+                        "id": 532,
                         "name": "controller",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 482,
+                        "referencedDeclaration": 491,
                         "src": "812:10:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -597,18 +597,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 522,
+                      "id": 531,
                       "name": "selfdestruct",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12514,
+                      "referencedDeclaration": 12523,
                       "src": "799:12:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_selfdestruct_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 524,
+                    "id": 533,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -622,27 +622,27 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 525,
+                  "id": 534,
                   "nodeType": "ExpressionStatement",
                   "src": "799:24:4"
                 }
               ]
             },
-            "id": 527,
+            "id": 536,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": [],
-                "id": 520,
+                "id": 529,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 519,
+                  "id": 528,
                   "name": "onlyController",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 495,
+                  "referencedDeclaration": 504,
                   "src": "774:14:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -656,19 +656,19 @@
             "name": "destruct",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 518,
+              "id": 527,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "764:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 521,
+              "id": 530,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "789:0:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "747:83:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -676,26 +676,26 @@
           },
           {
             "body": {
-              "id": 532,
+              "id": 541,
               "nodeType": "Block",
               "src": "882:2:4",
               "statements": []
             },
-            "id": 533,
+            "id": 542,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": [],
-                "id": 530,
+                "id": 539,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 529,
+                  "id": 538,
                   "name": "onlyController",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 495,
+                  "referencedDeclaration": 504,
                   "src": "867:14:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -709,19 +709,19 @@
             "name": "setContracts",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 528,
+              "id": 537,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "857:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 531,
+              "id": 540,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "882:0:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "836:48:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -729,25 +729,25 @@
           },
           {
             "body": {
-              "id": 547,
+              "id": 556,
               "nodeType": "Block",
               "src": "957:47:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 545,
+                    "id": 554,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 540,
+                      "id": 549,
                       "name": "_addr",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 538,
+                      "referencedDeclaration": 547,
                       "src": "967:5:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -761,11 +761,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 543,
+                          "id": 552,
                           "name": "_id",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 535,
+                          "referencedDeclaration": 544,
                           "src": "993:3:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -782,32 +782,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 541,
+                          "id": 550,
                           "name": "FD_CI",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 484,
+                          "referencedDeclaration": 493,
                           "src": "975:5:4",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                            "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                             "typeString": "contract FlightDelayControllerInterface"
                           }
                         },
-                        "id": 542,
+                        "id": 551,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "getContract",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 877,
+                        "referencedDeclaration": 886,
                         "src": "975:17:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_nonpayable$_t_bytes32_$returns$_t_address_$",
                           "typeString": "function (bytes32) external returns (address)"
                         }
                       },
-                      "id": 544,
+                      "id": 553,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -827,13 +827,13 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 546,
+                  "id": 555,
                   "nodeType": "ExpressionStatement",
                   "src": "967:30:4"
                 }
               ]
             },
-            "id": 548,
+            "id": 557,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -841,15 +841,15 @@
             "name": "getContract",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 536,
+              "id": 545,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 535,
+                  "id": 544,
                   "name": "_id",
                   "nodeType": "VariableDeclaration",
-                  "scope": 548,
+                  "scope": 557,
                   "src": "911:11:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -858,7 +858,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 534,
+                    "id": 543,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "911:7:4",
@@ -875,15 +875,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 539,
+              "id": 548,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 538,
+                  "id": 547,
                   "name": "_addr",
                   "nodeType": "VariableDeclaration",
-                  "scope": 548,
+                  "scope": 557,
                   "src": "942:13:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -892,7 +892,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 537,
+                    "id": 546,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "942:7:4",
@@ -907,31 +907,31 @@
               ],
               "src": "941:15:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "890:114:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 550,
+        "scope": 559,
         "src": "298:708:4"
       }
     ],
     "src": "182:825:4"
   },
   "legacyAST": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayControlledContract.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayControlledContract.sol",
     "exportedSymbols": {
       "FlightDelayControlledContract": [
-        549
+        558
       ]
     },
-    "id": 550,
+    "id": 559,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 476,
+        "id": 485,
         "literals": [
           "solidity",
           "^",
@@ -942,23 +942,23 @@
         "src": "182:24:4"
       },
       {
-        "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayControllerInterface.sol",
+        "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayControllerInterface.sol",
         "file": "./FlightDelayControllerInterface.sol",
-        "id": 477,
+        "id": 486,
         "nodeType": "ImportDirective",
-        "scope": 550,
-        "sourceUnit": 879,
+        "scope": 559,
+        "sourceUnit": 888,
         "src": "208:46:4",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayDatabaseModel.sol",
+        "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
         "file": "./FlightDelayDatabaseModel.sol",
-        "id": 478,
+        "id": 487,
         "nodeType": "ImportDirective",
-        "scope": 550,
-        "sourceUnit": 2335,
+        "scope": 559,
+        "sourceUnit": 2344,
         "src": "255:40:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -969,41 +969,41 @@
             "arguments": [],
             "baseName": {
               "contractScope": null,
-              "id": 479,
+              "id": 488,
               "name": "FlightDelayDatabaseModel",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2334,
+              "referencedDeclaration": 2343,
               "src": "340:24:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_FlightDelayDatabaseModel_$2334",
+                "typeIdentifier": "t_contract$_FlightDelayDatabaseModel_$2343",
                 "typeString": "contract FlightDelayDatabaseModel"
               }
             },
-            "id": 480,
+            "id": 489,
             "nodeType": "InheritanceSpecifier",
             "src": "340:24:4"
           }
         ],
         "contractDependencies": [
-          2334
+          2343
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 549,
+        "id": 558,
         "linearizedBaseContracts": [
-          549,
-          2334
+          558,
+          2343
         ],
         "name": "FlightDelayControlledContract",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 482,
+            "id": 491,
             "name": "controller",
             "nodeType": "VariableDeclaration",
-            "scope": 549,
+            "scope": 558,
             "src": "372:25:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1012,7 +1012,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 481,
+              "id": 490,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "372:7:4",
@@ -1026,26 +1026,26 @@
           },
           {
             "constant": false,
-            "id": 484,
+            "id": 493,
             "name": "FD_CI",
             "nodeType": "VariableDeclaration",
-            "scope": 549,
+            "scope": 558,
             "src": "403:36:4",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+              "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
               "typeString": "contract FlightDelayControllerInterface"
             },
             "typeName": {
               "contractScope": null,
-              "id": 483,
+              "id": 492,
               "name": "FlightDelayControllerInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 878,
+              "referencedDeclaration": 887,
               "src": "403:30:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                 "typeString": "contract FlightDelayControllerInterface"
               }
             },
@@ -1054,7 +1054,7 @@
           },
           {
             "body": {
-              "id": 494,
+              "id": 503,
               "nodeType": "Block",
               "src": "472:61:4",
               "statements": [
@@ -1068,7 +1068,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 490,
+                        "id": 499,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1077,18 +1077,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 487,
+                            "id": 496,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 12508,
+                            "referencedDeclaration": 12517,
                             "src": "490:3:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 488,
+                          "id": 497,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1106,11 +1106,11 @@
                         "operator": "==",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 489,
+                          "id": 498,
                           "name": "controller",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 482,
+                          "referencedDeclaration": 491,
                           "src": "504:10:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -1131,18 +1131,18 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 486,
+                      "id": 495,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12511,
+                      "referencedDeclaration": 12520,
                       "src": "482:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 491,
+                    "id": 500,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1156,22 +1156,22 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 492,
+                  "id": 501,
                   "nodeType": "ExpressionStatement",
                   "src": "482:33:4"
                 },
                 {
-                  "id": 493,
+                  "id": 502,
                   "nodeType": "PlaceholderStatement",
                   "src": "525:1:4"
                 }
               ]
             },
-            "id": 495,
+            "id": 504,
             "name": "onlyController",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 485,
+              "id": 494,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "469:2:4"
@@ -1181,25 +1181,25 @@
           },
           {
             "body": {
-              "id": 516,
+              "id": 525,
               "nodeType": "Block",
               "src": "615:126:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 504,
+                    "id": 513,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 502,
+                      "id": 511,
                       "name": "controller",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 482,
+                      "referencedDeclaration": 491,
                       "src": "625:10:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -1210,11 +1210,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 503,
+                      "id": 512,
                       "name": "_controller",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 497,
+                      "referencedDeclaration": 506,
                       "src": "638:11:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -1227,28 +1227,28 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 505,
+                  "id": 514,
                   "nodeType": "ExpressionStatement",
                   "src": "625:24:4"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 510,
+                    "id": 519,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 506,
+                      "id": 515,
                       "name": "FD_CI",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 484,
+                      "referencedDeclaration": 493,
                       "src": "659:5:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                         "typeString": "contract FlightDelayControllerInterface"
                       }
                     },
@@ -1259,11 +1259,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 508,
+                          "id": 517,
                           "name": "_controller",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 497,
+                          "referencedDeclaration": 506,
                           "src": "698:11:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -1278,18 +1278,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 507,
+                        "id": 516,
                         "name": "FlightDelayControllerInterface",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 878,
+                        "referencedDeclaration": 887,
                         "src": "667:30:4",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_FlightDelayControllerInterface_$878_$",
+                          "typeIdentifier": "t_type$_t_contract$_FlightDelayControllerInterface_$887_$",
                           "typeString": "type(contract FlightDelayControllerInterface)"
                         }
                       },
-                      "id": 509,
+                      "id": 518,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1299,35 +1299,35 @@
                       "nodeType": "FunctionCall",
                       "src": "667:43:4",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                        "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                         "typeString": "contract FlightDelayControllerInterface"
                       }
                     },
                     "src": "659:51:4",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                      "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                       "typeString": "contract FlightDelayControllerInterface"
                     }
                   },
-                  "id": 511,
+                  "id": 520,
                   "nodeType": "ExpressionStatement",
                   "src": "659:51:4"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 514,
+                    "id": 523,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 512,
+                      "id": 521,
                       "name": "_result",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 500,
+                      "referencedDeclaration": 509,
                       "src": "720:7:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -1339,7 +1339,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 513,
+                      "id": 522,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -1360,13 +1360,13 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 515,
+                  "id": 524,
                   "nodeType": "ExpressionStatement",
                   "src": "720:14:4"
                 }
               ]
             },
-            "id": 517,
+            "id": 526,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1374,15 +1374,15 @@
             "name": "setController",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 498,
+              "id": 507,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 497,
+                  "id": 506,
                   "name": "_controller",
                   "nodeType": "VariableDeclaration",
-                  "scope": 517,
+                  "scope": 526,
                   "src": "562:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1391,7 +1391,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 496,
+                    "id": 505,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "562:7:4",
@@ -1408,15 +1408,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 501,
+              "id": 510,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 500,
+                  "id": 509,
                   "name": "_result",
                   "nodeType": "VariableDeclaration",
-                  "scope": 517,
+                  "scope": 526,
                   "src": "601:12:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1425,7 +1425,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 499,
+                    "id": 508,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "601:4:4",
@@ -1440,7 +1440,7 @@
               ],
               "src": "600:14:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "539:202:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1448,7 +1448,7 @@
           },
           {
             "body": {
-              "id": 526,
+              "id": 535,
               "nodeType": "Block",
               "src": "789:41:4",
               "statements": [
@@ -1458,11 +1458,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 523,
+                        "id": 532,
                         "name": "controller",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 482,
+                        "referencedDeclaration": 491,
                         "src": "812:10:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1477,18 +1477,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 522,
+                      "id": 531,
                       "name": "selfdestruct",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12514,
+                      "referencedDeclaration": 12523,
                       "src": "799:12:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_selfdestruct_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 524,
+                    "id": 533,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1502,27 +1502,27 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 525,
+                  "id": 534,
                   "nodeType": "ExpressionStatement",
                   "src": "799:24:4"
                 }
               ]
             },
-            "id": 527,
+            "id": 536,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": [],
-                "id": 520,
+                "id": 529,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 519,
+                  "id": 528,
                   "name": "onlyController",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 495,
+                  "referencedDeclaration": 504,
                   "src": "774:14:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1536,19 +1536,19 @@
             "name": "destruct",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 518,
+              "id": 527,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "764:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 521,
+              "id": 530,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "789:0:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "747:83:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1556,26 +1556,26 @@
           },
           {
             "body": {
-              "id": 532,
+              "id": 541,
               "nodeType": "Block",
               "src": "882:2:4",
               "statements": []
             },
-            "id": 533,
+            "id": 542,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": [],
-                "id": 530,
+                "id": 539,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 529,
+                  "id": 538,
                   "name": "onlyController",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 495,
+                  "referencedDeclaration": 504,
                   "src": "867:14:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1589,19 +1589,19 @@
             "name": "setContracts",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 528,
+              "id": 537,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "857:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 531,
+              "id": 540,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "882:0:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "836:48:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1609,25 +1609,25 @@
           },
           {
             "body": {
-              "id": 547,
+              "id": 556,
               "nodeType": "Block",
               "src": "957:47:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 545,
+                    "id": 554,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 540,
+                      "id": 549,
                       "name": "_addr",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 538,
+                      "referencedDeclaration": 547,
                       "src": "967:5:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -1641,11 +1641,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 543,
+                          "id": 552,
                           "name": "_id",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 535,
+                          "referencedDeclaration": 544,
                           "src": "993:3:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes32",
@@ -1662,32 +1662,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 541,
+                          "id": 550,
                           "name": "FD_CI",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 484,
+                          "referencedDeclaration": 493,
                           "src": "975:5:4",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$878",
+                            "typeIdentifier": "t_contract$_FlightDelayControllerInterface_$887",
                             "typeString": "contract FlightDelayControllerInterface"
                           }
                         },
-                        "id": 542,
+                        "id": 551,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "getContract",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 877,
+                        "referencedDeclaration": 886,
                         "src": "975:17:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_nonpayable$_t_bytes32_$returns$_t_address_$",
                           "typeString": "function (bytes32) external returns (address)"
                         }
                       },
-                      "id": 544,
+                      "id": 553,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1707,13 +1707,13 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 546,
+                  "id": 555,
                   "nodeType": "ExpressionStatement",
                   "src": "967:30:4"
                 }
               ]
             },
-            "id": 548,
+            "id": 557,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1721,15 +1721,15 @@
             "name": "getContract",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 536,
+              "id": 545,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 535,
+                  "id": 544,
                   "name": "_id",
                   "nodeType": "VariableDeclaration",
-                  "scope": 548,
+                  "scope": 557,
                   "src": "911:11:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1738,7 +1738,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 534,
+                    "id": 543,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "911:7:4",
@@ -1755,15 +1755,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 539,
+              "id": 548,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 538,
+                  "id": 547,
                   "name": "_addr",
                   "nodeType": "VariableDeclaration",
-                  "scope": 548,
+                  "scope": 557,
                   "src": "942:13:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1772,7 +1772,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 537,
+                    "id": 546,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "942:7:4",
@@ -1787,14 +1787,14 @@
               ],
               "src": "941:15:4"
             },
-            "scope": 549,
+            "scope": 558,
             "src": "890:114:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 550,
+        "scope": 559,
         "src": "298:708:4"
       }
     ],
@@ -1806,5 +1806,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-13T09:40:39.961Z"
+  "updatedAt": "2018-04-05T12:35:45.901Z"
 }

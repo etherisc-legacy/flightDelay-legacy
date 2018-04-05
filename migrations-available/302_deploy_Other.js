@@ -45,10 +45,10 @@ module.exports = (deployer, network, accounts) => {
 
         // Register contracts
         .then(() => log.info('Register administators'))
-        .then(() => controller.registerContract(network === 'mainnet' ? truffle.networks[network].funder : accounts[2], 'FD.Funder', false))
+        .then(() => controller.registerContract(network === 'mainnet' ? truffle.networks[network].funder : accounts[0], 'FD.Funder', false))
 
-        .then(() => controller.registerContract(accounts[3], 'FD.CustomersAdmin', false))
-        .then(() => controller.registerContract(accounts[4], 'FD.Emergency', false))
+        .then(() => controller.registerContract(accounts[1], 'FD.CustomersAdmin', false))
+        .then(() => controller.registerContract(accounts[0], 'FD.Emergency', false))
 
         .then(() => log.info('Register contracts'))
         .then(() => controller.registerContract(FlightDelayAccessController.address, 'FD.AccessController', true))
@@ -60,39 +60,39 @@ module.exports = (deployer, network, accounts) => {
 
         // Set new owner
         .then(() => log.info('Transfer ownership'))
-        .then(() => controller.transferOwnership(accounts[1]))
+        .then(() => controller.transferOwnership(accounts[0]))
 
         // Setup contracts
         .then(() => log.info('Setup contracts'))
-        .then(() => controller.setAllContracts({from: accounts[1]}))
+        .then(() => controller.setAllContracts({from: accounts[0]}))
 
         .then(() => FlightDelayDatabase.deployed())
         .then((_d) => { database = _d; return Promise.resolve(); })
         // Setup valid origin airports
-        .then(() => {
-            if (network === 'development') {
-                return database.addOrigin('"JFK"', { from: accounts[1], })
-            }
-            return Promise.resolve();
-        })
-        .then(() => database.addOrigin('"ZRH"', { from: accounts[1], }))
-        .then(() => database.addOrigin('"SFO"', { from: accounts[1], }))
-        .then(() => database.addOrigin('"SJC"', { from: accounts[1], }))
-        .then(() => database.addOrigin('"OAK"', { from: accounts[1], }))
-        // Setup valid destination airports
-        .then(() => {
-            if (network === 'development') {
-                return database.addDestination('"JFK"', { from: accounts[1], })
-            }
-            return Promise.resolve();
-        })
-        .then(() => database.addDestination('"ZRH"', { from: accounts[1], }))
-        .then(() => database.addDestination('"SFO"', { from: accounts[1], }))
-        .then(() => database.addDestination('"SJC"', { from: accounts[1], }))
-        .then(() => database.addDestination('"OAK"', { from: accounts[1], }))
+        // .then(() => {
+        //     if (network === 'development') {
+        //         return database.addOrigin('"JFK"', { from: accounts[1], })
+        //     }
+        //     return Promise.resolve();
+        // })
+        // .then(() => database.addOrigin('"ZRH"', { from: accounts[1], }))
+        // .then(() => database.addOrigin('"SFO"', { from: accounts[1], }))
+        // .then(() => database.addOrigin('"SJC"', { from: accounts[1], }))
+        // .then(() => database.addOrigin('"OAK"', { from: accounts[1], }))
+        // // Setup valid destination airports
+        // .then(() => {
+        //     if (network === 'development') {
+        //         return database.addDestination('"JFK"', { from: accounts[1], })
+        //     }
+        //     return Promise.resolve();
+        // })
+        // .then(() => database.addDestination('"ZRH"', { from: accounts[1], }))
+        // .then(() => database.addDestination('"SFO"', { from: accounts[1], }))
+        // .then(() => database.addDestination('"SJC"', { from: accounts[1], }))
+        // .then(() => database.addDestination('"OAK"', { from: accounts[1], }))
         // Setup min and max departure timestamps
-        .then(() => database.setMinDepartureLim(1512950400, { from: accounts[1], }))
-        .then(() => database.setMaxDepartureLim(1544486400, { from: accounts[1], }))
+        .then(() => database.setMinDepartureLim(1512950400, { from: accounts[0], }))
+        .then(() => database.setMaxDepartureLim(1986422400, { from: accounts[0], }))
 
         // Fund Contracts
         .then(() => {
@@ -102,17 +102,17 @@ module.exports = (deployer, network, accounts) => {
                     // Fund FD.Ledger
                     .then(() => log.info('Fund FD.Ledger'))
                     .then(() => FlightDelayLedger.deployed())
-                    .then(FD_LG => FD_LG.sendTransaction({from: accounts[2], value: fund(6)}))
+                    .then(FD_LG => FD_LG.sendTransaction({from: accounts[0], value: fund(6)}))
 
                     // Fund FD.Underwrite
                     .then(() => log.info('Fund FD.Underwrite'))
                     .then(() => FlightDelayUnderwrite.deployed())
-                    .then(FD_UW => FD_UW.sendTransaction({from: accounts[2], value: fund(2)}))
+                    .then(FD_UW => FD_UW.sendTransaction({from: accounts[0], value: fund(2)}))
 
                     // Fund FD.Payout
                     .then(() => log.info('Fund FD.Payout'))
                     .then(() => FlightDelayPayout.deployed())
-                    .then(FD_PY => FD_PY.sendTransaction({from: accounts[2], value: fund(2)}))
+                    .then(FD_PY => FD_PY.sendTransaction({from: accounts[0], value: fund(2)}))
             }
 
             return Promise.resolve();
@@ -137,10 +137,10 @@ module.exports = (deployer, network, accounts) => {
 
         .then(() => {
             log.info(`Deployer: ${accounts[0]}`);
-            log.info(`FD.Owner: ${accounts[1]}`);
-            log.info(`FD.Funder: ${network === 'mainnet' ? truffle.networks[network].funder : accounts[2]}`);
-            log.info(`FD.CustomersAdmin: ${accounts[3]}`);
-            log.info(`FD.Emergency: ${accounts[4]}`);
+            log.info(`FD.Owner: ${accounts[0]}`);
+            log.info(`FD.Funder: ${network === 'mainnet' ? truffle.networks[network].funder : accounts[0]}`);
+            log.info(`FD.CustomersAdmin: ${accounts[1]}`);
+            log.info(`FD.Emergency: ${accounts[0]}`);
             log.info(`FD.Controller: ${FlightDelayController.address}`);
             log.info(`FD.AccessController: ${FlightDelayAccessController.address}`);
             log.info(`FD.Database: ${FlightDelayDatabase.address}`);

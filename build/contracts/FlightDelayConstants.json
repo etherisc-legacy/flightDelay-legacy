@@ -2,6 +2,48 @@
   "contractName": "FlightDelayConstants",
   "abi": [
     {
+      "constant": true,
+      "inputs": [],
+      "name": "PATCH_VERSION",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "MINOR_VERSION",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "MAJOR_VERSION",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -298,20 +340,20 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x606060405260c060405190810160409081526000808352600a6020840152601491830191909152601e606083015260326080830181905260a0830152610046916006610057565b50341561005257600080fd5b61010b565b6001830191839082156100da5791602002820160005b838211156100ab57835183826101000a81548160ff021916908360ff160217905550926020019260010160208160000104928301926001030261006d565b80156100d85782816101000a81549060ff02191690556001016020816000010492830192600103026100ab565b505b506100e69291506100ea565b5090565b61010891905b808211156100e657805460ff191681556001016100f0565b90565b6035806101196000396000f3006060604052600080fd00a165627a7a72305820d15c9b83e1827b0a10506e069d164eedd87cd4a20c6effb2e2229b2ca71435900029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820d15c9b83e1827b0a10506e069d164eedd87cd4a20c6effb2e2229b2ca71435900029",
-  "sourceMap": "200:6897:3:-;;;3682:103;;;;;;;;;;3718:1;3682:103;;;3729:2;3682:103;;;;3741:2;3682:103;;;;;;;3753:2;3682:103;;;;3765:2;3682:103;;;;;;;;;;;;;;:::i;:::-;;200:6897;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;200:6897:3;;;-1:-1:-1;200:6897:3;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;-1:-1:-1;;200:6897:3;;;;;;;;;:::o;:::-;;;;;;;",
-  "deployedSourceMap": "200:6897:3:-;;;;;",
-  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tEvents and Constants\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayConstants {\n\n    /*\n    * General events\n    */\n\n// --> test-mode\n//        event LogUint(string _message, uint _uint);\n//        event LogUintEth(string _message, uint ethUint);\n//        event LogUintTime(string _message, uint timeUint);\n//        event LogInt(string _message, int _int);\n//        event LogAddress(string _message, address _address);\n//        event LogBytes32(string _message, bytes32 hexBytes32);\n//        event LogBytes(string _message, bytes hexBytes);\n//        event LogBytes32Str(string _message, bytes32 strBytes32);\n//        event LogString(string _message, string _string);\n//        event LogBool(string _message, bool _bool);\n//        event Log(address);\n// <-- test-mode\n\n    event LogPolicyApplied(\n        uint _policyId,\n        address _customer,\n        bytes32 strCarrierFlightNumber,\n        uint ethPremium\n    );\n    event LogPolicyAccepted(\n        uint _policyId,\n        uint _statistics0,\n        uint _statistics1,\n        uint _statistics2,\n        uint _statistics3,\n        uint _statistics4,\n        uint _statistics5\n    );\n    event LogPolicyPaidOut(\n        uint _policyId,\n        uint ethAmount\n    );\n    event LogPolicyExpired(\n        uint _policyId\n    );\n    event LogPolicyDeclined(\n        uint _policyId,\n        bytes32 strReason\n    );\n    event LogPolicyManualPayout(\n        uint _policyId,\n        bytes32 strReason\n    );\n    event LogSendFunds(\n        address _recipient,\n        uint8 _from,\n        uint ethAmount\n    );\n    event LogReceiveFunds(\n        address _sender,\n        uint8 _to,\n        uint ethAmount\n    );\n    event LogSendFail(\n        uint _policyId,\n        bytes32 strReason\n    );\n    event LogOraclizeCall(\n        uint _policyId,\n        bytes32 hexQueryId,\n        string _oraclizeUrl,\n        uint256 _oraclizeTime\n    );\n    event LogOraclizeCallback(\n        uint _policyId,\n        bytes32 hexQueryId,\n        string _result,\n        bytes hexProof\n    );\n    event LogSetState(\n        uint _policyId,\n        uint8 _policyState,\n        uint _stateTime,\n        bytes32 _stateMessage\n    );\n    event LogExternal(\n        uint256 _policyId,\n        address _address,\n        bytes32 _externalId\n    );\n\n    /*\n    * General constants\n    */\n\n    // minimum observations for valid prediction\n    uint constant MIN_OBSERVATIONS = 10;\n    // minimum premium to cover costs\n    uint constant MIN_PREMIUM = 50 finney;\n    // maximum premium\n    uint constant MAX_PREMIUM = 1 ether;\n    // maximum payout\n    uint constant MAX_PAYOUT = 1100 finney;\n\n    uint constant MIN_PREMIUM_EUR = 1500 wei;\n    uint constant MAX_PREMIUM_EUR = 29000 wei;\n    uint constant MAX_PAYOUT_EUR = 30000 wei;\n\n    uint constant MIN_PREMIUM_USD = 1700 wei;\n    uint constant MAX_PREMIUM_USD = 34000 wei;\n    uint constant MAX_PAYOUT_USD = 35000 wei;\n\n    uint constant MIN_PREMIUM_GBP = 1300 wei;\n    uint constant MAX_PREMIUM_GBP = 25000 wei;\n    uint constant MAX_PAYOUT_GBP = 270 wei;\n\n    // maximum cumulated weighted premium per risk\n    uint constant MAX_CUMULATED_WEIGHTED_PREMIUM = 60 ether;\n    // 1 percent for DAO, 1 percent for maintainer\n    uint8 constant REWARD_PERCENT = 2;\n    // reserve for tail risks\n    uint8 constant RESERVE_PERCENT = 1;\n    // the weight pattern; in future versions this may become part of the policy struct.\n    // currently can't be constant because of compiler restrictions\n    // WEIGHT_PATTERN[0] is not used, just to be consistent\n    uint8[6] WEIGHT_PATTERN = [\n        0,\n        10,\n        20,\n        30,\n        50,\n        50\n    ];\n\n// --> prod-mode\n    // DEFINITIONS FOR ROPSTEN AND MAINNET\n    // minimum time before departure for applying\n    uint constant MIN_TIME_BEFORE_DEPARTURE\t= 24 hours; // for production\n    // check for delay after .. minutes after scheduled arrival\n    uint constant CHECK_PAYOUT_OFFSET = 15 minutes; // for production\n// <-- prod-mode\n\n// --> test-mode\n//        // DEFINITIONS FOR LOCAL TESTNET\n//        // minimum time before departure for applying\n//        uint constant MIN_TIME_BEFORE_DEPARTURE = 1 seconds; // for testing\n//        // check for delay after .. minutes after scheduled arrival\n//        uint constant CHECK_PAYOUT_OFFSET = 1 seconds; // for testing\n// <-- test-mode\n\n    // maximum duration of flight\n    uint constant MAX_FLIGHT_DURATION = 2 days;\n    // Deadline for acceptance of policies: 31.12.2030 (Testnet)\n    uint constant CONTRACT_DEAD_LINE = 1922396399;\n\n    // gas Constants for oraclize\n    uint constant ORACLIZE_GAS = 700000;\n    uint constant ORACLIZE_GASPRICE = 4000000000;\n\n\n    /*\n    * URLs and query strings for oraclize\n    */\n\n// --> prod-mode\n    // DEFINITIONS FOR ROPSTEN AND MAINNET\n    string constant ORACLIZE_RATINGS_BASE_URL =\n        // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1\n        \"[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/\";\n    string constant ORACLIZE_RATINGS_QUERY =\n        \"?${[decrypt] BAr6Z9QolM2PQimF/pNC6zXldOvZ2qquOSKm/qJkJWnSGgAeRw21wBGnBbXiamr/ISC5SlcJB6wEPKthdc6F+IpqM/iXavKsalRUrGNuBsGfaMXr8fRQw6gLzqk0ecOFNeCa48/yqBvC/kas+jTKHiYxA3wTJrVZCq76Y03lZI2xxLaoniRk}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\";\n    string constant ORACLIZE_STATUS_BASE_URL =\n        // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight\n        \"[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/\";\n    string constant ORACLIZE_STATUS_QUERY =\n        // pattern:\n        \"?${[decrypt] BJxpwRaHujYTT98qI5slQJplj/VbfV7vYkMOp/Mr5D/5+gkgJQKZb0gVSCa6aKx2Wogo/cG7yaWINR6vnuYzccQE5yVJSr7RQilRawxnAtZXt6JB70YpX4xlfvpipit4R+OmQTurJGGwb8Pgnr4LvotydCjup6wv2Bk/z3UdGA7Sl+FU5a+0}&utc=true).flightStatuses[0]['status','delays','operationalTimes']\";\n// <-- prod-mode\n\n// --> test-mode\n//        // DEFINITIONS FOR LOCAL TESTNET\n//        string constant ORACLIZE_RATINGS_BASE_URL =\n//            // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1\n//            \"[URL] json(https://api-test.etherisc.com/flex/ratings/rest/v1/json/flight/\";\n//        string constant ORACLIZE_RATINGS_QUERY =\n//            // for testrpc:\n//            \").ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\";\n//        string constant ORACLIZE_STATUS_BASE_URL =\n//            // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight\n//            \"[URL] json(https://api-test.etherisc.com/flex/flightstatus/rest/v2/json/flight/status/\";\n//        string constant ORACLIZE_STATUS_QUERY =\n//            // for testrpc:\n//            \"?utc=true).flightStatuses[0]['status','delays','operationalTimes']\";\n// <-- test-mode\n}\n",
-  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayConstants.sol",
+  "bytecode": "0x606060405260c060405190810160409081526000808352600a6020840152601491830191909152601e606083015260326080830181905260a0830152610046916006610057565b50341561005257600080fd5b61010b565b6001830191839082156100da5791602002820160005b838211156100ab57835183826101000a81548160ff021916908360ff160217905550926020019260010160208160000104928301926001030261006d565b80156100d85782816101000a81549060ff02191690556001016020816000010492830192600103026100ab565b505b506100e69291506100ea565b5090565b61010891905b808211156100e657805460ff191681556001016100f0565b90565b60d4806101196000396000f30060606040526004361060525763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416636bf2606a81146057578063c8b91531146079578063f786becd146089575b600080fd5b3415606157600080fd5b60676099565b60405190815260200160405180910390f35b3415608357600080fd5b6067609e565b3415609357600080fd5b606760a3565b600281565b600081565b6001815600a165627a7a7230582090844d58659b092cebb9cb4f88a622c66baf2363c0fd962f818941afca9a55fc0029",
+  "deployedBytecode": "0x60606040526004361060525763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416636bf2606a81146057578063c8b91531146079578063f786becd146089575b600080fd5b3415606157600080fd5b60676099565b60405190815260200160405180910390f35b3415608357600080fd5b6067609e565b3415609357600080fd5b606760a3565b600281565b600081565b6001815600a165627a7a7230582090844d58659b092cebb9cb4f88a622c66baf2363c0fd962f818941afca9a55fc0029",
+  "sourceMap": "200:6766:3:-;;;3847:103;;;;;;;;;;3883:1;3847:103;;;3894:2;3847:103;;;;3906:2;3847:103;;;;;;;3918:2;3847:103;;;;3930:2;3847:103;;;;;;;;;;;;;;:::i;:::-;;200:6766;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;200:6766:3;;;-1:-1:-1;200:6766:3;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;-1:-1:-1;;200:6766:3;;;;;;;;;:::o;:::-;;;;;;;",
+  "deployedSourceMap": "200:6766:3:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2593:38;;;;;;;;;;;;;;;;;;;;;;;;;;;2549;;;;;;;;;;;;2505;;;;;;;;;;;;2593;2630:1;2593:38;:::o;2549:::-;2586:1;2549:38;:::o;2505:::-;2542:1;2505:38;:::o",
+  "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tEvents and Constants\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayConstants {\n\n    /*\n    * General events\n    */\n\n// --> test-mode\n//        event LogUint(string _message, uint _uint);\n//        event LogUintEth(string _message, uint ethUint);\n//        event LogUintTime(string _message, uint timeUint);\n//        event LogInt(string _message, int _int);\n//        event LogAddress(string _message, address _address);\n//        event LogBytes32(string _message, bytes32 hexBytes32);\n//        event LogBytes(string _message, bytes hexBytes);\n//        event LogBytes32Str(string _message, bytes32 strBytes32);\n//        event LogString(string _message, string _string);\n//        event LogBool(string _message, bool _bool);\n//        event Log(address);\n// <-- test-mode\n\n    event LogPolicyApplied(\n        uint _policyId,\n        address _customer,\n        bytes32 strCarrierFlightNumber,\n        uint ethPremium\n    );\n    event LogPolicyAccepted(\n        uint _policyId,\n        uint _statistics0,\n        uint _statistics1,\n        uint _statistics2,\n        uint _statistics3,\n        uint _statistics4,\n        uint _statistics5\n    );\n    event LogPolicyPaidOut(\n        uint _policyId,\n        uint ethAmount\n    );\n    event LogPolicyExpired(\n        uint _policyId\n    );\n    event LogPolicyDeclined(\n        uint _policyId,\n        bytes32 strReason\n    );\n    event LogPolicyManualPayout(\n        uint _policyId,\n        bytes32 strReason\n    );\n    event LogSendFunds(\n        address _recipient,\n        uint8 _from,\n        uint ethAmount\n    );\n    event LogReceiveFunds(\n        address _sender,\n        uint8 _to,\n        uint ethAmount\n    );\n    event LogSendFail(\n        uint _policyId,\n        bytes32 strReason\n    );\n    event LogOraclizeCall(\n        uint _policyId,\n        bytes32 hexQueryId,\n        string _oraclizeUrl,\n        uint256 _oraclizeTime\n    );\n    event LogOraclizeCallback(\n        uint _policyId,\n        bytes32 hexQueryId,\n        string _result,\n        bytes hexProof\n    );\n    event LogSetState(\n        uint _policyId,\n        uint8 _policyState,\n        uint _stateTime,\n        bytes32 _stateMessage\n    );\n    event LogExternal(\n        uint256 _policyId,\n        address _address,\n        bytes32 _externalId\n    );\n\n    /*\n    * General constants\n    */\n    // contracts release version\n    uint public constant MAJOR_VERSION = 1;\n    uint public constant MINOR_VERSION = 0;\n    uint public constant PATCH_VERSION = 2;\n\n    // minimum observations for valid prediction\n    uint constant MIN_OBSERVATIONS = 10;\n    // minimum premium to cover costs\n    uint constant MIN_PREMIUM = 50 finney;\n    // maximum premium\n    uint constant MAX_PREMIUM = 1 ether;\n    // maximum payout\n    uint constant MAX_PAYOUT = 1100 finney;\n\n    uint constant MIN_PREMIUM_EUR = 1500 wei;\n    uint constant MAX_PREMIUM_EUR = 29000 wei;\n    uint constant MAX_PAYOUT_EUR = 30000 wei;\n\n    uint constant MIN_PREMIUM_USD = 1700 wei;\n    uint constant MAX_PREMIUM_USD = 34000 wei;\n    uint constant MAX_PAYOUT_USD = 35000 wei;\n\n    uint constant MIN_PREMIUM_GBP = 1300 wei;\n    uint constant MAX_PREMIUM_GBP = 25000 wei;\n    uint constant MAX_PAYOUT_GBP = 270 wei;\n\n    // maximum cumulated weighted premium per risk\n    uint constant MAX_CUMULATED_WEIGHTED_PREMIUM = 60 ether;\n    // 1 percent for DAO, 1 percent for maintainer\n    uint8 constant REWARD_PERCENT = 2;\n    // reserve for tail risks\n    uint8 constant RESERVE_PERCENT = 1;\n    // the weight pattern; in future versions this may become part of the policy struct.\n    // currently can't be constant because of compiler restrictions\n    // WEIGHT_PATTERN[0] is not used, just to be consistent\n    uint8[6] WEIGHT_PATTERN = [\n        0,\n        10,\n        20,\n        30,\n        50,\n        50\n    ];\n\n// --> prod-mode\n    // DEFINITIONS FOR ROPSTEN AND MAINNET\n    // minimum time before departure for applying\n    uint constant MIN_TIME_BEFORE_DEPARTURE\t= 24 hours; // for production\n    // check for delay after .. minutes after scheduled arrival\n    uint constant CHECK_PAYOUT_OFFSET = 15 minutes; // for production\n// <-- prod-mode\n\n// --> test-mode\n//        // DEFINITIONS FOR LOCAL TESTNET\n//        // minimum time before departure for applying\n//        uint constant MIN_TIME_BEFORE_DEPARTURE = 1 seconds; // for testing\n//        // check for delay after .. minutes after scheduled arrival\n//        uint constant CHECK_PAYOUT_OFFSET = 1 seconds; // for testing\n// <-- test-mode\n\n    // maximum duration of flight\n    uint constant MAX_FLIGHT_DURATION = 2 days;\n    // Deadline for acceptance of policies: 31.12.2030 (Testnet)\n    uint constant CONTRACT_DEAD_LINE = 1922396399;\n\n    // gas Constants for oraclize\n    uint constant ORACLIZE_GAS = 700000;\n    uint constant ORACLIZE_GASPRICE = 4000000000;\n\n\n    /*\n    * URLs and query strings for oraclize\n    */\n\n// --> prod-mode\n    // DEFINITIONS FOR ROPSTEN AND MAINNET\n    string constant ORACLIZE_RATINGS_BASE_URL =\n        // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1\n        \"[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/\";\n    string constant ORACLIZE_RATINGS_QUERY =\n        \"?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\";\n    string constant ORACLIZE_STATUS_BASE_URL =\n        // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight\n        \"[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/\";\n    string constant ORACLIZE_STATUS_QUERY =\n        // pattern:\n        \"?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }&utc=true).flightStatuses[0]['status','delays','operationalTimes']\";\n// <-- prod-mode\n\n// --> test-mode\n//        // DEFINITIONS FOR LOCAL TESTNET\n//        string constant ORACLIZE_RATINGS_BASE_URL =\n//            // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1\n//            \"[URL] json(https://api-test.etherisc.com/flex/ratings/rest/v1/json/flight/\";\n//        string constant ORACLIZE_RATINGS_QUERY =\n//            // for testrpc:\n//            \").ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\";\n//        string constant ORACLIZE_STATUS_BASE_URL =\n//            // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight\n//            \"[URL] json(https://api-test.etherisc.com/flex/flightstatus/rest/v2/json/flight/status/\";\n//        string constant ORACLIZE_STATUS_QUERY =\n//            // for testrpc:\n//            \"?utc=true).flightStatuses[0]['status','delays','operationalTimes']\";\n// <-- test-mode\n}\n",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayConstants.sol",
   "ast": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayConstants.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayConstants.sol",
     "exportedSymbols": {
       "FlightDelayConstants": [
-        474
+        483
       ]
     },
-    "id": 475,
+    "id": 484,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -331,9 +373,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 474,
+        "id": 483,
         "linearizedBaseContracts": [
-          474
+          483
         ],
         "name": "FlightDelayConstants",
         "nodeType": "ContractDefinition",
@@ -1630,10 +1672,10 @@
           {
             "constant": true,
             "id": 387,
-            "name": "MIN_OBSERVATIONS",
+            "name": "MAJOR_VERSION",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2522:35:3",
+            "scope": 483,
+            "src": "2505:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1644,7 +1686,136 @@
               "id": 385,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2522:4:3",
+              "src": "2505:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "31",
+              "id": 386,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2542:1:3",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_1_by_1",
+                "typeString": "int_const 1"
+              },
+              "value": "1"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "id": 390,
+            "name": "MINOR_VERSION",
+            "nodeType": "VariableDeclaration",
+            "scope": 483,
+            "src": "2549:38:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 388,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2549:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 389,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2586:1:3",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "id": 393,
+            "name": "PATCH_VERSION",
+            "nodeType": "VariableDeclaration",
+            "scope": 483,
+            "src": "2593:38:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 391,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2593:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "32",
+              "id": 392,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2630:1:3",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_2_by_1",
+                "typeString": "int_const 2"
+              },
+              "value": "2"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "id": 396,
+            "name": "MIN_OBSERVATIONS",
+            "nodeType": "VariableDeclaration",
+            "scope": 483,
+            "src": "2687:35:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 394,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2687:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1653,14 +1824,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3130",
-              "id": 386,
+              "id": 395,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2555:2:3",
+              "src": "2720:2:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_10_by_1",
@@ -1672,11 +1843,11 @@
           },
           {
             "constant": true,
-            "id": 390,
+            "id": 399,
             "name": "MIN_PREMIUM",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2601:37:3",
+            "scope": 483,
+            "src": "2766:37:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1684,10 +1855,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 388,
+              "id": 397,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2601:4:3",
+              "src": "2766:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1696,14 +1867,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3530",
-              "id": 389,
+              "id": 398,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2629:9:3",
+              "src": "2794:9:3",
               "subdenomination": "finney",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_50000000000000000_by_1",
@@ -1715,11 +1886,11 @@
           },
           {
             "constant": true,
-            "id": 393,
+            "id": 402,
             "name": "MAX_PREMIUM",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2667:35:3",
+            "scope": 483,
+            "src": "2832:35:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1727,10 +1898,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 391,
+              "id": 400,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2667:4:3",
+              "src": "2832:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1739,14 +1910,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31",
-              "id": 392,
+              "id": 401,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2695:7:3",
+              "src": "2860:7:3",
               "subdenomination": "ether",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1000000000000000000_by_1",
@@ -1758,11 +1929,11 @@
           },
           {
             "constant": true,
-            "id": 396,
+            "id": 405,
             "name": "MAX_PAYOUT",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2730:38:3",
+            "scope": 483,
+            "src": "2895:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1770,10 +1941,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 394,
+              "id": 403,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2730:4:3",
+              "src": "2895:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1782,14 +1953,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31313030",
-              "id": 395,
+              "id": 404,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2757:11:3",
+              "src": "2922:11:3",
               "subdenomination": "finney",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1100000000000000000_by_1",
@@ -1801,11 +1972,11 @@
           },
           {
             "constant": true,
-            "id": 399,
+            "id": 408,
             "name": "MIN_PREMIUM_EUR",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2775:40:3",
+            "scope": 483,
+            "src": "2940:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1813,10 +1984,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 397,
+              "id": 406,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2775:4:3",
+              "src": "2940:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1825,14 +1996,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31353030",
-              "id": 398,
+              "id": 407,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2807:8:3",
+              "src": "2972:8:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1500_by_1",
@@ -1844,11 +2015,11 @@
           },
           {
             "constant": true,
-            "id": 402,
+            "id": 411,
             "name": "MAX_PREMIUM_EUR",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2821:41:3",
+            "scope": 483,
+            "src": "2986:41:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1856,10 +2027,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 400,
+              "id": 409,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2821:4:3",
+              "src": "2986:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1868,14 +2039,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3239303030",
-              "id": 401,
+              "id": 410,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2853:9:3",
+              "src": "3018:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_29000_by_1",
@@ -1887,11 +2058,11 @@
           },
           {
             "constant": true,
-            "id": 405,
+            "id": 414,
             "name": "MAX_PAYOUT_EUR",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2868:40:3",
+            "scope": 483,
+            "src": "3033:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1899,10 +2070,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 403,
+              "id": 412,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2868:4:3",
+              "src": "3033:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1911,14 +2082,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3330303030",
-              "id": 404,
+              "id": 413,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2899:9:3",
+              "src": "3064:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_30000_by_1",
@@ -1930,11 +2101,11 @@
           },
           {
             "constant": true,
-            "id": 408,
+            "id": 417,
             "name": "MIN_PREMIUM_USD",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2915:40:3",
+            "scope": 483,
+            "src": "3080:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1942,10 +2113,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 406,
+              "id": 415,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2915:4:3",
+              "src": "3080:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1954,14 +2125,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31373030",
-              "id": 407,
+              "id": 416,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2947:8:3",
+              "src": "3112:8:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1700_by_1",
@@ -1973,11 +2144,11 @@
           },
           {
             "constant": true,
-            "id": 411,
+            "id": 420,
             "name": "MAX_PREMIUM_USD",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2961:41:3",
+            "scope": 483,
+            "src": "3126:41:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1985,10 +2156,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 409,
+              "id": 418,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2961:4:3",
+              "src": "3126:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1997,14 +2168,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3334303030",
-              "id": 410,
+              "id": 419,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2993:9:3",
+              "src": "3158:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_34000_by_1",
@@ -2016,11 +2187,11 @@
           },
           {
             "constant": true,
-            "id": 414,
+            "id": 423,
             "name": "MAX_PAYOUT_USD",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3008:40:3",
+            "scope": 483,
+            "src": "3173:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2028,10 +2199,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 412,
+              "id": 421,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3008:4:3",
+              "src": "3173:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2040,14 +2211,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3335303030",
-              "id": 413,
+              "id": 422,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3039:9:3",
+              "src": "3204:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_35000_by_1",
@@ -2059,11 +2230,11 @@
           },
           {
             "constant": true,
-            "id": 417,
+            "id": 426,
             "name": "MIN_PREMIUM_GBP",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3055:40:3",
+            "scope": 483,
+            "src": "3220:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2071,10 +2242,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 415,
+              "id": 424,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3055:4:3",
+              "src": "3220:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2083,14 +2254,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31333030",
-              "id": 416,
+              "id": 425,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3087:8:3",
+              "src": "3252:8:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1300_by_1",
@@ -2102,11 +2273,11 @@
           },
           {
             "constant": true,
-            "id": 420,
+            "id": 429,
             "name": "MAX_PREMIUM_GBP",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3101:41:3",
+            "scope": 483,
+            "src": "3266:41:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2114,10 +2285,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 418,
+              "id": 427,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3101:4:3",
+              "src": "3266:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2126,14 +2297,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3235303030",
-              "id": 419,
+              "id": 428,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3133:9:3",
+              "src": "3298:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_25000_by_1",
@@ -2145,11 +2316,11 @@
           },
           {
             "constant": true,
-            "id": 423,
+            "id": 432,
             "name": "MAX_PAYOUT_GBP",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3148:38:3",
+            "scope": 483,
+            "src": "3313:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2157,10 +2328,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 421,
+              "id": 430,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3148:4:3",
+              "src": "3313:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2169,14 +2340,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323730",
-              "id": 422,
+              "id": 431,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3179:7:3",
+              "src": "3344:7:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_270_by_1",
@@ -2188,11 +2359,11 @@
           },
           {
             "constant": true,
-            "id": 426,
+            "id": 435,
             "name": "MAX_CUMULATED_WEIGHTED_PREMIUM",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3244:55:3",
+            "scope": 483,
+            "src": "3409:55:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2200,10 +2371,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 424,
+              "id": 433,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3244:4:3",
+              "src": "3409:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2212,14 +2383,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3630",
-              "id": 425,
+              "id": 434,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3291:8:3",
+              "src": "3456:8:3",
               "subdenomination": "ether",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_60000000000000000000_by_1",
@@ -2231,11 +2402,11 @@
           },
           {
             "constant": true,
-            "id": 429,
+            "id": 438,
             "name": "REWARD_PERCENT",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3356:33:3",
+            "scope": 483,
+            "src": "3521:33:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2243,10 +2414,10 @@
               "typeString": "uint8"
             },
             "typeName": {
-              "id": 427,
+              "id": 436,
               "name": "uint8",
               "nodeType": "ElementaryTypeName",
-              "src": "3356:5:3",
+              "src": "3521:5:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint8",
                 "typeString": "uint8"
@@ -2255,14 +2426,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "32",
-              "id": 428,
+              "id": 437,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3388:1:3",
+              "src": "3553:1:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_2_by_1",
@@ -2274,11 +2445,11 @@
           },
           {
             "constant": true,
-            "id": 432,
+            "id": 441,
             "name": "RESERVE_PERCENT",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3425:34:3",
+            "scope": 483,
+            "src": "3590:34:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2286,10 +2457,10 @@
               "typeString": "uint8"
             },
             "typeName": {
-              "id": 430,
+              "id": 439,
               "name": "uint8",
               "nodeType": "ElementaryTypeName",
-              "src": "3425:5:3",
+              "src": "3590:5:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint8",
                 "typeString": "uint8"
@@ -2298,14 +2469,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31",
-              "id": 431,
+              "id": 440,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3458:1:3",
+              "src": "3623:1:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1_by_1",
@@ -2317,11 +2488,11 @@
           },
           {
             "constant": false,
-            "id": 443,
+            "id": 452,
             "name": "WEIGHT_PATTERN",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3682:103:3",
+            "scope": 483,
+            "src": "3847:103:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2330,27 +2501,27 @@
             },
             "typeName": {
               "baseType": {
-                "id": 433,
+                "id": 442,
                 "name": "uint8",
                 "nodeType": "ElementaryTypeName",
-                "src": "3682:5:3",
+                "src": "3847:5:3",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint8",
                   "typeString": "uint8"
                 }
               },
-              "id": 435,
+              "id": 444,
               "length": {
                 "argumentTypes": null,
                 "hexValue": "36",
-                "id": 434,
+                "id": 443,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": false,
                 "kind": "number",
                 "lValueRequested": false,
                 "nodeType": "Literal",
-                "src": "3688:1:3",
+                "src": "3853:1:3",
                 "subdenomination": null,
                 "typeDescriptions": {
                   "typeIdentifier": "t_rational_6_by_1",
@@ -2359,7 +2530,7 @@
                 "value": "6"
               },
               "nodeType": "ArrayTypeName",
-              "src": "3682:8:3",
+              "src": "3847:8:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_uint8_$6_storage_ptr",
                 "typeString": "uint8[6] storage pointer"
@@ -2371,14 +2542,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "30",
-                  "id": 436,
+                  "id": 445,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3718:1:3",
+                  "src": "3883:1:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_0_by_1",
@@ -2389,14 +2560,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3130",
-                  "id": 437,
+                  "id": 446,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3729:2:3",
+                  "src": "3894:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_10_by_1",
@@ -2407,14 +2578,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3230",
-                  "id": 438,
+                  "id": 447,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3741:2:3",
+                  "src": "3906:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_20_by_1",
@@ -2425,14 +2596,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3330",
-                  "id": 439,
+                  "id": 448,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3753:2:3",
+                  "src": "3918:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_30_by_1",
@@ -2443,14 +2614,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3530",
-                  "id": 440,
+                  "id": 449,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3765:2:3",
+                  "src": "3930:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_50_by_1",
@@ -2461,14 +2632,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3530",
-                  "id": 441,
+                  "id": 450,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3777:2:3",
+                  "src": "3942:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_50_by_1",
@@ -2477,14 +2648,14 @@
                   "value": "50"
                 }
               ],
-              "id": 442,
+              "id": 451,
               "isConstant": false,
               "isInlineArray": true,
               "isLValue": false,
               "isPure": true,
               "lValueRequested": false,
               "nodeType": "TupleExpression",
-              "src": "3708:77:3",
+              "src": "3873:77:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_uint8_$6_memory_ptr",
                 "typeString": "uint8[6] memory"
@@ -2494,11 +2665,11 @@
           },
           {
             "constant": true,
-            "id": 446,
+            "id": 455,
             "name": "MIN_TIME_BEFORE_DEPARTURE",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3902:50:3",
+            "scope": 483,
+            "src": "4067:50:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2506,10 +2677,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 444,
+              "id": 453,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3902:4:3",
+              "src": "4067:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2518,14 +2689,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3234",
-              "id": 445,
+              "id": 454,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3944:8:3",
+              "src": "4109:8:3",
               "subdenomination": "hours",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_86400_by_1",
@@ -2537,11 +2708,11 @@
           },
           {
             "constant": true,
-            "id": 449,
+            "id": 458,
             "name": "CHECK_PAYOUT_OFFSET",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4040:46:3",
+            "scope": 483,
+            "src": "4205:46:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2549,10 +2720,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 447,
+              "id": 456,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4040:4:3",
+              "src": "4205:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2561,14 +2732,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3135",
-              "id": 448,
+              "id": 457,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4076:10:3",
+              "src": "4241:10:3",
               "subdenomination": "minutes",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_900_by_1",
@@ -2580,11 +2751,11 @@
           },
           {
             "constant": true,
-            "id": 452,
+            "id": 461,
             "name": "MAX_FLIGHT_DURATION",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4516:42:3",
+            "scope": 483,
+            "src": "4681:42:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2592,10 +2763,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 450,
+              "id": 459,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4516:4:3",
+              "src": "4681:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2604,14 +2775,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "32",
-              "id": 451,
+              "id": 460,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4552:6:3",
+              "src": "4717:6:3",
               "subdenomination": "days",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_172800_by_1",
@@ -2623,11 +2794,11 @@
           },
           {
             "constant": true,
-            "id": 455,
+            "id": 464,
             "name": "CONTRACT_DEAD_LINE",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4629:45:3",
+            "scope": 483,
+            "src": "4794:45:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2635,10 +2806,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 453,
+              "id": 462,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4629:4:3",
+              "src": "4794:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2647,14 +2818,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31393232333936333939",
-              "id": 454,
+              "id": 463,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4664:10:3",
+              "src": "4829:10:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1922396399_by_1",
@@ -2666,11 +2837,11 @@
           },
           {
             "constant": true,
-            "id": 458,
+            "id": 467,
             "name": "ORACLIZE_GAS",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4715:35:3",
+            "scope": 483,
+            "src": "4880:35:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2678,10 +2849,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 456,
+              "id": 465,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4715:4:3",
+              "src": "4880:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2690,14 +2861,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "373030303030",
-              "id": 457,
+              "id": 466,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4744:6:3",
+              "src": "4909:6:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_700000_by_1",
@@ -2709,11 +2880,11 @@
           },
           {
             "constant": true,
-            "id": 461,
+            "id": 470,
             "name": "ORACLIZE_GASPRICE",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4756:44:3",
+            "scope": 483,
+            "src": "4921:44:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2721,10 +2892,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 459,
+              "id": 468,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4756:4:3",
+              "src": "4921:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -2733,14 +2904,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "34303030303030303030",
-              "id": 460,
+              "id": 469,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4790:10:3",
+              "src": "4955:10:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_4000000000_by_1",
@@ -2752,11 +2923,11 @@
           },
           {
             "constant": true,
-            "id": 464,
+            "id": 473,
             "name": "ORACLIZE_RATINGS_BASE_URL",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4925:214:3",
+            "scope": 483,
+            "src": "5090:214:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2764,10 +2935,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 462,
+              "id": 471,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "4925:6:3",
+              "src": "5090:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -2776,14 +2947,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "5b55524c5d206a736f6e2868747470733a2f2f6170692e666c6967687473746174732e636f6d2f666c65782f726174696e67732f726573742f76312f6a736f6e2f666c696768742f",
-              "id": 463,
+              "id": 472,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5065:74:3",
+              "src": "5230:74:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_stringliteral_472f5a4a6db252af4ca9b0fe469f88cc6794458d4d3ae72a858129584cd8e379",
@@ -2795,11 +2966,11 @@
           },
           {
             "constant": true,
-            "id": 467,
+            "id": 476,
             "name": "ORACLIZE_RATINGS_QUERY",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "5145:371:3",
+            "scope": 483,
+            "src": "5310:223:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2807,10 +2978,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 465,
+              "id": 474,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "5145:6:3",
+              "src": "5310:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -2818,31 +2989,31 @@
             },
             "value": {
               "argumentTypes": null,
-              "hexValue": "3f247b5b646563727970745d20424172365a39516f6c4d325051696d462f704e43367a586c644f765a327171754f534b6d2f714a6b4a576e5347674165527732317742476e42625869616d722f49534335536c634a42367745504b7468646336462b4970714d2f695861764b73616c525572474e7542734766614d5872386652517736674c7a716b3065634f464e65436134382f79714276432f6b61732b6a544b48695978413377544a72565a437137365930336c5a493278784c616f6e69526b7d292e726174696e67735b305d5b276f62736572766174696f6e73272c276c6174653135272c276c6174653330272c276c6174653435272c2763616e63656c6c6564272c276469766572746564272c276172726976616c416972706f72744673436f6465272c27646570617274757265416972706f72744673436f6465275d",
-              "id": 466,
+              "hexValue": "3f247b5b646563727970745d203c212d2d50555420454e435259505445445f515545525920484552452d2d3e207d292e726174696e67735b305d5b276f62736572766174696f6e73272c276c6174653135272c276c6174653330272c276c6174653435272c2763616e63656c6c6564272c276469766572746564272c276172726976616c416972706f72744673436f6465272c27646570617274757265416972706f72744673436f6465275d",
+              "id": 475,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5194:322:3",
+              "src": "5359:174:3",
               "subdenomination": null,
               "typeDescriptions": {
-                "typeIdentifier": "t_stringliteral_6d38e28bd53a18ec2ea5ae1af816184bfebb466bf6e10f448986358cb714e4df",
-                "typeString": "literal_string \"?${[decrypt] BAr6Z9QolM2PQimF/pNC6zXldOvZ2qquOSKm/qJkJWnSGgAeRw21wBGnBbXiamr/ISC5SlcJB6wEPKthdc6F+IpqM/iXavKsalRUrGNuBsGfaMXr8fRQw6gLzqk0ecOFNeCa48/yqBvC/kas+jTKHiYxA3wTJrVZCq76Y03lZI2xxLaoniRk}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\""
+                "typeIdentifier": "t_stringliteral_498334e3402deb243d71008f532de86e65ac6eb636b188db382bff74540d8e80",
+                "typeString": "literal_string \"?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\""
               },
-              "value": "?${[decrypt] BAr6Z9QolM2PQimF/pNC6zXldOvZ2qquOSKm/qJkJWnSGgAeRw21wBGnBbXiamr/ISC5SlcJB6wEPKthdc6F+IpqM/iXavKsalRUrGNuBsGfaMXr8fRQw6gLzqk0ecOFNeCa48/yqBvC/kas+jTKHiYxA3wTJrVZCq76Y03lZI2xxLaoniRk}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']"
+              "value": "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']"
             },
             "visibility": "internal"
           },
           {
             "constant": true,
-            "id": 470,
+            "id": 479,
             "name": "ORACLIZE_STATUS_BASE_URL",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "5522:243:3",
+            "scope": 483,
+            "src": "5539:243:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2850,10 +3021,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 468,
+              "id": 477,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "5522:6:3",
+              "src": "5539:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -2862,14 +3033,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "5b55524c5d206a736f6e2868747470733a2f2f6170692e666c6967687473746174732e636f6d2f666c65782f666c696768747374617475732f726573742f76322f6a736f6e2f666c696768742f7374617475732f",
-              "id": 469,
+              "id": 478,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5679:86:3",
+              "src": "5696:86:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_stringliteral_3f6c2cdfdf4cc3fb2e23811f970f24e7d38ab0add3a8f4fd2c36c44628f395f5",
@@ -2881,11 +3052,11 @@
           },
           {
             "constant": true,
-            "id": 473,
+            "id": 482,
             "name": "ORACLIZE_STATUS_QUERY",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "5771:330:3",
+            "scope": 483,
+            "src": "5788:182:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2893,10 +3064,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 471,
+              "id": 480,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "5771:6:3",
+              "src": "5788:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -2904,39 +3075,39 @@
             },
             "value": {
               "argumentTypes": null,
-              "hexValue": "3f247b5b646563727970745d20424a787077526148756a5954543938714935736c514a706c6a2f566266563776596b4d4f702f4d7235442f352b676b674a514b5a6230675653436136614b7832576f676f2f634737796157494e5236766e75597a636351453579564a5372375251696c526177786e41745a5874364a42373059705834786c6676706970697434522b4f6d515475724a474777623850676e72344c766f747964436a757036777632426b2f7a335564474137536c2b465535612b307d267574633d74727565292e666c6967687453746174757365735b305d5b27737461747573272c2764656c617973272c276f7065726174696f6e616c54696d6573275d",
-              "id": 472,
+              "hexValue": "3f247b5b646563727970745d203c212d2d50555420454e435259505445445f515545525920484552452d2d3e207d267574633d74727565292e666c6967687453746174757365735b305d5b27737461747573272c2764656c617973272c276f7065726174696f6e616c54696d6573275d",
+              "id": 481,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5839:262:3",
+              "src": "5856:114:3",
               "subdenomination": null,
               "typeDescriptions": {
-                "typeIdentifier": "t_stringliteral_b046f4fc2b4d5bd93a3ec26fa665cc81369f9d85223d01311223cf70020550b3",
-                "typeString": "literal_string \"?${[decrypt] BJxpwRaHujYTT98qI5slQJplj/VbfV7vYkMOp/Mr5D/5+gkgJQKZb0gVSCa6aKx2Wogo/cG7yaWINR6vnuYzccQE5yVJSr7RQilRawxnAtZXt6JB70YpX4xlfvpipit4R+OmQTurJGGwb8Pgnr4LvotydCjup6wv2Bk/z3UdGA7Sl+FU5a+0}&utc=true).flightStatuses[0]['status','delays','operationalTimes']\""
+                "typeIdentifier": "t_stringliteral_c1e344cb3d6390a55c2d190e49bee9b36daf4bb29b2bb4735b957ccc47f931ca",
+                "typeString": "literal_string \"?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }&utc=true).flightStatuses[0]['status','delays','operationalTimes']\""
               },
-              "value": "?${[decrypt] BJxpwRaHujYTT98qI5slQJplj/VbfV7vYkMOp/Mr5D/5+gkgJQKZb0gVSCa6aKx2Wogo/cG7yaWINR6vnuYzccQE5yVJSr7RQilRawxnAtZXt6JB70YpX4xlfvpipit4R+OmQTurJGGwb8Pgnr4LvotydCjup6wv2Bk/z3UdGA7Sl+FU5a+0}&utc=true).flightStatuses[0]['status','delays','operationalTimes']"
+              "value": "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }&utc=true).flightStatuses[0]['status','delays','operationalTimes']"
             },
             "visibility": "internal"
           }
         ],
-        "scope": 475,
-        "src": "200:6897:3"
+        "scope": 484,
+        "src": "200:6766:3"
       }
     ],
-    "src": "173:6925:3"
+    "src": "173:6794:3"
   },
   "legacyAST": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayConstants.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayConstants.sol",
     "exportedSymbols": {
       "FlightDelayConstants": [
-        474
+        483
       ]
     },
-    "id": 475,
+    "id": 484,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -2956,9 +3127,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 474,
+        "id": 483,
         "linearizedBaseContracts": [
-          474
+          483
         ],
         "name": "FlightDelayConstants",
         "nodeType": "ContractDefinition",
@@ -4255,10 +4426,10 @@
           {
             "constant": true,
             "id": 387,
-            "name": "MIN_OBSERVATIONS",
+            "name": "MAJOR_VERSION",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2522:35:3",
+            "scope": 483,
+            "src": "2505:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4269,7 +4440,136 @@
               "id": 385,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2522:4:3",
+              "src": "2505:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "31",
+              "id": 386,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2542:1:3",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_1_by_1",
+                "typeString": "int_const 1"
+              },
+              "value": "1"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "id": 390,
+            "name": "MINOR_VERSION",
+            "nodeType": "VariableDeclaration",
+            "scope": 483,
+            "src": "2549:38:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 388,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2549:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 389,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2586:1:3",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "id": 393,
+            "name": "PATCH_VERSION",
+            "nodeType": "VariableDeclaration",
+            "scope": 483,
+            "src": "2593:38:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 391,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2593:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "32",
+              "id": 392,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "2630:1:3",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_2_by_1",
+                "typeString": "int_const 2"
+              },
+              "value": "2"
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": true,
+            "id": 396,
+            "name": "MIN_OBSERVATIONS",
+            "nodeType": "VariableDeclaration",
+            "scope": 483,
+            "src": "2687:35:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 394,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "2687:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4278,14 +4578,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3130",
-              "id": 386,
+              "id": 395,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2555:2:3",
+              "src": "2720:2:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_10_by_1",
@@ -4297,11 +4597,11 @@
           },
           {
             "constant": true,
-            "id": 390,
+            "id": 399,
             "name": "MIN_PREMIUM",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2601:37:3",
+            "scope": 483,
+            "src": "2766:37:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4309,10 +4609,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 388,
+              "id": 397,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2601:4:3",
+              "src": "2766:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4321,14 +4621,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3530",
-              "id": 389,
+              "id": 398,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2629:9:3",
+              "src": "2794:9:3",
               "subdenomination": "finney",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_50000000000000000_by_1",
@@ -4340,11 +4640,11 @@
           },
           {
             "constant": true,
-            "id": 393,
+            "id": 402,
             "name": "MAX_PREMIUM",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2667:35:3",
+            "scope": 483,
+            "src": "2832:35:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4352,10 +4652,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 391,
+              "id": 400,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2667:4:3",
+              "src": "2832:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4364,14 +4664,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31",
-              "id": 392,
+              "id": 401,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2695:7:3",
+              "src": "2860:7:3",
               "subdenomination": "ether",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1000000000000000000_by_1",
@@ -4383,11 +4683,11 @@
           },
           {
             "constant": true,
-            "id": 396,
+            "id": 405,
             "name": "MAX_PAYOUT",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2730:38:3",
+            "scope": 483,
+            "src": "2895:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4395,10 +4695,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 394,
+              "id": 403,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2730:4:3",
+              "src": "2895:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4407,14 +4707,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31313030",
-              "id": 395,
+              "id": 404,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2757:11:3",
+              "src": "2922:11:3",
               "subdenomination": "finney",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1100000000000000000_by_1",
@@ -4426,11 +4726,11 @@
           },
           {
             "constant": true,
-            "id": 399,
+            "id": 408,
             "name": "MIN_PREMIUM_EUR",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2775:40:3",
+            "scope": 483,
+            "src": "2940:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4438,10 +4738,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 397,
+              "id": 406,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2775:4:3",
+              "src": "2940:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4450,14 +4750,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31353030",
-              "id": 398,
+              "id": 407,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2807:8:3",
+              "src": "2972:8:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1500_by_1",
@@ -4469,11 +4769,11 @@
           },
           {
             "constant": true,
-            "id": 402,
+            "id": 411,
             "name": "MAX_PREMIUM_EUR",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2821:41:3",
+            "scope": 483,
+            "src": "2986:41:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4481,10 +4781,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 400,
+              "id": 409,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2821:4:3",
+              "src": "2986:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4493,14 +4793,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3239303030",
-              "id": 401,
+              "id": 410,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2853:9:3",
+              "src": "3018:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_29000_by_1",
@@ -4512,11 +4812,11 @@
           },
           {
             "constant": true,
-            "id": 405,
+            "id": 414,
             "name": "MAX_PAYOUT_EUR",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2868:40:3",
+            "scope": 483,
+            "src": "3033:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4524,10 +4824,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 403,
+              "id": 412,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2868:4:3",
+              "src": "3033:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4536,14 +4836,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3330303030",
-              "id": 404,
+              "id": 413,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2899:9:3",
+              "src": "3064:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_30000_by_1",
@@ -4555,11 +4855,11 @@
           },
           {
             "constant": true,
-            "id": 408,
+            "id": 417,
             "name": "MIN_PREMIUM_USD",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2915:40:3",
+            "scope": 483,
+            "src": "3080:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4567,10 +4867,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 406,
+              "id": 415,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2915:4:3",
+              "src": "3080:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4579,14 +4879,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31373030",
-              "id": 407,
+              "id": 416,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2947:8:3",
+              "src": "3112:8:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1700_by_1",
@@ -4598,11 +4898,11 @@
           },
           {
             "constant": true,
-            "id": 411,
+            "id": 420,
             "name": "MAX_PREMIUM_USD",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "2961:41:3",
+            "scope": 483,
+            "src": "3126:41:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4610,10 +4910,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 409,
+              "id": 418,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "2961:4:3",
+              "src": "3126:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4622,14 +4922,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3334303030",
-              "id": 410,
+              "id": 419,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "2993:9:3",
+              "src": "3158:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_34000_by_1",
@@ -4641,11 +4941,11 @@
           },
           {
             "constant": true,
-            "id": 414,
+            "id": 423,
             "name": "MAX_PAYOUT_USD",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3008:40:3",
+            "scope": 483,
+            "src": "3173:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4653,10 +4953,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 412,
+              "id": 421,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3008:4:3",
+              "src": "3173:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4665,14 +4965,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3335303030",
-              "id": 413,
+              "id": 422,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3039:9:3",
+              "src": "3204:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_35000_by_1",
@@ -4684,11 +4984,11 @@
           },
           {
             "constant": true,
-            "id": 417,
+            "id": 426,
             "name": "MIN_PREMIUM_GBP",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3055:40:3",
+            "scope": 483,
+            "src": "3220:40:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4696,10 +4996,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 415,
+              "id": 424,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3055:4:3",
+              "src": "3220:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4708,14 +5008,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31333030",
-              "id": 416,
+              "id": 425,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3087:8:3",
+              "src": "3252:8:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1300_by_1",
@@ -4727,11 +5027,11 @@
           },
           {
             "constant": true,
-            "id": 420,
+            "id": 429,
             "name": "MAX_PREMIUM_GBP",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3101:41:3",
+            "scope": 483,
+            "src": "3266:41:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4739,10 +5039,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 418,
+              "id": 427,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3101:4:3",
+              "src": "3266:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4751,14 +5051,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3235303030",
-              "id": 419,
+              "id": 428,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3133:9:3",
+              "src": "3298:9:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_25000_by_1",
@@ -4770,11 +5070,11 @@
           },
           {
             "constant": true,
-            "id": 423,
+            "id": 432,
             "name": "MAX_PAYOUT_GBP",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3148:38:3",
+            "scope": 483,
+            "src": "3313:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4782,10 +5082,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 421,
+              "id": 430,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3148:4:3",
+              "src": "3313:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4794,14 +5094,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323730",
-              "id": 422,
+              "id": 431,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3179:7:3",
+              "src": "3344:7:3",
               "subdenomination": "wei",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_270_by_1",
@@ -4813,11 +5113,11 @@
           },
           {
             "constant": true,
-            "id": 426,
+            "id": 435,
             "name": "MAX_CUMULATED_WEIGHTED_PREMIUM",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3244:55:3",
+            "scope": 483,
+            "src": "3409:55:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4825,10 +5125,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 424,
+              "id": 433,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3244:4:3",
+              "src": "3409:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -4837,14 +5137,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3630",
-              "id": 425,
+              "id": 434,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3291:8:3",
+              "src": "3456:8:3",
               "subdenomination": "ether",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_60000000000000000000_by_1",
@@ -4856,11 +5156,11 @@
           },
           {
             "constant": true,
-            "id": 429,
+            "id": 438,
             "name": "REWARD_PERCENT",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3356:33:3",
+            "scope": 483,
+            "src": "3521:33:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4868,10 +5168,10 @@
               "typeString": "uint8"
             },
             "typeName": {
-              "id": 427,
+              "id": 436,
               "name": "uint8",
               "nodeType": "ElementaryTypeName",
-              "src": "3356:5:3",
+              "src": "3521:5:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint8",
                 "typeString": "uint8"
@@ -4880,14 +5180,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "32",
-              "id": 428,
+              "id": 437,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3388:1:3",
+              "src": "3553:1:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_2_by_1",
@@ -4899,11 +5199,11 @@
           },
           {
             "constant": true,
-            "id": 432,
+            "id": 441,
             "name": "RESERVE_PERCENT",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3425:34:3",
+            "scope": 483,
+            "src": "3590:34:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4911,10 +5211,10 @@
               "typeString": "uint8"
             },
             "typeName": {
-              "id": 430,
+              "id": 439,
               "name": "uint8",
               "nodeType": "ElementaryTypeName",
-              "src": "3425:5:3",
+              "src": "3590:5:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint8",
                 "typeString": "uint8"
@@ -4923,14 +5223,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31",
-              "id": 431,
+              "id": 440,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3458:1:3",
+              "src": "3623:1:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1_by_1",
@@ -4942,11 +5242,11 @@
           },
           {
             "constant": false,
-            "id": 443,
+            "id": 452,
             "name": "WEIGHT_PATTERN",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3682:103:3",
+            "scope": 483,
+            "src": "3847:103:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -4955,27 +5255,27 @@
             },
             "typeName": {
               "baseType": {
-                "id": 433,
+                "id": 442,
                 "name": "uint8",
                 "nodeType": "ElementaryTypeName",
-                "src": "3682:5:3",
+                "src": "3847:5:3",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint8",
                   "typeString": "uint8"
                 }
               },
-              "id": 435,
+              "id": 444,
               "length": {
                 "argumentTypes": null,
                 "hexValue": "36",
-                "id": 434,
+                "id": 443,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": false,
                 "kind": "number",
                 "lValueRequested": false,
                 "nodeType": "Literal",
-                "src": "3688:1:3",
+                "src": "3853:1:3",
                 "subdenomination": null,
                 "typeDescriptions": {
                   "typeIdentifier": "t_rational_6_by_1",
@@ -4984,7 +5284,7 @@
                 "value": "6"
               },
               "nodeType": "ArrayTypeName",
-              "src": "3682:8:3",
+              "src": "3847:8:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_uint8_$6_storage_ptr",
                 "typeString": "uint8[6] storage pointer"
@@ -4996,14 +5296,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "30",
-                  "id": 436,
+                  "id": 445,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3718:1:3",
+                  "src": "3883:1:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_0_by_1",
@@ -5014,14 +5314,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3130",
-                  "id": 437,
+                  "id": 446,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3729:2:3",
+                  "src": "3894:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_10_by_1",
@@ -5032,14 +5332,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3230",
-                  "id": 438,
+                  "id": 447,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3741:2:3",
+                  "src": "3906:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_20_by_1",
@@ -5050,14 +5350,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3330",
-                  "id": 439,
+                  "id": 448,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3753:2:3",
+                  "src": "3918:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_30_by_1",
@@ -5068,14 +5368,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3530",
-                  "id": 440,
+                  "id": 449,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3765:2:3",
+                  "src": "3930:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_50_by_1",
@@ -5086,14 +5386,14 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "3530",
-                  "id": 441,
+                  "id": 450,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
                   "kind": "number",
                   "lValueRequested": false,
                   "nodeType": "Literal",
-                  "src": "3777:2:3",
+                  "src": "3942:2:3",
                   "subdenomination": null,
                   "typeDescriptions": {
                     "typeIdentifier": "t_rational_50_by_1",
@@ -5102,14 +5402,14 @@
                   "value": "50"
                 }
               ],
-              "id": 442,
+              "id": 451,
               "isConstant": false,
               "isInlineArray": true,
               "isLValue": false,
               "isPure": true,
               "lValueRequested": false,
               "nodeType": "TupleExpression",
-              "src": "3708:77:3",
+              "src": "3873:77:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_uint8_$6_memory_ptr",
                 "typeString": "uint8[6] memory"
@@ -5119,11 +5419,11 @@
           },
           {
             "constant": true,
-            "id": 446,
+            "id": 455,
             "name": "MIN_TIME_BEFORE_DEPARTURE",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "3902:50:3",
+            "scope": 483,
+            "src": "4067:50:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5131,10 +5431,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 444,
+              "id": 453,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "3902:4:3",
+              "src": "4067:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -5143,14 +5443,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3234",
-              "id": 445,
+              "id": 454,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "3944:8:3",
+              "src": "4109:8:3",
               "subdenomination": "hours",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_86400_by_1",
@@ -5162,11 +5462,11 @@
           },
           {
             "constant": true,
-            "id": 449,
+            "id": 458,
             "name": "CHECK_PAYOUT_OFFSET",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4040:46:3",
+            "scope": 483,
+            "src": "4205:46:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5174,10 +5474,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 447,
+              "id": 456,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4040:4:3",
+              "src": "4205:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -5186,14 +5486,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3135",
-              "id": 448,
+              "id": 457,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4076:10:3",
+              "src": "4241:10:3",
               "subdenomination": "minutes",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_900_by_1",
@@ -5205,11 +5505,11 @@
           },
           {
             "constant": true,
-            "id": 452,
+            "id": 461,
             "name": "MAX_FLIGHT_DURATION",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4516:42:3",
+            "scope": 483,
+            "src": "4681:42:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5217,10 +5517,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 450,
+              "id": 459,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4516:4:3",
+              "src": "4681:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -5229,14 +5529,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "32",
-              "id": 451,
+              "id": 460,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4552:6:3",
+              "src": "4717:6:3",
               "subdenomination": "days",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_172800_by_1",
@@ -5248,11 +5548,11 @@
           },
           {
             "constant": true,
-            "id": 455,
+            "id": 464,
             "name": "CONTRACT_DEAD_LINE",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4629:45:3",
+            "scope": 483,
+            "src": "4794:45:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5260,10 +5560,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 453,
+              "id": 462,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4629:4:3",
+              "src": "4794:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -5272,14 +5572,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "31393232333936333939",
-              "id": 454,
+              "id": 463,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4664:10:3",
+              "src": "4829:10:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_1922396399_by_1",
@@ -5291,11 +5591,11 @@
           },
           {
             "constant": true,
-            "id": 458,
+            "id": 467,
             "name": "ORACLIZE_GAS",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4715:35:3",
+            "scope": 483,
+            "src": "4880:35:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5303,10 +5603,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 456,
+              "id": 465,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4715:4:3",
+              "src": "4880:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -5315,14 +5615,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "373030303030",
-              "id": 457,
+              "id": 466,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4744:6:3",
+              "src": "4909:6:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_700000_by_1",
@@ -5334,11 +5634,11 @@
           },
           {
             "constant": true,
-            "id": 461,
+            "id": 470,
             "name": "ORACLIZE_GASPRICE",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4756:44:3",
+            "scope": 483,
+            "src": "4921:44:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5346,10 +5646,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 459,
+              "id": 468,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
-              "src": "4756:4:3",
+              "src": "4921:4:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -5358,14 +5658,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "34303030303030303030",
-              "id": 460,
+              "id": 469,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "4790:10:3",
+              "src": "4955:10:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_4000000000_by_1",
@@ -5377,11 +5677,11 @@
           },
           {
             "constant": true,
-            "id": 464,
+            "id": 473,
             "name": "ORACLIZE_RATINGS_BASE_URL",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "4925:214:3",
+            "scope": 483,
+            "src": "5090:214:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5389,10 +5689,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 462,
+              "id": 471,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "4925:6:3",
+              "src": "5090:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -5401,14 +5701,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "5b55524c5d206a736f6e2868747470733a2f2f6170692e666c6967687473746174732e636f6d2f666c65782f726174696e67732f726573742f76312f6a736f6e2f666c696768742f",
-              "id": 463,
+              "id": 472,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5065:74:3",
+              "src": "5230:74:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_stringliteral_472f5a4a6db252af4ca9b0fe469f88cc6794458d4d3ae72a858129584cd8e379",
@@ -5420,11 +5720,11 @@
           },
           {
             "constant": true,
-            "id": 467,
+            "id": 476,
             "name": "ORACLIZE_RATINGS_QUERY",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "5145:371:3",
+            "scope": 483,
+            "src": "5310:223:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5432,10 +5732,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 465,
+              "id": 474,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "5145:6:3",
+              "src": "5310:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -5443,31 +5743,31 @@
             },
             "value": {
               "argumentTypes": null,
-              "hexValue": "3f247b5b646563727970745d20424172365a39516f6c4d325051696d462f704e43367a586c644f765a327171754f534b6d2f714a6b4a576e5347674165527732317742476e42625869616d722f49534335536c634a42367745504b7468646336462b4970714d2f695861764b73616c525572474e7542734766614d5872386652517736674c7a716b3065634f464e65436134382f79714276432f6b61732b6a544b48695978413377544a72565a437137365930336c5a493278784c616f6e69526b7d292e726174696e67735b305d5b276f62736572766174696f6e73272c276c6174653135272c276c6174653330272c276c6174653435272c2763616e63656c6c6564272c276469766572746564272c276172726976616c416972706f72744673436f6465272c27646570617274757265416972706f72744673436f6465275d",
-              "id": 466,
+              "hexValue": "3f247b5b646563727970745d203c212d2d50555420454e435259505445445f515545525920484552452d2d3e207d292e726174696e67735b305d5b276f62736572766174696f6e73272c276c6174653135272c276c6174653330272c276c6174653435272c2763616e63656c6c6564272c276469766572746564272c276172726976616c416972706f72744673436f6465272c27646570617274757265416972706f72744673436f6465275d",
+              "id": 475,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5194:322:3",
+              "src": "5359:174:3",
               "subdenomination": null,
               "typeDescriptions": {
-                "typeIdentifier": "t_stringliteral_6d38e28bd53a18ec2ea5ae1af816184bfebb466bf6e10f448986358cb714e4df",
-                "typeString": "literal_string \"?${[decrypt] BAr6Z9QolM2PQimF/pNC6zXldOvZ2qquOSKm/qJkJWnSGgAeRw21wBGnBbXiamr/ISC5SlcJB6wEPKthdc6F+IpqM/iXavKsalRUrGNuBsGfaMXr8fRQw6gLzqk0ecOFNeCa48/yqBvC/kas+jTKHiYxA3wTJrVZCq76Y03lZI2xxLaoniRk}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\""
+                "typeIdentifier": "t_stringliteral_498334e3402deb243d71008f532de86e65ac6eb636b188db382bff74540d8e80",
+                "typeString": "literal_string \"?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']\""
               },
-              "value": "?${[decrypt] BAr6Z9QolM2PQimF/pNC6zXldOvZ2qquOSKm/qJkJWnSGgAeRw21wBGnBbXiamr/ISC5SlcJB6wEPKthdc6F+IpqM/iXavKsalRUrGNuBsGfaMXr8fRQw6gLzqk0ecOFNeCa48/yqBvC/kas+jTKHiYxA3wTJrVZCq76Y03lZI2xxLaoniRk}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']"
+              "value": "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']"
             },
             "visibility": "internal"
           },
           {
             "constant": true,
-            "id": 470,
+            "id": 479,
             "name": "ORACLIZE_STATUS_BASE_URL",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "5522:243:3",
+            "scope": 483,
+            "src": "5539:243:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5475,10 +5775,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 468,
+              "id": 477,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "5522:6:3",
+              "src": "5539:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -5487,14 +5787,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "5b55524c5d206a736f6e2868747470733a2f2f6170692e666c6967687473746174732e636f6d2f666c65782f666c696768747374617475732f726573742f76322f6a736f6e2f666c696768742f7374617475732f",
-              "id": 469,
+              "id": 478,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5679:86:3",
+              "src": "5696:86:3",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_stringliteral_3f6c2cdfdf4cc3fb2e23811f970f24e7d38ab0add3a8f4fd2c36c44628f395f5",
@@ -5506,11 +5806,11 @@
           },
           {
             "constant": true,
-            "id": 473,
+            "id": 482,
             "name": "ORACLIZE_STATUS_QUERY",
             "nodeType": "VariableDeclaration",
-            "scope": 474,
-            "src": "5771:330:3",
+            "scope": 483,
+            "src": "5788:182:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -5518,10 +5818,10 @@
               "typeString": "string memory"
             },
             "typeName": {
-              "id": 471,
+              "id": 480,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "5771:6:3",
+              "src": "5788:6:3",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string storage pointer"
@@ -5529,30 +5829,30 @@
             },
             "value": {
               "argumentTypes": null,
-              "hexValue": "3f247b5b646563727970745d20424a787077526148756a5954543938714935736c514a706c6a2f566266563776596b4d4f702f4d7235442f352b676b674a514b5a6230675653436136614b7832576f676f2f634737796157494e5236766e75597a636351453579564a5372375251696c526177786e41745a5874364a42373059705834786c6676706970697434522b4f6d515475724a474777623850676e72344c766f747964436a757036777632426b2f7a335564474137536c2b465535612b307d267574633d74727565292e666c6967687453746174757365735b305d5b27737461747573272c2764656c617973272c276f7065726174696f6e616c54696d6573275d",
-              "id": 472,
+              "hexValue": "3f247b5b646563727970745d203c212d2d50555420454e435259505445445f515545525920484552452d2d3e207d267574633d74727565292e666c6967687453746174757365735b305d5b27737461747573272c2764656c617973272c276f7065726174696f6e616c54696d6573275d",
+              "id": 481,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "string",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "5839:262:3",
+              "src": "5856:114:3",
               "subdenomination": null,
               "typeDescriptions": {
-                "typeIdentifier": "t_stringliteral_b046f4fc2b4d5bd93a3ec26fa665cc81369f9d85223d01311223cf70020550b3",
-                "typeString": "literal_string \"?${[decrypt] BJxpwRaHujYTT98qI5slQJplj/VbfV7vYkMOp/Mr5D/5+gkgJQKZb0gVSCa6aKx2Wogo/cG7yaWINR6vnuYzccQE5yVJSr7RQilRawxnAtZXt6JB70YpX4xlfvpipit4R+OmQTurJGGwb8Pgnr4LvotydCjup6wv2Bk/z3UdGA7Sl+FU5a+0}&utc=true).flightStatuses[0]['status','delays','operationalTimes']\""
+                "typeIdentifier": "t_stringliteral_c1e344cb3d6390a55c2d190e49bee9b36daf4bb29b2bb4735b957ccc47f931ca",
+                "typeString": "literal_string \"?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }&utc=true).flightStatuses[0]['status','delays','operationalTimes']\""
               },
-              "value": "?${[decrypt] BJxpwRaHujYTT98qI5slQJplj/VbfV7vYkMOp/Mr5D/5+gkgJQKZb0gVSCa6aKx2Wogo/cG7yaWINR6vnuYzccQE5yVJSr7RQilRawxnAtZXt6JB70YpX4xlfvpipit4R+OmQTurJGGwb8Pgnr4LvotydCjup6wv2Bk/z3UdGA7Sl+FU5a+0}&utc=true).flightStatuses[0]['status','delays','operationalTimes']"
+              "value": "?${[decrypt] <!--PUT ENCRYPTED_QUERY HERE--> }&utc=true).flightStatuses[0]['status','delays','operationalTimes']"
             },
             "visibility": "internal"
           }
         ],
-        "scope": 475,
-        "src": "200:6897:3"
+        "scope": 484,
+        "src": "200:6766:3"
       }
     ],
-    "src": "173:6925:3"
+    "src": "173:6794:3"
   },
   "compiler": {
     "name": "solc",
@@ -5560,5 +5860,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-13T09:40:39.960Z"
+  "updatedAt": "2018-04-05T12:35:45.900Z"
 }

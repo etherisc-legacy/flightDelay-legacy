@@ -110,9 +110,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tAccessControllerInterface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayAccessControllerInterface {\n\n    function setPermissionById(uint8 _perm, bytes32 _id) public;\n\n    function setPermissionById(uint8 _perm, bytes32 _id, bool _access) public;\n\n    function setPermissionByAddress(uint8 _perm, address _addr) public;\n\n    function setPermissionByAddress(uint8 _perm, address _addr, bool _access) public;\n\n    function checkPermission(uint8 _perm, address _addr) public returns (bool _success);\n}\n",
-  "sourcePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayAccessControllerInterface.sol",
+  "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayAccessControllerInterface.sol",
   "ast": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayAccessControllerInterface.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayAccessControllerInterface.sol",
     "exportedSymbols": {
       "FlightDelayAccessControllerInterface": [
         216
@@ -637,7 +637,7 @@
     "src": "178:473:1"
   },
   "legacyAST": {
-    "absolutePath": "/Users/melnikaite/projects/flightDelay/contracts/FlightDelayAccessControllerInterface.sol",
+    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayAccessControllerInterface.sol",
     "exportedSymbols": {
       "FlightDelayAccessControllerInterface": [
         216
@@ -1167,5 +1167,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-03-13T09:40:39.918Z"
+  "updatedAt": "2018-04-05T12:35:45.899Z"
 }

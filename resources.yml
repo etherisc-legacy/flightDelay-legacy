@@ -1,6 +1,6 @@
 migrations:
-#    - 1_initial_migration.js
-#    - 302_deploy_Other.js
+    - 1_initial_migration.js
+    - 302_deploy_Other.js
 #    - 401_deploy_AddressResolver.js
 #    - 900_deploy_set_contracts.js
 #    - 901_deploy_fund_contracts.js
@@ -16,7 +16,7 @@ migrations:
 #    - 507_deploy_FlightDelayPayout.js
 #    - 510_deploy_registerContracts.js
 #    - 512_deploy_set_limitations.js
-    - 513_deploy_fund_contracts.js
+#    - 513_deploy_fund_contracts.js
 #    - 900_deploy_set_contracts.js
 #    - 910_deploy_set_contracts.js
 #    - 915_fix_access_control.js

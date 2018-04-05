@@ -35,18 +35,18 @@ module.exports = {
         },
         ropsten: {
             network_id: 3, // custom private network
-            host: '0.0.0.0',
+            host: '35.158.183.237',
             port: 8545,
-            from: '0x19707FA3BBBaaB91a35c838B69a041eb823AC465', // 0 - deployer
+            from: '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 0 - deployer
             unlock: [
-                '0x5186aF3a9728DA85B60d4d2Bf325cF6c6FdF3410', // 1 - new owner & FD.Owner
-                '0x5A8e2e9e253E9ea8D329e9f9230799Fd4a4Fe687', // 2 - FD.Funder
-                '0x6fcc2bA0c8D4C785a033D8388EdcBfEe3222a38B', // 3 - FD.CustomersAdmin
-                '0x7EA6CaE3B0badD43A2Ce56eE59E0f596F82AbE31', // 4 - FD.Emeregency
-                '0xABA9Af9d055211530F8b7A9950Feb70FF9E9B7c2', // 5 - Customer
-                '0xbB4dB85946b3C45ccC658E7C6Adb4ae6B8B981d7', // 6 - Test 1
-                '0xCa8833b60A78A28e6d28403Dd3B20C20770f6A3C', // 7 - Test 2
-                '0xdbf0d8b90F1AbFfDe270bAAd45Bd0e56bC768d87', // 8 - Test 3
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 1 - new owner & FD.Owner
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 2 - FD.Funder
+                '0x7ea6cae3b0badd43a2ce56ee59e0f596f82abe31', // 3 - FD.CustomersAdmin
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 4 - FD.Emergency
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 5 - Customer
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 6 - Test 1
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 7 - Test 2
+                '0x6fcc2ba0c8d4c785a033d8388edcbfee3222a38b', // 8 - Test 3
             ], // to unlock in parity
             addressResolver: '0xa18a7468d6fc9df9664a82b37f4944061e0f5958',
             gas: 4700000,
