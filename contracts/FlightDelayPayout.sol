@@ -206,7 +206,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
 
         FD_DB.setDelay(_policyId, _delay, _delayInMinutes);
 
-        if (_delay == 0) {
+        if (_delay == 0 || WEIGHT_PATTERN[_delay] == 0) {
             FD_DB.setState(
                 _policyId,
                 policyState.Expired,
