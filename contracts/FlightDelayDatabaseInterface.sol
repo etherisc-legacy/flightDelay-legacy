@@ -46,7 +46,7 @@ contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
 
     function getCustomerPremium(uint _policyId) public returns (address _customer, uint _premium) ;
 
-    function getPolicyData(uint _policyId) public returns (address _customer, uint _premium, uint _weight) ;
+    function getPolicyData(uint _policyId) public returns (address _customer, uint _weight, uint _premium);
 
     function getPolicyState(uint _policyId) public returns (policyState _state) ;
 
