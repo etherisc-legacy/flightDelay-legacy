@@ -27,254 +27,153 @@
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tUnderwrite contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\n\ncontract FlightDelayUnderwriteInterface {\n\n    function scheduleUnderwriteOraclizeCall(uint _policyId, bytes32 _carrierFlightNumber) public;\n}\n",
   "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayUnderwriteInterface.sol",
   "ast": {
-    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayUnderwriteInterface.sol",
-    "exportedSymbols": {
-      "FlightDelayUnderwriteInterface": [
-        4563
-      ]
+    "attributes": {
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayUnderwriteInterface.sol",
+      "exportedSymbols": {
+        "FlightDelayUnderwriteInterface": [
+          4569
+        ]
+      }
     },
-    "id": 4564,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
-        "id": 4555,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".11"
-        ],
-        "nodeType": "PragmaDirective",
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
+        "id": 4561,
+        "name": "PragmaDirective",
         "src": "202:24:17"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 4563,
-        "linearizedBaseContracts": [
-          4563
-        ],
-        "name": "FlightDelayUnderwriteInterface",
-        "nodeType": "ContractDefinition",
-        "nodes": [
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4569
+          ],
+          "name": "FlightDelayUnderwriteInterface",
+          "scope": 4570
+        },
+        "children": [
           {
-            "body": null,
-            "id": 4562,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "scheduleUnderwriteOraclizeCall",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 4560,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 4557,
-                  "name": "_policyId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 4562,
-                  "src": "316:14:17",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 4556,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "316:4:17",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 4559,
-                  "name": "_carrierFlightNumber",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 4562,
-                  "src": "332:28:17",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 4558,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "332:7:17",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
               ],
-              "src": "315:46:17"
+              "name": "scheduleUnderwriteOraclizeCall",
+              "payable": false,
+              "scope": 4569,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
             },
-            "payable": false,
-            "returnParameters": {
-              "id": 4561,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "368:0:17"
-            },
-            "scope": 4563,
-            "src": "276:93:17",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_policyId",
+                      "scope": 4568,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 4562,
+                        "name": "ElementaryTypeName",
+                        "src": "316:4:17"
+                      }
+                    ],
+                    "id": 4563,
+                    "name": "VariableDeclaration",
+                    "src": "316:14:17"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_carrierFlightNumber",
+                      "scope": 4568,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4564,
+                        "name": "ElementaryTypeName",
+                        "src": "332:7:17"
+                      }
+                    ],
+                    "id": 4565,
+                    "name": "VariableDeclaration",
+                    "src": "332:28:17"
+                  }
+                ],
+                "id": 4566,
+                "name": "ParameterList",
+                "src": "315:46:17"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4567,
+                "name": "ParameterList",
+                "src": "368:0:17"
+              }
+            ],
+            "id": 4568,
+            "name": "FunctionDefinition",
+            "src": "276:93:17"
           }
         ],
-        "scope": 4564,
+        "id": 4569,
+        "name": "ContractDefinition",
         "src": "229:142:17"
       }
     ],
-    "src": "202:170:17"
-  },
-  "legacyAST": {
-    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayUnderwriteInterface.sol",
-    "exportedSymbols": {
-      "FlightDelayUnderwriteInterface": [
-        4563
-      ]
-    },
-    "id": 4564,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 4555,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".11"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "202:24:17"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 4563,
-        "linearizedBaseContracts": [
-          4563
-        ],
-        "name": "FlightDelayUnderwriteInterface",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "body": null,
-            "id": 4562,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "scheduleUnderwriteOraclizeCall",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 4560,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 4557,
-                  "name": "_policyId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 4562,
-                  "src": "316:14:17",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 4556,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "316:4:17",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 4559,
-                  "name": "_carrierFlightNumber",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 4562,
-                  "src": "332:28:17",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 4558,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "332:7:17",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "315:46:17"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 4561,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "368:0:17"
-            },
-            "scope": 4563,
-            "src": "276:93:17",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
-          }
-        ],
-        "scope": 4564,
-        "src": "229:142:17"
-      }
-    ],
+    "id": 4570,
+    "name": "SourceUnit",
     "src": "202:170:17"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.0",
-  "updatedAt": "2018-04-05T12:35:45.931Z"
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-05-08T16:48:32.490Z"
 }

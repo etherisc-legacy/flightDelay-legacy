@@ -72,766 +72,429 @@
   "source": "/**\n * FlightDelay with Oraclized Underwriting and Payout\n *\n * @description\tLedger contract interface\n * @copyright (c) 2017 etherisc GmbH\n * @author Christoph Mussenbrock, Stephan Karpischek\n */\n\npragma solidity ^0.4.11;\n\nimport \"./FlightDelayDatabaseModel.sol\";\n\n\ncontract FlightDelayLedgerInterface is FlightDelayDatabaseModel {\n\n    function receiveFunds(Acc _to) public payable;\n\n    function sendFunds(address _recipient, Acc _from, uint _amount) public returns (bool _success);\n\n    function bookkeeping(Acc _from, Acc _to, uint amount) public;\n}\n",
   "sourcePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayLedgerInterface.sol",
   "ast": {
-    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayLedgerInterface.sol",
-    "exportedSymbols": {
-      "FlightDelayLedgerInterface": [
-        2738
-      ]
+    "attributes": {
+      "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayLedgerInterface.sol",
+      "exportedSymbols": {
+        "FlightDelayLedgerInterface": [
+          2738
+        ]
+      }
     },
-    "id": 2739,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".11"
+          ]
+        },
         "id": 2709,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".11"
-        ],
-        "nodeType": "PragmaDirective",
+        "name": "PragmaDirective",
         "src": "198:24:11"
       },
       {
-        "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
-        "file": "./FlightDelayDatabaseModel.sol",
+        "attributes": {
+          "SourceUnit": 2344,
+          "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
+          "file": "./FlightDelayDatabaseModel.sol",
+          "scope": 2739,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
         "id": 2710,
-        "nodeType": "ImportDirective",
-        "scope": 2739,
-        "sourceUnit": 2344,
-        "src": "224:40:11",
-        "symbolAliases": [],
-        "unitAlias": ""
+        "name": "ImportDirective",
+        "src": "224:40:11"
       },
       {
-        "baseContracts": [
+        "attributes": {
+          "contractDependencies": [
+            2343
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2738,
+            2343
+          ],
+          "name": "FlightDelayLedgerInterface",
+          "scope": 2739
+        },
+        "children": [
           {
-            "arguments": [],
-            "baseName": {
-              "contractScope": null,
-              "id": 2711,
-              "name": "FlightDelayDatabaseModel",
-              "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2343,
-              "src": "306:24:11",
-              "typeDescriptions": {
-                "typeIdentifier": "t_contract$_FlightDelayDatabaseModel_$2343",
-                "typeString": "contract FlightDelayDatabaseModel"
+            "attributes": {
+              "arguments": [
+                null
+              ]
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "FlightDelayDatabaseModel",
+                  "referencedDeclaration": 2343,
+                  "type": "contract FlightDelayDatabaseModel"
+                },
+                "id": 2711,
+                "name": "UserDefinedTypeName",
+                "src": "306:24:11"
               }
-            },
+            ],
             "id": 2712,
-            "nodeType": "InheritanceSpecifier",
+            "name": "InheritanceSpecifier",
             "src": "306:24:11"
-          }
-        ],
-        "contractDependencies": [
-          2343
-        ],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 2738,
-        "linearizedBaseContracts": [
-          2738,
-          2343
-        ],
-        "name": "FlightDelayLedgerInterface",
-        "nodeType": "ContractDefinition",
-        "nodes": [
+          },
           {
-            "body": null,
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "receiveFunds",
+              "payable": true,
+              "scope": 2738,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_to",
+                      "scope": 2717,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "enum FlightDelayDatabaseModel.Acc",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Acc",
+                          "referencedDeclaration": 2274,
+                          "type": "enum FlightDelayDatabaseModel.Acc"
+                        },
+                        "id": 2713,
+                        "name": "UserDefinedTypeName",
+                        "src": "360:3:11"
+                      }
+                    ],
+                    "id": 2714,
+                    "name": "VariableDeclaration",
+                    "src": "360:7:11"
+                  }
+                ],
+                "id": 2715,
+                "name": "ParameterList",
+                "src": "359:9:11"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2716,
+                "name": "ParameterList",
+                "src": "383:0:11"
+              }
+            ],
             "id": 2717,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "receiveFunds",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 2715,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2714,
-                  "name": "_to",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2717,
-                  "src": "360:7:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2713,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "360:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "359:9:11"
-            },
-            "payable": true,
-            "returnParameters": {
-              "id": 2716,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "383:0:11"
-            },
-            "scope": 2738,
-            "src": "338:46:11",
-            "stateMutability": "payable",
-            "superFunction": null,
-            "visibility": "public"
+            "name": "FunctionDefinition",
+            "src": "338:46:11"
           },
           {
-            "body": null,
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "sendFunds",
+              "payable": false,
+              "scope": 2738,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_recipient",
+                      "scope": 2728,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2718,
+                        "name": "ElementaryTypeName",
+                        "src": "409:7:11"
+                      }
+                    ],
+                    "id": 2719,
+                    "name": "VariableDeclaration",
+                    "src": "409:18:11"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_from",
+                      "scope": 2728,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "enum FlightDelayDatabaseModel.Acc",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Acc",
+                          "referencedDeclaration": 2274,
+                          "type": "enum FlightDelayDatabaseModel.Acc"
+                        },
+                        "id": 2720,
+                        "name": "UserDefinedTypeName",
+                        "src": "429:3:11"
+                      }
+                    ],
+                    "id": 2721,
+                    "name": "VariableDeclaration",
+                    "src": "429:9:11"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_amount",
+                      "scope": 2728,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 2722,
+                        "name": "ElementaryTypeName",
+                        "src": "440:4:11"
+                      }
+                    ],
+                    "id": 2723,
+                    "name": "VariableDeclaration",
+                    "src": "440:12:11"
+                  }
+                ],
+                "id": 2724,
+                "name": "ParameterList",
+                "src": "408:45:11"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_success",
+                      "scope": 2728,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2725,
+                        "name": "ElementaryTypeName",
+                        "src": "470:4:11"
+                      }
+                    ],
+                    "id": 2726,
+                    "name": "VariableDeclaration",
+                    "src": "470:13:11"
+                  }
+                ],
+                "id": 2727,
+                "name": "ParameterList",
+                "src": "469:15:11"
+              }
+            ],
             "id": 2728,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "sendFunds",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 2724,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2719,
-                  "name": "_recipient",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "409:18:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 2718,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "409:7:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2721,
-                  "name": "_from",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "429:9:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2720,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "429:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2723,
-                  "name": "_amount",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "440:12:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 2722,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "440:4:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "408:45:11"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2727,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2726,
-                  "name": "_success",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "470:13:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 2725,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "470:4:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "469:15:11"
-            },
-            "scope": 2738,
-            "src": "390:95:11",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
+            "name": "FunctionDefinition",
+            "src": "390:95:11"
           },
           {
-            "body": null,
-            "id": 2737,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "bookkeeping",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 2735,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2730,
-                  "name": "_from",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2737,
-                  "src": "512:9:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2729,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "512:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2732,
-                  "name": "_to",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2737,
-                  "src": "523:7:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2731,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "523:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2734,
-                  "name": "amount",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2737,
-                  "src": "532:11:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 2733,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "532:4:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
               ],
-              "src": "511:33:11"
+              "name": "bookkeeping",
+              "payable": false,
+              "scope": 2738,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
             },
-            "payable": false,
-            "returnParameters": {
-              "id": 2736,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "551:0:11"
-            },
-            "scope": 2738,
-            "src": "491:61:11",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_from",
+                      "scope": 2737,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "enum FlightDelayDatabaseModel.Acc",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Acc",
+                          "referencedDeclaration": 2274,
+                          "type": "enum FlightDelayDatabaseModel.Acc"
+                        },
+                        "id": 2729,
+                        "name": "UserDefinedTypeName",
+                        "src": "512:3:11"
+                      }
+                    ],
+                    "id": 2730,
+                    "name": "VariableDeclaration",
+                    "src": "512:9:11"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_to",
+                      "scope": 2737,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "enum FlightDelayDatabaseModel.Acc",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Acc",
+                          "referencedDeclaration": 2274,
+                          "type": "enum FlightDelayDatabaseModel.Acc"
+                        },
+                        "id": 2731,
+                        "name": "UserDefinedTypeName",
+                        "src": "523:3:11"
+                      }
+                    ],
+                    "id": 2732,
+                    "name": "VariableDeclaration",
+                    "src": "523:7:11"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "amount",
+                      "scope": 2737,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 2733,
+                        "name": "ElementaryTypeName",
+                        "src": "532:4:11"
+                      }
+                    ],
+                    "id": 2734,
+                    "name": "VariableDeclaration",
+                    "src": "532:11:11"
+                  }
+                ],
+                "id": 2735,
+                "name": "ParameterList",
+                "src": "511:33:11"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2736,
+                "name": "ParameterList",
+                "src": "551:0:11"
+              }
+            ],
+            "id": 2737,
+            "name": "FunctionDefinition",
+            "src": "491:61:11"
           }
         ],
-        "scope": 2739,
+        "id": 2738,
+        "name": "ContractDefinition",
         "src": "267:287:11"
       }
     ],
-    "src": "198:357:11"
-  },
-  "legacyAST": {
-    "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayLedgerInterface.sol",
-    "exportedSymbols": {
-      "FlightDelayLedgerInterface": [
-        2738
-      ]
-    },
     "id": 2739,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 2709,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".11"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "198:24:11"
-      },
-      {
-        "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayDatabaseModel.sol",
-        "file": "./FlightDelayDatabaseModel.sol",
-        "id": 2710,
-        "nodeType": "ImportDirective",
-        "scope": 2739,
-        "sourceUnit": 2344,
-        "src": "224:40:11",
-        "symbolAliases": [],
-        "unitAlias": ""
-      },
-      {
-        "baseContracts": [
-          {
-            "arguments": [],
-            "baseName": {
-              "contractScope": null,
-              "id": 2711,
-              "name": "FlightDelayDatabaseModel",
-              "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2343,
-              "src": "306:24:11",
-              "typeDescriptions": {
-                "typeIdentifier": "t_contract$_FlightDelayDatabaseModel_$2343",
-                "typeString": "contract FlightDelayDatabaseModel"
-              }
-            },
-            "id": 2712,
-            "nodeType": "InheritanceSpecifier",
-            "src": "306:24:11"
-          }
-        ],
-        "contractDependencies": [
-          2343
-        ],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 2738,
-        "linearizedBaseContracts": [
-          2738,
-          2343
-        ],
-        "name": "FlightDelayLedgerInterface",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "body": null,
-            "id": 2717,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "receiveFunds",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 2715,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2714,
-                  "name": "_to",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2717,
-                  "src": "360:7:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2713,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "360:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "359:9:11"
-            },
-            "payable": true,
-            "returnParameters": {
-              "id": 2716,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "383:0:11"
-            },
-            "scope": 2738,
-            "src": "338:46:11",
-            "stateMutability": "payable",
-            "superFunction": null,
-            "visibility": "public"
-          },
-          {
-            "body": null,
-            "id": 2728,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "sendFunds",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 2724,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2719,
-                  "name": "_recipient",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "409:18:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 2718,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "409:7:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2721,
-                  "name": "_from",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "429:9:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2720,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "429:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2723,
-                  "name": "_amount",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "440:12:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 2722,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "440:4:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "408:45:11"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2727,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2726,
-                  "name": "_success",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2728,
-                  "src": "470:13:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 2725,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "470:4:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "469:15:11"
-            },
-            "scope": 2738,
-            "src": "390:95:11",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
-          },
-          {
-            "body": null,
-            "id": 2737,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "bookkeeping",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 2735,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 2730,
-                  "name": "_from",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2737,
-                  "src": "512:9:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2729,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "512:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2732,
-                  "name": "_to",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2737,
-                  "src": "523:7:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Acc_$2274",
-                    "typeString": "enum FlightDelayDatabaseModel.Acc"
-                  },
-                  "typeName": {
-                    "contractScope": null,
-                    "id": 2731,
-                    "name": "Acc",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2274,
-                    "src": "523:3:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Acc_$2274",
-                      "typeString": "enum FlightDelayDatabaseModel.Acc"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 2734,
-                  "name": "amount",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 2737,
-                  "src": "532:11:11",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 2733,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "532:4:11",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "511:33:11"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 2736,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "551:0:11"
-            },
-            "scope": 2738,
-            "src": "491:61:11",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
-          }
-        ],
-        "scope": 2739,
-        "src": "267:287:11"
-      }
-    ],
+    "name": "SourceUnit",
     "src": "198:357:11"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.0",
-  "updatedAt": "2018-04-05T12:35:45.916Z"
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-05-08T16:48:32.477Z"
 }

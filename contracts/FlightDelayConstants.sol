@@ -180,13 +180,13 @@ contract FlightDelayConstants {
         // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
         "[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/";
     string constant ORACLIZE_RATINGS_QUERY =
-        "?${[decrypt] BNpoqjfmxKtu0bqiBErfEnzyfsiLh3NgaJMYLvVi4sAovWQg/W3cqTcLqFIl9cvqRYfddY8jR9VHbZ4NA5UZYkG11MlKE0dJZYMkgvIGwA1Sz+zNNI0bMfbAiI7jHeRZ+6SfxKuALIr6PWiEwLpbQ2YUsAlAkzKUso+DsL+a06i8htudpZLW}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']";
+        "?${[decrypt] BMyq4zhRqJ8ir2kM6TRnwhoU6p/ugrj3whdKOvz26XvgX7AEesXpzyiY15w0bKltLyGr2ZI17oT5g0EblU1kA/wMPS5V9PiBkAksyAI4LW8+4oW3rsBYwxWj/P5kGtsuMLQj+vfjEWUML/IO6A+GsX4uRr/qcTtbgroOor9Iis9oiKLmsW17}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']";
     string constant ORACLIZE_STATUS_BASE_URL =
         // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
         "[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/";
     string constant ORACLIZE_STATUS_QUERY =
         // pattern:
-        "?${[decrypt] BLVb0Ui0XJ9hvpzcSVWny4ufn+hc2CnUJ8i1GR8fzkXFYRsF6wXJ+u242A6JiHlOsye3TaXBq3AfxndZwLTHALRPpWR9QSO/UG/ZnNXiWP1bdp3pmRExbr0tr3CkodMcGkncHz6L+IBCzWpIApNmW3iAmVjM2Va3yt1uywQlHAq4JMd1DiBh}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
+        "?${[decrypt] BI/xJBm/c0rYFpApw5ZoBJCRsVkPHwUgnbbtWTW18wMIC5zLHw8M3MJhf0041kLFqx/i2jj4aIQLX2sNSkm91/PDKydmtP1OOs1XQtAD4DB/mTlLiHcMy63XxoRngHr0ZRR4WBJQKkifhepmgiCht7VlXiYNclpZ0RGqmcndFs5pywIyvfAh}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
 // <-- prod-mode
 
 // --> test-mode
