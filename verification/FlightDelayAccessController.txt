@@ -183,13 +183,13 @@ contract FlightDelayConstants {
         // ratings api is v1, see https://developer.flightstats.com/api-docs/ratings/v1
         "[URL] json(https://api.flightstats.com/flex/ratings/rest/v1/json/flight/";
     string constant ORACLIZE_RATINGS_QUERY =
-        "?${[decrypt] BJoM0BfTe82RtghrzzCbNA7b9E9tQIX8LtM+pRRh22RfQ5QhnVAv6Kk4SyaMwQKczC7YtinJ/Xm6PZMgKnWN7+/pFUfI2YcxaAW0vYuXJF4zCTxPYXa6j4shhce60AMBeKoZZsgn6Og+olgSpgpfi4MwkmmytwdCLHqat3gGUPklBhM1HR0x}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']";
+        "?${[decrypt] BCGB+KxK9Hi0+HSuAjqUImcDiycjuUNPi8ibBGo6KFP/m9gOK6xtJbyi5lbPxPfDypCywVtTwe13VZbu02337Lw0mhTFO0OkUltmxGxi2mWgDBwN+VZdiXjtStOwuNYnhj8hjm71ppPGCVKXExvl1z3qDXkSbMMYZNBG+JNVFP7/YWhSZCXW}).ratings[0]['observations','late15','late30','late45','cancelled','diverted','arrivalAirportFsCode','departureAirportFsCode']";
     string constant ORACLIZE_STATUS_BASE_URL =
         // flight status api is v2, see https://developer.flightstats.com/api-docs/flightstatus/v2/flight
         "[URL] json(https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/";
     string constant ORACLIZE_STATUS_QUERY =
         // pattern:
-        "?${[decrypt] BA3YyqF4iMQszBawvgG82bqX3fw7JoWA1thFsboUECR/L8JkBCgvaThg1LcUWbIntosEKs/kvqyzOtvdQfMgjYPV0c6hsq/gKQkmJYILZmLY4SgBebH8g0qbfrrjxF5gEbfCi2qoR6PSxcQzKIjgd4HvAaumlQd4CkJLmY463ymqNN9B8/PL}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
+        "?${[decrypt] BKc9+sMSvpu/p3qUjdu0QrHliQpNylhoQmHqL/8mQ/jKfsf7wdIiwwdMizp5u6LoP8rIvGhRfEcjK1SgotQDGFqws/5+9S9D5OXdEPXnkEsjQZJsyu8uhRRWg/0QSSP6LYP2ONUQc92QncGJbPCDxOcf3lGiNRrhznHfjFW7n+lwz4mVxN76}&utc=true).flightStatuses[0]['status','delays','operationalTimes']";
 // <-- prod-mode
 
 // --> test-mode
@@ -454,7 +454,7 @@ contract FlightDelayDatabaseInterface is FlightDelayDatabaseModel {
 
     function getCustomerPremium(uint _policyId) public returns (address _customer, uint _premium) ;
 
-    function getPolicyData(uint _policyId) public returns (address _customer, uint _premium, uint _weight) ;
+    function getPolicyData(uint _policyId) public returns (address _customer, uint _weight, uint _premium);
 
     function getPolicyState(uint _policyId) public returns (policyState _state) ;
 

@@ -31,7 +31,7 @@
       "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayUnderwriteInterface.sol",
       "exportedSymbols": {
         "FlightDelayUnderwriteInterface": [
-          4569
+          4633
         ]
       }
     },
@@ -45,7 +45,7 @@
             ".11"
           ]
         },
-        "id": 4561,
+        "id": 4625,
         "name": "PragmaDirective",
         "src": "202:24:17"
       },
@@ -61,10 +61,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            4569
+            4633
           ],
           "name": "FlightDelayUnderwriteInterface",
-          "scope": 4570
+          "scope": 4634
         },
         "children": [
           {
@@ -78,7 +78,7 @@
               ],
               "name": "scheduleUnderwriteOraclizeCall",
               "payable": false,
-              "scope": 4569,
+              "scope": 4633,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -90,7 +90,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_policyId",
-                      "scope": 4568,
+                      "scope": 4632,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -103,12 +103,12 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 4562,
+                        "id": 4626,
                         "name": "ElementaryTypeName",
                         "src": "316:4:17"
                       }
                     ],
-                    "id": 4563,
+                    "id": 4627,
                     "name": "VariableDeclaration",
                     "src": "316:14:17"
                   },
@@ -116,7 +116,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_carrierFlightNumber",
-                      "scope": 4568,
+                      "scope": 4632,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -129,17 +129,17 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 4564,
+                        "id": 4628,
                         "name": "ElementaryTypeName",
                         "src": "332:7:17"
                       }
                     ],
-                    "id": 4565,
+                    "id": 4629,
                     "name": "VariableDeclaration",
                     "src": "332:28:17"
                   }
                 ],
-                "id": 4566,
+                "id": 4630,
                 "name": "ParameterList",
                 "src": "315:46:17"
               },
@@ -150,22 +150,22 @@
                   ]
                 },
                 "children": [],
-                "id": 4567,
+                "id": 4631,
                 "name": "ParameterList",
                 "src": "368:0:17"
               }
             ],
-            "id": 4568,
+            "id": 4632,
             "name": "FunctionDefinition",
             "src": "276:93:17"
           }
         ],
-        "id": 4569,
+        "id": 4633,
         "name": "ContractDefinition",
         "src": "229:142:17"
       }
     ],
-    "id": 4570,
+    "id": 4634,
     "name": "SourceUnit",
     "src": "202:170:17"
   },
@@ -175,5 +175,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-05-08T16:48:32.490Z"
+  "updatedAt": "2018-05-16T16:30:26.987Z"
 }

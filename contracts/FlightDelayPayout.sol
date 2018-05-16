@@ -51,6 +51,7 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
         FD_AC.setPermissionById(101, "FD.Underwrite");
         FD_AC.setPermissionByAddress(101, oraclize_cbAddress());
         FD_AC.setPermissionById(102, "FD.Funder");
+        FD_AC.setPermissionById(103, "FD.Owner");
     }
 
     /*
@@ -251,5 +252,12 @@ contract FlightDelayPayout is FlightDelayControlledContract, FlightDelayConstant
                 );
             }
         }
+    }
+
+    function setOraclizeGasPrice(uint _gasPrice) external returns (bool _success) {
+        require(FD_AC.checkPermission(103, msg.sender));
+
+        oraclize_setCustomGasPrice(_gasPrice);
+        _success = true;
     }
 }

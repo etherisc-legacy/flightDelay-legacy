@@ -73,7 +73,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 12512,
+          "SourceUnit": 12576,
           "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/vendors/usingOraclize.sol",
           "file": "./../vendors/usingOraclize.sol",
           "scope": 3310,
@@ -89,14 +89,14 @@
       {
         "attributes": {
           "contractDependencies": [
-            12511
+            12575
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
             3309,
-            12511
+            12575
           ],
           "name": "FlightDelayOraclizeInterface",
           "scope": 3310
@@ -113,7 +113,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "usingOraclize",
-                  "referencedDeclaration": 12511,
+                  "referencedDeclaration": 12575,
                   "type": "contract usingOraclize"
                 },
                 "id": 3288,
@@ -194,7 +194,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 12526,
+                              "referencedDeclaration": 12590,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -250,7 +250,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 12523,
+                                          "referencedDeclaration": 12587,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -289,7 +289,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 10163,
+                                          "referencedDeclaration": 10227,
                                           "type": "function () returns (address)",
                                           "value": "oraclize_cbAddress"
                                         },
@@ -340,7 +340,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 12523,
+                                          "referencedDeclaration": 12587,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -418,5 +418,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-05-08T16:48:32.481Z"
+  "updatedAt": "2018-05-16T16:30:26.981Z"
 }

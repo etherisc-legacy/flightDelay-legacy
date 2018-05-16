@@ -35,7 +35,7 @@
       "absolutePath": "/Users/A/Data/Altoros/1244-Etherisc/repos/flightdelay/contracts/FlightDelayPayoutInterface.sol",
       "exportedSymbols": {
         "FlightDelayPayoutInterface": [
-          3973
+          4005
         ]
       }
     },
@@ -49,7 +49,7 @@
             ".11"
           ]
         },
-        "id": 3963,
+        "id": 3995,
         "name": "PragmaDirective",
         "src": "198:24:15"
       },
@@ -65,10 +65,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            3973
+            4005
           ],
           "name": "FlightDelayPayoutInterface",
-          "scope": 3974
+          "scope": 4006
         },
         "children": [
           {
@@ -82,7 +82,7 @@
               ],
               "name": "schedulePayoutOraclizeCall",
               "payable": false,
-              "scope": 3973,
+              "scope": 4005,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -94,7 +94,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_policyId",
-                      "scope": 3972,
+                      "scope": 4004,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -107,12 +107,12 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 3964,
+                        "id": 3996,
                         "name": "ElementaryTypeName",
                         "src": "304:4:15"
                       }
                     ],
-                    "id": 3965,
+                    "id": 3997,
                     "name": "VariableDeclaration",
                     "src": "304:14:15"
                   },
@@ -120,7 +120,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_riskId",
-                      "scope": 3972,
+                      "scope": 4004,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -133,12 +133,12 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 3966,
+                        "id": 3998,
                         "name": "ElementaryTypeName",
                         "src": "320:7:15"
                       }
                     ],
-                    "id": 3967,
+                    "id": 3999,
                     "name": "VariableDeclaration",
                     "src": "320:15:15"
                   },
@@ -146,7 +146,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_offset",
-                      "scope": 3972,
+                      "scope": 4004,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -159,17 +159,17 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 3968,
+                        "id": 4000,
                         "name": "ElementaryTypeName",
                         "src": "337:4:15"
                       }
                     ],
-                    "id": 3969,
+                    "id": 4001,
                     "name": "VariableDeclaration",
                     "src": "337:12:15"
                   }
                 ],
-                "id": 3970,
+                "id": 4002,
                 "name": "ParameterList",
                 "src": "303:47:15"
               },
@@ -180,22 +180,22 @@
                   ]
                 },
                 "children": [],
-                "id": 3971,
+                "id": 4003,
                 "name": "ParameterList",
                 "src": "357:0:15"
               }
             ],
-            "id": 3972,
+            "id": 4004,
             "name": "FunctionDefinition",
             "src": "268:90:15"
           }
         ],
-        "id": 3973,
+        "id": 4005,
         "name": "ContractDefinition",
         "src": "225:135:15"
       }
     ],
-    "id": 3974,
+    "id": 4006,
     "name": "SourceUnit",
     "src": "198:163:15"
   },
@@ -205,5 +205,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-05-08T16:48:32.486Z"
+  "updatedAt": "2018-05-16T16:30:26.984Z"
 }

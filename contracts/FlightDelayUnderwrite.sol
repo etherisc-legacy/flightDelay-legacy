@@ -42,6 +42,7 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
 
         FD_AC.setPermissionById(101, "FD.NewPolicy");
         FD_AC.setPermissionById(102, "FD.Funder");
+        FD_AC.setPermissionById(103, "FD.Owner");
     }
 
     /*
@@ -237,5 +238,12 @@ contract FlightDelayUnderwrite is FlightDelayControlledContract, FlightDelayCons
 
         // schedule payout Oracle
         FD_PY.schedulePayoutOraclizeCall(_policyId, riskId, arrivalTime + CHECK_PAYOUT_OFFSET);
+    }
+
+    function setOraclizeGasPrice(uint _gasPrice) external returns (bool _success) {
+        require(FD_AC.checkPermission(103, msg.sender));
+
+        oraclize_setCustomGasPrice(_gasPrice);
+        _success = true;
     }
 }
